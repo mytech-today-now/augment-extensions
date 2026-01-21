@@ -8,6 +8,9 @@
     "type": "jsonl",
     "path": ".beads/issues.jsonl"
   },
+  "sync": {
+    "branch": "beads-sync"
+  },
   "defaults": {
     "priority": 1,
     "labels": []

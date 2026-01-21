@@ -13,8 +13,8 @@ Augment Extensions provides a modular system for extending Augment Code AI beyon
 1. **Choose a category**: `coding-standards`, `domain-rules`, `workflows`, or `examples`
 2. **Create directory structure**:
    ```bash
-   mkdir -p modules/[category]/[module-name]/rules
-   mkdir -p modules/[category]/[module-name]/examples  # optional
+   mkdir -p augment-extensions/[category]/[module-name]/rules
+   mkdir -p augment-extensions/[category]/[module-name]/examples  # optional
    ```
 3. **Create required files**: `module.json`, `README.md`, and rule files
 4. **Calculate character count** and update `module.json`
@@ -26,7 +26,7 @@ Augment Extensions provides a modular system for extending Augment Code AI beyon
 Every module MUST follow this structure:
 
 ```
-modules/[category]/[module-name]/
+augment-extensions/[category]/[module-name]/
 ├── module.json           # Metadata (required)
 ├── README.md             # Overview (required)
 ├── rules/                # Detailed guidelines (required for most)
@@ -192,7 +192,7 @@ Extensive code examples and patterns.
 Use PowerShell to calculate total character count:
 
 ```powershell
-Get-ChildItem -Path "modules/[category]/[module-name]" -Recurse -File | Get-Content -Raw | Measure-Object -Character | Select-Object -ExpandProperty Characters
+Get-ChildItem -Path "augment-extensions/[category]/[module-name]" -Recurse -File | Get-Content -Raw | Measure-Object -Character | Select-Object -ExpandProperty Characters
 ```
 
 Update `module.json` with the result:
@@ -330,7 +330,7 @@ npm pack --dry-run
 
 ```bash
 # Validate module.json
-cat modules/[category]/[module-name]/module.json | jq .
+cat augment-extensions/[category]/[module-name]/module.json | jq .
 ```
 
 ## Common Tasks
@@ -339,7 +339,7 @@ cat modules/[category]/[module-name]/module.json | jq .
 
 ```bash
 # 1. Create directory structure
-mkdir -p modules/coding-standards/python/rules
+mkdir -p augment-extensions/coding-standards/python/rules
 
 # 2. Create module.json
 # 3. Create README.md
@@ -351,7 +351,7 @@ mkdir -p modules/coding-standards/python/rules
 #    - code-organization.md
 
 # 5. Calculate character count
-Get-ChildItem -Path "modules/coding-standards/python" -Recurse -File | Get-Content -Raw | Measure-Object -Character | Select-Object -ExpandProperty Characters
+Get-ChildItem -Path "augment-extensions/coding-standards/python" -Recurse -File | Get-Content -Raw | Measure-Object -Character | Select-Object -ExpandProperty Characters
 
 # 6. Update module.json with character count
 # 7. Update MODULES.md
@@ -363,7 +363,7 @@ node cli/dist/cli.js search python
 
 ```bash
 # 1. Create directory structure
-mkdir -p modules/domain-rules/api-design/rules
+mkdir -p augment-extensions/domain-rules/api-design/rules
 
 # 2. Create module.json
 # 3. Create README.md
@@ -384,7 +384,7 @@ mkdir -p modules/domain-rules/api-design/rules
 
 ```bash
 # 1. Create directory structure
-mkdir -p modules/examples/design-patterns/examples
+mkdir -p augment-extensions/examples/design-patterns/examples
 
 # 2. Create module.json
 # 3. Create README.md

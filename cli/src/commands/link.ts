@@ -21,7 +21,7 @@ export async function linkCommand(moduleName: string, options: LinkOptions): Pro
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
     // Check if module exists
-    const modulesDir = path.join(__dirname, '../../../modules');
+    const modulesDir = path.join(__dirname, '../../../augment-extensions');
     const modulePath = path.join(modulesDir, moduleName);
     const moduleJsonPath = path.join(modulePath, 'module.json');
 

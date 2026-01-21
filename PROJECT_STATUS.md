@@ -84,8 +84,8 @@
 - [x] .augment/coordination.json - Coordination manifest
 
 ### Workflow Integration (Complete)
-- [x] OpenSpec workflow module (modules/workflows/openspec/)
-- [x] Beads workflow module (modules/workflows/beads/)
+- [x] OpenSpec workflow module (augment-extensions/workflows/openspec/)
+- [x] Beads workflow module (augment-extensions/workflows/beads/)
 - [x] Coordination system harmonizing all three systems
 - [x] AGENTS.md integration for AI discovery
 

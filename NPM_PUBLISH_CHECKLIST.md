@@ -123,7 +123,7 @@ npm publish
 ### Build fails
 **Solution**:
 ```bash
-rm -rf dist/ node_modules/
+rm -rf dist/ node_augment-extensions/
 npm install
 npm run build
 ```
@@ -132,7 +132,7 @@ npm run build
 
 ### ✅ Included
 - `dist/` - Compiled JavaScript
-- `modules/` - Extension modules
+- `augment-extensions/` - Extension modules
 - `README.md`
 - `LICENSE`
 - `AGENTS.md`

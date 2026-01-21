@@ -209,13 +209,13 @@ npm run build
 3. **Update CHANGELOG**: Document changes between versions
 4. **Tag releases**: Use git tags for version tracking
 5. **Test installation**: Install globally and test CLI works
-6. **Keep modules/ updated**: Ensure all extension modules are current
+6. **Keep augment-extensions/ updated**: Ensure all extension modules are current
 
 ## Files Included in npm Package
 
 The following files are included (see `package.json` "files" field):
 - `dist/` - Compiled JavaScript
-- `modules/` - Extension modules
+- `augment-extensions/` - Extension modules
 - `README.md` - Documentation
 - `LICENSE` - License file
 - `AGENTS.md` - AI agent integration

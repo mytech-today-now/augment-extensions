@@ -42,8 +42,13 @@ temp/
 # Augment (entire directory - project-specific AI agent rules)
 .augment/
 
-# Beads (entire directory - project-specific task tracking)
-.beads/
+# Beads (cache and database only - track issues.jsonl and config)
+.beads/beads.db
+.beads/beads.db-shm
+.beads/beads.db-wal
+.beads/.local_version
+.beads/metadata.json
+.beads/*.backup*
 
 # OpenSpec (entire directory - project-specific specs)
 openspec/

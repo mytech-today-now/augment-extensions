@@ -135,7 +135,7 @@ your-project/
 │   │   └── core-guidelines.md      # Core rules (condensed)
 │   └── extensions.json              # Linked modules config
 ├── .augment-extensions/             # Optional: submodule
-│   └── modules/
+│   └── augment-extensions/
 │       └── coding-standards/
 │           └── typescript/
 │               ├── module.json

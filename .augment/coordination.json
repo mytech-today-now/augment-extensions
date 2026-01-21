@@ -1,0 +1,682 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-21T12:00:00Z",
+  "specs": {
+    "rename-modules-folder": {
+      "path": "openspec/changes/rename-modules-folder/proposal.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-rename1",
+        "bd-rename1-1",
+        "bd-rename1-2",
+        "bd-rename1-3",
+        "bd-rename1-4",
+        "bd-rename1-5",
+        "bd-rename1-6",
+        "bd-rename1-7",
+        "bd-rename1-8",
+        "bd-rename1-9"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "affectedFiles": [
+        "augment-extensions/**/*",
+        "augment-extensions/**/*",
+        "cli/src/**/*.ts",
+        "package.json",
+        "README.md",
+        "AGENTS.md",
+        "MODULES.md",
+        "MODULE_DEVELOPMENT.md",
+        "CONTRIBUTING.md",
+        "PROJECT_STATUS.md",
+        "docs/**/*.md",
+        ".augment/rules/**/*.md",
+        "tests/**/*.ps1"
+      ],
+      "dependencies": []
+    },
+    "testing/functional-tests": {
+      "path": "openspec/specs/testing/functional-tests.md",
+      "status": "active",
+      "relatedTasks": [],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "affectedFiles": [
+        "tests/functional-tests.ps1",
+        "augment-extensions/**/module.json"
+      ],
+      "dependencies": []
+    },
+    "augment-extensions/spec": {
+      "path": "openspec/specs/augment-extensions/spec.md",
+      "status": "active",
+      "relatedTasks": [],
+      "relatedRules": [
+        "module-development.md",
+        "augment-extensions-workflow.md"
+      ],
+      "affectedFiles": [
+        "augment-extensions/**/*",
+        "cli/**/*",
+        "package.json"
+      ],
+      "dependencies": []
+    },
+    "harmonize-workflows": {
+      "path": "openspec/changes/harmonize-workflows/proposal.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-coord1",
+        "bd-coord2",
+        "bd-coord3",
+        "bd-coord4",
+        "bd-coord5",
+        "bd-coord6",
+        "bd-coord7",
+        "bd-coord8",
+        "bd-coord9",
+        "bd-coord10",
+        "bd-coord11",
+        "bd-coord12",
+        "bd-coord13"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "affectedFiles": [
+        ".augment/coordination.json",
+        ".augment/rules/coordination-system.md",
+        "AGENTS.md",
+        ".beads/issues.jsonl",
+        "openspec/specs/**/*.md",
+        "augment-extensions/workflows/beads/**/*",
+        "augment-extensions/workflows/openspec/**/*"
+      ],
+      "dependencies": []
+    }
+  },
+  "tasks": {
+    "bd-coord1": {
+      "title": "Create coordination.json schema",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        ".augment/coordination.json"
+      ]
+    },
+    "bd-coord2": {
+      "title": "Create coordination system rule",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        ".augment/rules/coordination-system.md"
+      ],
+      "dependencies": [
+        "bd-coord1"
+      ]
+    },
+    "bd-coord3": {
+      "title": "Update AGENTS.md with coordination info",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "AGENTS.md"
+      ],
+      "dependencies": [
+        "bd-coord2"
+      ]
+    },
+    "bd-coord4": {
+      "title": "Extend Beads task format",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/workflows/beads/rules/file-format.md",
+        "augment-extensions/workflows/beads/rules/workflow.md",
+        "augment-extensions/workflows/beads/examples/complete-workflow-example.md"
+      ],
+      "dependencies": [
+        "bd-coord1"
+      ]
+    },
+    "bd-coord5": {
+      "title": "Create Beads ↔ Coordination sync utility",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "cli/src/utils/beads-sync.ts"
+      ],
+      "dependencies": [
+        "bd-coord4"
+      ]
+    },
+    "bd-coord6": {
+      "title": "Add frontmatter to OpenSpec specs",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/workflows/openspec/rules/spec-format.md",
+        "augment-extensions/workflows/openspec/rules/workflow.md",
+        "augment-extensions/workflows/openspec/examples/complete-change-example.md"
+      ],
+      "dependencies": [
+        "bd-coord1"
+      ]
+    },
+    "bd-coord7": {
+      "title": "Create OpenSpec ↔ Coordination sync utility",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "cli/src/utils/openspec-sync.ts"
+      ],
+      "dependencies": [
+        "bd-coord6"
+      ]
+    },
+    "bd-coord8": {
+      "title": "Implement query functions",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "cli/src/utils/coordination-queries.ts"
+      ],
+      "dependencies": [
+        "bd-coord5",
+        "bd-coord7"
+      ]
+    },
+    "bd-coord9": {
+      "title": "Create CLI commands",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "cli/src/commands/coord.ts",
+        "cli/src/cli.ts"
+      ],
+      "dependencies": [
+        "bd-coord8"
+      ]
+    },
+    "bd-coord10": {
+      "title": "Implement file association tracking",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "cli/src/utils/file-tracking.ts"
+      ],
+      "dependencies": [
+        "bd-coord8"
+      ]
+    },
+    "bd-coord11": {
+      "title": "Implement auto-sync on file changes",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "cli/src/utils/auto-sync.ts",
+        "cli/src/commands/sync.ts",
+        "cli/src/cli.ts"
+      ],
+      "dependencies": [
+        "bd-coord10"
+      ]
+    },
+    "bd-coord12": {
+      "title": "Create coordination system tests",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "tests/coordination-tests.ps1"
+      ],
+      "dependencies": [
+        "bd-coord1",
+        "bd-coord2",
+        "bd-coord3"
+      ]
+    },
+    "bd-coord13": {
+      "title": "Migrate existing data",
+      "status": "closed",
+      "relatedSpecs": [
+        "harmonize-workflows"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "cli/src/utils/migrate.ts",
+        "cli/src/cli.ts"
+      ],
+      "dependencies": [
+        "bd-coord5",
+        "bd-coord7"
+      ]
+    },
+    "bd-a1b2": {
+      "title": "Implement CLI commands",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [
+        "cli/src/commands/search.ts",
+        "cli/src/commands/update.ts"
+      ]
+    },
+    "bd-b2c3": {
+      "title": "Add Python coding standards module",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/coding-standards/python/module.json",
+        "augment-extensions/coding-standards/python/README.md",
+        "augment-extensions/coding-standards/python/rules/naming-conventions.md",
+        "augment-extensions/coding-standards/python/rules/type-hints.md",
+        "augment-extensions/coding-standards/python/rules/error-handling.md",
+        "augment-extensions/coding-standards/python/rules/best-practices.md",
+        "augment-extensions/coding-standards/python/rules/code-organization.md"
+      ]
+    },
+    "bd-c3d4": {
+      "title": "Add React patterns module",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/coding-standards/react/module.json",
+        "augment-extensions/coding-standards/react/README.md",
+        "augment-extensions/coding-standards/react/rules/component-patterns.md",
+        "augment-extensions/coding-standards/react/rules/hooks-best-practices.md",
+        "augment-extensions/coding-standards/react/rules/state-management.md",
+        "augment-extensions/coding-standards/react/rules/typescript-react.md",
+        "augment-extensions/coding-standards/react/rules/performance.md"
+      ]
+    },
+    "bd-init": {
+      "title": "Augment Extensions Repository Initialized",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [],
+      "outputFiles": [],
+      "dependencies": []
+    },
+    "bd-a1b2": {
+      "title": "Implement CLI commands",
+      "status": "open",
+      "relatedSpecs": [],
+      "relatedRules": [],
+      "outputFiles": [],
+      "dependencies": []
+    },
+    "bd-b2c3": {
+      "title": "Add Python coding standards module",
+      "status": "open",
+      "relatedSpecs": [],
+      "relatedRules": [],
+      "outputFiles": [],
+      "dependencies": []
+    },
+    "bd-c3d4": {
+      "title": "Add React patterns module",
+      "status": "open",
+      "relatedSpecs": [],
+      "relatedRules": [],
+      "outputFiles": [],
+      "dependencies": []
+    },
+    "bd-d4e5": {
+      "title": "Add API design domain rules module",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/domain-rules/api-design/module.json",
+        "augment-extensions/domain-rules/api-design/README.md",
+        "augment-extensions/domain-rules/api-design/rules/rest-api.md",
+        "augment-extensions/domain-rules/api-design/rules/graphql-api.md",
+        "augment-extensions/domain-rules/api-design/rules/versioning.md",
+        "augment-extensions/domain-rules/api-design/rules/error-handling.md",
+        "augment-extensions/domain-rules/api-design/rules/documentation.md"
+      ],
+      "dependencies": []
+    },
+    "bd-e5f6": {
+      "title": "Add security domain rules module",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/domain-rules/security/module.json",
+        "augment-extensions/domain-rules/security/README.md",
+        "augment-extensions/domain-rules/security/rules/owasp-top-10.md",
+        "augment-extensions/domain-rules/security/rules/authentication-security.md",
+        "augment-extensions/domain-rules/security/rules/encryption.md",
+        "augment-extensions/domain-rules/security/rules/input-validation.md",
+        "augment-extensions/domain-rules/security/rules/secure-coding.md",
+        "augment-extensions/domain-rules/security/rules/web-security.md"
+      ],
+      "dependencies": []
+    },
+    "bd-f6g7": {
+      "title": "Publish to npm",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [
+        "docs/NPM_PUBLISHING.md",
+        "README.md",
+        "package.json"
+      ],
+      "dependencies": [
+        "bd-a1b2"
+      ]
+    },
+    "bd-g7h8": {
+      "title": "Create contribution guidelines",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [
+        "CONTRIBUTING.md"
+      ],
+      "dependencies": []
+    },
+    "bd-h8i9": {
+      "title": "Add design patterns examples module",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/examples/design-patterns/module.json",
+        "augment-extensions/examples/design-patterns/README.md",
+        "augment-extensions/examples/design-patterns/examples/creational-patterns.md",
+        "augment-extensions/examples/design-patterns/examples/structural-patterns.md",
+        "augment-extensions/examples/design-patterns/examples/behavioral-patterns.md"
+      ],
+      "dependencies": []
+    },
+    "bd-rename1": {
+      "title": "Rename modules/ to augment-extensions/",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-rename1-9"
+      ]
+    },
+    "bd-rename1-1": {
+      "title": "Phase 1: Preparation - Audit and backup",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": []
+    },
+    "bd-rename1-2": {
+      "title": "Phase 2: Rename physical directory",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-rename1-1"
+      ]
+    },
+    "bd-rename1-3": {
+      "title": "Phase 3: Update CLI source code",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-rename1-2"
+      ]
+    },
+    "bd-rename1-4": {
+      "title": "Phase 4: Update configuration files",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-rename1-2"
+      ]
+    },
+    "bd-rename1-5": {
+      "title": "Phase 5: Update documentation",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-rename1-2"
+      ]
+    },
+    "bd-rename1-6": {
+      "title": "Phase 6: Update test files",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-rename1-2"
+      ]
+    },
+    "bd-rename1-7": {
+      "title": "Phase 7: Build and validation",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-rename1-3",
+        "bd-rename1-4",
+        "bd-rename1-5",
+        "bd-rename1-6"
+      ]
+    },
+    "bd-rename1-8": {
+      "title": "Phase 8: Update coordination system",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-rename1-7"
+      ]
+    },
+    "bd-rename1-9": {
+      "title": "Phase 9: Final checks and commit",
+      "status": "open",
+      "relatedSpecs": [
+        "rename-modules-folder"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-rename1-8"
+      ]
+    }
+  },
+  "rules": {
+    "character-count-management.md": {
+      "path": ".augment/rules/character-count-management.md",
+      "appliesTo": {
+        "filePatterns": [
+          ".augment/**/*",
+          "augment-extensions/**/module.json"
+        ],
+        "specs": [
+          "testing/functional-tests",
+          "augment-extensions/spec"
+        ],
+        "tasks": []
+      },
+      "priority": "high"
+    },
+    "no-unnecessary-docs.md": {
+      "path": ".augment/rules/no-unnecessary-docs.md",
+      "appliesTo": {
+        "filePatterns": [
+          "**/*.md"
+        ],
+        "specs": [],
+        "tasks": []
+      },
+      "priority": "high"
+    },
+    "module-development.md": {
+      "path": ".augment/rules/module-development.md",
+      "appliesTo": {
+        "filePatterns": [
+          "augment-extensions/**/*"
+        ],
+        "specs": [
+          "testing/functional-tests",
+          "augment-extensions/spec"
+        ],
+        "tasks": []
+      },
+      "priority": "medium"
+    },
+    "augment-extensions-workflow.md": {
+      "path": ".augment/rules/augment-extensions-workflow.md",
+      "appliesTo": {
+        "filePatterns": [
+          "**/*"
+        ],
+        "specs": [
+          "augment-extensions/spec"
+        ],
+        "tasks": []
+      },
+      "priority": "medium"
+    }
+  },
+  "files": {}
+}

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-01-21T12:00:00Z",
+  "lastUpdated": "2026-01-21T13:00:00Z",
   "specs": {
     "rename-modules-folder": {
       "path": "openspec/changes/rename-modules-folder/proposal.md",
@@ -34,6 +34,42 @@
         "docs/**/*.md",
         ".augment/rules/**/*.md",
         "tests/**/*.ps1"
+      ],
+      "dependencies": []
+    },
+    "beads-prefix-standardization": {
+      "path": "openspec/changes/beads-prefix-standardization/proposal.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-prefix1",
+        "bd-prefix1-1",
+        "bd-prefix1-2",
+        "bd-prefix2-1",
+        "bd-prefix2-2",
+        "bd-prefix2-3",
+        "bd-prefix2-4",
+        "bd-prefix3-1",
+        "bd-prefix3-2",
+        "bd-prefix3-3",
+        "bd-prefix3-4",
+        "bd-prefix4-1",
+        "bd-prefix4-2",
+        "bd-prefix5-1",
+        "bd-prefix5-2",
+        "bd-prefix5-3"
+      ],
+      "relatedRules": [
+        "coordination-system.md",
+        "no-unnecessary-docs.md"
+      ],
+      "affectedFiles": [
+        "openspec/specs/beads/naming-convention.md",
+        ".augment/rules/coordination-system.md",
+        "augment-extensions/workflows/beads/rules/workflow.md",
+        "scripts/validate-beads-prefix.ps1",
+        "openspec/project-context.md",
+        ".beads/issues.jsonl",
+        ".augment/coordination.json"
       ],
       "dependencies": []
     },

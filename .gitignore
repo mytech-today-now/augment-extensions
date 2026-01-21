@@ -49,6 +49,7 @@ temp/
 .beads/.local_version
 .beads/metadata.json
 .beads/*.backup*
+daemon.lock
 
 # OpenSpec (entire directory - project-specific specs)
 openspec/

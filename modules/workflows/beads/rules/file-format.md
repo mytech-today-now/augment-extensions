@@ -43,6 +43,8 @@ Beads stores issues in `.beads/issues.jsonl` using JSONL (JSON Lines) format. Ea
   "blocked_by": [],
   "related": ["bd-d4e5"],
   "parent": null,
+  "spec": "features/authentication",
+  "rules": ["module-development.md", "security-guidelines.md"],
   "comments": [
     {
       "text": "Started implementation",
@@ -78,6 +80,8 @@ Beads stores issues in `.beads/issues.jsonl` using JSONL (JSON Lines) format. Ea
 - **parent** (string): ID of parent task (for hierarchical IDs)
 - **comments** (array of objects): Comments and updates
 - **closed** (string): ISO 8601 timestamp when closed
+- **spec** (string): OpenSpec specification ID this task implements (e.g., "features/authentication")
+- **rules** (array of strings): `.augment/` rule files that apply to this task (e.g., ["module-development.md"])
 
 ## ID Format
 
@@ -115,6 +119,46 @@ bd-a3f8.2      # Another task under epic
 - **1** - High (P1)
 - **2** - Medium (P2) - default
 - **3** - Low (P3)
+
+## Coordination Fields
+
+### spec
+
+References an OpenSpec specification that this task implements:
+
+```json
+{
+  "id": "bd-a1b2",
+  "title": "Add authentication API",
+  "spec": "features/authentication"
+}
+```
+
+The `spec` field links the task to an OpenSpec specification file (e.g., `openspec/specs/features/authentication.md`). This enables:
+- Automatic traceability from spec to implementation
+- Discovery of all tasks implementing a spec
+- Coordination manifest integration
+
+### rules
+
+Lists `.augment/` rule files that apply to this task:
+
+```json
+{
+  "id": "bd-a1b2",
+  "title": "Add authentication API",
+  "rules": ["module-development.md", "security-guidelines.md"]
+}
+```
+
+The `rules` field helps AI agents:
+- Load relevant coding standards and guidelines
+- Apply appropriate validation rules
+- Maintain consistency across tasks
+
+**Note**: These fields are optional and backward compatible. Existing tasks without these fields continue to work normally.
+
+---
 
 ## Dependency Types
 
@@ -254,7 +298,7 @@ echo '{"id":"bd-a1b2","title":"New task","status":"open","created":"2024-01-20T1
 ### Create Task
 
 ```jsonl
-{"id":"bd-a1b2","title":"Add authentication","status":"open","priority":0,"created":"2024-01-20T10:00:00Z","updated":"2024-01-20T10:00:00Z"}
+{"id":"bd-a1b2","title":"Add authentication","status":"open","priority":0,"spec":"features/authentication","rules":["module-development.md"],"created":"2024-01-20T10:00:00Z","updated":"2024-01-20T10:00:00Z"}
 ```
 
 ### Add Dependency

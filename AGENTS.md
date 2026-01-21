@@ -148,5 +148,55 @@ When tracking work:
 
 ---
 
+## Coordination System
+
+This repository uses a **coordination manifest** (`.augment/coordination.json`) to harmonize OpenSpec, Beads, and `.augment/` rules.
+
+### How It Works
+
+The coordination manifest tracks relationships between:
+- **Specs** (OpenSpec) - What needs to be built
+- **Tasks** (Beads) - How it's being built
+- **Rules** (`.augment/`) - Guidelines for building
+- **Files** - What was built
+
+### For AI Agents
+
+**Before starting work**:
+1. Check `.augment/coordination.json` for active specs
+2. Find related tasks for the spec you're implementing
+3. Load applicable rules for your task
+4. Identify which files are affected
+
+**While working**:
+1. Track file creation/modification with task IDs
+2. Update coordination manifest when creating files
+3. Reference specs and rules in task comments
+
+**Query Examples**:
+
+```javascript
+// Get all active specs
+const coord = require('./.augment/coordination.json');
+const activeSpecs = Object.entries(coord.specs)
+  .filter(([id, spec]) => spec.status === 'active');
+
+// Get tasks for a spec
+const tasks = coord.specs['testing/functional-tests'].relatedTasks;
+
+// Get rules for a task
+const rules = coord.tasks['bd-xyz'].relatedRules;
+
+// Get specs governing a file
+const specsForFile = Object.entries(coord.specs)
+  .filter(([id, spec]) =>
+    spec.affectedFiles.some(pattern => filePath.match(pattern))
+  );
+```
+
+**Learn More**: See `.augment/rules/coordination-system.md` for detailed documentation.
+
+---
+
 **Note**: This is a meta-repository for extending Augment Code AI. The actual project-specific `.augment/` folder remains in individual projects.
 

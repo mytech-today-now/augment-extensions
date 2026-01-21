@@ -29,7 +29,7 @@ bd create "User Authentication System" -p 0
 **Without CLI** - Append to `.beads/issues.jsonl`:
 
 ```json
-{"id":"bd-a3f8","title":"User Authentication System","status":"open","priority":0,"created":"2024-01-20T10:00:00Z","updated":"2024-01-20T10:00:00Z"}
+{"id":"bd-a3f8","title":"User Authentication System","status":"open","priority":0,"spec":"features/authentication","rules":["security-guidelines.md"],"created":"2024-01-20T10:00:00Z","updated":"2024-01-20T10:00:00Z"}
 ```
 
 ## Step 3: Create Tasks
@@ -52,10 +52,10 @@ bd create "Add login endpoint" -p 1 --parent bd-a3f8
 **Without CLI** - Append to `.beads/issues.jsonl`:
 
 ```jsonl
-{"id":"bd-a3f8.1","title":"Add database schema","status":"open","priority":0,"parent":"bd-a3f8","created":"2024-01-20T10:01:00Z","updated":"2024-01-20T10:01:00Z"}
-{"id":"bd-a3f8.2","title":"Add password hashing","status":"open","priority":1,"parent":"bd-a3f8","created":"2024-01-20T10:02:00Z","updated":"2024-01-20T10:02:00Z"}
-{"id":"bd-a3f8.3","title":"Add JWT generation","status":"open","priority":1,"parent":"bd-a3f8","created":"2024-01-20T10:03:00Z","updated":"2024-01-20T10:03:00Z"}
-{"id":"bd-a3f8.4","title":"Add login endpoint","status":"open","priority":1,"parent":"bd-a3f8","created":"2024-01-20T10:04:00Z","updated":"2024-01-20T10:04:00Z"}
+{"id":"bd-a3f8.1","title":"Add database schema","status":"open","priority":0,"parent":"bd-a3f8","spec":"features/authentication","rules":["module-development.md"],"created":"2024-01-20T10:01:00Z","updated":"2024-01-20T10:01:00Z"}
+{"id":"bd-a3f8.2","title":"Add password hashing","status":"open","priority":1,"parent":"bd-a3f8","spec":"features/authentication","rules":["security-guidelines.md"],"created":"2024-01-20T10:02:00Z","updated":"2024-01-20T10:02:00Z"}
+{"id":"bd-a3f8.3","title":"Add JWT generation","status":"open","priority":1,"parent":"bd-a3f8","spec":"features/authentication","rules":["security-guidelines.md"],"created":"2024-01-20T10:03:00Z","updated":"2024-01-20T10:03:00Z"}
+{"id":"bd-a3f8.4","title":"Add login endpoint","status":"open","priority":1,"parent":"bd-a3f8","spec":"features/authentication","rules":["module-development.md","security-guidelines.md"],"created":"2024-01-20T10:04:00Z","updated":"2024-01-20T10:04:00Z"}
 ```
 
 ## Step 4: Add Dependencies

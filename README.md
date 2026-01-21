@@ -20,14 +20,15 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 
 ```bash
 # Install the CLI
-npm install -g @augment-extensions/cli
+npm install -g @mytechtoday/augment-extensions
 
 # Initialize in your project
 augx init
 
 # Link extension modules
 augx link coding-standards/typescript
-augx link domain-rules/web-development
+augx link domain-rules/api-design
+augx link domain-rules/security
 ```
 
 ### For AI Agents

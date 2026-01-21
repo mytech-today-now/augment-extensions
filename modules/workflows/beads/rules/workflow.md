@@ -37,6 +37,26 @@ Beads provides a git-backed issue tracker optimized for AI agents. Issues are st
 └─────────────────┘
 ```
 
+## Coordination with OpenSpec and .augment/
+
+Beads tasks can reference OpenSpec specifications and `.augment/` rules for better coordination:
+
+```bash
+# Create task with spec and rules
+bd create "Implement authentication" -p 1
+# Then manually add spec and rules fields to .beads/issues.jsonl:
+# {"id":"bd-xyz","spec":"features/authentication","rules":["security-guidelines.md"],"updated":"..."}
+```
+
+**Benefits**:
+- **Traceability**: Link tasks to specifications
+- **Context**: AI agents load relevant rules automatically
+- **Coordination**: Integration with coordination manifest
+
+See `.augment/rules/coordination-system.md` for details.
+
+---
+
 ## Step 1: Initialize Beads
 
 ### With CLI

@@ -1,0 +1,27 @@
+{
+  "name": "api-design",
+  "version": "1.0.0",
+  "displayName": "API Design Guidelines",
+  "description": "Comprehensive API design guidelines including REST, GraphQL, versioning, and best practices",
+  "type": "domain-rules",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 35000,
+    "priority": "high",
+    "category": "domain-rules"
+  },
+  "installation": {
+    "required": false,
+    "dependencies": []
+  },
+  "tags": [
+    "api",
+    "rest",
+    "graphql",
+    "versioning",
+    "http",
+    "best-practices"
+  ]
+}
+

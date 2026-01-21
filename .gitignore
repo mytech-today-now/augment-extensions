@@ -50,3 +50,6 @@ openspec/
 
 # tests (entire directory - project-specific tests)
 tests/
+
+# ai-prompts (entire directory - project-specific tests)
+ai-prompts/

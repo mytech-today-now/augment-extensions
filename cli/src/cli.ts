@@ -8,6 +8,9 @@ import { showCommand } from './commands/show';
 import { linkCommand } from './commands/link';
 import { updateCommand } from './commands/update';
 import { searchCommand } from './commands/search';
+import { coordSpecsCommand, coordTasksCommand, coordRulesCommand, coordFileCommand } from './commands/coord';
+import { syncBeadsCommand, syncOpenSpecCommand, syncAllCommand, syncWatchCommand } from './commands/sync';
+import { migrateExistingData } from './utils/migrate';
 
 const program = new Command();
 
@@ -101,6 +104,78 @@ program
   .action((module: string) => {
     console.log(chalk.magenta(`Showing diff for: ${module}`));
     // Implementation
+  });
+
+// Coordination commands
+const coordCommand = program
+  .command('coord')
+  .description('Query coordination manifest data');
+
+coordCommand
+  .command('specs')
+  .description('List all active specs')
+  .option('--json', 'Output as JSON')
+  .action(coordSpecsCommand);
+
+coordCommand
+  .command('tasks <spec-id>')
+  .description('List tasks for a specific spec')
+  .option('--json', 'Output as JSON')
+  .action(coordTasksCommand);
+
+coordCommand
+  .command('rules <task-id>')
+  .description('List rules for a specific task')
+  .option('--json', 'Output as JSON')
+  .action(coordRulesCommand);
+
+coordCommand
+  .command('file <path>')
+  .description('Show coordination info for a specific file')
+  .option('--json', 'Output as JSON')
+  .action(coordFileCommand);
+
+// Sync commands
+const syncCommand = program
+  .command('sync')
+  .description('Sync Beads and OpenSpec with coordination manifest');
+
+syncCommand
+  .command('beads')
+  .description('Sync Beads tasks to coordination manifest')
+  .action(syncBeadsCommand);
+
+syncCommand
+  .command('openspec')
+  .description('Sync OpenSpec specs to coordination manifest')
+  .action(syncOpenSpecCommand);
+
+syncCommand
+  .command('all')
+  .description('Sync both Beads and OpenSpec')
+  .action(syncAllCommand);
+
+syncCommand
+  .command('watch')
+  .description('Watch for changes and auto-sync')
+  .action(syncWatchCommand);
+
+program
+  .command('migrate')
+  .description('Migrate existing Beads and OpenSpec data to coordination system')
+  .action(() => {
+    try {
+      console.log(chalk.blue('Migrating existing data to coordination system...\n'));
+      const result = migrateExistingData();
+
+      console.log(chalk.green.bold('\n✓ Migration complete!'));
+      console.log(chalk.gray(`Backup created at: ${result.backup}`));
+      console.log(chalk.gray(`\nBeads: ${result.beads.added} added, ${result.beads.updated} updated, ${result.beads.removed} removed`));
+      console.log(chalk.gray(`OpenSpec: ${result.openspec.added} added, ${result.openspec.updated} updated, ${result.openspec.removed} removed`));
+    } catch (error) {
+      console.error(chalk.red('Error:'), error instanceof Error ? error.message : error);
+      process.exit(1);
+    }
   });
 
 program.parse(process.argv);

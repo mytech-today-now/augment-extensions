@@ -1,0 +1,27 @@
+{
+  "name": "typescript-standards",
+  "version": "1.0.0",
+  "displayName": "TypeScript Standards",
+  "description": "Comprehensive TypeScript coding standards and best practices",
+  "type": "coding-standards",
+  "language": "typescript",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "keywords": ["typescript", "coding-standards", "best-practices", "type-safety"],
+  "dependencies": {},
+  "files": [
+    "rules/naming-conventions.md",
+    "rules/type-safety.md",
+    "rules/error-handling.md",
+    "rules/async-patterns.md",
+    "examples/best-practices.ts"
+  ],
+  "augment": {
+    "minVersion": "1.0.0",
+    "characterCount": 6416,
+    "priority": "high",
+    "category": "coding-standards",
+    "autoLoad": false
+  }
+}
+

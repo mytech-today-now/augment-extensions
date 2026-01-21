@@ -1,0 +1,27 @@
+{
+  "name": "design-patterns",
+  "version": "1.0.0",
+  "displayName": "Design Patterns Examples",
+  "description": "Common design patterns with TypeScript/JavaScript implementations and use cases",
+  "type": "examples",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 42000,
+    "priority": "medium",
+    "category": "examples"
+  },
+  "installation": {
+    "required": false,
+    "dependencies": []
+  },
+  "tags": [
+    "design-patterns",
+    "typescript",
+    "javascript",
+    "oop",
+    "architecture",
+    "examples"
+  ]
+}
+

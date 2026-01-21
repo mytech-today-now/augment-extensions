@@ -21,7 +21,7 @@ Thank you for your interest in contributing! This document provides guidelines f
 ### 2. Create Module Structure
 
 ```bash
-modules/<type>/<name>/
+augment-extensions/<type>/<name>/
 ├── module.json          # Required: Metadata
 ├── README.md            # Required: Module documentation
 ├── rules/               # Optional: Rule files
@@ -68,7 +68,7 @@ modules/<type>/<name>/
 
 ```bash
 # Count characters in all rule files
-find modules/your-module -name "*.md" -exec wc -m {} + | tail -1
+find augment-extensions/your-module -name "*.md" -exec wc -m {} + | tail -1
 ```
 
 Update `characterCount` in `module.json`.
@@ -123,7 +123,7 @@ git checkout -b add-module-<name>
 
 ```bash
 # Create module directory
-mkdir -p modules/coding-standards/your-module
+mkdir -p augment-extensions/coding-standards/your-module
 
 # Add files
 # - module.json
@@ -159,7 +159,7 @@ Add your module to `MODULES.md`:
 ### 6. Commit and Push
 
 ```bash
-git add modules/coding-standards/your-module
+git add augment-extensions/coding-standards/your-module
 git add MODULES.md
 git commit -m "Add your-module coding standards"
 git push origin add-module-<name>

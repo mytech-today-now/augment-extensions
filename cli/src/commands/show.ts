@@ -51,7 +51,7 @@ export async function showCommand(moduleName: string, options: ShowOptions): Pro
 }
 
 async function getModuleInfo(moduleName: string): Promise<any> {
-  const modulesDir = path.join(__dirname, '../../../modules');
+  const modulesDir = path.join(__dirname, '../../../augment-extensions');
   const modulePath = path.join(modulesDir, moduleName);
   const moduleJsonPath = path.join(modulePath, 'module.json');
 

@@ -76,7 +76,7 @@ export async function updateCommand(options: UpdateOptions): Promise<void> {
 
 async function updateModule(linkedModule: LinkedModule, config: any): Promise<'updated' | 'up-to-date' | 'error'> {
   try {
-    const modulesDir = path.join(__dirname, '../../../modules');
+    const modulesDir = path.join(__dirname, '../../../augment-extensions');
     const modulePath = path.join(modulesDir, linkedModule.name);
     const moduleJsonPath = path.join(modulePath, 'module.json');
 

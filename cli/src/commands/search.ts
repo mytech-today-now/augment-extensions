@@ -50,7 +50,7 @@ export async function searchCommand(keyword: string, options: SearchOptions): Pr
 
 async function searchModules(keyword: string, typeFilter?: string): Promise<Module[]> {
   const modules: Module[] = [];
-  const modulesDir = path.join(__dirname, '../../../modules');
+  const modulesDir = path.join(__dirname, '../../../augment-extensions');
 
   if (!fs.existsSync(modulesDir)) {
     return modules;

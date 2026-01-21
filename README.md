@@ -42,7 +42,7 @@ Once initialized, AI agents automatically discover available extensions through:
 
 ```
 augment-extensions/
-├── modules/                    # Extension modules
+├── augment-extensions/         # Extension modules
 │   ├── coding-standards/      # Language/framework standards
 │   │   ├── typescript/
 │   │   ├── python/
@@ -69,7 +69,7 @@ augment-extensions/
 Each module is self-contained:
 
 ```
-modules/coding-standards/typescript/
+augment-extensions/coding-standards/typescript/
 ├── module.json               # Metadata (version, dependencies)
 ├── rules/                    # Rule files
 │   ├── naming-conventions.md

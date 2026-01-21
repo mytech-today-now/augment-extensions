@@ -56,7 +56,7 @@ async function getModules(linkedOnly: boolean = false): Promise<Module[]> {
   }
 
   // Get all available modules from repository
-  const modulesDir = path.join(__dirname, '../../../modules');
+  const modulesDir = path.join(__dirname, '../../../augment-extensions');
   
   if (!fs.existsSync(modulesDir)) {
     return linkedModules;

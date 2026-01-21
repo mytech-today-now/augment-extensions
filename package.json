@@ -8,7 +8,7 @@
   },
   "files": [
     "cli/dist/",
-    "modules/",
+    "augment-extensions/",
     "README.md",
     "LICENSE",
     "AGENTS.md",

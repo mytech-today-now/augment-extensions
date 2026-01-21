@@ -1,0 +1,28 @@
+{
+  "name": "security",
+  "version": "1.0.0",
+  "displayName": "Security Guidelines",
+  "description": "Comprehensive security guidelines including OWASP best practices, authentication, encryption, and secure coding",
+  "type": "domain-rules",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 38000,
+    "priority": "high",
+    "category": "domain-rules"
+  },
+  "installation": {
+    "required": false,
+    "dependencies": []
+  },
+  "tags": [
+    "security",
+    "owasp",
+    "authentication",
+    "encryption",
+    "xss",
+    "csrf",
+    "sql-injection"
+  ]
+}
+

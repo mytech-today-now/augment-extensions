@@ -121,7 +121,7 @@ Split modules if they exceed 50,000 characters.
 
 ### How do I share my module?
 
-1. Create module in `modules/` directory
+1. Create module in `augment-extensions/` directory
 2. Add to `MODULES.md` catalog
 3. Submit pull request
 4. See [Contributing Guide](../CONTRIBUTING.md)

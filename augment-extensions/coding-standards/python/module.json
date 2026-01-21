@@ -1,0 +1,26 @@
+{
+  "name": "python-standards",
+  "version": "1.0.0",
+  "displayName": "Python Coding Standards",
+  "description": "Comprehensive Python coding standards including naming conventions, type hints, and error handling",
+  "type": "coding-standards",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 28500,
+    "priority": "medium",
+    "category": "coding-standards"
+  },
+  "installation": {
+    "required": false,
+    "dependencies": []
+  },
+  "tags": [
+    "python",
+    "pep8",
+    "type-hints",
+    "error-handling",
+    "best-practices"
+  ]
+}
+

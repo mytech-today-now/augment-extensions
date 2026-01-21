@@ -1,0 +1,27 @@
+{
+  "name": "react-patterns",
+  "version": "1.0.0",
+  "displayName": "React Patterns",
+  "description": "Modern React patterns including component design, hooks, and state management best practices",
+  "type": "coding-standards",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 32000,
+    "priority": "medium",
+    "category": "coding-standards"
+  },
+  "installation": {
+    "required": false,
+    "dependencies": []
+  },
+  "tags": [
+    "react",
+    "hooks",
+    "components",
+    "state-management",
+    "typescript",
+    "best-practices"
+  ]
+}
+

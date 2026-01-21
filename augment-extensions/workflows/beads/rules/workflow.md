@@ -4,6 +4,27 @@
 
 Beads provides a git-backed issue tracker optimized for AI agents. Issues are stored as JSONL (JSON Lines) in `.beads/issues.jsonl`, making them version-controlled, mergeable, and agent-readable.
 
+## Naming Convention
+
+All Beads issues in this project use the **"bd-" prefix**.
+
+### Standard Format
+
+- `bd-<hash>` - Standard hash-based ID (e.g., `bd-a1b2`)
+- `bd-<name>` - Named ID for important tasks (e.g., `bd-init`, `bd-rename1`)
+- `bd-<hash>.<number>` - Hierarchical ID (e.g., `bd-a1b2.1`)
+
+### Why "bd"?
+
+- **Brevity**: Short and memorable (2 characters)
+- **Clarity**: Clearly identifies Beads issues
+- **Consistency**: Single prefix across all issues
+- **Git-Friendly**: Reduces commit message length
+
+### Validation
+
+All new issues are validated to ensure they use the "bd-" prefix. See `openspec/specs/beads/naming-convention.md` for complete specification.
+
 ## Core Workflow
 
 ```

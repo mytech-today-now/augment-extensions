@@ -85,6 +85,14 @@ export function writeCoordinationManifest(manifest: CoordinationManifest, manife
 }
 
 /**
+ * Validate task ID format
+ */
+function validateTaskId(taskId: string): boolean {
+  const pattern = /^bd-[a-z0-9]+([.-][a-z0-9]+)*$/;
+  return pattern.test(taskId);
+}
+
+/**
  * Sync Beads tasks to coordination manifest
  */
 export function syncBeadsToCoordination(
@@ -93,11 +101,35 @@ export function syncBeadsToCoordination(
 ): { added: number; updated: number; removed: number } {
   const beadsTasks = readBeadsTasks(beadsPath);
   const manifest = readCoordinationManifest(manifestPath);
-  
+
   let added = 0;
   let updated = 0;
   let removed = 0;
-  
+
+  // Validate all task IDs
+  const invalidTaskIds: string[] = [];
+  for (const task of beadsTasks) {
+    if (!validateTaskId(task.id)) {
+      invalidTaskIds.push(task.id);
+    }
+  }
+
+  if (invalidTaskIds.length > 0) {
+    console.error('Error: Invalid task IDs found in Beads (must use "bd-" prefix):');
+    for (const taskId of invalidTaskIds) {
+      console.error(`  - ${taskId}`);
+    }
+    console.error('');
+    console.error('Valid formats:');
+    console.error('  - bd-<hash>        (e.g., bd-a1b2)');
+    console.error('  - bd-<name>        (e.g., bd-init, bd-rename1)');
+    console.error('  - bd-<hash>.<num>  (e.g., bd-a1b2.1)');
+    console.error('  - bd-<name>-<num>  (e.g., bd-prefix1-1)');
+    console.error('');
+    console.error('See openspec/specs/beads/naming-convention.md for details');
+    throw new Error('Invalid task IDs found in Beads');
+  }
+
   // Track which task IDs exist in Beads
   const beadsTaskIds = new Set(beadsTasks.map(t => t.id));
   

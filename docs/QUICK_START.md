@@ -164,7 +164,7 @@ augx init
 
 - [Integration Guide](./INTEGRATION.md) - Detailed integration instructions
 - [CLI Reference](./CLI_REFERENCE.md) - Complete command reference
-- [Module Development](./MODULE_DEVELOPMENT.md) - Create custom modules
+- [Module Development](../module-development.md) - Create custom modules
 - [FAQ](./FAQ.md) - Common questions
 
 ## Tips

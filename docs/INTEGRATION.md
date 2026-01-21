@@ -273,7 +273,7 @@ fi
 
 ## Next Steps
 
-- [Module Development](./MODULE_DEVELOPMENT.md) - Create custom modules
+- [Module Development](../module-development.md) - Create custom modules
 - [CLI Reference](./CLI_REFERENCE.md) - Complete command reference
 - [FAQ](./FAQ.md) - Common questions
 

@@ -27,10 +27,10 @@
         "package.json",
         "README.md",
         "AGENTS.md",
-        "MODULES.md",
-        "MODULE_DEVELOPMENT.md",
+        "modules.md",
+        "module-development.md",
         "CONTRIBUTING.md",
-        "PROJECT_STATUS.md",
+        "project-status.md",
         "docs/**/*.md",
         ".augment/rules/**/*.md",
         "tests/**/*.ps1"

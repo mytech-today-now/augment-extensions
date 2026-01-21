@@ -113,7 +113,7 @@ augx pin typescript-standards@1.2.0
 
 ## 📖 Available Modules
 
-See [MODULES.md](./MODULES.md) for a complete catalog of available extension modules.
+See [modules.md](./modules.md) for a complete catalog of available extension modules.
 
 ## 🛠 Creating Custom Modules
 

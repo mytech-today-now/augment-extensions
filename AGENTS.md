@@ -137,12 +137,16 @@ This repository uses **Beads** for task tracking and memory.
 
 When tracking work:
 1. Create tasks by appending JSON to `.beads/issues.jsonl`
-2. Use hash-based IDs: `bd-<hash>` (e.g., `bd-a1b2`)
+2. Use hash-based IDs with **"bd-" prefix**: `bd-<hash>` (e.g., `bd-a1b2`)
+   - All issue IDs MUST use "bd-" prefix (see `openspec/specs/beads/naming-convention.md`)
+   - Valid formats: `bd-<hash>`, `bd-<name>`, `bd-<hash>.<number>`
 3. Track dependencies with `blocks`/`blocked_by` fields
 4. Find ready tasks (status: "open", no blockers)
 5. Update status and add comments as work progresses
 
 **Task States**: `open`, `in-progress`, `blocked`, `closed`
+
+**Naming Convention**: All issue IDs MUST use "bd-" prefix. See `openspec/specs/beads/naming-convention.md` for complete specification.
 
 **Learn More**: See `augment-extensions/workflows/beads/` for comprehensive workflow documentation.
 

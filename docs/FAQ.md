@@ -104,7 +104,7 @@ augx update --module coding-standards/typescript
 
 ### Can I create custom modules?
 
-Yes! See [Module Development Guide](./MODULE_DEVELOPMENT.md).
+Yes! See [Module Development Guide](../module-development.md).
 
 ```bash
 augx create my-custom-module --type coding-standards
@@ -122,7 +122,7 @@ Split modules if they exceed 50,000 characters.
 ### How do I share my module?
 
 1. Create module in `augment-extensions/` directory
-2. Add to `MODULES.md` catalog
+2. Add to `modules.md` catalog
 3. Submit pull request
 4. See [Contributing Guide](../CONTRIBUTING.md)
 

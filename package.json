@@ -12,7 +12,7 @@
     "README.md",
     "LICENSE",
     "AGENTS.md",
-    "MODULES.md"
+    "modules.md"
   ],
   "scripts": {
     "build": "cd cli && tsc",

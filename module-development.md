@@ -18,7 +18,7 @@ Augment Extensions provides a modular system for extending Augment Code AI beyon
    ```
 3. **Create required files**: `module.json`, `README.md`, and rule files
 4. **Calculate character count** and update `module.json`
-5. **Update `MODULES.md`** catalog
+5. **Update `modules.md`** catalog
 6. **Test discoverability**: `augx search [keyword]`
 
 ## Module Structure
@@ -246,14 +246,14 @@ Follow [Semantic Versioning](https://semver.org/):
 # 1. Make changes to module files
 # 2. Recalculate character count
 # 3. Update module.json version and characterCount
-# 4. Update MODULES.md catalog
+# 4. Update modules.md catalog
 # 5. Commit with version in message
 git commit -m "feat(module-name): description (v1.1.0)"
 ```
 
 ## Module Catalog
 
-After creating or updating a module, update `MODULES.md`:
+After creating or updating a module, update `modules.md`:
 
 ```markdown
 ### [Module Display Name]
@@ -281,7 +281,7 @@ augx link [category]/[module-name]
 - Use clear, actionable language
 - Update character counts after changes
 - Follow semantic versioning strictly
-- Update MODULES.md catalog
+- Update modules.md catalog
 - Test module discoverability with `augx search`
 - Include use cases and real-world examples
 - Document common pitfalls
@@ -354,7 +354,7 @@ mkdir -p augment-extensions/coding-standards/python/rules
 Get-ChildItem -Path "augment-extensions/coding-standards/python" -Recurse -File | Get-Content -Raw | Measure-Object -Character | Select-Object -ExpandProperty Characters
 
 # 6. Update module.json with character count
-# 7. Update MODULES.md
+# 7. Update modules.md
 # 8. Test discoverability
 node cli/dist/cli.js search python
 ```
@@ -376,7 +376,7 @@ mkdir -p augment-extensions/domain-rules/api-design/rules
 #    - documentation.md
 
 # 5. Calculate character count and update module.json
-# 6. Update MODULES.md
+# 6. Update modules.md
 # 7. Test discoverability
 ```
 
@@ -394,7 +394,7 @@ mkdir -p augment-extensions/examples/design-patterns/examples
 #    - behavioral-patterns.md
 
 # 5. Calculate character count and update module.json
-# 6. Update MODULES.md
+# 6. Update modules.md
 # 7. Test discoverability
 ```
 
@@ -427,7 +427,7 @@ mkdir -p augment-extensions/examples/design-patterns/examples
 **Solutions**:
 1. Follow semantic versioning strictly
 2. Check existing version in `module.json`
-3. Update MODULES.md with new version
+3. Update modules.md with new version
 4. Use git tags for releases: `git tag v1.0.0`
 
 ## Resources

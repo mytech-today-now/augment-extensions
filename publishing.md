@@ -219,7 +219,7 @@ The following files are included (see `package.json` "files" field):
 - `README.md` - Documentation
 - `LICENSE` - License file
 - `AGENTS.md` - AI agent integration
-- `MODULES.md` - Module catalog
+- `modules.md` - Module catalog
 
 Files excluded (see `.npmignore`):
 - `.augment/` - Project-specific rules

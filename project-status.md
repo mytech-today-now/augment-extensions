@@ -17,14 +17,14 @@
 - [x] README.md - Main project overview
 - [x] AGENTS.md - AI agent integration guide
 - [x] CONTRIBUTING.md - Contribution guidelines
-- [x] MODULE_DEVELOPMENT.md - Complete module development guide
+- [x] module-development.md - Complete module development guide
 - [x] LICENSE - MIT License
 - [x] docs/QUICK_START.md - 5-minute getting started guide
 - [x] docs/INTEGRATION.md - Detailed integration instructions
 - [x] docs/CLI_REFERENCE.md - Complete CLI command reference
 - [x] docs/FAQ.md - Frequently asked questions
 - [x] docs/NPM_PUBLISHING.md - npm publishing guide
-- [x] MODULES.md - Module catalog
+- [x] modules.md - Module catalog
 - [x] .augment/rules/ - Complete rule set for AI agents
   - [x] coordination-system.md
   - [x] module-development.md
@@ -204,7 +204,7 @@
 
 ## 🤝 How to Contribute
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) and [MODULE_DEVELOPMENT.md](./MODULE_DEVELOPMENT.md) for detailed guidelines.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) and [module-development.md](./module-development.md) for detailed guidelines.
 
 Quick ways to help:
 1. **Create new modules** for your favorite languages/frameworks

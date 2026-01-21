@@ -146,7 +146,7 @@ augx validate coding-standards/your-module
 
 ### 5. Update Catalog
 
-Add your module to `MODULES.md`:
+Add your module to `modules.md`:
 
 ```markdown
 ### Your Module Name
@@ -160,7 +160,7 @@ Add your module to `MODULES.md`:
 
 ```bash
 git add augment-extensions/coding-standards/your-module
-git add MODULES.md
+git add modules.md
 git commit -m "Add your-module coding standards"
 git push origin add-module-<name>
 ```

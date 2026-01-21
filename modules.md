@@ -105,7 +105,7 @@ augx link workflows/beads
 
 ## Contributing New Modules
 
-See [docs/MODULE_DEVELOPMENT.md](./docs/MODULE_DEVELOPMENT.md) for guidelines on creating new modules.
+See [module-development.md](./module-development.md) for guidelines on creating new modules.
 
 ## Module Versioning
 

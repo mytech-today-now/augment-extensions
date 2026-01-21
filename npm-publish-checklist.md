@@ -136,7 +136,7 @@ npm run build
 - `README.md`
 - `LICENSE`
 - `AGENTS.md`
-- `MODULES.md`
+- `modules.md`
 
 ### ❌ Excluded (via .npmignore)
 - `.augment/` - Project-specific
@@ -176,5 +176,5 @@ augx --version
 
 ---
 
-**See PUBLISHING.md for detailed instructions.**
+**See publishing.md for detailed instructions.**
 

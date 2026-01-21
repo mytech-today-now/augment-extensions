@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-01-21T13:00:00Z",
+  "lastUpdated": "2026-01-21T14:08:57Z",
   "specs": {
     "rename-modules-folder": {
-      "path": "openspec/changes/rename-modules-folder/proposal.md",
-      "status": "active",
+      "path": "openspec/archive/rename-modules-folder/proposal.md",
+      "status": "archived",
       "relatedTasks": [
         "bd-rename1",
         "bd-rename1-1",
@@ -103,8 +103,8 @@
       "dependencies": []
     },
     "harmonize-workflows": {
-      "path": "openspec/changes/harmonize-workflows/proposal.md",
-      "status": "active",
+      "path": "openspec/archive/harmonize-workflows/proposal.md",
+      "status": "archived",
       "relatedTasks": [
         "bd-coord1",
         "bd-coord2",

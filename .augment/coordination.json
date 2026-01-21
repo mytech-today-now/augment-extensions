@@ -38,8 +38,8 @@
       "dependencies": []
     },
     "beads-prefix-standardization": {
-      "path": "openspec/changes/beads-prefix-standardization/proposal.md",
-      "status": "active",
+      "path": "openspec/archive/beads-prefix-standardization/proposal.md",
+      "status": "completed",
       "relatedTasks": [
         "bd-prefix1",
         "bd-prefix1-1",

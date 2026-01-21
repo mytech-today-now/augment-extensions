@@ -44,12 +44,55 @@ function validateManifest(manifestPath: string): boolean {
   try {
     const content = fs.readFileSync(manifestPath, 'utf-8');
     const manifest = JSON.parse(content);
-    
+
     // Check required fields
     if (!manifest.version || !manifest.specs || !manifest.tasks || !manifest.rules || !manifest.files) {
+      console.error('Error: Missing required fields in coordination manifest');
       return false;
     }
-    
+
+    // Validate task ID prefixes
+    const taskIdPattern = /^bd-[a-z0-9]+([.-][a-z0-9]+)*$/;
+    const invalidTaskIds: string[] = [];
+
+    // Check task IDs in tasks section
+    for (const taskId of Object.keys(manifest.tasks)) {
+      if (!taskIdPattern.test(taskId)) {
+        invalidTaskIds.push(taskId);
+      }
+    }
+
+    // Check task IDs referenced in specs
+    for (const [specId, spec] of Object.entries(manifest.specs)) {
+      const specData = spec as any;
+      if (specData.relatedTasks) {
+        for (const taskId of specData.relatedTasks) {
+          if (!taskIdPattern.test(taskId)) {
+            if (!invalidTaskIds.includes(taskId)) {
+              invalidTaskIds.push(taskId);
+            }
+          }
+        }
+      }
+    }
+
+    // Report invalid task IDs
+    if (invalidTaskIds.length > 0) {
+      console.error('Error: Invalid task IDs found (must use "bd-" prefix):');
+      for (const taskId of invalidTaskIds) {
+        console.error(`  - ${taskId}`);
+      }
+      console.error('');
+      console.error('Valid formats:');
+      console.error('  - bd-<hash>        (e.g., bd-a1b2)');
+      console.error('  - bd-<name>        (e.g., bd-init, bd-rename1)');
+      console.error('  - bd-<hash>.<num>  (e.g., bd-a1b2.1)');
+      console.error('  - bd-<name>-<num>  (e.g., bd-prefix1-1)');
+      console.error('');
+      console.error('See openspec/specs/beads/naming-convention.md for details');
+      return false;
+    }
+
     // Check that all task references in specs exist
     for (const [specId, spec] of Object.entries(manifest.specs)) {
       const specData = spec as any;
@@ -73,7 +116,7 @@ function validateManifest(manifestPath: string): boolean {
         }
       }
     }
-    
+
     return true;
   } catch (error) {
     console.error('Validation error:', error);

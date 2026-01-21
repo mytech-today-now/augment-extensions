@@ -69,7 +69,7 @@ if ($Verbose) {
     Write-Host ""
     Write-Host "Validated issues:" -ForegroundColor Gray
     $issues | ForEach-Object {
-        $status = if ($_.status -eq "closed") { "✓" } else { "○" }
+        $status = if ($_.status -eq "closed") { "[x]" } else { "[ ]" }
         Write-Host "  $status $($_.id) - $($_.title)" -ForegroundColor Gray
     }
 }

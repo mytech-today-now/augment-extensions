@@ -133,6 +133,24 @@
         "augment-extensions/workflows/openspec/**/*"
       ],
       "dependencies": []
+    },
+    "augment-config/standardized-structure": {
+      "path": "openspec/specs/augment-config/spec.md",
+      "status": "active",
+      "relatedTasks": [],
+      "relatedRules": [
+        "character-count-management.md",
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-unnecessary-docs.md",
+        "coordination-system.md"
+      ],
+      "affectedFiles": [
+        ".augment/**/*",
+        ".augment/coordination.json",
+        "scripts/validate-augment-config.ps1"
+      ],
+      "dependencies": []
     }
   },
   "tasks": {
@@ -712,6 +730,22 @@
         "tasks": []
       },
       "priority": "medium"
+    },
+    "coordination-system.md": {
+      "path": ".augment/rules/coordination-system.md",
+      "appliesTo": {
+        "filePatterns": [
+          ".augment/coordination.json",
+          "openspec/**/*",
+          ".beads/issues.jsonl"
+        ],
+        "specs": [
+          "harmonize-workflows",
+          "augment-config/standardized-structure"
+        ],
+        "tasks": []
+      },
+      "priority": "high"
     }
   },
   "files": {}

@@ -12,6 +12,17 @@ export async function showCommand(moduleName: string, options: ShowOptions): Pro
 
     if (!moduleInfo) {
       console.error(chalk.red(`Module not found: ${moduleName}`));
+
+      // Suggest similar modules
+      const suggestions = await getSimilarModules(moduleName);
+      if (suggestions.length > 0) {
+        console.log(chalk.yellow('\nDid you mean one of these?'));
+        suggestions.forEach(suggestion => {
+          console.log(chalk.cyan(`  • ${suggestion}`));
+        });
+      }
+
+      console.log(chalk.gray('\nUse "augx list" to see all available modules.'));
       process.exit(1);
     }
 
@@ -80,5 +91,42 @@ async function getModuleInfo(moduleName: string): Promise<any> {
     examples,
     characterCount: moduleData.augment?.characterCount
   };
+}
+
+async function getSimilarModules(searchTerm: string): Promise<string[]> {
+  const modulesDir = path.join(__dirname, '../../../augment-extensions');
+  const allModules: string[] = [];
+
+  // Recursively find all modules
+  function findModules(dir: string, prefix: string = '') {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        const fullPath = path.join(dir, entry.name);
+        const moduleJsonPath = path.join(fullPath, 'module.json');
+
+        if (fs.existsSync(moduleJsonPath)) {
+          const modulePath = prefix ? `${prefix}/${entry.name}` : entry.name;
+          allModules.push(modulePath);
+        } else {
+          // Recurse into subdirectories
+          const newPrefix = prefix ? `${prefix}/${entry.name}` : entry.name;
+          findModules(fullPath, newPrefix);
+        }
+      }
+    }
+  }
+
+  if (fs.existsSync(modulesDir)) {
+    findModules(modulesDir);
+  }
+
+  // Find similar modules (contains search term or search term contains module name)
+  const searchLower = searchTerm.toLowerCase();
+  return allModules.filter(module => {
+    const moduleLower = module.toLowerCase();
+    return moduleLower.includes(searchLower) || searchLower.includes(moduleLower);
+  }).slice(0, 5); // Limit to 5 suggestions
 }
 

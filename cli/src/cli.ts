@@ -2,6 +2,8 @@
 
 import { Command } from 'commander';
 import chalk from 'chalk';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { initCommand } from './commands/init';
 import { listCommand } from './commands/list';
 import { showCommand } from './commands/show';
@@ -12,12 +14,17 @@ import { coordSpecsCommand, coordTasksCommand, coordRulesCommand, coordFileComma
 import { syncBeadsCommand, syncOpenSpecCommand, syncAllCommand, syncWatchCommand } from './commands/sync';
 import { migrateExistingData } from './utils/migrate';
 
+// Read version from package.json
+const packageJson = JSON.parse(
+  readFileSync(join(__dirname, '../../package.json'), 'utf-8')
+);
+
 const program = new Command();
 
 program
   .name('augx')
   .description('CLI tool for managing Augment Code AI extension modules')
-  .version('0.1.0');
+  .version(packageJson.version);
 
 program
   .command('init')

@@ -112,11 +112,13 @@ Add a Gutenberg block to display testimonials with:
 
 ## Character Count
 
-**Total**: ~278,593 characters
+**Total**: ~330,868 characters
 
 ## Contents
 
-- **17 Rule Files**: Comprehensive guidelines for all aspects of plugin development
+- **19 Rule Files**: Comprehensive guidelines for all aspects of plugin development
+  - WooCommerce Integration (NEW)
+  - Testing Patterns (NEW)
 - **11 Example Files**: Complete, working plugin examples
 - **Security Focus**: Critical security rules and patterns
 - **Performance Focus**: Optimization strategies and caching patterns
@@ -129,7 +131,7 @@ Add a Gutenberg block to display testimonials with:
 
 ## Version
 
-**1.0.0** - Initial release
+**1.1.0** - Added WooCommerce Integration and Testing Patterns
 
 ## License
 

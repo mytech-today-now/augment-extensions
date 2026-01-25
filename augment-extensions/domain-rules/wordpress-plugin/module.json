@@ -1,8 +1,8 @@
 {
   "name": "wordpress-plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "WordPress Plugin Development",
-  "description": "Comprehensive WordPress plugin development guidelines covering plugin structure, architecture patterns, admin interfaces, frontend functionality, Gutenberg blocks, REST API, AJAX, database management, security, performance, and WordPress.org submission.",
+  "description": "Comprehensive WordPress plugin development guidelines covering plugin structure, architecture patterns, admin interfaces, frontend functionality, Gutenberg blocks, REST API, AJAX, database management, security, performance, WooCommerce integration, testing patterns, and WordPress.org submission.",
   "type": "domain-rules",
   "tags": [
     "wordpress",
@@ -18,10 +18,12 @@
     "database",
     "cron",
     "i18n",
-    "wordpress-org"
+    "wordpress-org",
+    "testing",
+    "phpunit"
   ],
   "augment": {
-    "characterCount": 278593,
+    "characterCount": 330868,
     "priority": "high",
     "category": "domain-rules",
     "appliesTo": {

@@ -76,6 +76,35 @@ augx link workflows/beads
 
 ## Domain Rules
 
+### WordPress Plugin Development
+- **Module**: `domain-rules/wordpress-plugin`
+- **Version**: 1.1.0
+- **Character Count**: ~330,868
+- **Description**: Comprehensive WordPress plugin development guidelines covering plugin structure, architecture patterns, admin interfaces, frontend functionality, Gutenberg blocks, REST API, AJAX, database management, security, performance, WooCommerce integration, testing patterns, and WordPress.org submission
+- **Contents**:
+  - Plugin structure and architecture patterns (7 patterns)
+  - Activation/deactivation/uninstall hooks
+  - Admin interface development (settings pages, meta boxes)
+  - Frontend functionality (CPT, taxonomies, shortcodes, widgets)
+  - Gutenberg block development
+  - REST API endpoints
+  - AJAX handlers
+  - Database management (custom tables, queries)
+  - Cron jobs and scheduled tasks
+  - Security best practices (nonces, sanitization, escaping)
+  - Performance optimization (caching, query optimization)
+  - Internationalization (i18n/l10n)
+  - Asset management (scripts and styles)
+  - **WooCommerce integration** (products, cart, checkout, orders, payment gateways, emails)
+  - **Testing patterns** (PHPUnit, unit tests, integration tests, WooCommerce tests)
+  - Documentation standards (PHPDoc, readme.txt)
+  - WordPress.org submission process
+
+**Usage**:
+```bash
+augx link domain-rules/wordpress-plugin
+```
+
 ### Web Development (Coming Soon)
 - **Module**: `domain-rules/web-development`
 - **Status**: Planned

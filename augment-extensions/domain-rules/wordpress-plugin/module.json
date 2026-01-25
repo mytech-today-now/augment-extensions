@@ -1,0 +1,51 @@
+{
+  "name": "wordpress-plugin",
+  "version": "1.0.0",
+  "displayName": "WordPress Plugin Development",
+  "description": "Comprehensive WordPress plugin development guidelines covering plugin structure, architecture patterns, admin interfaces, frontend functionality, Gutenberg blocks, REST API, AJAX, database management, security, performance, and WordPress.org submission.",
+  "type": "domain-rules",
+  "tags": [
+    "wordpress",
+    "php",
+    "plugin-development",
+    "gutenberg",
+    "blocks",
+    "rest-api",
+    "ajax",
+    "security",
+    "performance",
+    "woocommerce",
+    "database",
+    "cron",
+    "i18n",
+    "wordpress-org"
+  ],
+  "augment": {
+    "characterCount": 278593,
+    "priority": "high",
+    "category": "domain-rules",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.php",
+        "**/wp-content/plugins/**/*",
+        "**/block.json",
+        "**/readme.txt"
+      ],
+      "projectTypes": [
+        "wordpress-plugin"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "manual": true
+  },
+  "dependencies": [],
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/augment-code/augment-extensions"
+  }
+}
+

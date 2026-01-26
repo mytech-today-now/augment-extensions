@@ -1,0 +1,49 @@
+{
+  "name": "wordpress-plugin-workflow",
+  "version": "1.1.0",
+  "displayName": "WordPress Plugin Development Workflow",
+  "description": "Complete workflows for WordPress plugin development including scaffolding, development, testing, and WordPress.org submission processes. Optimized for AI-assisted development with OpenSpec and Beads integration.",
+  "type": "workflow",
+  "tags": [
+    "wordpress",
+    "plugin-development",
+    "scaffolding",
+    "testing",
+    "submission",
+    "wordpress-org",
+    "development-workflow",
+    "best-practices",
+    "ai-assisted"
+  ],
+  "augment": {
+    "characterCount": 60944,
+    "priority": "high",
+    "category": "workflows",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.php",
+        "**/wp-content/plugins/**/*",
+        "**/readme.txt",
+        "**/composer.json",
+        "**/package.json"
+      ],
+      "projectTypes": [
+        "wordpress-plugin"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "manual": true
+  },
+  "dependencies": [
+    "domain-rules/wordpress-plugin"
+  ],
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/augment-code/augment-extensions"
+  }
+}
+

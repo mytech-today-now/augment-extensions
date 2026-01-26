@@ -1,7 +1,26 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-01-21T14:08:57Z",
+  "lastUpdated": "2026-01-26T00:00:00Z",
   "specs": {
+    "wordpress-plugin-module/core": {
+      "path": "openspec/specs/wordpress-plugin-module/wordpress-plugin-development-module.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-7iw",
+        "bd-xz2",
+        "bd-d4n",
+        "bd-bb7"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "affectedFiles": [
+        "augment-extensions/domain-rules/wordpress-plugin/**",
+        "augment-extensions/workflows/wordpress-plugin/**"
+      ],
+      "dependencies": []
+    },
     "rename-modules-folder": {
       "path": "openspec/archive/rename-modules-folder/proposal.md",
       "status": "archived",
@@ -675,6 +694,82 @@
       "dependencies": [
         "bd-rename1-8"
       ]
+    },
+    "bd-7iw": {
+      "title": "WordPress Plugin Development Module - Epic",
+      "status": "closed",
+      "relatedSpecs": [
+        "wordpress-plugin-module/core"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/domain-rules/wordpress-plugin/module.json",
+        "augment-extensions/domain-rules/wordpress-plugin/README.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/plugin-structure.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/plugin-architecture.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/activation-hooks.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/admin-interface.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/frontend-functionality.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/gutenberg-blocks.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/rest-api.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/ajax-handlers.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/database-management.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/cron-jobs.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/security-best-practices.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/performance-optimization.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/testing-patterns.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/documentation-standards.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/wordpress-org-submission.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/scaffolding-workflow.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/woocommerce-integration.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/internationalization.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/asset-management.md",
+        "augment-extensions/workflows/wordpress-plugin/module.json",
+        "augment-extensions/workflows/wordpress-plugin/README.md",
+        "augment-extensions/workflows/wordpress-plugin/rules/development-workflow.md",
+        "augment-extensions/workflows/wordpress-plugin/rules/testing-workflow.md",
+        "augment-extensions/workflows/wordpress-plugin/rules/submission-workflow.md",
+        "augment-extensions/workflows/wordpress-plugin/rules/best-practices.md"
+      ]
+    },
+    "bd-xz2": {
+      "title": "Update coordination manifest",
+      "status": "in_progress",
+      "relatedSpecs": [
+        "wordpress-plugin-module/core"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        ".augment/coordination.json"
+      ]
+    },
+    "bd-d4n": {
+      "title": "Run validation and tests",
+      "status": "open",
+      "relatedSpecs": [
+        "wordpress-plugin-module/core"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": []
+    },
+    "bd-bb7": {
+      "title": "Commit WordPress Plugin modules",
+      "status": "open",
+      "relatedSpecs": [
+        "wordpress-plugin-module/core"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": []
     }
   },
   "rules": {

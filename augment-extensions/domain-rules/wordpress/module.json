@@ -1,0 +1,32 @@
+{
+  "name": "wordpress-development",
+  "version": "1.0.0",
+  "displayName": "WordPress Development Standards",
+  "description": "Comprehensive WordPress development guidelines including themes, plugins, blocks, and best practices",
+  "type": "domain-rules",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 0,
+    "priority": "high",
+    "category": "domain-rules"
+  },
+  "installation": {
+    "required": false,
+    "dependencies": []
+  },
+  "tags": [
+    "wordpress",
+    "php",
+    "cms",
+    "gutenberg",
+    "woocommerce",
+    "theme-development",
+    "plugin-development",
+    "blocks",
+    "rest-api",
+    "security",
+    "performance"
+  ]
+}
+

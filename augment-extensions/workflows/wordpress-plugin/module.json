@@ -1,6 +1,6 @@
 {
   "name": "wordpress-plugin-workflow",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "displayName": "WordPress Plugin Development Workflow",
   "description": "Complete workflows for WordPress plugin development including scaffolding, development, testing, and WordPress.org submission processes. Optimized for AI-assisted development with OpenSpec and Beads integration.",
   "type": "workflow",
@@ -16,7 +16,7 @@
     "ai-assisted"
   ],
   "augment": {
-    "characterCount": 60944,
+    "characterCount": 81445,
     "priority": "high",
     "category": "workflows",
     "appliesTo": {

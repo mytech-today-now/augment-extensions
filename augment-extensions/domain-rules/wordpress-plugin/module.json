@@ -23,7 +23,7 @@
     "phpunit"
   ],
   "augment": {
-    "characterCount": 330868,
+    "characterCount": 331037,
     "priority": "high",
     "category": "domain-rules",
     "appliesTo": {

@@ -112,7 +112,7 @@ Add a Gutenberg block to display testimonials with:
 
 ## Character Count
 
-**Total**: ~330,868 characters
+**Total**: ~331,037 characters
 
 ## Contents
 

@@ -205,14 +205,15 @@ Track all plugin development tasks in Beads with labels:
 
 ## Character Count
 
-**Total**: ~60,944 characters
+**Total**: ~81,445 characters
 
 ## Contents
 
-- **3 Workflow Files**: Complete workflows for plugin development lifecycle
+- **4 Workflow Files**: Complete workflows for plugin development lifecycle
   - `development-workflow.md` - Feature development cycle with security-first approach
   - `testing-workflow.md` - PHPUnit setup, TDD workflow, and CI/CD integration
   - `submission-workflow.md` - WordPress.org submission process and review response
+  - `best-practices.md` - Comprehensive best practices for code organization, security, performance, and accessibility
 - **Beads Integration**: Task templates and breakdown patterns
 - **OpenSpec Integration**: Spec templates for plugin features
 - **AI Prompt Templates**: Ready-to-use prompts for each workflow phase

@@ -1,0 +1,45 @@
+{
+  "name": "html-css-js-standards",
+  "version": "1.0.0",
+  "displayName": "HTML/CSS/JavaScript Standards",
+  "description": "Comprehensive HTML/CSS/JavaScript coding standards for modern web development with semantic HTML, modern CSS features, and ES6+ JavaScript",
+  "type": "coding-standards",
+  "language": "html-css-js",
+  "tags": ["html", "css", "javascript", "web", "frontend", "accessibility", "performance"],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 0,
+    "priority": "high",
+    "category": "coding-standards"
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module using: augx link coding-standards/html-css-js",
+      "Or manually copy contents to project's .augment/ folder"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "html-standards.md",
+      "css-standards.md",
+      "css-modern-features.md",
+      "javascript-standards.md",
+      "dom-manipulation.md",
+      "async-patterns.md",
+      "performance.md",
+      "tooling.md"
+    ],
+    "examples": [
+      "html-examples.html",
+      "css-examples.css",
+      "javascript-examples.js"
+    ],
+    "optionalExamples": [
+      "responsive-layout.html",
+      "async-examples.js",
+      "dom-examples.js"
+    ]
+  }
+}
+

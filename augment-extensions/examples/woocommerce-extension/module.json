@@ -1,0 +1,40 @@
+{
+  "name": "woocommerce-extension",
+  "version": "1.0.0",
+  "displayName": "WooCommerce Extension Examples",
+  "description": "Complete WooCommerce extension examples with custom product fields, checkout customization, payment gateway, order hooks, and WooCommerce best practices",
+  "type": "examples",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 24196,
+    "priority": "medium",
+    "category": "examples",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.php",
+        "**/includes/woocommerce/**/*.php",
+        "**/templates/woocommerce/**/*.php"
+      ],
+      "projectTypes": [
+        "wordpress-plugin",
+        "woocommerce-extension"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "dependencies": ["woocommerce"]
+  },
+  "tags": [
+    "wordpress",
+    "woocommerce",
+    "ecommerce",
+    "payment-gateway",
+    "checkout",
+    "products",
+    "php",
+    "examples"
+  ]
+}
+

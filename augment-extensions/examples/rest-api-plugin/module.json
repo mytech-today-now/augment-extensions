@@ -1,0 +1,40 @@
+{
+  "name": "rest-api-plugin",
+  "version": "1.0.0",
+  "displayName": "REST API Plugin Examples",
+  "description": "Complete REST API plugin examples with custom endpoints (GET, POST, PUT, DELETE), authentication, validation, error handling, and JavaScript client examples",
+  "type": "examples",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 40367,
+    "priority": "medium",
+    "category": "examples",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.php",
+        "**/includes/api/**/*.php",
+        "**/assets/js/**/*.js"
+      ],
+      "projectTypes": [
+        "wordpress-plugin",
+        "rest-api"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "dependencies": []
+  },
+  "tags": [
+    "wordpress",
+    "rest-api",
+    "api",
+    "endpoints",
+    "authentication",
+    "php",
+    "javascript",
+    "examples"
+  ]
+}
+

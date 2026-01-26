@@ -1,0 +1,40 @@
+{
+  "name": "gutenberg-block-plugin",
+  "version": "1.0.0",
+  "displayName": "Gutenberg Block Plugin Examples",
+  "description": "Complete Gutenberg block plugin examples with block.json, React components, InspectorControls, RichText, MediaUpload, and build process",
+  "type": "examples",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 15889,
+    "priority": "medium",
+    "category": "examples",
+    "appliesTo": {
+      "filePatterns": [
+        "**/block.json",
+        "**/src/edit.js",
+        "**/src/save.js",
+        "**/*.php"
+      ],
+      "projectTypes": [
+        "wordpress-plugin",
+        "gutenberg-block"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "dependencies": []
+  },
+  "tags": [
+    "wordpress",
+    "gutenberg",
+    "blocks",
+    "react",
+    "javascript",
+    "php",
+    "examples"
+  ]
+}
+

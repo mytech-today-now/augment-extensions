@@ -1,15 +1,15 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-01-26T00:00:00Z",
+  "lastUpdated": "2026-01-26T12:00:00Z",
   "specs": {
     "wordpress-plugin-module/core": {
       "path": "openspec/specs/wordpress-plugin-module/wordpress-plugin-development-module.md",
       "status": "active",
       "relatedTasks": [
-        "bd-7iw",
-        "bd-xz2",
-        "bd-d4n",
-        "bd-bb7"
+        "bd-wp1",
+        "bd-wp10-1",
+        "bd-wp10-2",
+        "bd-wp10-3"
       ],
       "relatedRules": [
         "module-development.md",
@@ -17,7 +17,8 @@
       ],
       "affectedFiles": [
         "augment-extensions/domain-rules/wordpress-plugin/**",
-        "augment-extensions/workflows/wordpress-plugin/**"
+        "augment-extensions/workflows/wordpress-plugin/**",
+        ".augment/coordination.json"
       ],
       "dependencies": []
     },
@@ -770,6 +771,82 @@
         "module-development.md"
       ],
       "outputFiles": []
+    },
+    "bd-wp1": {
+      "title": "WordPress Development Module - Epic",
+      "status": "open",
+      "relatedSpecs": [
+        "wordpress-plugin-module/core"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/domain-rules/wordpress-plugin/module.json",
+        "augment-extensions/domain-rules/wordpress-plugin/README.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/plugin-structure.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/plugin-architecture.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/activation-hooks.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/admin-interface.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/frontend-functionality.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/gutenberg-blocks.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/rest-api.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/ajax-handlers.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/database-management.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/cron-jobs.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/security-best-practices.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/performance-optimization.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/testing-patterns.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/documentation-standards.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/wordpress-org-submission.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/scaffolding-workflow.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/woocommerce-integration.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/internationalization.md",
+        "augment-extensions/domain-rules/wordpress-plugin/rules/asset-management.md",
+        "augment-extensions/workflows/wordpress-plugin/module.json",
+        "augment-extensions/workflows/wordpress-plugin/README.md",
+        "augment-extensions/workflows/wordpress-plugin/rules/development-workflow.md",
+        "augment-extensions/workflows/wordpress-plugin/rules/testing-workflow.md",
+        "augment-extensions/workflows/wordpress-plugin/rules/submission-workflow.md",
+        "augment-extensions/workflows/wordpress-plugin/rules/best-practices.md"
+      ]
+    },
+    "bd-wp10-1": {
+      "title": "Update coordination manifest",
+      "status": "in_progress",
+      "relatedSpecs": [
+        "wordpress-plugin-module/core"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        ".augment/coordination.json"
+      ]
+    },
+    "bd-wp10-2": {
+      "title": "Run validation and tests",
+      "status": "open",
+      "relatedSpecs": [
+        "wordpress-plugin-module/core"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": []
+    },
+    "bd-wp10-3": {
+      "title": "Commit WordPress module",
+      "status": "open",
+      "relatedSpecs": [
+        "wordpress-plugin-module/core"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": []
     }
   },
   "rules": {
@@ -843,5 +920,174 @@
       "priority": "high"
     }
   },
-  "files": {}
+  "files": {
+    "augment-extensions/domain-rules/wordpress-plugin/module.json": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md", "character-count-management.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/README.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md", "no-unnecessary-docs.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/plugin-structure.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/plugin-architecture.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/activation-hooks.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/admin-interface.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/frontend-functionality.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/gutenberg-blocks.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/rest-api.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/ajax-handlers.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/database-management.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/cron-jobs.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/security-best-practices.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/performance-optimization.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/testing-patterns.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/documentation-standards.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/wordpress-org-submission.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/scaffolding-workflow.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/woocommerce-integration.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/internationalization.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/domain-rules/wordpress-plugin/rules/asset-management.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/workflows/wordpress-plugin/module.json": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md", "character-count-management.md"]
+    },
+    "augment-extensions/workflows/wordpress-plugin/README.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md", "no-unnecessary-docs.md"]
+    },
+    "augment-extensions/workflows/wordpress-plugin/rules/development-workflow.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/workflows/wordpress-plugin/rules/testing-workflow.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/workflows/wordpress-plugin/rules/submission-workflow.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/workflows/wordpress-plugin/rules/best-practices.md": {
+      "createdBy": "bd-wp1",
+      "modifiedBy": [],
+      "governedBy": ["wordpress-plugin-module/core"],
+      "rulesApplied": ["module-development.md"]
+    },
+    ".augment/coordination.json": {
+      "createdBy": "bd-coord1",
+      "modifiedBy": ["bd-wp10-1"],
+      "governedBy": ["harmonize-workflows", "wordpress-plugin-module/core"],
+      "rulesApplied": ["coordination-system.md"]
+    }
+  }
 }

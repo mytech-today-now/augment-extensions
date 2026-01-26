@@ -54,13 +54,14 @@ augx link workflows/openspec
 
 ### WordPress Plugin Development Workflow
 - **Module**: `workflows/wordpress-plugin`
-- **Version**: 1.1.0
-- **Character Count**: ~60,944
-- **Description**: Complete workflows for WordPress plugin development including development cycle, testing setup, and WordPress.org submission. Optimized for AI-assisted development with OpenSpec and Beads integration.
+- **Version**: 1.2.0
+- **Character Count**: ~81,445
+- **Description**: Complete workflows for WordPress plugin development including development cycle, testing setup, WordPress.org submission, and comprehensive best practices. Optimized for AI-assisted development with OpenSpec and Beads integration.
 - **Contents**:
   - Development workflow (feature planning, implementation, security-first approach)
   - Testing workflow (PHPUnit setup, TDD, CI/CD integration)
   - Submission workflow (security audit, WPCS compliance, WordPress.org submission)
+  - Best practices (code organization, naming conventions, security, performance, accessibility)
   - AI prompt templates for each workflow phase
   - Beads task breakdown patterns
   - OpenSpec spec templates
@@ -100,7 +101,7 @@ augx link workflows/beads
 ### WordPress Plugin Development
 - **Module**: `domain-rules/wordpress-plugin`
 - **Version**: 1.1.0
-- **Character Count**: ~330,868
+- **Character Count**: ~331,037
 - **Description**: Comprehensive WordPress plugin development guidelines covering plugin structure, architecture patterns, admin interfaces, frontend functionality, Gutenberg blocks, REST API, AJAX, database management, security, performance, WooCommerce integration, testing patterns, and WordPress.org submission
 - **Contents**:
   - Plugin structure and architecture patterns (7 patterns)

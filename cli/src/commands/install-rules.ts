@@ -13,6 +13,8 @@ interface InstallRulesOptions {
   setupHooks?: boolean;
   removeHooks?: boolean;
   gitHookType?: 'post-checkout' | 'post-merge';
+  force?: boolean;
+  interactive?: boolean;
 }
 
 /**
@@ -23,7 +25,9 @@ export async function installRulesCommand(options: InstallRulesOptions = {}): Pr
     quiet = false,
     setupHooks = false,
     removeHooks = false,
-    gitHookType = 'post-checkout'
+    gitHookType = 'post-checkout',
+    force = false,
+    interactive = false
   } = options;
 
   try {
@@ -34,8 +38,8 @@ export async function installRulesCommand(options: InstallRulesOptions = {}): Pr
       }
 
       const gitDir = path.join(process.cwd(), '.git');
-      removeRuleInstallGitHook(gitHookType, gitDir);
-      removeNpmPostInstallHook(path.join(process.cwd(), 'package.json'));
+      await removeRuleInstallGitHook(gitHookType, gitDir);
+      await removeNpmPostInstallHook(path.join(process.cwd(), 'package.json'));
 
       if (!quiet) {
         console.log(chalk.green('\n✓ Rule installation hooks removed\n'));
@@ -50,8 +54,8 @@ export async function installRulesCommand(options: InstallRulesOptions = {}): Pr
       }
 
       const gitDir = path.join(process.cwd(), '.git');
-      createRuleInstallGitHook(gitHookType, gitDir);
-      createNpmPostInstallHook(path.join(process.cwd(), 'package.json'));
+      await createRuleInstallGitHook(gitHookType, gitDir);
+      await createNpmPostInstallHook(path.join(process.cwd(), 'package.json'));
 
       if (!quiet) {
         console.log(chalk.green('\n✓ Rule installation hooks configured\n'));
@@ -69,13 +73,22 @@ export async function installRulesCommand(options: InstallRulesOptions = {}): Pr
 
     const result = await installCharacterCountRule({
       targetDir: process.cwd(),
-      skipIfExists: true,
-      verbose: !quiet
+      skipIfExists: !force,
+      verbose: !quiet,
+      force,
+      interactive
     });
 
     if (!result.success) {
       if (!quiet) {
         console.error(chalk.red(`\n✗ Failed to install rule: ${result.error}\n`));
+
+        // Show error-specific guidance
+        if (result.errorType === 'PERMISSION_DENIED') {
+          console.error(chalk.yellow('Tip: Check file permissions or run with appropriate privileges\n'));
+        } else if (result.errorType === 'DISK_FULL') {
+          console.error(chalk.yellow('Tip: Free up disk space and try again\n'));
+        }
       }
       process.exit(1);
     }
@@ -84,8 +97,14 @@ export async function installRulesCommand(options: InstallRulesOptions = {}): Pr
       if (result.created) {
         console.log(chalk.green('\n✓ Character count management rule installed successfully!\n'));
         console.log(chalk.gray(`Location: ${result.path}\n`));
+      } else if (result.updated) {
+        console.log(chalk.green('\n✓ Character count management rule updated successfully!\n'));
+        console.log(chalk.gray(`Location: ${result.path}\n`));
       } else if (result.skipped) {
         console.log(chalk.gray('\nℹ Character count rule already exists\n'));
+        if (!force) {
+          console.log(chalk.gray('Use --force to replace the existing rule\n'));
+        }
       }
     }
 

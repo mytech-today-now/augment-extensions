@@ -4,6 +4,28 @@ This document catalogs all available extension modules for Augment Code AI.
 
 ## Coding Standards
 
+### HTML/CSS/JavaScript Standards
+- **Module**: `coding-standards/html-css-js`
+- **Version**: 1.0.0
+- **Character Count**: ~165,097
+- **Description**: Comprehensive HTML/CSS/JavaScript coding standards for modern web development with semantic HTML, modern CSS features, and ES6+ JavaScript
+- **Contents**:
+  - HTML standards (semantic elements, accessibility, document structure)
+  - CSS standards (naming conventions, BEM, organization, responsive design)
+  - CSS modern features (custom properties, Grid, Flexbox)
+  - JavaScript standards (ES6+ features, variables, functions, modules)
+  - DOM manipulation patterns
+  - Async/await patterns
+  - Performance optimization
+  - Tooling (ESLint, Prettier, Stylelint, HTMLHint)
+  - Core examples (HTML, CSS, JavaScript)
+  - Advanced examples (responsive layout, async patterns, DOM manipulation)
+
+**Usage**:
+```bash
+augx link coding-standards/html-css-js
+```
+
 ### TypeScript Standards
 - **Module**: `coding-standards/typescript`
 - **Version**: 1.0.0
@@ -20,9 +42,27 @@ This document catalogs all available extension modules for Augment Code AI.
 augx link coding-standards/typescript
 ```
 
-### Python Standards (Coming Soon)
+### Python Standards
 - **Module**: `coding-standards/python`
-- **Status**: Planned
+- **Version**: 1.1.0
+- **Character Count**: ~116,868
+- **Description**: Comprehensive Python coding standards including PEP 8 naming conventions, modern type hints (PEP 484, 585, 604), error handling, async patterns, testing with pytest, and development tooling (Black, mypy, Ruff)
+- **Contents**:
+  - Naming conventions (PEP 8)
+  - Type hints (PEP 484, 585, 604) with modern syntax
+  - Error handling patterns
+  - Best practices
+  - Code organization (imports, modules, classes)
+  - Async/await patterns with asyncio
+  - Documentation and docstrings
+  - Testing with pytest (fixtures, parametrization, mocking, coverage)
+  - Tooling (Black formatter, mypy type checker, Ruff linter)
+  - Comprehensive Python code examples
+
+**Usage**:
+```bash
+augx link coding-standards/python
+```
 
 ### React Patterns (Coming Soon)
 - **Module**: `coding-standards/react`
@@ -96,7 +136,57 @@ augx link workflows/beads
 
 **Learn More**: https://github.com/steveyegge/beads
 
+### Database Design and Development Workflow
+- **Module**: `workflows/database`
+- **Version**: 1.0.0
+- **Character Count**: ~124,548
+- **Description**: Comprehensive workflow for database design, schema development, migration management, optimization, and testing. Covers relational, NoSQL, vector, and flat databases.
+- **Contents**:
+  - Complete workflow guide (requirements → design → implementation → testing → deployment)
+  - Schema design workflow (entity modeling, normalization, indexing strategy)
+  - Migration workflow (version control, rollback strategies, zero-downtime migrations)
+  - Optimization workflow (query analysis, index optimization, performance tuning)
+  - Testing patterns (unit tests, integration tests, performance tests, data validation)
+  - Documentation standards (schema documentation, migration logs, runbooks)
+  - Data migration best practices (ETL patterns, data validation, rollback procedures)
+  - AI prompt templates for database tasks
+  - Complete workflow examples (schema design, migration, optimization)
+
+**Usage**:
+```bash
+augx link workflows/database
+```
+
+**Dependencies**: `domain-rules/database`
+
 ## Domain Rules
+
+### Database Design Guidelines
+- **Module**: `domain-rules/database`
+- **Version**: 1.0.0
+- **Character Count**: ~449,449
+- **Description**: Comprehensive database design guidelines including schema design, normalization, indexing, query optimization, and best practices for relational, NoSQL, vector, and flat databases
+- **Contents**:
+  - Schema design principles (entities, relationships, constraints)
+  - Normalization (1NF through 5NF, denormalization strategies)
+  - Indexing strategies (B-tree, hash, composite, covering indexes)
+  - Query optimization (execution plans, query patterns, anti-patterns)
+  - Data types and constraints (choosing appropriate types, NULL handling)
+  - Transactions and concurrency (ACID, isolation levels, locking)
+  - Database security (authentication, authorization, encryption, SQL injection prevention)
+  - Performance optimization (caching, partitioning, sharding)
+  - Backup and recovery strategies
+  - Migration patterns (schema versioning, zero-downtime migrations)
+  - SQL best practices (naming conventions, formatting, common patterns)
+  - NoSQL patterns (document stores, key-value, column-family, graph databases)
+  - Database testing (unit tests, integration tests, performance tests)
+  - Monitoring and maintenance
+  - Complete examples (e-commerce schema, social media schema, analytics schema)
+
+**Usage**:
+```bash
+augx link domain-rules/database
+```
 
 ### WordPress Plugin Development
 - **Module**: `domain-rules/wordpress-plugin`

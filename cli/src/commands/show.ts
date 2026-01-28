@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
+import { findModule, discoverModules } from '../utils/module-system';
 
 interface ShowOptions {
   json?: boolean;
@@ -8,9 +9,9 @@ interface ShowOptions {
 
 export async function showCommand(moduleName: string, options: ShowOptions): Promise<void> {
   try {
-    const moduleInfo = await getModuleInfo(moduleName);
+    const module = findModule(moduleName);
 
-    if (!moduleInfo) {
+    if (!module) {
       console.error(chalk.red(`Module not found: ${moduleName}`));
 
       // Suggest similar modules
@@ -27,32 +28,42 @@ export async function showCommand(moduleName: string, options: ShowOptions): Pro
     }
 
     if (options.json) {
+      const moduleInfo = {
+        name: module.fullName,
+        version: module.metadata.version,
+        type: module.metadata.type,
+        description: module.metadata.description,
+        rules: module.rules,
+        examples: module.examples,
+        characterCount: module.metadata.augment?.characterCount
+      };
       console.log(JSON.stringify(moduleInfo, null, 2));
       return;
     }
 
-    console.log(chalk.bold.blue(`\n📦 ${moduleInfo.name}\n`));
-    console.log(chalk.gray(`Version: ${moduleInfo.version}`));
-    console.log(chalk.gray(`Type: ${moduleInfo.type}`));
-    console.log(chalk.gray(`Description: ${moduleInfo.description}\n`));
+    console.log(chalk.bold.blue(`\n📦 ${module.fullName}\n`));
+    console.log(chalk.gray(`Version: ${module.metadata.version}`));
+    console.log(chalk.gray(`Type: ${module.metadata.type}`));
+    console.log(chalk.gray(`Description: ${module.metadata.description}\n`));
 
-    if (moduleInfo.rules && moduleInfo.rules.length > 0) {
+    if (module.rules && module.rules.length > 0) {
       console.log(chalk.bold('Rules:'));
-      moduleInfo.rules.forEach((rule: string) => {
+      module.rules.forEach((rule: string) => {
         console.log(chalk.cyan(`  • ${rule}`));
       });
       console.log();
     }
 
-    if (moduleInfo.examples && moduleInfo.examples.length > 0) {
+    if (module.examples && module.examples.length > 0) {
       console.log(chalk.bold('Examples:'));
-      moduleInfo.examples.forEach((example: string) => {
+      module.examples.forEach((example: string) => {
         console.log(chalk.green(`  • ${example}`));
       });
       console.log();
     }
 
-    console.log(chalk.gray(`Character count: ~${moduleInfo.characterCount || 'unknown'}`));
+    const charCount = module.metadata.augment?.characterCount;
+    console.log(chalk.gray(`Character count: ~${charCount ? charCount.toLocaleString() : 'unknown'}`));
     console.log();
 
   } catch (error) {
@@ -61,72 +72,17 @@ export async function showCommand(moduleName: string, options: ShowOptions): Pro
   }
 }
 
-async function getModuleInfo(moduleName: string): Promise<any> {
-  const modulesDir = path.join(__dirname, '../../../augment-extensions');
-  const modulePath = path.join(modulesDir, moduleName);
-  const moduleJsonPath = path.join(modulePath, 'module.json');
-
-  if (!fs.existsSync(moduleJsonPath)) {
-    return null;
-  }
-
-  const moduleData = JSON.parse(fs.readFileSync(moduleJsonPath, 'utf-8'));
-
-  // Get rules
-  const rulesDir = path.join(modulePath, 'rules');
-  const rules = fs.existsSync(rulesDir)
-    ? fs.readdirSync(rulesDir).filter(f => f.endsWith('.md'))
-    : [];
-
-  // Get examples
-  const examplesDir = path.join(modulePath, 'examples');
-  const examples = fs.existsSync(examplesDir)
-    ? fs.readdirSync(examplesDir)
-    : [];
-
-  return {
-    ...moduleData,
-    name: moduleName,
-    rules,
-    examples,
-    characterCount: moduleData.augment?.characterCount
-  };
-}
-
 async function getSimilarModules(searchTerm: string): Promise<string[]> {
-  const modulesDir = path.join(__dirname, '../../../augment-extensions');
-  const allModules: string[] = [];
-
-  // Recursively find all modules
-  function findModules(dir: string, prefix: string = '') {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      if (entry.isDirectory()) {
-        const fullPath = path.join(dir, entry.name);
-        const moduleJsonPath = path.join(fullPath, 'module.json');
-
-        if (fs.existsSync(moduleJsonPath)) {
-          const modulePath = prefix ? `${prefix}/${entry.name}` : entry.name;
-          allModules.push(modulePath);
-        } else {
-          // Recurse into subdirectories
-          const newPrefix = prefix ? `${prefix}/${entry.name}` : entry.name;
-          findModules(fullPath, newPrefix);
-        }
-      }
-    }
-  }
-
-  if (fs.existsSync(modulesDir)) {
-    findModules(modulesDir);
-  }
+  const allModules = discoverModules();
 
   // Find similar modules (contains search term or search term contains module name)
   const searchLower = searchTerm.toLowerCase();
-  return allModules.filter(module => {
-    const moduleLower = module.toLowerCase();
-    return moduleLower.includes(searchLower) || searchLower.includes(moduleLower);
-  }).slice(0, 5); // Limit to 5 suggestions
+  return allModules
+    .filter(module => {
+      const moduleLower = module.fullName.toLowerCase();
+      return moduleLower.includes(searchLower) || searchLower.includes(moduleLower);
+    })
+    .map(m => m.fullName)
+    .slice(0, 5); // Limit to 5 suggestions
 }
 

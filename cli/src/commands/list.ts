@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
+import { discoverModules, Module as ModuleType } from '../utils/module-system';
 
 interface ListOptions {
   linked?: boolean;
@@ -55,40 +56,17 @@ async function getModules(linkedOnly: boolean = false): Promise<Module[]> {
     return linkedModules;
   }
 
-  // Get all available modules from repository
-  const modulesDir = path.join(__dirname, '../../../augment-extensions');
-  
-  if (!fs.existsSync(modulesDir)) {
-    return linkedModules;
-  }
+  // Get all available modules using the module system
+  const discoveredModules = discoverModules();
 
-  const categories = fs.readdirSync(modulesDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
-
-  for (const category of categories) {
-    const categoryPath = path.join(modulesDir, category);
-    const moduleNames = fs.readdirSync(categoryPath, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name);
-
-    for (const moduleName of moduleNames) {
-      const modulePath = path.join(categoryPath, moduleName);
-      const moduleJsonPath = path.join(modulePath, 'module.json');
-
-      if (fs.existsSync(moduleJsonPath)) {
-        const moduleData = JSON.parse(fs.readFileSync(moduleJsonPath, 'utf-8'));
-        const fullName = `${category}/${moduleName}`;
-        
-        modules.push({
-          name: fullName,
-          version: moduleData.version,
-          description: moduleData.description,
-          type: moduleData.type,
-          linked: linkedModules.some(m => m.name === fullName)
-        });
-      }
-    }
+  for (const module of discoveredModules) {
+    modules.push({
+      name: module.fullName,
+      version: module.metadata.version,
+      description: module.metadata.description,
+      type: module.metadata.type,
+      linked: linkedModules.some(m => m.name === module.fullName)
+    });
   }
 
   return modules;

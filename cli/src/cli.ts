@@ -15,6 +15,7 @@ import { syncBeadsCommand, syncOpenSpecCommand, syncAllCommand, syncWatchCommand
 import { migrateExistingData } from './utils/migrate';
 import { validateCommand } from './commands/validate';
 import { catalogCommand, catalogHookCommand } from './commands/catalog';
+import { installRulesCommand } from './commands/install-rules';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -127,6 +128,15 @@ program
   .option('--remove', 'Remove catalog auto-update from git hook')
   .option('--type <type>', 'Hook type: pre-commit or post-commit (default: pre-commit)')
   .action(catalogHookCommand);
+
+program
+  .command('install-rules')
+  .description('Install character count management rule to .augment/rules')
+  .option('--quiet', 'Suppress output messages')
+  .option('--setup-hooks', 'Setup automatic rule installation hooks')
+  .option('--remove-hooks', 'Remove automatic rule installation hooks')
+  .option('--git-hook-type <type>', 'Git hook type: post-checkout or post-merge (default: post-checkout)')
+  .action(installRulesCommand);
 
 // Coordination commands
 const coordCommand = program

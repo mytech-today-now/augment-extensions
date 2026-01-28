@@ -136,6 +136,8 @@ program
   .option('--setup-hooks', 'Setup automatic rule installation hooks')
   .option('--remove-hooks', 'Remove automatic rule installation hooks')
   .option('--git-hook-type <type>', 'Git hook type: post-checkout or post-merge (default: post-checkout)')
+  .option('--force', 'Force replace existing rule even if content differs')
+  .option('--interactive', 'Prompt for conflict resolution when rule exists with different content')
   .action(installRulesCommand);
 
 // Coordination commands

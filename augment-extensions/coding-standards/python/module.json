@@ -1,13 +1,13 @@
 {
   "name": "python-standards",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "Python Coding Standards",
-  "description": "Comprehensive Python coding standards including naming conventions, type hints, and error handling",
+  "description": "Comprehensive Python coding standards including naming conventions, type hints (PEP 484, 585, 604), and error handling",
   "type": "coding-standards",
   "author": "Augment Extensions",
   "license": "MIT",
   "augment": {
-    "characterCount": 28500,
+    "characterCount": 116868,
     "priority": "medium",
     "category": "coding-standards"
   },
@@ -18,9 +18,13 @@
   "tags": [
     "python",
     "pep8",
+    "pep484",
+    "pep585",
+    "pep604",
     "type-hints",
     "error-handling",
-    "best-practices"
+    "best-practices",
+    "mypy"
   ]
 }
 

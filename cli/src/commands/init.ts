@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
 import inquirer from 'inquirer';
+import { installCharacterCountRule } from '../utils/install-rules';
 
 interface InitOptions {
   fromSubmodule?: boolean;
@@ -96,6 +97,19 @@ Check \`.augment/extensions.json\` for currently linked modules.
         fs.appendFileSync(gitignorePath, '\n# Augment Extensions\n.augment/extensions.json\n');
         console.log(chalk.green('✓ Updated .gitignore'));
       }
+    }
+
+    // Install character count management rule
+    console.log(chalk.blue('\n📏 Installing character count management rule...\n'));
+    const ruleResult = await installCharacterCountRule({
+      targetDir: process.cwd(),
+      skipIfExists: true,
+      verbose: true
+    });
+
+    if (!ruleResult.success) {
+      console.log(chalk.yellow(`⚠ Warning: Could not install character count rule: ${ruleResult.error}`));
+      console.log(chalk.gray('You can manually copy the rule from .augment/rules/character-count-management.md'));
     }
 
     console.log(chalk.bold.green('\n✨ Augment Extensions initialized successfully!\n'));

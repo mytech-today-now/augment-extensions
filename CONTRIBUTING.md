@@ -140,21 +140,45 @@ cd cli
 npm install
 npm link
 
-# Validate your module
-augx validate coding-standards/your-module
+# Validate your module (comprehensive validation)
+augx validate coding-standards/your-module --verbose
 ```
+
+The validation checks:
+- ✅ **Module structure** - Required files (module.json, README.md, rules/)
+- ✅ **Module category** - Type matches directory structure
+- ✅ **Semantic versioning** - Valid version format (MAJOR.MINOR.PATCH)
+- ✅ **Project-agnostic content** - No hardcoded paths or project-specific URLs
+- ✅ **Documentation completeness** - Required sections, code examples, actionable content
+- ✅ **Character count** - Matches declared count in module.json
+- ✅ **Metadata completeness** - All required fields present
 
 ### 5. Update Catalog
 
-Add your module to `modules.md`:
+The catalog is automatically updated using the CLI:
 
-```markdown
-### Your Module Name
-- **Module**: `coding-standards/your-module`
-- **Version**: 1.0.0
-- **Character Count**: ~15,000
-- **Description**: Brief description
+```bash
+# Update MODULES.md catalog
+augx catalog
+
+# Or set up automatic updates on git commit
+augx catalog-hook
+
+# Check if catalog is out of date
+augx catalog --check
+
+# Auto-update only if out of date
+augx catalog --auto
 ```
+
+The catalog command:
+- Discovers all modules in `augment-extensions/`
+- Extracts metadata from `module.json`
+- Generates formatted catalog entries
+- Groups modules by category
+- Calculates statistics
+
+**Git Hook**: The `augx catalog-hook` command sets up a pre-commit hook that automatically updates the catalog before each commit.
 
 ### 6. Commit and Push
 

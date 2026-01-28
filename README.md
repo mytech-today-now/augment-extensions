@@ -230,6 +230,42 @@ Extensions integrate seamlessly:
 - [WordPress Plugin Development](./augment-extensions/domain-rules/wordpress-plugin/)
 - [WordPress Development](./augment-extensions/domain-rules/wordpress/)
 
+## ✅ Module Validation
+
+The CLI includes comprehensive validation to ensure module quality:
+
+```bash
+# Validate a module
+augx validate coding-standards/typescript --verbose
+
+# Validation checks:
+# ✅ Module structure (required files and directories)
+# ✅ Category matching (type matches directory)
+# ✅ Semantic versioning (MAJOR.MINOR.PATCH format)
+# ✅ Project-agnostic content (no hardcoded paths)
+# ✅ Documentation completeness (required sections, examples)
+# ✅ Character count accuracy (matches declaration)
+# ✅ Metadata completeness (all required fields)
+```
+
+### Automatic Catalog Updates
+
+Keep the module catalog up to date automatically:
+
+```bash
+# Update catalog manually
+augx catalog
+
+# Check if catalog is out of date
+augx catalog --check
+
+# Auto-update only if needed
+augx catalog --auto
+
+# Set up git hook for automatic updates
+augx catalog-hook
+```
+
 ## 🤝 Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on creating and sharing modules.

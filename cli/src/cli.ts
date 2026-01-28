@@ -13,6 +13,8 @@ import { searchCommand } from './commands/search';
 import { coordSpecsCommand, coordTasksCommand, coordRulesCommand, coordFileCommand } from './commands/coord';
 import { syncBeadsCommand, syncOpenSpecCommand, syncAllCommand, syncWatchCommand } from './commands/sync';
 import { migrateExistingData } from './utils/migrate';
+import { validateCommand } from './commands/validate';
+import { catalogCommand, catalogHookCommand } from './commands/catalog';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -84,10 +86,8 @@ program
 program
   .command('validate <module>')
   .description('Validate module structure and metadata')
-  .action((module: string) => {
-    console.log(chalk.blue(`Validating module: ${module}`));
-    // Implementation
-  });
+  .option('--verbose', 'Show detailed validation information')
+  .action(validateCommand);
 
 program
   .command('pin <module> <version>')
@@ -112,6 +112,21 @@ program
     console.log(chalk.magenta(`Showing diff for: ${module}`));
     // Implementation
   });
+
+program
+  .command('catalog')
+  .description('Update MODULES.md catalog with all available modules')
+  .option('--output <path>', 'Output path for catalog file')
+  .option('--check', 'Check if catalog is out of date (exit 1 if outdated)')
+  .option('--auto', 'Auto-update only if out of date')
+  .action(catalogCommand);
+
+program
+  .command('catalog-hook')
+  .description('Setup git hook for automatic catalog updates')
+  .option('--remove', 'Remove catalog auto-update from git hook')
+  .option('--type <type>', 'Hook type: pre-commit or post-commit (default: pre-commit)')
+  .action(catalogHookCommand);
 
 // Coordination commands
 const coordCommand = program

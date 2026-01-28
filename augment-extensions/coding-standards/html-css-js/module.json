@@ -8,7 +8,7 @@
   "tags": ["html", "css", "javascript", "web", "frontend", "accessibility", "performance"],
   "dependencies": [],
   "augment": {
-    "characterCount": 0,
+    "characterCount": 165097,
     "priority": "high",
     "category": "coding-standards"
   },

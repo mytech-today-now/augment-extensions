@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Responsive layout example demonstrating mobile-first design, CSS Grid, Flexbox, and media queries">
+    <title>Responsive Layout Example</title>
+    <style>
+        /* ============================================
+           CSS CUSTOM PROPERTIES (VARIABLES)
+           ============================================ */
+        :root {
+            --color-primary: #3498db;
+            --color-secondary: #2ecc71;
+            --color-text: #333;
+            --color-text-light: #666;
+            --color-bg: #fff;
+            --color-bg-alt: #f8f9fa;
+            --color-border: #dee2e6;
+            
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.25rem;
+            --font-size-xl: 1.5rem;
+            --font-size-2xl: 2rem;
+            
+            --container-max-width: 1200px;
+            --border-radius: 0.5rem;
+            --transition-speed: 0.3s;
+        }
+
+        /* ============================================
+           RESET AND BASE STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ============================================
+           MOBILE-FIRST LAYOUT (BASE STYLES)
+           ============================================ */
+        
+        /* Header */
+        .header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: var(--spacing-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header__container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .header__logo {
+            font-size: var(--font-size-xl);
+            font-weight: bold;
+        }
+
+        /* Navigation - Mobile First (Hamburger menu would go here) */
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .nav__link {
+            color: white;
+            text-decoration: none;
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius);
+            transition: background-color var(--transition-speed);
+        }
+
+        .nav__link:hover,
+        .nav__link:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: var(--spacing-sm);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            padding: var(--spacing-xl) var(--spacing-sm);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .hero__title {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .hero__subtitle {
+            font-size: var(--font-size-lg);
+            opacity: 0.9;
+        }
+
+        /* Grid Layout - Mobile First (Single Column) */
+        .grid {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .card {
+            background-color: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card__title {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-primary);
+        }
+
+        .card__content {
+            color: var(--color-text-light);
+        }
+
+        /* Sidebar and Main Content - Mobile First (Stacked) */
+        .layout {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        .sidebar {
+            background-color: var(--color-bg-alt);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+        }
+
+        .sidebar__title {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .sidebar__list {
+            list-style: none;
+        }
+
+        .sidebar__item {
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .sidebar__item:last-child {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--color-text);
+            color: white;
+            padding: var(--spacing-lg) var(--spacing-sm);
+            margin-top: var(--spacing-xl);
+        }
+
+        .footer__container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .footer__section-title {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer__link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            padding: var(--spacing-xs) 0;
+        }
+
+        .footer__link:hover {
+            color: white;
+        }
+
+        /* ============================================
+           TABLET STYLES (min-width: 768px)
+           ============================================ */
+        @media (min-width: 768px) {
+            .header__container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .nav {
+                flex-direction: row;
+                gap: var(--spacing-sm);
+            }
+
+            .container {
+                padding: var(--spacing-md);
+            }
+
+            .hero {
+                padding: var(--spacing-xl) var(--spacing-md);
+            }
+
+            /* 2-column grid for tablets */
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* Sidebar layout for tablets */
+            .layout {
+                flex-direction: row;
+            }
+
+            .sidebar {
+                width: 250px;
+                flex-shrink: 0;
+            }
+
+            /* 2-column footer for tablets */
+            .footer__container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ============================================
+           DESKTOP STYLES (min-width: 1024px)
+           ============================================ */
+        @media (min-width: 1024px) {
+            .container {
+                padding: var(--spacing-lg);
+            }
+
+            .hero {
+                padding: calc(var(--spacing-xl) * 1.5) var(--spacing-lg);
+            }
+
+            .hero__title {
+                font-size: calc(var(--font-size-2xl) * 1.5);
+            }
+
+            /* 3-column grid for desktop */
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .sidebar {
+                width: 300px;
+            }
+
+            /* 4-column footer for desktop */
+            .footer__container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* ============================================
+           LARGE DESKTOP STYLES (min-width: 1440px)
+           ============================================ */
+        @media (min-width: 1440px) {
+            /* 4-column grid for large desktop */
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* ============================================
+           PRINT STYLES
+           ============================================ */
+        @media print {
+            .header,
+            .nav,
+            .sidebar,
+            .footer {
+                display: none;
+            }
+
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            .card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
+        /* ============================================
+           ACCESSIBILITY & REDUCED MOTION
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .card {
+                border-width: 2px;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-text: #e0e0e0;
+                --color-text-light: #b0b0b0;
+                --color-bg: #1a1a1a;
+                --color-bg-alt: #2a2a2a;
+                --color-border: #404040;
+            }
+
+            .hero {
+                background: linear-gradient(135deg, #2980b9, #27ae60);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header class="header">
+        <div class="header__container">
+            <div class="header__logo">Responsive Site</div>
+            <nav class="nav" aria-label="Main navigation">
+                <a href="#home" class="nav__link">Home</a>
+                <a href="#about" class="nav__link">About</a>
+                <a href="#services" class="nav__link">Services</a>
+                <a href="#contact" class="nav__link">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero__title">Responsive Layout Example</h1>
+        <p class="hero__subtitle">Mobile-first design with CSS Grid, Flexbox, and media queries</p>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Grid Layout -->
+        <section class="grid" aria-label="Features">
+            <article class="card">
+                <h2 class="card__title">Mobile First</h2>
+                <p class="card__content">
+                    Start with mobile styles as the base, then progressively enhance for larger screens using media queries.
+                </p>
+            </article>
+
+            <article class="card">
+                <h2 class="card__title">CSS Grid</h2>
+                <p class="card__content">
+                    Powerful 2D layout system that adapts from 1 column on mobile to 4 columns on large desktops.
+                </p>
+            </article>
+
+            <article class="card">
+                <h2 class="card__title">Flexbox</h2>
+                <p class="card__content">
+                    Perfect for 1D layouts like navigation bars and content alignment within components.
+                </p>
+            </article>
+
+            <article class="card">
+                <h2 class="card__title">Media Queries</h2>
+                <p class="card__content">
+                    Breakpoints at 768px (tablet), 1024px (desktop), and 1440px (large desktop) for optimal viewing.
+                </p>
+            </article>
+
+            <article class="card">
+                <h2 class="card__title">CSS Variables</h2>
+                <p class="card__content">
+                    Custom properties for consistent spacing, colors, and typography throughout the design.
+                </p>
+            </article>
+
+            <article class="card">
+                <h2 class="card__title">Accessibility</h2>
+                <p class="card__content">
+                    Support for reduced motion, high contrast, and dark mode preferences using media queries.
+                </p>
+            </article>
+        </section>
+
+        <!-- Sidebar Layout -->
+        <div class="layout">
+            <main class="main-content">
+                <article>
+                    <h2>Main Content Area</h2>
+                    <p>
+                        This layout demonstrates a responsive sidebar pattern. On mobile devices,
+                        the sidebar appears below the main content. On tablets and larger screens,
+                        it moves to the side using Flexbox.
+                    </p>
+                    <p>
+                        The layout automatically adjusts based on screen size, ensuring optimal
+                        readability and usability across all devices.
+                    </p>
+                </article>
+            </main>
+
+            <aside class="sidebar">
+                <h3 class="sidebar__title">Quick Links</h3>
+                <ul class="sidebar__list">
+                    <li class="sidebar__item">Documentation</li>
+                    <li class="sidebar__item">Tutorials</li>
+                    <li class="sidebar__item">Examples</li>
+                    <li class="sidebar__item">Resources</li>
+                    <li class="sidebar__item">Support</li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__section">
+                <h3 class="footer__section-title">Company</h3>
+                <a href="#about" class="footer__link">About Us</a>
+                <a href="#team" class="footer__link">Team</a>
+                <a href="#careers" class="footer__link">Careers</a>
+            </div>
+
+            <div class="footer__section">
+                <h3 class="footer__section-title">Products</h3>
+                <a href="#features" class="footer__link">Features</a>
+                <a href="#pricing" class="footer__link">Pricing</a>
+                <a href="#enterprise" class="footer__link">Enterprise</a>
+            </div>
+
+            <div class="footer__section">
+                <h3 class="footer__section-title">Resources</h3>
+                <a href="#docs" class="footer__link">Documentation</a>
+                <a href="#guides" class="footer__link">Guides</a>
+                <a href="#api" class="footer__link">API Reference</a>
+            </div>
+
+            <div class="footer__section">
+                <h3 class="footer__section-title">Support</h3>
+                <a href="#help" class="footer__link">Help Center</a>
+                <a href="#contact" class="footer__link">Contact</a>
+                <a href="#status" class="footer__link">Status</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Comprehensive HTML examples demonstrating semantic markup and accessibility">
+  <title>HTML Best Practices Examples</title>
+</head>
+<body>
+  <!-- ========================================
+       SEMANTIC STRUCTURE EXAMPLE
+       ======================================== -->
+  <header>
+    <nav aria-label="Main navigation">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ========================================
+         ARTICLE WITH PROPER HEADING HIERARCHY
+         ======================================== -->
+    <article>
+      <h1>Understanding Semantic HTML</h1>
+      
+      <section>
+        <h2>What is Semantic HTML?</h2>
+        <p>
+          Semantic HTML uses elements that clearly describe their meaning to both 
+          the browser and the developer. This improves accessibility, SEO, and 
+          code maintainability.
+        </p>
+      </section>
+
+      <section>
+        <h2>Key Semantic Elements</h2>
+        
+        <h3>Structural Elements</h3>
+        <ul>
+          <li><code>&lt;header&gt;</code> - Introductory content</li>
+          <li><code>&lt;nav&gt;</code> - Navigation links</li>
+          <li><code>&lt;main&gt;</code> - Main content</li>
+          <li><code>&lt;article&gt;</code> - Self-contained content</li>
+          <li><code>&lt;section&gt;</code> - Thematic grouping</li>
+          <li><code>&lt;aside&gt;</code> - Tangentially related content</li>
+          <li><code>&lt;footer&gt;</code> - Footer content</li>
+        </ul>
+
+        <h3>Text-Level Semantics</h3>
+        <p>
+          Use <strong>strong</strong> for importance, 
+          <em>em</em> for emphasis, 
+          <mark>mark</mark> for highlighting, 
+          <code>code</code> for code snippets, and 
+          <abbr title="HyperText Markup Language">HTML</abbr> for abbreviations.
+        </p>
+      </section>
+    </article>
+
+    <!-- ========================================
+         ACCESSIBILITY EXAMPLES
+         ======================================== -->
+    <article>
+      <h2>Accessibility Best Practices</h2>
+
+      <section>
+        <h3>Form Accessibility</h3>
+        <form action="/submit" method="post">
+          <!-- Proper label association -->
+          <div>
+            <label for="username">Username:</label>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              required 
+              aria-describedby="username-help"
+            >
+            <small id="username-help">Must be 3-20 characters</small>
+          </div>
+
+          <!-- Email with validation -->
+          <div>
+            <label for="email">Email:</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              required 
+              aria-required="true"
+            >
+          </div>
+
+          <!-- Radio buttons with fieldset -->
+          <fieldset>
+            <legend>Subscription Type</legend>
+            <div>
+              <input type="radio" id="free" name="subscription" value="free" checked>
+              <label for="free">Free</label>
+            </div>
+            <div>
+              <input type="radio" id="premium" name="subscription" value="premium">
+              <label for="premium">Premium</label>
+            </div>
+          </fieldset>
+
+          <!-- Checkbox with label -->
+          <div>
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">I agree to the terms and conditions</label>
+          </div>
+
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+
+      <section>
+        <h3>Image Accessibility</h3>
+        
+        <!-- Informative image with alt text -->
+        <figure>
+          <img 
+            src="/images/chart.png" 
+            alt="Bar chart showing 50% increase in sales from Q1 to Q2"
+            width="600"
+            height="400"
+          >
+          <figcaption>Quarterly sales comparison</figcaption>
+        </figure>
+
+        <!-- Decorative image with empty alt -->
+        <img src="/images/decorative-border.png" alt="" role="presentation">
+      </section>
+
+      <section>
+        <h3>ARIA Landmarks and Roles</h3>
+        
+        <!-- Skip navigation link -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+
+        <!-- Button with ARIA label -->
+        <button aria-label="Close dialog" onclick="closeDialog()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <!-- Alert region -->
+        <div role="alert" aria-live="assertive">
+          <p>Your session will expire in 5 minutes</p>
+        </div>
+      </section>
+    </article>
+
+    <!-- ========================================
+         DATA TABLES
+         ======================================== -->
+    <article>
+      <h2>Accessible Data Tables</h2>
+
+      <section>
+        <h3>Simple Table</h3>
+        <table>
+          <caption>Monthly Sales Report</caption>
+          <thead>
+            <tr>
+              <th scope="col">Month</th>
+              <th scope="col">Revenue</th>
+              <th scope="col">Expenses</th>
+              <th scope="col">Profit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">January</th>
+              <td>$50,000</td>
+              <td>$30,000</td>
+              <td>$20,000</td>
+            </tr>
+            <tr>
+              <th scope="row">February</th>
+              <td>$55,000</td>
+              <td>$32,000</td>
+              <td>$23,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+
+    <!-- ========================================
+         LISTS AND NAVIGATION
+         ======================================== -->
+    <article>
+      <h2>Lists and Navigation Patterns</h2>
+
+      <section>
+        <h3>Unordered List</h3>
+        <ul>
+          <li>First item</li>
+          <li>Second item</li>
+          <li>Third item with nested list:
+            <ul>
+              <li>Nested item 1</li>
+              <li>Nested item 2</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Ordered List</h3>
+        <ol>
+          <li>Step one: Prepare ingredients</li>
+          <li>Step two: Mix ingredients</li>
+          <li>Step three: Bake at 350°F</li>
+        </ol>
+      </section>
+
+      <section>
+        <h3>Description List</h3>
+        <dl>
+          <dt>HTML</dt>
+          <dd>HyperText Markup Language - the standard markup language for web pages</dd>
+
+          <dt>CSS</dt>
+          <dd>Cascading Style Sheets - used for styling web pages</dd>
+
+          <dt>JavaScript</dt>
+          <dd>Programming language for web interactivity</dd>
+        </dl>
+      </section>
+    </article>
+
+    <!-- ========================================
+         ASIDE CONTENT
+         ======================================== -->
+    <aside aria-label="Related resources">
+      <h2>Related Resources</h2>
+      <nav aria-label="Related links">
+        <ul>
+          <li><a href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG Quick Reference</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML">MDN HTML Documentation</a></li>
+          <li><a href="https://html.spec.whatwg.org/">HTML Living Standard</a></li>
+        </ul>
+      </nav>
+    </aside>
+  </main>
+
+  <!-- ========================================
+       FOOTER
+       ======================================== -->
+  <footer>
+    <p>&copy; 2026 Example Company. All rights reserved.</p>
+    <nav aria-label="Footer navigation">
+      <ul>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Service</a></li>
+        <li><a href="/contact">Contact Us</a></li>
+      </ul>
+    </nav>
+  </footer>
+</body>
+</html>

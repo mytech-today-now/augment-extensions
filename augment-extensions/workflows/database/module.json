@@ -1,0 +1,42 @@
+{
+  "name": "database-workflow",
+  "version": "1.0.0",
+  "displayName": "Database Design and Development Workflow",
+  "description": "Comprehensive workflow for database design, schema development, migration management, optimization, and testing. Covers relational, NoSQL, vector, and flat databases.",
+  "type": "workflow",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "keywords": [
+    "database",
+    "schema-design",
+    "migration",
+    "optimization",
+    "testing",
+    "workflow",
+    "sql",
+    "nosql",
+    "vector-database",
+    "flat-database"
+  ],
+  "augment": {
+    "characterCount": 124548,
+    "priority": "high",
+    "category": "workflow",
+    "compatibleWith": [
+      "Claude Code",
+      "CodeBuddy",
+      "Cursor",
+      "GitHub Copilot",
+      "Continue",
+      "Windsurf",
+      "All AGENTS.md compatible tools"
+    ]
+  },
+  "dependencies": {},
+  "installation": {
+    "required": false,
+    "optional": false,
+    "notes": "This workflow module provides guidelines and best practices for database design and development. No CLI installation required."
+  }
+}
+

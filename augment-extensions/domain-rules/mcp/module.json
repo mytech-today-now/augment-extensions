@@ -1,0 +1,49 @@
+{
+  "name": "mcp",
+  "version": "1.0.0",
+  "displayName": "Model Context Protocol (MCP) Guidelines",
+  "description": "Comprehensive guidelines for designing and implementing Model Context Protocol systems including token-based, state-based, vector-based, hybrid, graph-augmented, and compressed MCP",
+  "type": "domain-rules",
+  "tags": ["mcp", "context-management", "rag", "state-management", "llm", "ai-agents"],
+  "author": "MyTech Today Now",
+  "license": "MIT",
+  "repository": "https://github.com/mytech-today-now/augment",
+  "augment": {
+    "characterCount": 219130,
+    "priority": "high",
+    "category": "domain-rules",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*mcp*.py",
+        "**/*context*.py",
+        "**/*memory*.py",
+        "**/*rag*.py",
+        "**/*agent*.py",
+        "**/*state*.py"
+      ],
+      "projectTypes": ["ai-agent", "llm-application", "rag-system"]
+    }
+  },
+  "dependencies": [],
+  "configuration": {
+    "mcpTypes": {
+      "type": "array",
+      "description": "MCP types to enable for this project",
+      "items": {
+        "enum": ["token", "state", "vector", "hybrid", "graph", "compressed"]
+      },
+      "default": ["token"]
+    },
+    "strictMode": {
+      "type": "boolean",
+      "description": "Enable strict validation of MCP patterns",
+      "default": true
+    },
+    "universalRules": {
+      "type": "boolean",
+      "description": "Apply universal cross-cutting rules",
+      "default": true
+    }
+  }
+}
+

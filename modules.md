@@ -236,6 +236,28 @@ augx link domain-rules/api-design
 augx link domain-rules/database
 ```
 
+### Model Context Protocol (MCP) Guidelines
+- **Module**: `domain-rules/mcp`
+- **Version**: 1.0.0
+- **Character Count**: ~219,130
+- **Description**: Comprehensive guidelines for designing and implementing Model Context Protocol systems including token-based, state-based, vector-based, hybrid, graph-augmented, and compressed MCP
+- **Contents**:
+  - Universal rules (context optimization, error handling, security, monitoring, testing, documentation)
+  - Token-based MCP (compression, chunking, budgeting)
+  - State-based MCP (persistence, state machines, concurrency)
+  - Vector-based MCP (RAG, embeddings, semantic search)
+  - Hybrid MCP (multi-memory coordination, context orchestration)
+  - Graph-augmented MCP (knowledge graphs, entity relationships, graph traversal)
+  - Compressed MCP (multi-stage compression, mobile optimization)
+  - Configuration system (JSON schema, validation, override semantics)
+  - Testing framework (unit, integration, synthetic testing)
+  - 6 complete implementation examples with code
+
+**Usage**:
+```bash
+augx link domain-rules/mcp
+```
+
 ### Security Guidelines
 - **Module**: `domain-rules/security`
 - **Version**: 1.0.0

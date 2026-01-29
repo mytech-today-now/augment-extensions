@@ -39,12 +39,9 @@ program
   .action(initCommand);
 
 program
-  .option('--gui', 'Launch interactive GUI for module management')
-  .action((options) => {
-    if (options.gui) {
-      guiCommand(options);
-    }
-  });
+  .command('gui')
+  .description('Launch interactive GUI for module management')
+  .action(guiCommand);
 
 program
   .command('list')

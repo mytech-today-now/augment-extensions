@@ -17,7 +17,7 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 
 ## ✨ What's New in v0.3.0
 
-- 🎨 **GUI Module Manager** - Interactive terminal UI for module selection (`augx --gui`)
+- 🎨 **GUI Module Manager** - Interactive terminal UI for module selection (`augx gui`)
 - 📦 **Modular HTML/CSS/JS** - Split into independent modules for better flexibility
 - 📚 **Collections System** - Bundle multiple modules together (e.g., `html-css-js` collection)
 - 🔗 **Unlink Command** - Remove modules or collections with dependency checking
@@ -46,7 +46,7 @@ npm install -g @mytechtoday/augment-extensions
 augx init
 
 # Option 1: Use the interactive GUI (recommended)
-augx --gui
+augx gui
 
 # Option 2: Link modules manually
 augx link coding-standards/html

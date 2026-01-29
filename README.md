@@ -2,16 +2,21 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
+[![Version](https://img.shields.io/badge/version-0.3.0-blue.svg)](https://github.com/mytech-today-now/augment)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+[![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
+
 Augment Extensions is a modular repository system that extends Augment Code AI's capabilities by providing domain-specific rules, coding standards, workflow integrations, and extensive examples that can be consumed across multiple projects.
 
 ## 🎯 Purpose
 
 Augment Code AI limits the `.augment/` folder to ~49,400 characters. This repository provides:
 
-- **Domain-specific rules** that exceed the character limit (WordPress, API design, security)
-- **Coding standards** for various languages and frameworks (TypeScript, Python, React)
-- **Workflow integrations** (OpenSpec, Beads, WordPress plugin development)
-- **Extensive examples** and best practices (Gutenberg blocks, REST API, WooCommerce)
+- **1.7M+ characters** of comprehensive guidelines across 20+ modules
+- **Coding standards** for 8 languages/frameworks (HTML, CSS, JS, TypeScript, Python, React, PHP)
+- **Domain-specific rules** (WordPress, API design, security, databases, MCP)
+- **Workflow integrations** (OpenSpec, Beads)
+- **Extensive examples** (Gutenberg blocks, REST API, WooCommerce, design patterns)
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
@@ -23,16 +28,19 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - 🔗 **Unlink Command** - Remove modules or collections with dependency checking
 - 🗑️ **Self-Remove** - Safely uninstall all Augment Extensions with dry-run mode
 - 🔍 **Enhanced Search** - Find modules by name, description, or tags in the GUI
+- 🧠 **Model Context Protocol (MCP)** - 219K+ characters of MCP guidelines (6 types, examples)
+- 🐘 **PHP Standards** - 186K+ characters of comprehensive PHP coding standards
+- 🗄️ **Database Guidelines** - 449K+ characters covering SQL, NoSQL, vector, and graph databases
 
-### Previous Releases (v0.2.0)
+### Previous Releases
 
-- 🎉 **Complete WordPress Plugin Development Module** - 344K+ characters of comprehensive guidelines
+**v0.2.0:**
+- 🎉 **WordPress Plugin Development Module** - 344K+ characters of comprehensive guidelines
 - 🔧 **WordPress Plugin Workflow** - Development, testing, and submission workflows
 - 📦 **Beads Workflow Integration** - Git-backed issue tracking for AI agents
 - 🧩 **Example Modules** - Gutenberg blocks, REST API plugins, WooCommerce extensions
 - 📝 **Migration Guides** - WordPress core, PHP, theme, and plugin migrations
 - 💻 **VS Code Integration** - Complete IDE setup for WordPress development
-- 🔒 **Security & Performance** - Best practices and optimization guides
 
 ## 🚀 Quick Start
 
@@ -76,34 +84,44 @@ Once initialized, AI agents automatically discover available extensions through:
 
 ```
 augment-extensions/
-├── augment-extensions/              # Extension modules
-│   ├── coding-standards/           # Language/framework standards
-│   │   ├── html/                   # HTML standards (32K chars) ✨ NEW
-│   │   ├── css/                    # CSS standards (30K chars) ✨ NEW
-│   │   ├── js/                     # JavaScript standards (101K chars) ✨ NEW
-│   │   ├── html-css-js/            # Legacy monolithic module (deprecated)
-│   │   ├── typescript/             # TypeScript coding standards (15K chars)
-│   │   ├── python/                 # Python standards
-│   │   └── react/                  # React patterns
-│   ├── collections/                # Module collections ✨ NEW
-│   │   └── html-css-js/            # HTML/CSS/JS frontend collection
-│   ├── domain-rules/               # Domain-specific rules
+├── augment-extensions/              # Extension modules (1.7M+ characters)
+│   ├── coding-standards/           # Language/framework standards (8 modules)
+│   │   ├── html/                   # HTML standards (32K chars)
+│   │   ├── css/                    # CSS standards (30K chars)
+│   │   ├── js/                     # JavaScript ES6+ standards (101K chars)
+│   │   ├── typescript/             # TypeScript standards (6K chars)
+│   │   ├── python/                 # Python standards with type hints (116K chars)
+│   │   ├── react/                  # React patterns and hooks (32K chars)
+│   │   ├── php/                    # PHP PSR standards (186K chars) ✨ NEW
+│   │   └── html-css-js/            # Legacy monolithic module (deprecated)
+│   ├── collections/                # Module collections
+│   │   └── html-css-js/            # HTML/CSS/JS frontend collection (164K chars)
+│   ├── domain-rules/               # Domain-specific rules (6 modules)
+│   │   ├── api-design/             # REST/GraphQL API design (35K chars)
+│   │   ├── database/               # Database design (SQL, NoSQL, vector) (449K chars) ✨ NEW
+│   │   ├── mcp/                    # Model Context Protocol (219K chars) ✨ NEW
+│   │   ├── security/               # OWASP security guidelines (38K chars)
 │   │   ├── wordpress/              # WordPress development (general)
-│   │   ├── wordpress-plugin/       # WordPress plugin development (344K chars)
-│   │   ├── api-design/             # API design guidelines
-│   │   └── security/               # Security best practices
-│   ├── workflows/                  # Workflow integrations
-│   │   ├── openspec/               # Spec-driven development (30K chars)
-│   │   ├── beads/                  # Git-backed issue tracking (36K chars)
-│   │   └── wordpress-plugin/       # WordPress plugin workflows (81K chars)
-│   └── examples/                   # Extensive code examples
-│       ├── design-patterns/        # Design patterns
-│       ├── gutenberg-block-plugin/ # Gutenberg block examples
-│       ├── rest-api-plugin/        # REST API plugin examples
-│       └── woocommerce-extension/  # WooCommerce extension examples
+│   │   └── wordpress-plugin/       # WordPress plugin development (344K chars)
+│   ├── workflows/                  # Workflow integrations (2 modules)
+│   │   ├── openspec/               # Spec-driven development (32K chars)
+│   │   └── beads/                  # Git-backed issue tracking (39K chars)
+│   └── examples/                   # Extensive code examples (4 modules)
+│       ├── design-patterns/        # Design patterns (42K chars)
+│       ├── gutenberg-block-plugin/ # Gutenberg block examples (15K chars)
+│       ├── rest-api-plugin/        # REST API plugin examples (40K chars)
+│       └── woocommerce-extension/  # WooCommerce extension examples (24K chars)
 ├── cli/                            # CLI tool source (augx)
+│   ├── src/                        # TypeScript source
+│   └── dist/                       # Compiled JavaScript
 ├── .augment/                       # Core rules (character-limited)
+│   └── rules/                      # Core workflow rules
 ├── .beads/                         # Beads issue tracking
+│   ├── issues.jsonl                # Issue log
+│   └── config.json                 # Beads configuration
+├── openspec/                       # OpenSpec specifications
+│   ├── specs/                      # Source of truth specs
+│   └── changes/                    # Proposed changes
 └── docs/                           # Documentation
 ```
 
@@ -158,67 +176,93 @@ augx pin typescript-standards@1.2.0
 
 ## 📖 Available Modules
 
-### Coding Standards
+### Coding Standards (8 modules, ~504K chars)
 
-- **[TypeScript Standards](./augment-extensions/coding-standards/typescript/)** (v1.0.0, ~15K chars)
-  - Naming conventions, type safety, error handling, async/await best practices
-- **Python Standards** (planned)
-- **React Patterns** (planned)
+- **[HTML Standards](./augment-extensions/coding-standards/html/)** (v1.0.0, ~32K chars)
+  - Semantic HTML, accessibility (ARIA, WCAG), forms, SEO, performance
 
-### Workflows
+- **[CSS Standards](./augment-extensions/coding-standards/css/)** (v1.0.0, ~30K chars)
+  - Modern CSS (Grid, Flexbox, Custom Properties), responsive design, BEM/SMACSS
 
-- **[OpenSpec](./augment-extensions/workflows/openspec/)** (v1.0.0, ~30K chars)
-  - Spec-driven development workflow for AI coding assistants
-  - Proposal → Specs → Tasks → Implement → Archive
-  - [Learn more](https://openspec.dev/)
+- **[JavaScript Standards](./augment-extensions/coding-standards/js/)** (v1.0.0, ~101K chars)
+  - ES6+ features, async patterns, DOM manipulation, error handling, tooling
 
-- **[Beads](./augment-extensions/workflows/beads/)** (v1.0.0, ~36K chars)
-  - Distributed, git-backed graph issue tracker for AI agents
-  - Create → Dependencies → Ready → Work → Close
-  - [Learn more](https://github.com/steveyegge/beads)
+- **[TypeScript Standards](./augment-extensions/coding-standards/typescript/)** (v1.0.0, ~6K chars)
+  - Naming conventions, type safety, best practices
 
-- **[WordPress Plugin Development](./augment-extensions/workflows/wordpress-plugin/)** (v1.2.0, ~81K chars)
-  - Complete workflows for WordPress plugin development
-  - Development cycle, testing setup, WordPress.org submission
-  - AI prompt templates and Beads task breakdown patterns
+- **[Python Standards](./augment-extensions/coding-standards/python/)** (v1.1.0, ~116K chars)
+  - Type hints (PEP 484, 585, 604), async patterns, testing, documentation
 
-### Domain Rules
+- **[React Patterns](./augment-extensions/coding-standards/react/)** (v1.0.0, ~32K chars)
+  - Component patterns, hooks, state management, performance, TypeScript integration
 
-- **[WordPress Development](./augment-extensions/domain-rules/wordpress/)** (general WordPress guidelines)
-  - Project detection, directory structure, coding standards
-  - Theme development, plugin development, Gutenberg blocks
-  - Security, performance, WooCommerce integration
+- **[PHP Standards](./augment-extensions/coding-standards/php/)** (v1.0.0, ~186K chars) ✨ NEW
+  - PSR standards (PSR-1, PSR-12, PSR-4, PSR-7, PSR-11), security (OWASP), testing, CMS integration
+
+- **[HTML/CSS/JS Collection](./augment-extensions/collections/html-css-js/)** (v1.0.0, ~164K chars)
+  - Bundles HTML, CSS, and JavaScript modules together
+
+### Domain Rules (6 modules, ~1.08M chars)
+
+- **[API Design Guidelines](./augment-extensions/domain-rules/api-design/)** (v1.0.0, ~35K chars)
+  - REST/GraphQL API design, authentication, versioning, error handling
+
+- **[Database Design Guidelines](./augment-extensions/domain-rules/database/)** (v1.0.0, ~449K chars) ✨ NEW
+  - Relational databases (schema design, indexing, query optimization, transactions)
+  - NoSQL databases (document stores, key-value stores, graph databases)
+  - Vector databases (embeddings, indexing, semantic search)
+  - Flat databases, performance optimization, security standards
+
+- **[Model Context Protocol (MCP)](./augment-extensions/domain-rules/mcp/)** (v1.0.0, ~219K chars) ✨ NEW
+  - Token-based MCP (compression, chunking, budgeting)
+  - State-based MCP (persistence, state machines, concurrency)
+  - Vector-based MCP (RAG, embeddings, semantic search)
+  - Hybrid MCP (multi-memory coordination)
+  - Graph-augmented MCP (knowledge graphs, entity relationships)
+  - Compressed MCP (mobile optimization)
+  - 6 complete implementation examples with code
+
+- **[Security Guidelines](./augment-extensions/domain-rules/security/)** (v1.0.0, ~38K chars)
+  - OWASP Top 10, authentication, encryption, input validation, secure coding
+
+- **[WordPress Development](./augment-extensions/domain-rules/wordpress/)** (v1.0.0)
+  - Project detection, directory structure, coding standards, themes, plugins, blocks
 
 - **[WordPress Plugin Development](./augment-extensions/domain-rules/wordpress-plugin/)** (v1.1.0, ~344K chars)
-  - **Most comprehensive module** - Complete WordPress plugin development guide
-  - 7 architecture patterns (procedural, OOP, MVC, singleton, DI, boilerplate)
-  - Plugin structure, activation hooks, admin interfaces, frontend functionality
-  - Gutenberg blocks, REST API, AJAX handlers, database management
-  - Security best practices, performance optimization, internationalization
-  - WooCommerce integration, testing patterns, WordPress.org submission
-  - Migration workflows (WordPress core, PHP, theme, plugin)
-  - VS Code integration (settings, tasks, snippets, extensions)
-  - Context providers (WordPress-specific file contexts)
+  - **Most comprehensive module** - 7 architecture patterns, Gutenberg blocks, REST API
+  - AJAX handlers, database management, security, performance, WooCommerce
+  - Testing patterns, WordPress.org submission, migration workflows, VS Code integration
 
-- **API Design** (planned)
-- **Security** (planned)
+### Workflows (2 modules, ~71K chars)
 
-### Examples
+- **[OpenSpec](./augment-extensions/workflows/openspec/)** (v1.0.0, ~32K chars)
+  - Spec-driven development workflow for AI coding assistants
+  - Proposal → Specs → Tasks → Implement → Archive
 
-- **[Gutenberg Block Plugin](./augment-extensions/examples/gutenberg-block-plugin/)**
-  - Complete Gutenberg block plugin examples
-  - Testimonial block with dynamic rendering
+- **[Beads](./augment-extensions/workflows/beads/)** (v1.0.0, ~39K chars)
+  - Distributed, git-backed graph issue tracker for AI agents
+  - Create → Dependencies → Ready → Work → Close
 
-- **[REST API Plugin](./augment-extensions/examples/rest-api-plugin/)**
-  - Complete REST API plugin examples
-  - Task manager API with CRUD operations
+### Examples (4 modules, ~122K chars)
 
-- **[WooCommerce Extension](./augment-extensions/examples/woocommerce-extension/)**
-  - Complete WooCommerce extension examples
-  - Product customizer with custom fields
+- **[Design Patterns](./augment-extensions/examples/design-patterns/)** (v1.0.0, ~42K chars)
+  - Common design patterns with TypeScript/JavaScript implementations
 
-- **Design Patterns** (planned)
-- **Testing Strategies** (planned)
+- **[Gutenberg Block Plugin](./augment-extensions/examples/gutenberg-block-plugin/)** (v1.0.0, ~15K chars)
+  - Complete Gutenberg block plugin with testimonial example
+
+- **[REST API Plugin](./augment-extensions/examples/rest-api-plugin/)** (v1.0.0, ~40K chars)
+  - Task manager API with CRUD operations, authentication, validation
+
+- **[WooCommerce Extension](./augment-extensions/examples/woocommerce-extension/)** (v1.0.0, ~24K chars)
+  - Product customizer with custom fields, checkout customization
+
+### Statistics
+
+- **Total Modules**: 20 (8 coding standards, 6 domain rules, 2 workflows, 4 examples)
+- **Total Character Count**: ~1,774,692 (1.7M+ characters)
+- **Languages Covered**: HTML, CSS, JavaScript, TypeScript, Python, React, PHP
+- **Domains Covered**: APIs, Databases, MCP, Security, WordPress
 
 See [MODULES.md](./MODULES.md) for detailed module documentation.
 
@@ -305,53 +349,90 @@ MIT License - See [LICENSE](./LICENSE) for details.
 
 ## 🌟 Usage Examples
 
-### Example 1: WordPress Plugin Development
+### Example 1: Frontend Web Development
 
 ```bash
 # Install CLI
 npm install -g @mytechtoday/augment-extensions
 
-# Initialize in your WordPress plugin project
+# Initialize in your project
 augx init
 
+# Option 1: Use the collection (recommended)
+augx link collections/html-css-js
+
+# Option 2: Link individual modules
+augx link coding-standards/html
+augx link coding-standards/css
+augx link coding-standards/js
+
+# Add workflows
+augx link workflows/openspec
+augx link workflows/beads
+```
+
+### Example 2: Python AI/ML Project with MCP
+
+```bash
+# Link Python standards and MCP guidelines
+augx link coding-standards/python
+augx link domain-rules/mcp
+augx link domain-rules/database  # For vector databases
+
+# View MCP guidelines
+augx show mcp
+
+# Search for specific MCP patterns
+augx search "vector-based MCP"
+augx search "RAG"
+```
+
+### Example 3: WordPress Plugin Development
+
+```bash
 # Link WordPress plugin modules
 augx link domain-rules/wordpress-plugin
-augx link workflows/wordpress-plugin
+augx link coding-standards/php
 augx link workflows/beads
-
-# View module content
-augx show wordpress-plugin
-
-# Search for specific topics
-augx search "gutenberg blocks"
-augx search "security"
-```
-
-### Example 2: TypeScript Project with OpenSpec
-
-```bash
-# Link TypeScript standards and OpenSpec workflow
-augx link coding-standards/typescript
-augx link workflows/openspec
-
-# View TypeScript standards
-augx show typescript-standards
-```
-
-### Example 3: Full WordPress Development Stack
-
-```bash
-# Link all WordPress-related modules
-augx link domain-rules/wordpress
-augx link domain-rules/wordpress-plugin
-augx link workflows/wordpress-plugin
-augx link workflows/beads
-augx link workflows/openspec
 
 # Link example modules
 augx link examples/gutenberg-block-plugin
 augx link examples/rest-api-plugin
 augx link examples/woocommerce-extension
+
+# View module content
+augx show wordpress-plugin
+```
+
+### Example 4: Full-Stack TypeScript/React Project
+
+```bash
+# Link TypeScript and React standards
+augx link coding-standards/typescript
+augx link coding-standards/react
+augx link domain-rules/api-design
+augx link domain-rules/database
+augx link domain-rules/security
+
+# Add workflows
+augx link workflows/openspec
+augx link workflows/beads
+
+# Add design patterns
+augx link examples/design-patterns
+```
+
+### Example 5: PHP Web Application
+
+```bash
+# Link PHP standards and domain rules
+augx link coding-standards/php
+augx link domain-rules/api-design
+augx link domain-rules/database
+augx link domain-rules/security
+
+# Add workflows
+augx link workflows/openspec
 ```
 
 ## 🔄 Update Propagation
@@ -431,35 +512,68 @@ augx search "REST API"
 
 ## 🎯 Key Features
 
-### WordPress Plugin Development
+### Comprehensive Coverage
 
-The most comprehensive module with **344K+ characters** of guidelines:
+- **1.7M+ characters** of guidelines across 20+ modules
+- **8 programming languages/frameworks** - HTML, CSS, JavaScript, TypeScript, Python, React, PHP
+- **6 domain-specific areas** - APIs, Databases, MCP, Security, WordPress
+- **2 workflow systems** - OpenSpec (spec-driven development), Beads (issue tracking)
+- **4 example modules** - Design patterns, Gutenberg blocks, REST API, WooCommerce
 
-- ✅ **7 Architecture Patterns** - From simple procedural to dependency injection
-- ✅ **Complete Plugin Structure** - Activation hooks, admin interfaces, frontend functionality
+### Model Context Protocol (MCP) - 219K chars ✨ NEW
+
+The most comprehensive MCP guidelines available:
+
+- ✅ **6 MCP Types** - Token-based, state-based, vector-based, hybrid, graph-augmented, compressed
+- ✅ **Universal Rules** - Context optimization, error handling, security, monitoring, testing
+- ✅ **Configuration System** - JSON schema, validation, override semantics
+- ✅ **Testing Framework** - Unit, integration, synthetic testing strategies
+- ✅ **6 Complete Examples** - Legal contract analysis, customer support, knowledge base Q&A, research assistant, supply chain analysis, mobile assistant
+- ✅ **RAG Patterns** - Retrieval Augmented Generation with embeddings and vector search
+- ✅ **State Management** - Persistent conversation state with Redis, serialization, concurrency
+- ✅ **Graph Integration** - Neo4j knowledge graphs with entity extraction and traversal
+
+### Database Design Guidelines - 449K chars ✨ NEW
+
+The largest module with comprehensive database coverage:
+
+- ✅ **Relational Databases** - Schema design, normalization, indexing, query optimization, transactions
+- ✅ **NoSQL Databases** - Document stores (MongoDB), key-value stores (Redis), graph databases (Neo4j)
+- ✅ **Vector Databases** - Embeddings, indexing, semantic search (Pinecone, Weaviate, Qdrant)
+- ✅ **Flat Databases** - CSV, JSON, SQLite use cases
+- ✅ **Performance Optimization** - Query optimization, caching, connection pooling
+- ✅ **Security Standards** - Encryption, access control, SQL injection prevention
+
+### PHP Coding Standards - 186K chars ✨ NEW
+
+Comprehensive PHP standards for modern development:
+
+- ✅ **PSR Standards** - PSR-1, PSR-12, PSR-4, PSR-7, PSR-11
+- ✅ **Security** - OWASP guidelines, input validation, SQL injection prevention
+- ✅ **Testing** - PHPUnit, integration testing, mocking
+- ✅ **CMS Integration** - WordPress, Drupal best practices
+- ✅ **E-commerce** - WooCommerce development patterns
+- ✅ **Legacy Migration** - Modernizing legacy PHP codebases
+
+### WordPress Plugin Development - 344K chars
+
+The most comprehensive WordPress module:
+
+- ✅ **7 Architecture Patterns** - Procedural, OOP, MVC, singleton, DI, boilerplate
 - ✅ **Gutenberg Blocks** - Block development with block.json and React
 - ✅ **REST API** - Custom endpoints with authentication and validation
 - ✅ **AJAX Handlers** - Secure AJAX with nonces and capability checks
 - ✅ **Database Management** - Custom tables, queries, migrations
 - ✅ **Security** - Nonces, sanitization, escaping, capability checks
-- ✅ **Performance** - Caching, query optimization, asset management
 - ✅ **WooCommerce** - Product fields, checkout, payment gateways, orders
 - ✅ **Testing** - PHPUnit, Theme Check, Plugin Check, accessibility
-- ✅ **Migration** - WordPress core, PHP, theme, plugin migrations
 - ✅ **VS Code Integration** - Complete IDE setup with tasks and snippets
-- ✅ **WordPress.org Submission** - Complete submission workflow
 
 ### Workflow Integrations
 
 - **OpenSpec** - Spec-driven development with proposal → specs → tasks → implement → archive
 - **Beads** - Git-backed issue tracking with dependencies and graph visualization
-- **WordPress Plugin Workflow** - Development, testing, and submission workflows
-
-### Example Modules
-
-- **Gutenberg Block Plugin** - Complete block plugin with testimonial example
-- **REST API Plugin** - Task manager API with CRUD operations
-- **WooCommerce Extension** - Product customizer with custom fields
+- **Coordination System** - Harmonizes OpenSpec, Beads, and .augment/ rules
 
 ## 🤝 Contributing
 
@@ -478,11 +592,27 @@ MIT License - See [LICENSE](./LICENSE) for details.
 
 ---
 
-**Status**: Active Development | **Version**: 0.2.0 | **Maintainer**: @mytech-today-now
+## 📊 Module Statistics
 
-**Latest Release**: Complete WordPress Plugin Development Module with migration guides, VS Code integration, and comprehensive examples.
+| Category | Modules | Total Characters | Highlights |
+|----------|---------|------------------|------------|
+| **Coding Standards** | 8 | ~504,000 | HTML, CSS, JS, TypeScript, Python, React, PHP |
+| **Domain Rules** | 6 | ~1,085,000 | APIs, Databases, MCP, Security, WordPress |
+| **Workflows** | 2 | ~71,000 | OpenSpec, Beads |
+| **Examples** | 4 | ~122,000 | Design Patterns, Gutenberg, REST API, WooCommerce |
+| **Collections** | 1 | ~164,000 | HTML/CSS/JS Bundle |
+| **TOTAL** | **20** | **~1,774,000** | **1.7M+ characters** |
 
-**npm Package**: `@mytechtoday/augment-extensions`
+## 🔗 Links
 
-**Repository**: https://github.com/mytech-today-now/augment
+- **npm Package**: [@mytechtoday/augment-extensions](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
+- **Repository**: [github.com/mytech-today-now/augment](https://github.com/mytech-today-now/augment)
+- **Issues**: [github.com/mytech-today-now/augment/issues](https://github.com/mytech-today-now/augment/issues)
+- **Documentation**: [MODULES.md](./MODULES.md) | [AGENTS.md](./AGENTS.md)
+
+---
+
+**Status**: Active Development | **Version**: 0.3.0 | **Maintainer**: @mytech-today-now
+
+**Latest Release**: Model Context Protocol (MCP) module, PHP standards, Database guidelines, and enhanced module management with GUI.
 

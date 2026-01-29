@@ -62,3 +62,5 @@ ai-prompts/
 
 # scripts (entire directory - project-specific tests)
 scripts/
+# Augment Extensions
+.augment/extensions.json

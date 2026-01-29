@@ -1,5 +1,16 @@
 # HTML/CSS/JavaScript Coding Standards
 
+> **⚠️ DEPRECATED**: This monolithic module has been split into three independent modules for better flexibility. Please use the new collection instead:
+>
+> ```bash
+> augx link collections/html-css-js
+> ```
+>
+> Or link individual modules:
+> - `augx link coding-standards/html`
+> - `augx link coding-standards/css`
+> - `augx link coding-standards/js`
+
 Comprehensive coding standards for modern web development with semantic HTML, modern CSS features, and ES6+ JavaScript.
 
 ## Overview

@@ -6,6 +6,9 @@
   "type": "coding-standards",
   "language": "html-css-js",
   "tags": ["html", "css", "javascript", "web", "frontend", "accessibility", "performance"],
+  "deprecated": true,
+  "deprecationMessage": "This module has been split into three independent modules. Use 'collections/html-css-js' instead, or link individual modules: 'coding-standards/html', 'coding-standards/css', 'coding-standards/js'",
+  "replacedBy": "collections/html-css-js",
   "dependencies": [],
   "augment": {
     "characterCount": 165097,

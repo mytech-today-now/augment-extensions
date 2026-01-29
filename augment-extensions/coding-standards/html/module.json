@@ -1,0 +1,44 @@
+{
+  "name": "html-standards",
+  "version": "1.0.0",
+  "displayName": "HTML Standards",
+  "description": "Comprehensive HTML coding standards for modern web development with semantic HTML, accessibility guidelines, and HTML5 features",
+  "type": "coding-standards",
+  "language": "html",
+  "tags": ["html", "web", "frontend", "accessibility", "semantic-html"],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 32477,
+    "priority": "high",
+    "category": "coding-standards",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.html",
+        "**/*.htm"
+      ],
+      "projectTypes": [
+        "web",
+        "frontend"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module using: augx link coding-standards/html",
+      "Or manually copy contents to project's .augment/ folder"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "html-standards.md"
+    ],
+    "examples": [
+      "html-examples.html"
+    ],
+    "optionalExamples": [
+      "responsive-layout.html"
+    ]
+  }
+}
+

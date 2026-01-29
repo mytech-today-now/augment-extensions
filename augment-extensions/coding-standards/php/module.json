@@ -1,0 +1,166 @@
+{
+  "name": "php-standards",
+  "version": "1.0.0",
+  "displayName": "PHP Coding Standards",
+  "description": "Comprehensive PHP coding standards following PSR standards and modern PHP best practices across various project types including web applications, APIs, CLI tools, CMS integrations, e-commerce systems, and legacy migrations.",
+  "type": "coding-standards",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "keywords": [
+    "php",
+    "coding-standards",
+    "psr",
+    "psr-1",
+    "psr-12",
+    "psr-4",
+    "psr-7",
+    "web",
+    "api",
+    "cli",
+    "cms",
+    "wordpress",
+    "ecommerce",
+    "woocommerce",
+    "legacy",
+    "security",
+    "performance",
+    "testing"
+  ],
+  "augment": {
+    "characterCount": 186539,
+    "priority": "high",
+    "category": "coding-standards",
+    "appliesTo": {
+      "languages": ["php"],
+      "filePatterns": ["**/*.php"],
+      "frameworks": [
+        "laravel",
+        "symfony",
+        "wordpress",
+        "drupal",
+        "woocommerce",
+        "magento"
+      ]
+    },
+    "categories": {
+      "web": {
+        "description": "Web applications with MVC architecture",
+        "rules": ["web-applications.md"],
+        "examples": ["web-application-example.php"]
+      },
+      "api": {
+        "description": "RESTful API development",
+        "rules": ["api-development.md"],
+        "examples": ["api-endpoint-example.php"]
+      },
+      "cli": {
+        "description": "Command-line tools and scripts",
+        "rules": ["cli-tools.md"],
+        "examples": ["cli-command-example.php"]
+      },
+      "cms": {
+        "description": "CMS integrations (WordPress, Drupal)",
+        "rules": ["cms-integration.md"],
+        "examples": ["wordpress-plugin-example.php"]
+      },
+      "ecommerce": {
+        "description": "E-commerce systems and integrations",
+        "rules": ["ecommerce.md"],
+        "examples": ["woocommerce-extension-example.php"]
+      },
+      "legacy": {
+        "description": "Legacy code migration and refactoring",
+        "rules": ["legacy-migration.md"],
+        "examples": ["legacy-refactoring-example.php"]
+      }
+    },
+    "universalRules": [
+      "psr-standards.md",
+      "naming-conventions.md",
+      "type-declarations.md",
+      "error-handling.md",
+      "security.md",
+      "performance.md",
+      "testing.md",
+      "documentation.md",
+      "code-quality.md",
+      "category-configuration.md"
+    ]
+  },
+  "installation": {
+    "required": false,
+    "instructions": "This module is automatically loaded when working with PHP files. Configure categories in .augment/php-config.json"
+  },
+  "configuration": {
+    "file": ".augment/php-config.json",
+    "schema": {
+      "php_categories": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["web", "api", "cli", "cms", "ecommerce", "legacy"]
+        },
+        "description": "Project categories to apply"
+      },
+      "psr_standards": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["PSR-1", "PSR-12", "PSR-4", "PSR-7", "PSR-11", "PSR-15", "PSR-18"]
+        },
+        "description": "PSR standards to enforce"
+      },
+      "php_version": {
+        "type": "string",
+        "description": "Minimum PHP version",
+        "default": "8.0"
+      },
+      "strict_types": {
+        "type": "boolean",
+        "description": "Enforce strict type declarations",
+        "default": true
+      },
+      "static_analysis": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "type": "string",
+            "enum": ["phpstan", "psalm"]
+          },
+          "level": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 8
+          }
+        }
+      },
+      "code_style": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "type": "string",
+            "enum": ["php-cs-fixer", "phpcs"]
+          },
+          "ruleset": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "composer": {
+      "phpunit/phpunit": "^10.0",
+      "phpstan/phpstan": "^1.10",
+      "friendsofphp/php-cs-fixer": "^3.0"
+    }
+  },
+  "links": {
+    "homepage": "https://github.com/augment-code/augment-extensions",
+    "documentation": "https://github.com/augment-code/augment-extensions/tree/main/augment-extensions/coding-standards/php",
+    "psr": "https://www.php-fig.org/psr/",
+    "phpstan": "https://phpstan.org/",
+    "php-cs-fixer": "https://cs.symfony.com/"
+  }
+}
+

@@ -1,0 +1,41 @@
+{
+  "name": "html-css-js",
+  "version": "1.0.0",
+  "displayName": "HTML/CSS/JS Frontend Collection",
+  "description": "Complete frontend development collection bundling HTML, CSS, and JavaScript standards for modern web development",
+  "type": "collection",
+  "tags": ["html", "css", "javascript", "web", "frontend", "collection"],
+  "modules": [
+    {
+      "id": "coding-standards/html",
+      "version": "^1.0.0",
+      "required": true
+    },
+    {
+      "id": "coding-standards/css",
+      "version": "^1.0.0",
+      "required": true
+    },
+    {
+      "id": "coding-standards/js",
+      "version": "^1.0.0",
+      "required": true
+    }
+  ],
+  "augment": {
+    "priority": "high",
+    "category": "collections"
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link collection using: augx link collections/html-css-js",
+      "This will automatically link all three modules (HTML, CSS, JS)"
+    ]
+  },
+  "backwardCompatibility": {
+    "aliases": ["html/css/js", "html-css-js-standards"],
+    "migrateFrom": "coding-standards/html-css-js"
+  }
+}
+

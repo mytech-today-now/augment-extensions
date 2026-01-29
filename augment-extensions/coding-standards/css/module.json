@@ -1,0 +1,44 @@
+{
+  "name": "css-standards",
+  "version": "1.0.0",
+  "displayName": "CSS Standards",
+  "description": "Comprehensive CSS coding standards for modern web development with styling, layouts, responsiveness, and preprocessors (Sass, Less)",
+  "type": "coding-standards",
+  "language": "css",
+  "tags": ["css", "web", "frontend", "styling", "responsive", "sass", "less"],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 30556,
+    "priority": "high",
+    "category": "coding-standards",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.css",
+        "**/*.scss",
+        "**/*.sass",
+        "**/*.less"
+      ],
+      "projectTypes": [
+        "web",
+        "frontend"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module using: augx link coding-standards/css",
+      "Or manually copy contents to project's .augment/ folder"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "css-standards.md",
+      "css-modern-features.md"
+    ],
+    "examples": [
+      "css-examples.css"
+    ]
+  }
+}
+

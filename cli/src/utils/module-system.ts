@@ -303,6 +303,73 @@ export function discoverModules(): Module[] {
 }
 
 /**
+ * Collection metadata interface
+ */
+export interface CollectionMetadata {
+  name: string;
+  version: string;
+  displayName: string;
+  description: string;
+  type: 'collection';
+  tags?: string[];
+  modules: Array<{
+    id: string;
+    version: string;
+    required: boolean;
+  }>;
+  augment?: {
+    priority?: 'high' | 'medium' | 'low';
+    category?: string;
+  };
+}
+
+/**
+ * Collection structure interface
+ */
+export interface Collection {
+  metadata: CollectionMetadata;
+  path: string;
+  fullName: string;
+}
+
+/**
+ * Discover all collections in the collections directory
+ */
+export function discoverCollections(): Collection[] {
+  const collections: Collection[] = [];
+  const modulesDir = getModulesDir();
+  const collectionsDir = path.join(modulesDir, 'collections');
+
+  if (!fs.existsSync(collectionsDir)) {
+    return collections;
+  }
+
+  const collectionNames = fs.readdirSync(collectionsDir, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+
+  for (const collectionName of collectionNames) {
+    const collectionPath = path.join(collectionsDir, collectionName);
+    const collectionJsonPath = path.join(collectionPath, 'collection.json');
+
+    if (fs.existsSync(collectionJsonPath)) {
+      try {
+        const metadata = JSON.parse(fs.readFileSync(collectionJsonPath, 'utf-8'));
+        collections.push({
+          metadata,
+          path: collectionPath,
+          fullName: `collections/${collectionName}`
+        });
+      } catch (error) {
+        console.error(`Error loading collection ${collectionName}:`, error);
+      }
+    }
+  }
+
+  return collections;
+}
+
+/**
  * Find module by name (supports both "category/module" and "module" formats)
  */
 export function findModule(moduleName: string): Module | null {

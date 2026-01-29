@@ -17,69 +17,24 @@ augx link <module-name>
 
 ## Coding Standards
 
-### HTML Standards
-- **Module**: `coding-standards/html`
-- **Version**: 1.0.0
-- **Character Count**: ~32,477
-- **Description**: Comprehensive HTML coding standards for semantic, accessible, and modern web development
-- **Contents**:
-  - Semantic HTML
-  - Accessibility (ARIA, WCAG)
-  - Forms and validation
-  - SEO best practices
-  - Performance optimization
-
-**Usage**:
-```bash
-augx link coding-standards/html
-```
-
-### CSS Standards
-- **Module**: `coding-standards/css`
-- **Version**: 1.0.0
-- **Character Count**: ~30,556
-- **Description**: Modern CSS coding standards including CSS Grid, Flexbox, custom properties, and responsive design
-- **Contents**:
-  - Modern CSS features (Grid, Flexbox, Custom Properties)
-  - Responsive design
-  - CSS architecture (BEM, SMACSS)
-  - Performance optimization
-  - Browser compatibility
-
-**Usage**:
-```bash
-augx link coding-standards/css
-```
-
-### JavaScript Standards
-- **Module**: `coding-standards/js`
-- **Version**: 1.0.0
-- **Character Count**: ~101,818
-- **Description**: ES6+ JavaScript coding standards including async patterns, DOM manipulation, and modern tooling
-- **Contents**:
-  - ES6+ features
-  - Async patterns (Promises, async/await)
-  - DOM manipulation
-  - Error handling
-  - Performance optimization
-  - Modern tooling (ESLint, Prettier)
-
-**Usage**:
-```bash
-augx link coding-standards/js
-```
-
-### HTML/CSS/JavaScript Standards (DEPRECATED)
+### HTML/CSS/JavaScript Standards
 - **Module**: `coding-standards/html-css-js`
 - **Version**: 1.0.0
 - **Character Count**: ~165,097
-- **Status**: ⚠️ **DEPRECATED** - Use individual modules or the `collections/html-css-js` collection instead
-- **Description**: Legacy monolithic module. Replaced by individual HTML, CSS, and JS modules for better flexibility.
-- **Migration**: Use `augx link collections/html-css-js` or link individual modules
+- **Description**: Comprehensive HTML/CSS/JavaScript coding standards for modern web development with semantic HTML, modern CSS features, and ES6+ JavaScript
+- **Contents**:
+  - Async patterns
+  - Css modern features
+  - Css standards
+  - Dom manipulation
+  - Html standards
+  - Javascript standards
+  - Performance
+  - Tooling
 
-**Usage** (not recommended):
+**Usage**:
 ```bash
-augx link coding-standards/html-css-js  # Deprecated
+augx link coding-standards/html-css-js
 ```
 
 ### Python Coding Standards
@@ -131,61 +86,6 @@ augx link coding-standards/react
 **Usage**:
 ```bash
 augx link coding-standards/typescript
-```
-
-### PHP Coding Standards
-- **Module**: `coding-standards/php`
-- **Version**: 1.0.0
-- **Character Count**: ~186,539
-- **Description**: Comprehensive PHP coding standards following PSR standards and modern PHP best practices across various project types including web applications, APIs, CLI tools, CMS integrations, e-commerce systems, and legacy migrations
-- **Contents**:
-  - PSR standards (PSR-1, PSR-12, PSR-4, PSR-7, PSR-11)
-  - Naming conventions
-  - Type declarations
-  - Error handling
-  - Security (OWASP guidelines)
-  - Performance optimization
-  - Testing standards
-  - Documentation (PHPDoc)
-  - Code quality tools
-  - Category configuration
-  - Web applications
-  - API development
-  - CLI tools
-  - CMS integration (WordPress, Drupal)
-  - E-commerce (WooCommerce)
-  - Legacy migration
-
-**Usage**:
-```bash
-augx link coding-standards/php
-```
-
-## Collections
-
-Collections bundle multiple related modules together for easier installation.
-
-### HTML/CSS/JS Frontend Collection
-- **Collection**: `collections/html-css-js`
-- **Version**: 1.0.0
-- **Description**: Complete frontend development standards bundle including HTML, CSS, and JavaScript modules
-- **Included Modules**:
-  - `coding-standards/html` (v1.0.0) - HTML standards
-  - `coding-standards/css` (v1.0.0) - CSS standards
-  - `coding-standards/js` (v1.0.0) - JavaScript standards
-- **Total Character Count**: ~164,851
-- **Backward Compatibility**: Replaces the deprecated `coding-standards/html-css-js` module
-
-**Usage**:
-```bash
-augx link collections/html-css-js
-```
-
-**Or link individual modules**:
-```bash
-augx link coding-standards/html
-augx link coding-standards/css
-augx link coding-standards/js
 ```
 
 ## Domain Rules
@@ -394,9 +294,9 @@ augx link examples/woocommerce-extension
 
 ## Statistics
 
-- **Total Modules**: 18
-- **Coding Standards**: 5
+- **Total Modules**: 17
+- **Coding Standards**: 4
 - **Domain Rules**: 5
 - **Workflows**: 2
 - **Examples**: 4
-- **Total Character Count**: ~1,774,692
+- **Total Character Count**: ~1,588,153

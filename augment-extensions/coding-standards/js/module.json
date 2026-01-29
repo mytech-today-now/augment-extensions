@@ -1,0 +1,49 @@
+{
+  "name": "js-standards",
+  "version": "1.0.0",
+  "displayName": "JavaScript Standards",
+  "description": "Comprehensive JavaScript coding standards for modern web development with ES6+, DOM manipulation, async patterns, and framework integration",
+  "type": "coding-standards",
+  "language": "javascript",
+  "tags": ["javascript", "js", "web", "frontend", "es6", "async", "dom"],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 101818,
+    "priority": "high",
+    "category": "coding-standards",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.js",
+        "**/*.mjs",
+        "**/*.cjs"
+      ],
+      "projectTypes": [
+        "web",
+        "frontend",
+        "node"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module using: augx link coding-standards/js",
+      "Or manually copy contents to project's .augment/ folder"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "javascript-standards.md",
+      "dom-manipulation.md",
+      "async-patterns.md",
+      "performance.md",
+      "tooling.md"
+    ],
+    "examples": [
+      "javascript-examples.js",
+      "async-examples.js",
+      "dom-examples.js"
+    ]
+  }
+}
+

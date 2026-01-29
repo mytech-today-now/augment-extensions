@@ -16,6 +16,9 @@ import { migrateExistingData } from './utils/migrate';
 import { validateCommand } from './commands/validate';
 import { catalogCommand, catalogHookCommand } from './commands/catalog';
 import { installRulesCommand } from './commands/install-rules';
+import { guiCommand } from './commands/gui';
+import { unlinkCommand } from './commands/unlink';
+import { selfRemoveCommand } from './commands/self-remove';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -34,6 +37,14 @@ program
   .description('Initialize Augment Extensions in current project')
   .option('--from-submodule', 'Initialize from existing submodule')
   .action(initCommand);
+
+program
+  .option('--gui', 'Launch interactive GUI for module management')
+  .action((options) => {
+    if (options.gui) {
+      guiCommand(options);
+    }
+  });
 
 program
   .command('list')
@@ -56,11 +67,9 @@ program
 
 program
   .command('unlink <module>')
-  .description('Unlink an extension module from current project')
-  .action((module: string) => {
-    console.log(chalk.yellow(`Unlinking module: ${module}`));
-    // Implementation
-  });
+  .description('Unlink an extension module or collection from current project')
+  .option('--force', 'Force unlink even if other modules depend on it')
+  .action(unlinkCommand);
 
 program
   .command('update')
@@ -105,6 +114,13 @@ program
     console.log(chalk.blue('Checking for updates...'));
     // Implementation
   });
+
+program
+  .command('self-remove')
+  .description('Completely remove all Augment Extensions from the project')
+  .option('--dry-run', 'Preview what would be removed without actually removing')
+  .option('--force', 'Skip confirmation prompts')
+  .action(selfRemoveCommand);
 
 program
   .command('diff <module>')

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "Beads Workflow",
   "description": "Distributed, git-backed graph issue tracker for AI agents. Provides persistent, structured memory for coding agents with dependency tracking.",
-  "type": "workflow",
+  "type": "workflows",
   "author": "Augment Extensions",
   "license": "MIT",
   "keywords": [
@@ -16,9 +16,10 @@
     "git-backed"
   ],
   "augment": {
-    "characterCount": 36820,
+    "characterCount": 39912,
     "priority": "high",
-    "category": "workflow",
+    "category": "workflows",
+    "tags": ["beads", "task-tracking", "workflow", "memory"],
     "compatibleWith": [
       "Claude Code",
       "CodeBuddy",

@@ -15,7 +15,16 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v0.2.0
+## ✨ What's New in v0.3.0
+
+- 🎨 **GUI Module Manager** - Interactive terminal UI for module selection (`augx --gui`)
+- 📦 **Modular HTML/CSS/JS** - Split into independent modules for better flexibility
+- 📚 **Collections System** - Bundle multiple modules together (e.g., `html-css-js` collection)
+- 🔗 **Unlink Command** - Remove modules or collections with dependency checking
+- 🗑️ **Self-Remove** - Safely uninstall all Augment Extensions with dry-run mode
+- 🔍 **Enhanced Search** - Find modules by name, description, or tags in the GUI
+
+### Previous Releases (v0.2.0)
 
 - 🎉 **Complete WordPress Plugin Development Module** - 344K+ characters of comprehensive guidelines
 - 🔧 **WordPress Plugin Workflow** - Development, testing, and submission workflows
@@ -36,10 +45,24 @@ npm install -g @mytechtoday/augment-extensions
 # Initialize in your project
 augx init
 
-# Link extension modules
-augx link coding-standards/typescript
-augx link domain-rules/api-design
-augx link domain-rules/security
+# Option 1: Use the interactive GUI (recommended)
+augx --gui
+
+# Option 2: Link modules manually
+augx link coding-standards/html
+augx link coding-standards/css
+augx link coding-standards/js
+
+# Option 3: Link a collection
+augx link collections/html-css-js
+
+# Unlink modules or collections
+augx unlink coding-standards/html
+augx unlink collections/html-css-js --force
+
+# Remove all Augment Extensions
+augx self-remove --dry-run  # Preview what will be removed
+augx self-remove            # Actually remove (with confirmation)
 ```
 
 ### For AI Agents
@@ -55,20 +78,26 @@ Once initialized, AI agents automatically discover available extensions through:
 augment-extensions/
 ├── augment-extensions/              # Extension modules
 │   ├── coding-standards/           # Language/framework standards
+│   │   ├── html/                   # HTML standards (32K chars) ✨ NEW
+│   │   ├── css/                    # CSS standards (30K chars) ✨ NEW
+│   │   ├── js/                     # JavaScript standards (101K chars) ✨ NEW
+│   │   ├── html-css-js/            # Legacy monolithic module (deprecated)
 │   │   ├── typescript/             # TypeScript coding standards (15K chars)
-│   │   ├── python/                 # Python standards (planned)
-│   │   └── react/                  # React patterns (planned)
+│   │   ├── python/                 # Python standards
+│   │   └── react/                  # React patterns
+│   ├── collections/                # Module collections ✨ NEW
+│   │   └── html-css-js/            # HTML/CSS/JS frontend collection
 │   ├── domain-rules/               # Domain-specific rules
 │   │   ├── wordpress/              # WordPress development (general)
 │   │   ├── wordpress-plugin/       # WordPress plugin development (344K chars)
-│   │   ├── api-design/             # API design guidelines (planned)
-│   │   └── security/               # Security best practices (planned)
+│   │   ├── api-design/             # API design guidelines
+│   │   └── security/               # Security best practices
 │   ├── workflows/                  # Workflow integrations
 │   │   ├── openspec/               # Spec-driven development (30K chars)
 │   │   ├── beads/                  # Git-backed issue tracking (36K chars)
 │   │   └── wordpress-plugin/       # WordPress plugin workflows (81K chars)
 │   └── examples/                   # Extensive code examples
-│       ├── design-patterns/        # Design patterns (planned)
+│       ├── design-patterns/        # Design patterns
 │       ├── gutenberg-block-plugin/ # Gutenberg block examples
 │       ├── rest-api-plugin/        # REST API plugin examples
 │       └── woocommerce-extension/  # WooCommerce extension examples

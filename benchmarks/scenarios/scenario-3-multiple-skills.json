@@ -1,0 +1,18 @@
+{
+  "id": "scenario-3-multiple-skills",
+  "name": "Scenario 3: Multiple Skills Task",
+  "description": "Query SDK and retrieve context",
+  "baseline": {
+    "modules": ["domain-rules/mcp"],
+    "files": ["benchmarks/baseline/mcp-module.txt"]
+  },
+  "skills": {
+    "skills": ["sdk-query", "context-retrieval"],
+    "files": [
+      "benchmarks/skills/sdk-query.txt",
+      "benchmarks/skills/context-retrieval.txt"
+    ]
+  },
+  "expectedReduction": 92.7
+}
+

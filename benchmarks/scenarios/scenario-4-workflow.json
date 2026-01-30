@@ -1,0 +1,15 @@
+{
+  "id": "scenario-4-workflow",
+  "name": "Scenario 4: Workflow Task",
+  "description": "Use Beads workflow for task tracking",
+  "baseline": {
+    "modules": ["workflows/beads"],
+    "files": ["benchmarks/baseline/beads-module.txt"]
+  },
+  "skills": {
+    "skills": ["beads-task-create"],
+    "files": ["benchmarks/skills/beads-task-create.txt"]
+  },
+  "expectedReduction": 85.0
+}
+

@@ -19,6 +19,7 @@ import { installRulesCommand } from './commands/install-rules';
 import { guiCommand } from './commands/gui';
 import { unlinkCommand } from './commands/unlink';
 import { selfRemoveCommand } from './commands/self-remove';
+import { skillListCommand, skillShowCommand, skillValidateCommand, skillSearchCommand, skillExecCommand, skillInjectCommand } from './commands/skill';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -224,6 +225,44 @@ program
       process.exit(1);
     }
   });
+
+// Skill commands
+const skillCommand = program.command('skill').description('Manage skills');
+
+skillCommand
+  .command('list')
+  .description('List all available skills')
+  .option('--category <category>', 'Filter by category')
+  .option('--json', 'Output as JSON')
+  .action(skillListCommand);
+
+skillCommand
+  .command('show <skillId>')
+  .description('Show skill details')
+  .option('--json', 'Output as JSON')
+  .action(skillShowCommand);
+
+skillCommand
+  .command('validate <skillId>')
+  .description('Validate skill file')
+  .action(skillValidateCommand);
+
+skillCommand
+  .command('search <query>')
+  .description('Search skills by tags or keywords')
+  .option('--json', 'Output as JSON')
+  .action(skillSearchCommand);
+
+skillCommand
+  .command('exec <skillId> [args...]')
+  .description('Execute a skill\'s CLI command')
+  .action(skillExecCommand);
+
+skillCommand
+  .command('inject <skillId>')
+  .description('Inject skill content into AI context')
+  .option('--json', 'Output as JSON')
+  .action(skillInjectCommand);
 
 program.parse(process.argv);
 

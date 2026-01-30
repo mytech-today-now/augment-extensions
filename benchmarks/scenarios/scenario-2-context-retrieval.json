@@ -1,0 +1,15 @@
+{
+  "id": "scenario-2-context-retrieval",
+  "name": "Scenario 2: Context Retrieval Task",
+  "description": "Retrieve code context for authentication",
+  "baseline": {
+    "modules": ["domain-rules/mcp"],
+    "files": ["benchmarks/baseline/mcp-module.txt"]
+  },
+  "skills": {
+    "skills": ["context-retrieval"],
+    "files": ["benchmarks/skills/context-retrieval.txt"]
+  },
+  "expectedReduction": 96.0
+}
+

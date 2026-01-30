@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "scenario": "Scenario 1: SDK Query Task",
+      "description": "Find authentication functions in an SDK",
+      "baseline_tokens": 27706,
+      "skill_tokens": 804,
+      "reduction_percentage": 97.09810149426117,
+      "expected_reduction": 96.7,
+      "meets_expectation": true
+    },
+    {
+      "scenario": "Scenario 2: Context Retrieval Task",
+      "description": "Retrieve code context for authentication",
+      "baseline_tokens": 27706,
+      "skill_tokens": 1021,
+      "reduction_percentage": 96.31487764383166,
+      "expected_reduction": 96.0,
+      "meets_expectation": true
+    },
+    {
+      "scenario": "Scenario 3: Multiple Skills Task",
+      "description": "Query SDK and retrieve context",
+      "baseline_tokens": 27706,
+      "skill_tokens": 1825,
+      "reduction_percentage": 93.41297913809284,
+      "expected_reduction": 92.7,
+      "meets_expectation": true
+    },
+    {
+      "scenario": "Scenario 4: Workflow Task",
+      "description": "Use Beads workflow for task tracking",
+      "baseline_tokens": 8804,
+      "skill_tokens": 8,
+      "reduction_percentage": 99.90913221263062,
+      "expected_reduction": 85.0,
+      "meets_expectation": true
+    },
+    {
+      "scenario": "Scenario 5: Coding Standards Task",
+      "description": "Apply TypeScript coding standards",
+      "baseline_tokens": 1440,
+      "skill_tokens": 12,
+      "reduction_percentage": 99.16666666666667,
+      "expected_reduction": 80.0,
+      "meets_expectation": true
+    }
+  ],
+  "summary": {
+    "total_scenarios": 5,
+    "passed": 5,
+    "average_reduction": 97.1803514310966
+  }
+}

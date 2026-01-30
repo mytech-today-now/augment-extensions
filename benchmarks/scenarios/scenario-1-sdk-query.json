@@ -1,0 +1,15 @@
+{
+  "id": "scenario-1-sdk-query",
+  "name": "Scenario 1: SDK Query Task",
+  "description": "Find authentication functions in an SDK",
+  "baseline": {
+    "modules": ["domain-rules/mcp"],
+    "files": ["benchmarks/baseline/mcp-module.txt"]
+  },
+  "skills": {
+    "skills": ["sdk-query"],
+    "files": ["benchmarks/skills/sdk-query.txt"]
+  },
+  "expectedReduction": 96.7
+}
+

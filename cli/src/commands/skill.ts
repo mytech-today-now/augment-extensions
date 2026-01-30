@@ -5,10 +5,17 @@
  */
 
 import chalk from 'chalk';
+import * as fs from 'fs';
+import * as path from 'path';
 import {
   discoverSkills,
   findSkill,
   validateSkillMetadata,
+  loadSkillDynamic,
+  loadSkillsBatch,
+  getSkillContentForInjection,
+  clearSkillCache,
+  getSkillCacheStats,
   Skill
 } from '../utils/skill-system';
 
@@ -239,23 +246,38 @@ export async function skillExecCommand(skillId: string, args: string[] = []): Pr
 }
 
 /**
- * Inject a skill's content into the AI context
+ * Inject a skill's content into the AI context (with dynamic loading)
  */
-export async function skillInjectCommand(skillId: string, options: { json?: boolean } = {}): Promise<void> {
+export async function skillInjectCommand(
+  skillId: string,
+  options: {
+    json?: boolean;
+    noDeps?: boolean;
+    maxTokens?: number;
+  } = {}
+): Promise<void> {
   try {
-    const skill = findSkill(skillId);
+    const loadedSkill = loadSkillDynamic(skillId, {
+      resolveDependencies: !options.noDeps,
+      maxTokens: options.maxTokens || 50000,
+      cache: true
+    });
 
-    if (!skill) {
+    if (!loadedSkill) {
       console.error(chalk.red(`Skill not found: ${skillId}`));
       process.exit(1);
     }
+
+    const { skill, dependencies, totalTokens } = loadedSkill;
 
     if (options.json) {
       console.log(JSON.stringify({
         id: skill.metadata.id,
         name: skill.metadata.name,
-        content: skill.content,
-        tokenBudget: skill.metadata.tokenBudget
+        content: getSkillContentForInjection(loadedSkill),
+        tokenBudget: skill.metadata.tokenBudget,
+        totalTokens,
+        dependencies: dependencies.map(d => d.skill.metadata.id)
       }, null, 2));
       return;
     }
@@ -264,14 +286,268 @@ export async function skillInjectCommand(skillId: string, options: { json?: bool
     console.log(chalk.blue(`\n# Skill: ${skill.metadata.name}\n`));
     console.log(chalk.gray(`ID: ${skill.metadata.id}`));
     console.log(chalk.gray(`Category: ${skill.metadata.category}`));
-    console.log(chalk.gray(`Token Budget: ${skill.metadata.tokenBudget}\n`));
+    console.log(chalk.gray(`Token Budget: ${skill.metadata.tokenBudget}`));
+    console.log(chalk.gray(`Total Tokens (with deps): ${totalTokens}`));
+
+    if (dependencies.length > 0) {
+      console.log(chalk.gray(`Dependencies: ${dependencies.map(d => d.skill.metadata.id).join(', ')}`));
+    }
+
+    console.log(chalk.gray('\n' + '─'.repeat(50)));
+    console.log(getSkillContentForInjection(loadedSkill));
     console.log(chalk.gray('─'.repeat(50)));
-    console.log(skill.content);
-    console.log(chalk.gray('─'.repeat(50)));
-    console.log(chalk.green(`\n✓ Skill content ready for AI context injection`));
+    console.log(chalk.green(`\n✓ Skill content ready for AI context injection (${totalTokens} tokens)`));
   } catch (error) {
     console.error(chalk.red(`Error injecting skill: ${error}`));
     process.exit(1);
   }
 }
 
+/**
+ * Load multiple skills in batch
+ */
+export async function skillLoadBatchCommand(
+  skillIds: string[],
+  options: {
+    json?: boolean;
+    maxTokens?: number;
+  } = {}
+): Promise<void> {
+  try {
+    const loadedSkills = loadSkillsBatch(skillIds, {
+      resolveDependencies: true,
+      maxTokens: options.maxTokens || 50000,
+      cache: true
+    });
+
+    if (loadedSkills.length === 0) {
+      console.log(chalk.yellow('No skills loaded'));
+      return;
+    }
+
+    const totalTokens = loadedSkills.reduce((sum, ls) => sum + ls.totalTokens, 0);
+
+    if (options.json) {
+      console.log(JSON.stringify({
+        skills: loadedSkills.map(ls => ({
+          id: ls.skill.metadata.id,
+          name: ls.skill.metadata.name,
+          tokenBudget: ls.skill.metadata.tokenBudget,
+          totalTokens: ls.totalTokens,
+          dependencies: ls.dependencies.map(d => d.skill.metadata.id)
+        })),
+        totalTokens
+      }, null, 2));
+      return;
+    }
+
+    console.log(chalk.blue(`\n📦 Loaded ${loadedSkills.length} skills\n`));
+    console.log(chalk.gray('─'.repeat(50)));
+
+    for (const loadedSkill of loadedSkills) {
+      const { skill, dependencies, totalTokens: skillTokens } = loadedSkill;
+      console.log(chalk.green(`  ${skill.metadata.id}`));
+      console.log(chalk.gray(`    ${skill.metadata.name}`));
+      console.log(chalk.gray(`    Tokens: ${skillTokens} (base: ${skill.metadata.tokenBudget})`));
+      if (dependencies.length > 0) {
+        console.log(chalk.gray(`    Dependencies: ${dependencies.map(d => d.skill.metadata.id).join(', ')}`));
+      }
+    }
+
+    console.log(chalk.gray('\n' + '─'.repeat(50)));
+    console.log(chalk.blue(`Total tokens: ${totalTokens}\n`));
+  } catch (error) {
+    console.error(chalk.red(`Error loading skills: ${error}`));
+    process.exit(1);
+  }
+}
+
+/**
+ * Clear skill cache
+ */
+export async function skillCacheClearCommand(): Promise<void> {
+  try {
+    const stats = getSkillCacheStats();
+    clearSkillCache();
+    console.log(chalk.green(`✓ Cleared skill cache (${stats.size} skills)`));
+  } catch (error) {
+    console.error(chalk.red(`Error clearing cache: ${error}`));
+    process.exit(1);
+  }
+}
+
+/**
+ * Show skill cache statistics
+ */
+export async function skillCacheStatsCommand(): Promise<void> {
+  try {
+    const stats = getSkillCacheStats();
+
+    console.log(chalk.blue('\n📊 Skill Cache Statistics\n'));
+    console.log(chalk.gray('─'.repeat(50)));
+    console.log(`Cached skills: ${stats.size}`);
+
+    if (stats.skills.length > 0) {
+      console.log('\nCached skill IDs:');
+      for (const skillId of stats.skills) {
+        console.log(chalk.gray(`  - ${skillId}`));
+      }
+    }
+
+    console.log(chalk.gray('\n' + '─'.repeat(50) + '\n'));
+  } catch (error) {
+    console.error(chalk.red(`Error getting cache stats: ${error}`));
+    process.exit(1);
+  }
+}
+
+/**
+ * Create a new MCP skill
+ */
+export async function skillCreateMcpCommand(options: {
+  name: string;
+  description: string;
+  category: string;
+  package?: string;
+  tokenBudget?: number;
+  tags?: string[];
+}): Promise<void> {
+  try {
+    const { name, description, category, tokenBudget = 2000, tags = [] } = options;
+
+    // Validate category
+    const validCategories = ['retrieval', 'transformation', 'analysis', 'generation', 'integration', 'utility'];
+    if (!validCategories.includes(category)) {
+      console.error(chalk.red(`Invalid category: ${category}`));
+      console.log(chalk.yellow(`Valid categories: ${validCategories.join(', ')}`));
+      process.exit(1);
+    }
+
+    // Generate skill ID from name
+    const skillId = name.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+
+    // Determine skill file path
+    const skillsDir = path.join(process.cwd(), 'skills', category);
+    const skillPath = path.join(skillsDir, `${skillId}.md`);
+
+    // Check if skill already exists
+    if (fs.existsSync(skillPath)) {
+      console.error(chalk.red(`Skill already exists: ${skillPath}`));
+      process.exit(1);
+    }
+
+    // Ensure skills directory exists
+    if (!fs.existsSync(skillsDir)) {
+      fs.mkdirSync(skillsDir, { recursive: true });
+    }
+
+    // Generate skill content
+    const mcpTags = ['mcp', ...tags];
+    const cliCommand = `augx-${skillId}`;
+
+    const skillContent = `---
+id: ${skillId}
+name: ${name}
+version: 1.0.0
+category: ${category}
+tokenBudget: ${tokenBudget}
+priority: medium
+tags: [${mcpTags.join(', ')}]
+dependencies: []
+cliCommand: ${cliCommand}
+${options.package ? `mcpServer: ${options.package}` : ''}
+---
+
+# ${name}
+
+## Purpose
+
+${description}
+
+## Installation
+
+\`\`\`bash
+# Install MCP server
+${options.package ? `npm install -g ${options.package}` : '# Add installation command here'}
+\`\`\`
+
+## Configuration
+
+Add configuration steps here (authentication, API keys, etc.)
+
+## Available Tools
+
+List the tools provided by this MCP server:
+
+1. **Tool 1** - Description
+2. **Tool 2** - Description
+3. **Tool 3** - Description
+
+## CLI Command
+
+\`\`\`bash
+${cliCommand} [options]
+\`\`\`
+
+### Options
+
+- \`--option1\` - Description
+- \`--option2\` - Description
+
+## Examples
+
+### Example 1: Basic Usage
+
+\`\`\`bash
+${cliCommand} --option1 value
+\`\`\`
+
+### Example 2: Advanced Usage
+
+\`\`\`bash
+${cliCommand} --option1 value --option2 value
+\`\`\`
+
+## Performance
+
+- **Query Time**: ~X seconds
+- **Token Usage**: ~X tokens
+- **Rate Limits**: X requests/minute
+
+## Best Practices
+
+1. Best practice 1
+2. Best practice 2
+3. Best practice 3
+
+## Troubleshooting
+
+### Issue 1
+
+**Problem**: Description of problem
+
+**Solution**: Description of solution
+
+### Issue 2
+
+**Problem**: Description of problem
+
+**Solution**: Description of solution
+`;
+
+    // Write skill file
+    fs.writeFileSync(skillPath, skillContent, 'utf-8');
+
+    console.log(chalk.green(`✅ Skill created successfully!`));
+    console.log(chalk.blue(`\n📄 Skill file: ${skillPath}`));
+    console.log(chalk.gray(`\nNext steps:`));
+    console.log(chalk.gray(`1. Edit ${skillPath} to add MCP-specific details`));
+    console.log(chalk.gray(`2. Validate skill: augx skill validate ${skillId}`));
+    console.log(chalk.gray(`3. Test skill: augx skill show ${skillId}`));
+    console.log(chalk.gray(`4. Update documentation: skills/README.md`));
+
+  } catch (error) {
+    console.error(chalk.red(`Error creating MCP skill: ${error}`));
+    process.exit(1);
+  }
+}

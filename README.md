@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-0.3.0-blue.svg)](https://github.com/mytech-today-now/augment)
+[![Version](https://img.shields.io/badge/version-0.4.0--beta-blue.svg)](https://github.com/mytech-today-now/augment)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 
@@ -20,8 +20,19 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v0.3.0
+## ✨ What's New in v0.4.0 (Beta)
 
+- 🧠 **Skills System** - Token-efficient, on-demand skill loading (500-10K tokens vs 50K+ for modules)
+- 🔧 **CLI Integration** - Wrap external tools and MCP servers as skills
+- 📊 **Skill Categories** - 6 categories: retrieval, transformation, analysis, generation, integration, utility
+- 🔍 **Skill Discovery** - `augx skill list`, `augx skill show`, `augx skill search`
+- ⚡ **Dynamic Loading** - Load skills only when needed, reducing context overhead
+- 🔗 **Dependency Resolution** - Automatic skill dependency management
+- 📝 **Skill Development** - Comprehensive guide for creating new skills
+
+### Previous Releases
+
+**v0.3.0:**
 - 🎨 **GUI Module Manager** - Interactive terminal UI for module selection (`augx gui`)
 - 📦 **Modular HTML/CSS/JS** - Split into independent modules for better flexibility
 - 📚 **Collections System** - Bundle multiple modules together (e.g., `html-css-js` collection)
@@ -31,8 +42,6 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - 🧠 **Model Context Protocol (MCP)** - 219K+ characters of MCP guidelines (6 types, examples)
 - 🐘 **PHP Standards** - 186K+ characters of comprehensive PHP coding standards
 - 🗄️ **Database Guidelines** - 449K+ characters covering SQL, NoSQL, vector, and graph databases
-
-### Previous Releases
 
 **v0.2.0:**
 - 🎉 **WordPress Plugin Development Module** - 344K+ characters of comprehensive guidelines
@@ -80,6 +89,139 @@ Once initialized, AI agents automatically discover available extensions through:
 - `.augment/extensions.json` manifest
 - CLI commands: `augx list`, `augx show <module>`
 
+## 🧠 Skills System (Beta)
+
+The Skills System provides lightweight, token-efficient modules that can be dynamically loaded on-demand, reducing context overhead while maintaining powerful capabilities.
+
+### What are Skills?
+
+Skills are focused Markdown files with YAML frontmatter that provide specific functionality:
+- **Token-efficient**: 500-10K tokens per skill (vs 50K+ for full modules)
+- **On-demand loading**: Only loaded when needed
+- **CLI integration**: Can wrap external tools and MCP servers
+- **Dependency-aware**: Automatic dependency resolution
+
+### Skill Categories
+
+- **retrieval**: Fetch data from codebases, SDKs, or documentation
+- **transformation**: Transform code or data formats
+- **analysis**: Analyze code for quality, security, or performance
+- **generation**: Generate code, documentation, or tests
+- **integration**: Integrate with external systems or APIs
+- **utility**: General-purpose utility functions
+
+### Using Skills
+
+```bash
+# List available skills
+augx skill list
+
+# Show skill details
+augx skill show sdk-query
+
+# Search for skills
+augx skill search "code review"
+
+# Validate a skill file
+augx skill validate skills/retrieval/my-skill.md
+
+# Execute a skill (if it has a CLI command)
+augx skill exec sdk-query --args "search term"
+
+# Inject skill content into context (with dynamic loading)
+augx skill inject sdk-query
+augx skill inject sdk-query --no-deps  # Skip dependencies
+augx skill inject sdk-query --max-tokens 5000  # Limit token budget
+
+# Load multiple skills in batch
+augx skill load sdk-query code-review api-design
+
+# Cache management
+augx skill cache-clear
+augx skill cache-stats
+```
+
+### For AI Agents: Skill Discovery
+
+AI agents can discover and use skills through:
+
+```bash
+# Discover all available skills
+augx skill list
+
+# Get skill content for injection (with dependencies)
+augx skill show <skill-id>
+
+# Execute skill CLI commands
+augx skill exec <skill-id> --args "..."
+
+# Dynamic loading with dependency resolution
+augx skill inject <skill-id> --max-tokens 10000
+```
+
+### Creating New Skills
+
+See [docs/SKILL_DEVELOPMENT.md](./docs/SKILL_DEVELOPMENT.md) for detailed instructions on creating, testing, and publishing new skills.
+
+## 🔌 MCP Integration (Beta)
+
+The MCP Integration allows wrapping Model Context Protocol (MCP) servers as CLI commands and skills, enabling seamless integration with external tools and services.
+
+### What is MCP?
+
+Model Context Protocol (MCP) is a protocol for AI agents to interact with external tools and services. This integration is inspired by [mcporter](https://github.com/steipete/mcporter).
+
+### MCP Commands
+
+```bash
+# List configured MCP servers
+augx mcp list
+
+# Add MCP server
+augx mcp add my-server "npx -y my-mcp-server@latest" --transport stdio
+
+# Execute MCP tool
+augx mcp exec my-server tool-name --args '{"param":"value"}'
+
+# Generate skill wrapper for MCP tool
+augx mcp wrap my-server tool-name skill-id --category integration
+
+# Discover tools from MCP server
+augx mcp discover my-server
+
+# Generate CLI using mcporter (requires mcporter installed)
+augx mcp generate-cli "npx -y server" dist/cli.js
+```
+
+### MCP Configuration
+
+MCP servers are configured in `.augment/mcp/servers.json`:
+
+```json
+{
+  "servers": [
+    {
+      "name": "my-server",
+      "command": "npx",
+      "args": ["-y", "my-mcp-server@latest"],
+      "transport": "stdio",
+      "env": {
+        "API_KEY": "your-api-key"
+      }
+    }
+  ]
+}
+```
+
+### MCP Workflow
+
+1. **Add MCP Server**: Configure server connection
+2. **Discover Tools**: List available tools from server
+3. **Generate Skill**: Create skill wrapper for tool
+4. **Execute**: Run tool via CLI or inject into AI context
+
+See [.augment/mcp/README.md](./.augment/mcp/README.md) for detailed MCP integration documentation.
+
 ## 📦 Repository Structure
 
 ```
@@ -92,7 +234,7 @@ augment-extensions/
 │   │   ├── typescript/             # TypeScript standards (6K chars)
 │   │   ├── python/                 # Python standards with type hints (116K chars)
 │   │   ├── react/                  # React patterns and hooks (32K chars)
-│   │   ├── php/                    # PHP PSR standards (186K chars) ✨ NEW
+│   │   ├── php/                    # PHP PSR standards (186K chars)
 │   │   └── html-css-js/            # Legacy monolithic module (deprecated)
 │   ├── collections/                # Module collections
 │   │   └── html-css-js/            # HTML/CSS/JS frontend collection (164K chars)
@@ -111,11 +253,21 @@ augment-extensions/
 │       ├── gutenberg-block-plugin/ # Gutenberg block examples (15K chars)
 │       ├── rest-api-plugin/        # REST API plugin examples (40K chars)
 │       └── woocommerce-extension/  # WooCommerce extension examples (24K chars)
+├── skills/                         # Skills system (Beta) 🆕
+│   ├── retrieval/                  # Retrieval skills (SDK query, context search)
+│   ├── transformation/             # Transformation skills (code refactor, format conversion)
+│   ├── analysis/                   # Analysis skills (code review, security audit)
+│   ├── generation/                 # Generation skills (code gen, docs gen)
+│   ├── integration/                # Integration skills (API, database)
+│   └── utility/                    # Utility skills (file ops, text processing)
 ├── cli/                            # CLI tool source (augx)
 │   ├── src/                        # TypeScript source
+│   │   ├── commands/               # CLI commands (including skill commands)
+│   │   └── utils/                  # Utilities (including skill-system.ts)
 │   └── dist/                       # Compiled JavaScript
 ├── .augment/                       # Core rules (character-limited)
-│   └── rules/                      # Core workflow rules
+│   ├── rules/                      # Core workflow rules
+│   └── coordination.json           # Coordination manifest (OpenSpec + Beads + Skills)
 ├── .beads/                         # Beads issue tracking
 │   ├── issues.jsonl                # Issue log
 │   └── config.json                 # Beads configuration
@@ -123,6 +275,7 @@ augment-extensions/
 │   ├── specs/                      # Source of truth specs
 │   └── changes/                    # Proposed changes
 └── docs/                           # Documentation
+    └── SKILL_DEVELOPMENT.md        # Skill development guide 🆕
 ```
 
 ## 🔧 How It Works

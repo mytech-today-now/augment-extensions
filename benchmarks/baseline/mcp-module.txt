@@ -1,0 +1,4469 @@
+# Model Context Protocol (MCP) Guidelines
+
+## Overview
+
+This module provides comprehensive guidelines for designing and implementing **Model Context Protocol (MCP)** systems. MCP refers to the strategies and patterns for managing context in Large Language Model (LLM) applications, including how context is stored, retrieved, compressed, and injected into prompts.
+
+## Key Benefits
+
+- **Multi-Type Coverage**: Guidelines for 6 MCP types (token, state, vector, hybrid, graph, compressed)
+- **Universal Rules**: Cross-cutting concerns (security, monitoring, testing)
+- **Configuration System**: Flexible project-level configuration
+- **Practical Examples**: Real-world implementation patterns
+- **Best Practices**: Industry-proven patterns and anti-patterns
+
+## Installation
+
+### With CLI (Future)
+```bash
+augx link domain-rules/mcp
+```
+
+### Without CLI (Current)
+1. Copy this module to your project's `.augment/` folder
+2. Reference rule files in your project's AGENTS.md
+3. Create `.augment/mcp-config.json` with your configuration
+
+## Directory Structure
+
+```
+augment-extensions/domain-rules/mcp/
+├── module.json                          # Module metadata
+├── README.md                            # This file
+├── rules/                               # Detailed guidelines
+│   ├── universal-rules.md               # Cross-cutting concerns
+│   ├── configuration.md                 # Configuration system
+│   ├── testing-validation.md            # Testing strategies
+│   ├── token-based-mcp.md               # Token-based MCP
+│   ├── state-based-mcp.md               # State-based MCP
+│   ├── vector-based-mcp.md              # Vector-based MCP (RAG)
+│   ├── hybrid-mcp.md                    # Hybrid multi-memory
+│   ├── graph-augmented-mcp.md           # Graph-augmented MCP
+│   └── compressed-mcp.md                # Compressed MCP
+└── examples/                            # Implementation examples
+    ├── token-based-example.md           # Legal contract analysis
+    ├── state-based-example.md           # Customer support agent
+    ├── vector-based-example.md          # Knowledge base Q&A
+    ├── hybrid-example.md                # Research assistant
+    ├── graph-augmented-example.md       # Supply chain analysis
+    └── compressed-example.md            # Mobile assistant
+```
+
+## MCP Types
+
+### 1. Token-Based MCP
+Manage context within token limits using compression, chunking, and budgeting.
+
+**Use Cases**: Long document analysis, legal contracts, research papers
+
+### 2. State-Based MCP
+Persist conversation state across sessions with serialization and concurrency control.
+
+**Use Cases**: Customer support, multi-turn agents, workflow automation
+
+### 3. Vector-Based MCP
+Retrieve relevant context using semantic search and embeddings (RAG).
+
+**Use Cases**: Knowledge base Q&A, documentation search, semantic retrieval
+
+### 4. Hybrid MCP
+Combine multiple memory types (token + vector + state) for complex applications.
+
+**Use Cases**: Research assistants, enterprise agents, multi-modal systems
+
+### 5. Graph-Augmented MCP
+Use knowledge graphs for structured context with entity relationships.
+
+**Use Cases**: Supply chain analysis, fraud detection, knowledge management
+
+### 6. Compressed MCP
+Apply aggressive compression for resource-constrained environments.
+
+**Use Cases**: Mobile apps, edge devices, cost-sensitive applications
+
+## Core Workflow
+
+### 1. Choose MCP Type(s)
+
+Analyze your requirements:
+- **Token limits?** → Token-based
+- **Persistent state?** → State-based
+- **Large knowledge base?** → Vector-based
+- **Complex requirements?** → Hybrid
+- **Structured knowledge?** → Graph-augmented
+- **Resource constraints?** → Compressed
+
+### 2. Configure Module
+
+Create `.augment/mcp-config.json`:
+
+```json
+{
+  "version": "1.0",
+  "mcpTypes": ["token", "vector"],
+  "strictMode": true,
+  "universalRules": true,
+  "typeSpecificConfig": {
+    "token": {
+      "maxContextWindow": 200000,
+      "compressionThreshold": 0.85
+    },
+    "vector": {
+      "embeddingModel": "voyage-3-large",
+      "topK": 10
+    }
+  }
+}
+```
+
+### 3. Apply Rules
+
+Follow type-specific guidelines from `rules/` directory:
+- Read universal rules first
+- Apply type-specific patterns
+- Implement testing strategies
+- Monitor and optimize
+
+### 4. Validate Implementation
+
+Use testing checklist from `rules/testing-validation.md`:
+- Unit tests for transformations
+- Integration tests for pipelines
+- Performance benchmarks
+- Security validation
+
+## Character Count
+
+**Total**: ~219,130 characters
+
+## Contents
+
+- **Universal Rules**: Context optimization, error handling, security, monitoring, testing, documentation
+- **Type-Specific Rules**: Detailed guidelines for each of 6 MCP types
+- **Configuration System**: JSON schema, validation, override semantics
+- **Testing Framework**: Unit, integration, synthetic testing strategies
+- **Examples**: 6 complete implementation examples with code
+
+## Version History
+
+- **1.0.0** (2026-01-29): Initial release with 6 MCP types and universal rules
+
+# Compressed MCP Guidelines
+
+## Overview
+
+**Compressed MCP** uses context compression techniques to maximize information density within token budgets. This enables long-term memory and efficient context management.
+
+**Key Challenge**: Balancing compression ratio with information preservation while maintaining semantic coherence and retrieval quality.
+
+---
+
+## 1. Summarization Techniques
+
+### Extractive Summarization
+
+Select key sentences:
+
+```python
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
+
+def extractive_summarize(text: str, num_sentences=5):
+    """Extract key sentences using TF-IDF"""
+    sentences = text.split('. ')
+    
+    if len(sentences) <= num_sentences:
+        return text
+    
+    # Compute TF-IDF
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(sentences)
+    
+    # Score sentences by sum of TF-IDF values
+    scores = np.array(tfidf_matrix.sum(axis=1)).flatten()
+    
+    # Get top sentences
+    top_indices = np.argsort(scores)[-num_sentences:]
+    top_indices = sorted(top_indices)  # Maintain order
+    
+    summary = '. '.join([sentences[i] for i in top_indices])
+    return summary
+```
+
+### Abstractive Summarization
+
+Generate new summary:
+
+```python
+def abstractive_summarize(text: str, max_tokens=200):
+    """Generate abstractive summary using LLM"""
+    prompt = f"""
+    Summarize the following text in {max_tokens} tokens or less.
+    Preserve key information and maintain coherence.
+    
+    Text: {text}
+    
+    Summary:
+    """
+    
+    response = llm_call(prompt, max_tokens=max_tokens)
+    return response.strip()
+```
+
+### Hierarchical Summarization
+
+Multi-level compression:
+
+```python
+def hierarchical_summarize(text: str, levels=3):
+    """Create multi-level summaries"""
+    summaries = {'original': text}
+    current_text = text
+    
+    compression_ratios = [0.5, 0.4, 0.25]  # 50%, 40%, 25% of previous
+    
+    for i, ratio in enumerate(compression_ratios[:levels]):
+        current_tokens = count_tokens(current_text)
+        target_tokens = int(current_tokens * ratio)
+        
+        summary = abstractive_summarize(current_text, max_tokens=target_tokens)
+        summaries[f'level_{i+1}'] = summary
+        current_text = summary
+    
+    return summaries
+```
+
+**Best Practices**:
+- Use extractive for factual content
+- Use abstractive for narrative content
+- Use hierarchical for long documents
+- Validate summary quality
+
+---
+
+## 2. Key-Value Memory
+
+### Key-Value Store
+
+Store compressed facts:
+
+```python
+class KeyValueMemory:
+    """Key-value memory for compressed facts"""
+    
+    def __init__(self):
+        self.memory = {}
+    
+    def extract_facts(self, text: str):
+        """Extract key-value facts from text"""
+        prompt = f"""
+        Extract key facts from the text as key-value pairs.
+        
+        Text: {text}
+        
+        Return as JSON object: {{"key1": "value1", "key2": "value2", ...}}
+        """
+        
+        response = llm_call(prompt)
+        facts = json.loads(response)
+        
+        return facts
+    
+    def add(self, text: str):
+        """Add text to memory"""
+        facts = self.extract_facts(text)
+        self.memory.update(facts)
+    
+    def retrieve(self, query: str, k=5):
+        """Retrieve relevant facts"""
+        # Compute relevance scores
+        query_embedding = generate_embeddings([query])[0]
+        
+        scored_facts = []
+        for key, value in self.memory.items():
+            fact_text = f"{key}: {value}"
+            fact_embedding = generate_embeddings([fact_text])[0]
+            score = cosine_similarity(query_embedding, fact_embedding)
+            scored_facts.append((key, value, score))
+        
+        # Return top-k
+        scored_facts.sort(key=lambda x: x[2], reverse=True)
+        return [(k, v) for k, v, s in scored_facts[:k]]
+```
+
+**Best Practices**:
+- Extract atomic facts
+- Use consistent key naming
+- Index keys for fast retrieval
+- Deduplicate facts
+
+---
+
+## 4. Context Distillation
+
+### Progressive Distillation
+
+Iteratively compress context:
+
+```python
+def progressive_distillation(text: str, target_tokens=500, iterations=3):
+    """Progressively distill text to target size"""
+    current_text = text
+    current_tokens = count_tokens(current_text)
+
+    for i in range(iterations):
+        if current_tokens <= target_tokens:
+            break
+
+        # Calculate compression ratio for this iteration
+        ratio = (target_tokens / current_tokens) ** (1 / (iterations - i))
+        target_for_iteration = int(current_tokens * ratio)
+
+        # Compress
+        prompt = f"""
+        Compress the following text to approximately {target_for_iteration} tokens.
+        Preserve the most important information.
+
+        Text: {current_text}
+
+        Compressed:
+        """
+
+        current_text = llm_call(prompt, max_tokens=target_for_iteration)
+        current_tokens = count_tokens(current_text)
+
+    return current_text
+```
+
+### Selective Distillation
+
+Compress based on importance:
+
+```python
+def selective_distillation(text: str, importance_threshold=0.7):
+    """Distill text by removing low-importance content"""
+    sentences = text.split('. ')
+
+    # Score importance of each sentence
+    prompt = f"""
+    Rate the importance of each sentence on a scale of 0-1.
+
+    Sentences:
+    {chr(10).join(f"{i+1}. {s}" for i, s in enumerate(sentences))}
+
+    Return as JSON array: [0.9, 0.5, 0.8, ...]
+    """
+
+    response = llm_call(prompt)
+    scores = json.loads(response)
+
+    # Keep only important sentences
+    important_sentences = [
+        sentences[i] for i, score in enumerate(scores)
+        if score >= importance_threshold
+    ]
+
+    return '. '.join(important_sentences)
+```
+
+### Lossy Compression
+
+Trade accuracy for compression:
+
+```python
+def lossy_compress(text: str, compression_level='medium'):
+    """Apply lossy compression"""
+    levels = {
+        'low': {'ratio': 0.7, 'detail': 'high'},
+        'medium': {'ratio': 0.4, 'detail': 'medium'},
+        'high': {'ratio': 0.2, 'detail': 'low'}
+    }
+
+    config = levels[compression_level]
+    target_tokens = int(count_tokens(text) * config['ratio'])
+
+    prompt = f"""
+    Compress the text to {target_tokens} tokens with {config['detail']} detail level.
+    Focus on key information, omit minor details.
+
+    Text: {text}
+
+    Compressed:
+    """
+
+    return llm_call(prompt, max_tokens=target_tokens)
+```
+
+**Best Practices**:
+- Use progressive distillation for gradual compression
+- Use selective distillation to preserve important content
+- Use lossy compression when high compression is needed
+- Monitor information loss
+
+---
+
+## 5. Compression Strategies
+
+### Temporal Compression
+
+Compress older content more aggressively:
+
+```python
+from datetime import datetime, timedelta
+
+class TemporalCompressor:
+    """Compress content based on age"""
+
+    def __init__(self):
+        self.memory = []
+
+    def add(self, text: str):
+        """Add text with timestamp"""
+        self.memory.append({
+            'text': text,
+            'timestamp': datetime.now(),
+            'compressed': None
+        })
+
+    def compress_by_age(self):
+        """Compress based on age"""
+        now = datetime.now()
+
+        for item in self.memory:
+            age_days = (now - item['timestamp']).days
+
+            if age_days < 1:
+                # Recent: no compression
+                item['compressed'] = item['text']
+            elif age_days < 7:
+                # 1-7 days: light compression (70%)
+                item['compressed'] = lossy_compress(item['text'], 'low')
+            elif age_days < 30:
+                # 7-30 days: medium compression (40%)
+                item['compressed'] = lossy_compress(item['text'], 'medium')
+            else:
+                # 30+ days: high compression (20%)
+                item['compressed'] = lossy_compress(item['text'], 'high')
+
+    def retrieve(self, query: str, token_budget=2048):
+        """Retrieve compressed content within budget"""
+        self.compress_by_age()
+
+        # Score relevance
+        query_embedding = generate_embeddings([query])[0]
+        scored_items = []
+
+        for item in self.memory:
+            text = item['compressed'] or item['text']
+            embedding = generate_embeddings([text])[0]
+            score = cosine_similarity(query_embedding, embedding)
+            scored_items.append((item, score))
+
+        # Select within budget
+        scored_items.sort(key=lambda x: x[1], reverse=True)
+        selected = []
+        total_tokens = 0
+
+        for item, score in scored_items:
+            text = item['compressed'] or item['text']
+            tokens = count_tokens(text)
+
+            if total_tokens + tokens <= token_budget:
+                selected.append(text)
+                total_tokens += tokens
+            else:
+                break
+
+        return selected
+```
+
+### Adaptive Compression
+
+Adjust compression based on usage:
+
+```python
+class AdaptiveCompressor:
+    """Adaptively compress based on access patterns"""
+
+    def __init__(self):
+        self.memory = {}
+
+    def add(self, key: str, text: str):
+        """Add text to memory"""
+        self.memory[key] = {
+            'original': text,
+            'compressed': None,
+            'access_count': 0,
+            'last_accessed': datetime.now()
+        }
+
+    def access(self, key: str):
+        """Access and update stats"""
+        if key in self.memory:
+            self.memory[key]['access_count'] += 1
+            self.memory[key]['last_accessed'] = datetime.now()
+            return self.memory[key]['compressed'] or self.memory[key]['original']
+        return None
+
+    def compress_all(self):
+        """Compress based on access patterns"""
+        for key, item in self.memory.items():
+            # Frequently accessed: light compression
+            if item['access_count'] > 10:
+                compression_level = 'low'
+            # Moderately accessed: medium compression
+            elif item['access_count'] > 3:
+                compression_level = 'medium'
+            # Rarely accessed: high compression
+            else:
+                compression_level = 'high'
+
+            item['compressed'] = lossy_compress(item['original'], compression_level)
+```
+
+**Best Practices**:
+- Compress older content more aggressively
+- Preserve frequently accessed content
+- Adjust compression based on usage patterns
+- Monitor compression ratios
+
+---
+
+## 6. Best Practices
+
+### DO
+
+✅ **Use hierarchical summarization**: Multiple compression levels
+✅ **Extract key-value facts**: Atomic information
+✅ **Apply temporal compression**: Age-based compression
+✅ **Monitor compression ratios**: Track information loss
+✅ **Validate compressed content**: Ensure quality
+✅ **Combine techniques**: Summarization + key-value + gist
+✅ **Cache compressed results**: Avoid recomputation
+✅ **Use adaptive compression**: Based on access patterns
+
+### DON'T
+
+❌ **Don't over-compress**: Balance ratio vs quality
+❌ **Don't lose critical information**: Validate preservation
+❌ **Don't compress everything equally**: Prioritize by importance
+❌ **Don't forget original text**: Maintain mapping
+❌ **Don't ignore compression artifacts**: Monitor quality
+❌ **Don't use single compression level**: Adapt to content
+❌ **Don't compress without validation**: Test quality
+
+---
+
+## 7. Common Pitfalls
+
+### Information Loss
+
+**Problem**: Critical information lost in compression
+
+**Solution**:
+- Use extractive summarization for facts
+- Validate compressed content
+- Maintain importance scores
+- Keep original text accessible
+
+### Poor Compression Ratio
+
+**Problem**: Compression doesn't save enough tokens
+
+**Solution**:
+- Use abstractive summarization
+- Apply progressive distillation
+- Combine multiple techniques
+- Use gist tokens for extreme compression
+
+### Semantic Drift
+
+**Problem**: Compressed content loses original meaning
+
+**Solution**:
+- Validate semantic similarity
+- Use hierarchical compression
+- Test retrieval quality
+- Adjust compression parameters
+
+---
+
+## 8. Integration Example
+
+Complete compressed MCP implementation:
+
+```python
+class CompressedMCP:
+    """Complete compressed MCP implementation"""
+
+    def __init__(self, config: dict):
+        self.config = config
+        self.temporal_compressor = TemporalCompressor()
+        self.kv_memory = KeyValueMemory()
+        self.gist_memory = GistMemory()
+
+    def add(self, text: str):
+        """Add text to all memory types"""
+        # Add to temporal compressor
+        self.temporal_compressor.add(text)
+
+        # Extract and add key-value facts
+        self.kv_memory.add(text)
+
+        # Add as gist tokens
+        self.gist_memory.add(text, num_gist_tokens=10)
+
+    def retrieve(self, query: str, token_budget=2048):
+        """Retrieve compressed context"""
+        # Allocate budget
+        temporal_budget = int(token_budget * 0.5)
+        kv_budget = int(token_budget * 0.3)
+        gist_budget = int(token_budget * 0.2)
+
+        # Retrieve from each memory type
+        temporal_results = self.temporal_compressor.retrieve(query, temporal_budget)
+        kv_results = self.kv_memory.retrieve(query, k=10)
+        gist_results = self.gist_memory.retrieve(query, k=5)
+
+        # Combine results
+        context = {
+            'temporal': temporal_results,
+            'facts': kv_results,
+            'gists': gist_results
+        }
+
+        return context
+```
+
+---
+
+## Configuration Example
+
+```json
+{
+  "mcp": {
+    "type": "compressed",
+    "summarization": {
+      "method": "hierarchical",
+      "levels": 3,
+      "compressionRatios": [0.5, 0.4, 0.25]
+    },
+    "keyValue": {
+      "enabled": true,
+      "maxFacts": 1000
+    },
+    "gistTokens": {
+      "enabled": true,
+      "tokensPerGist": 10,
+      "maxGists": 100
+    },
+    "temporalCompression": {
+      "enabled": true,
+      "ageBuckets": [
+        {"days": 1, "compressionLevel": "none"},
+        {"days": 7, "compressionLevel": "low"},
+        {"days": 30, "compressionLevel": "medium"},
+        {"days": 999999, "compressionLevel": "high"}
+      ]
+    },
+    "tokenBudget": {
+      "maxCompressedTokens": 2048,
+      "allocation": {
+        "temporal": 0.5,
+        "keyValue": 0.3,
+        "gist": 0.2
+      }
+    }
+  }
+}
+```
+
+---
+
+## 3. Gist Tokens
+
+### Gist Token Generation
+
+Compress context into special tokens:
+
+```python
+def generate_gist_tokens(text: str, num_gist_tokens=10):
+    """Generate gist tokens for text"""
+    # Use LLM to generate ultra-compressed representation
+    prompt = f"""
+    Compress the following text into exactly {num_gist_tokens} key phrases.
+    Each phrase should be 2-5 words and capture essential information.
+    
+    Text: {text}
+    
+    Return as JSON array: ["phrase1", "phrase2", ...]
+    """
+    
+    response = llm_call(prompt)
+    gist_tokens = json.loads(response)
+    
+    return gist_tokens[:num_gist_tokens]
+
+class GistMemory:
+    """Memory using gist tokens"""
+    
+    def __init__(self):
+        self.gists = []
+    
+    def add(self, text: str, num_gist_tokens=10):
+        """Add text as gist tokens"""
+        gist_tokens = generate_gist_tokens(text, num_gist_tokens)
+        self.gists.append({
+            'gist_tokens': gist_tokens,
+            'original_length': count_tokens(text),
+            'compressed_length': sum(count_tokens(t) for t in gist_tokens)
+        })
+    
+    def retrieve(self, query: str, k=5):
+        """Retrieve relevant gists"""
+        query_embedding = generate_embeddings([query])[0]
+        
+        scored_gists = []
+        for gist in self.gists:
+            gist_text = ' '.join(gist['gist_tokens'])
+            gist_embedding = generate_embeddings([gist_text])[0]
+            score = cosine_similarity(query_embedding, gist_embedding)
+            scored_gists.append((gist, score))
+        
+        scored_gists.sort(key=lambda x: x[1], reverse=True)
+        return [g for g, s in scored_gists[:k]]
+```
+
+**Best Practices**:
+- Use gist tokens for extreme compression
+- Maintain mapping to original text
+- Use for long-term memory
+- Combine with other compression techniques
+
+---
+
+
+# MCP Configuration System
+
+## Overview
+
+The MCP module uses a flexible configuration system that allows projects to customize MCP behavior through `.augment/mcp-config.json`.
+
+---
+
+## Configuration File Format
+
+### Location
+`.augment/mcp-config.json` (project root)
+
+### Schema
+
+```json
+{
+  "version": "1.0",
+  "mcpTypes": ["token", "vector"],
+  "strictMode": true,
+  "universalRules": true,
+  "typeSpecificConfig": {
+    "token": {
+      "maxContextWindow": 200000,
+      "outputBuffer": 4096,
+      "compressionThreshold": 0.85,
+      "chunkSize": 512,
+      "chunkOverlap": 50,
+      "strategy": "hierarchical-summarization"
+    },
+    "state": {
+      "persistence": "postgresql",
+      "hotPath": "redis",
+      "format": "typed-json",
+      "versionControl": true,
+      "concurrency": "optimistic"
+    },
+    "vector": {
+      "embeddingModel": "voyage-3-large",
+      "indexType": "hnsw",
+      "topK": 10,
+      "minRelevanceScore": 0.76,
+      "hybridSearch": true,
+      "reranker": "cohere-rerank-v3"
+    },
+    "hybrid": {
+      "memoryTypes": ["token", "vector", "state"],
+      "orchestration": "parallel",
+      "budgetAllocation": {
+        "token": 0.4,
+        "vector": 0.4,
+        "state": 0.2
+      }
+    },
+    "graph": {
+      "database": "neo4j",
+      "temporalDecay": 0.92,
+      "maxHops": 3,
+      "entityExtraction": "llm-based"
+    },
+    "compressed": {
+      "compressionRatio": 10,
+      "strategy": "hierarchical-summarization",
+      "compressionInterval": 15
+    }
+  },
+  "monitoring": {
+    "enabled": true,
+    "logTokenUsage": true,
+    "logRetrievalMetrics": true,
+    "alertOnOverflow": true,
+    "metricsEndpoint": "http://localhost:9090/metrics"
+  }
+}
+```
+
+---
+
+## Configuration Fields
+
+### Top-Level Fields
+
+#### `version` (required)
+- **Type**: string
+- **Description**: Configuration schema version
+- **Valid values**: "1.0"
+
+#### `mcpTypes` (required)
+- **Type**: array of strings
+- **Description**: MCP types to enable for this project
+- **Valid values**: ["token", "state", "vector", "hybrid", "graph", "compressed"]
+- **Default**: ["token"]
+- **Note**: First type in array is primary type
+
+#### `strictMode` (optional)
+- **Type**: boolean
+- **Description**: Enable strict validation of MCP patterns
+- **Default**: true
+- **Effect**: Throws errors on validation failures instead of warnings
+
+#### `universalRules` (optional)
+- **Type**: boolean
+- **Description**: Apply universal cross-cutting rules
+- **Default**: true
+- **Effect**: Enables security, monitoring, testing rules
+
+---
+
+## Type-Specific Configuration
+
+### Token-Based MCP
+
+```json
+"token": {
+  "maxContextWindow": 200000,        // Model's max context window
+  "outputBuffer": 4096,              // Reserved tokens for output
+  "compressionThreshold": 0.85,      // Compress at 85% of window
+  "chunkSize": 512,                  // Chunk size in tokens
+  "chunkOverlap": 50,                // Overlap between chunks
+  "strategy": "hierarchical-summarization"  // Compression strategy
+}
+```
+
+**Strategies**: "hierarchical-summarization", "sliding-window", "entity-spotlighting"
+
+### State-Based MCP
+
+```json
+"state": {
+  "persistence": "postgresql",       // Primary persistence layer
+  "hotPath": "redis",                // Hot-path cache
+  "format": "typed-json",            // Serialization format
+  "versionControl": true,            // Enable schema versioning
+  "concurrency": "optimistic"        // Concurrency control
+}
+```
+
+**Persistence**: "postgresql", "mongodb", "dynamodb", "file"
+**Hot Path**: "redis", "memcached", "in-memory"
+**Concurrency**: "optimistic", "pessimistic", "none"
+
+### Vector-Based MCP
+
+```json
+"vector": {
+  "embeddingModel": "voyage-3-large",  // Embedding model
+  "indexType": "hnsw",                 // Vector index type
+  "topK": 10,                          // Number of results to retrieve
+  "minRelevanceScore": 0.76,           // Minimum relevance threshold
+  "hybridSearch": true,                // Enable hybrid search
+  "reranker": "cohere-rerank-v3"       // Reranker model
+}
+```
+
+**Embedding Models**: "voyage-3-large", "bge-m3", "openai-ada-003", "cohere-embed-v3"
+**Index Types**: "hnsw", "ivf", "flat"
+
+### Hybrid MCP
+
+```json
+"hybrid": {
+  "memoryTypes": ["token", "vector", "state"],  // Memory types to combine
+  "orchestration": "parallel",                  // Orchestration strategy
+  "budgetAllocation": {                         // Budget allocation
+    "token": 0.4,
+    "vector": 0.4,
+    "state": 0.2
+  }
+}
+```
+
+**Orchestration**: "sequential", "parallel", "conditional", "adaptive"
+
+### Graph-Augmented MCP
+
+```json
+"graph": {
+  "database": "neo4j",                 // Graph database
+  "temporalDecay": 0.92,               // Decay factor per month
+  "maxHops": 3,                        // Max traversal hops
+  "entityExtraction": "llm-based"      // Entity extraction method
+}
+```
+
+**Databases**: "neo4j", "networkx", "janusgraph"
+**Entity Extraction**: "llm-based", "spacy", "flair"
+
+### Compressed MCP
+
+```json
+"compressed": {
+  "compressionRatio": 10,              // Target compression ratio
+  "strategy": "hierarchical-summarization",  // Compression strategy
+  "compressionInterval": 15            // Compress every N turns
+}
+```
+
+**Strategies**: "hierarchical-summarization", "key-value", "gist-tokens"
+
+---
+
+## Configuration Validation
+
+### Validation Rules
+
+1. **Required fields**: `version`, `mcpTypes` must be present
+2. **Type checking**: All fields must match expected types
+3. **Enum validation**: Enum fields must have valid values
+4. **Dependency checking**: Hybrid config requires valid memory types
+5. **Range validation**: Numeric fields must be within valid ranges
+
+### Validation Example
+
+```python
+from pydantic import BaseModel, Field, validator
+from typing import List, Dict, Optional
+
+class MCPConfig(BaseModel):
+    version: str = Field(..., pattern="^1\\.0$")
+    mcpTypes: List[str] = Field(..., min_items=1)
+    strictMode: bool = True
+    universalRules: bool = True
+    typeSpecificConfig: Optional[Dict] = None
+    monitoring: Optional[Dict] = None
+
+    @validator('mcpTypes')
+    def validate_mcp_types(cls, v):
+        valid_types = {"token", "state", "vector", "hybrid", "graph", "compressed"}
+        if not all(t in valid_types for t in v):
+            raise ValueError(f"Invalid MCP type. Must be one of {valid_types}")
+        return v
+```
+
+---
+
+## Override Semantics
+
+### Precedence Order (highest to lowest)
+
+1. **Project-level config** (`.augment/mcp-config.json`)
+2. **Type-specific rules** (from `rules/[type]-mcp.md`)
+3. **Universal rules** (from `rules/universal-rules.md`)
+4. **Module defaults** (from `module.json`)
+
+### Override Examples
+
+**Example 1**: Project disables strict mode
+```json
+{
+  "strictMode": false  // Overrides module default (true)
+}
+```
+
+**Example 2**: Project customizes token budget
+```json
+{
+  "typeSpecificConfig": {
+    "token": {
+      "compressionThreshold": 0.90  // Overrides default (0.85)
+    }
+  }
+}
+```
+
+---
+
+## Multi-Type Configuration
+
+### Primary Type
+
+The **first type** in `mcpTypes` array is the primary type:
+
+```json
+{
+  "mcpTypes": ["vector", "token"]  // Vector is primary
+}
+```
+
+### Budget Allocation
+
+For hybrid configurations, define budget allocation:
+
+```json
+{
+  "mcpTypes": ["token", "vector", "state"],
+  "typeSpecificConfig": {
+    "hybrid": {
+      "budgetAllocation": {
+        "token": 0.5,   // 50% of budget
+        "vector": 0.3,  // 30% of budget
+        "state": 0.2    // 20% of budget
+      }
+    }
+  }
+}
+```
+
+### Conflict Resolution
+
+When multiple types have conflicting settings:
+1. Use primary type's settings
+2. Log warning about conflict
+3. Allow explicit override in `hybrid` config
+
+---
+
+## Example Configurations
+
+### Minimal Configuration
+
+```json
+{
+  "version": "1.0",
+  "mcpTypes": ["token"]
+}
+```
+
+### Production Configuration
+
+```json
+{
+  "version": "1.0",
+  "mcpTypes": ["vector", "state"],
+  "strictMode": true,
+  "universalRules": true,
+  "typeSpecificConfig": {
+    "vector": {
+      "embeddingModel": "voyage-3-large",
+      "topK": 10,
+      "hybridSearch": true
+    },
+    "state": {
+      "persistence": "postgresql",
+      "hotPath": "redis",
+      "concurrency": "optimistic"
+    }
+  },
+  "monitoring": {
+    "enabled": true,
+    "logTokenUsage": true,
+    "alertOnOverflow": true
+  }
+}
+```
+
+# Graph-Augmented MCP Guidelines
+
+## Overview
+
+**Graph-augmented MCP** uses knowledge graphs to model entities, relationships, and temporal dynamics. This enables structured reasoning, relationship traversal, and context-aware retrieval.
+
+**Key Challenge**: Extracting entities and relationships accurately, maintaining graph consistency, and efficiently traversing large graphs.
+
+---
+
+## 1. Entity Extraction
+
+### Named Entity Recognition (NER)
+
+Extract entities using NER models:
+
+```python
+import spacy
+
+def extract_entities_ner(text: str):
+    """Extract entities using spaCy NER"""
+    nlp = spacy.load("en_core_web_sm")
+    doc = nlp(text)
+    
+    entities = []
+    for ent in doc.ents:
+        entities.append({
+            'text': ent.text,
+            'type': ent.label_,
+            'start': ent.start_char,
+            'end': ent.end_char
+        })
+    
+    return entities
+```
+
+### LLM-Based Extraction
+
+Use LLMs for complex entity extraction:
+
+```python
+def extract_entities_llm(text: str):
+    """Extract entities using LLM"""
+    prompt = f"""
+    Extract all entities from the following text.
+    For each entity, provide:
+    - name: The entity name
+    - type: The entity type (PERSON, ORG, LOCATION, PRODUCT, etc.)
+    - description: Brief description
+    
+    Text: {text}
+    
+    Return as JSON array: [{{"name": "...", "type": "...", "description": "..."}}, ...]
+    """
+    
+    response = llm_call(prompt)
+    entities = json.loads(response)
+    
+    return entities
+```
+
+### Hybrid Extraction
+
+Combine NER and LLM:
+
+```python
+def extract_entities_hybrid(text: str):
+    """Hybrid entity extraction"""
+    # Stage 1: NER for common entities
+    ner_entities = extract_entities_ner(text)
+    
+    # Stage 2: LLM for domain-specific entities
+    llm_entities = extract_entities_llm(text)
+    
+    # Merge and deduplicate
+    all_entities = {}
+    
+    for entity in ner_entities:
+        key = entity['text'].lower()
+        all_entities[key] = entity
+    
+    for entity in llm_entities:
+        key = entity['name'].lower()
+        if key not in all_entities:
+            all_entities[key] = {
+                'text': entity['name'],
+                'type': entity['type'],
+                'description': entity.get('description', '')
+            }
+    
+    return list(all_entities.values())
+```
+
+**Best Practices**:
+- Use NER for speed and common entities
+- Use LLM for domain-specific entities
+- Combine both for best results
+- Validate and deduplicate entities
+
+---
+
+## 2. Relationship Extraction
+
+### Pattern-Based Extraction
+
+Use dependency parsing:
+
+```python
+def extract_relationships_pattern(text: str):
+    """Extract relationships using dependency parsing"""
+    nlp = spacy.load("en_core_web_sm")
+    doc = nlp(text)
+    
+    relationships = []
+    
+    for token in doc:
+        if token.dep_ in ['nsubj', 'dobj']:
+            # Subject-Verb-Object pattern
+            subject = token.text
+            verb = token.head.text
+            
+            # Find object
+            for child in token.head.children:
+                if child.dep_ == 'dobj':
+                    obj = child.text
+                    relationships.append({
+                        'subject': subject,
+                        'predicate': verb,
+                        'object': obj
+                    })
+    
+    return relationships
+```
+
+### LLM-Based Extraction
+
+Use LLMs for complex relationships:
+
+```python
+def extract_relationships_llm(text: str, entities: list):
+    """Extract relationships using LLM"""
+    entity_names = [e['text'] for e in entities]
+    
+    prompt = f"""
+    Given these entities: {', '.join(entity_names)}
+    
+    Extract all relationships from the text.
+    For each relationship, provide:
+    - subject: Entity 1
+    - predicate: Relationship type
+    - object: Entity 2
+    - confidence: 0-1 score
+    
+    Text: {text}
+    
+    Return as JSON array: [{{"subject": "...", "predicate": "...", "object": "...", "confidence": 0.9}}, ...]
+    """
+    
+    response = llm_call(prompt)
+    relationships = json.loads(response)
+    
+    return relationships
+```
+
+**Best Practices**:
+- Extract entities first, then relationships
+- Use pattern-based for simple relationships
+- Use LLM for complex, domain-specific relationships
+- Validate relationship consistency
+
+---
+
+## 3. Graph Modeling
+
+### Graph Schema
+
+Define graph schema:
+
+```python
+from pydantic import BaseModel
+from typing import List, Dict, Optional
+from datetime import datetime
+
+class Entity(BaseModel):
+    id: str
+    name: str
+    type: str
+    properties: Dict[str, any] = {}
+    created_at: datetime
+    updated_at: datetime
+
+class Relationship(BaseModel):
+    id: str
+    subject_id: str
+    predicate: str
+    object_id: str
+    properties: Dict[str, any] = {}
+    confidence: float = 1.0
+    created_at: datetime
+    updated_at: datetime
+
+class KnowledgeGraph(BaseModel):
+    entities: Dict[str, Entity] = {}
+    relationships: List[Relationship] = []
+```
+
+### Graph Construction
+
+Build graph from text:
+
+```python
+class GraphBuilder:
+    """Build knowledge graph from text"""
+    
+    def __init__(self):
+        self.graph = KnowledgeGraph()
+    
+    def add_text(self, text: str):
+        """Add text to graph"""
+        # Extract entities
+        entities = extract_entities_hybrid(text)
+        
+        # Add entities to graph
+        for entity in entities:
+            entity_id = self.generate_id(entity['text'])
+            if entity_id not in self.graph.entities:
+                self.graph.entities[entity_id] = Entity(
+                    id=entity_id,
+                    name=entity['text'],
+                    type=entity['type'],
+                    created_at=datetime.now(),
+                    updated_at=datetime.now()
+                )
+        
+        # Extract relationships
+        relationships = extract_relationships_llm(text, entities)
+        
+        # Add relationships to graph
+        for rel in relationships:
+            subject_id = self.generate_id(rel['subject'])
+            object_id = self.generate_id(rel['object'])
+            
+            if subject_id in self.graph.entities and object_id in self.graph.entities:
+                self.graph.relationships.append(Relationship(
+                    id=self.generate_id(f"{subject_id}-{rel['predicate']}-{object_id}"),
+                    subject_id=subject_id,
+                    predicate=rel['predicate'],
+                    object_id=object_id,
+                    confidence=rel.get('confidence', 1.0),
+                    created_at=datetime.now(),
+                    updated_at=datetime.now()
+                ))
+    
+    def generate_id(self, text: str) -> str:
+        """Generate stable ID from text"""
+        import hashlib
+        return hashlib.md5(text.lower().encode()).hexdigest()[:8]
+```
+
+**Best Practices**:
+- Use stable IDs (hash-based)
+- Version graph schema
+- Validate graph consistency
+- Support incremental updates
+
+---
+
+## 4. Graph Traversal
+
+### Breadth-First Search (BFS)
+
+Find related entities:
+
+```python
+from collections import deque
+
+def bfs_traverse(graph: KnowledgeGraph, start_entity_id: str, max_depth=2):
+    """BFS traversal from start entity"""
+    visited = set()
+    queue = deque([(start_entity_id, 0)])
+    results = []
+
+    while queue:
+        entity_id, depth = queue.popleft()
+
+        if entity_id in visited or depth > max_depth:
+            continue
+
+        visited.add(entity_id)
+
+        # Add entity to results
+        if entity_id in graph.entities:
+            results.append({
+                'entity': graph.entities[entity_id],
+                'depth': depth
+            })
+
+        # Find connected entities
+        for rel in graph.relationships:
+            if rel.subject_id == entity_id and rel.object_id not in visited:
+                queue.append((rel.object_id, depth + 1))
+            elif rel.object_id == entity_id and rel.subject_id not in visited:
+                queue.append((rel.subject_id, depth + 1))
+
+    return results
+```
+
+### Path Finding
+
+Find paths between entities:
+
+```python
+def find_paths(graph: KnowledgeGraph, start_id: str, end_id: str, max_depth=3):
+    """Find all paths between two entities"""
+    paths = []
+
+    def dfs(current_id, target_id, path, visited, depth):
+        if depth > max_depth:
+            return
+
+        if current_id == target_id:
+            paths.append(path.copy())
+            return
+
+        visited.add(current_id)
+
+        # Explore neighbors
+        for rel in graph.relationships:
+            next_id = None
+            if rel.subject_id == current_id and rel.object_id not in visited:
+                next_id = rel.object_id
+            elif rel.object_id == current_id and rel.subject_id not in visited:
+                next_id = rel.subject_id
+
+            if next_id:
+                path.append((rel, next_id))
+                dfs(next_id, target_id, path, visited, depth + 1)
+                path.pop()
+
+        visited.remove(current_id)
+
+    dfs(start_id, end_id, [], set(), 0)
+    return paths
+```
+
+### Subgraph Extraction
+
+Extract relevant subgraph:
+
+```python
+def extract_subgraph(graph: KnowledgeGraph, entity_ids: list, max_depth=1):
+    """Extract subgraph around entities"""
+    subgraph_entities = set(entity_ids)
+    subgraph_relationships = []
+
+    # BFS from each entity
+    for entity_id in entity_ids:
+        neighbors = bfs_traverse(graph, entity_id, max_depth)
+        for neighbor in neighbors:
+            subgraph_entities.add(neighbor['entity'].id)
+
+    # Extract relationships within subgraph
+    for rel in graph.relationships:
+        if rel.subject_id in subgraph_entities and rel.object_id in subgraph_entities:
+            subgraph_relationships.append(rel)
+
+    return KnowledgeGraph(
+        entities={eid: graph.entities[eid] for eid in subgraph_entities if eid in graph.entities},
+        relationships=subgraph_relationships
+    )
+```
+
+**Best Practices**:
+- Limit traversal depth to avoid explosion
+- Use BFS for finding nearby entities
+- Use DFS for path finding
+- Extract subgraphs for context
+
+---
+
+## 5. Retrieval Strategies
+
+### Entity-Based Retrieval
+
+Retrieve by entity:
+
+```python
+def retrieve_by_entity(graph: KnowledgeGraph, entity_name: str, max_depth=2):
+    """Retrieve context around an entity"""
+    # Find entity
+    entity_id = None
+    for eid, entity in graph.entities.items():
+        if entity.name.lower() == entity_name.lower():
+            entity_id = eid
+            break
+
+    if not entity_id:
+        return []
+
+    # Traverse graph
+    results = bfs_traverse(graph, entity_id, max_depth)
+
+    # Format results
+    context = []
+    for result in results:
+        entity = result['entity']
+        depth = result['depth']
+
+        # Find relationships
+        rels = [r for r in graph.relationships
+                if r.subject_id == entity.id or r.object_id == entity.id]
+
+        context.append({
+            'entity': entity.name,
+            'type': entity.type,
+            'depth': depth,
+            'relationships': [
+                f"{graph.entities[r.subject_id].name} {r.predicate} {graph.entities[r.object_id].name}"
+                for r in rels
+                if r.subject_id in graph.entities and r.object_id in graph.entities
+            ]
+        })
+
+    return context
+```
+
+### Relationship-Based Retrieval
+
+Retrieve by relationship type:
+
+```python
+def retrieve_by_relationship(graph: KnowledgeGraph, predicate: str, limit=10):
+    """Retrieve entities connected by relationship type"""
+    results = []
+
+    for rel in graph.relationships:
+        if rel.predicate.lower() == predicate.lower():
+            subject = graph.entities.get(rel.subject_id)
+            obj = graph.entities.get(rel.object_id)
+
+            if subject and obj:
+                results.append({
+                    'subject': subject.name,
+                    'predicate': rel.predicate,
+                    'object': obj.name,
+                    'confidence': rel.confidence
+                })
+
+        if len(results) >= limit:
+            break
+
+    return results
+```
+
+**Best Practices**:
+- Use entity-based retrieval for specific queries
+- Use relationship-based retrieval for pattern queries
+- Combine with vector search for best results
+- Limit depth and breadth to control context size
+
+---
+
+## 6. Temporal Decay
+
+### Time-Based Weighting
+
+Weight entities by recency:
+
+```python
+from datetime import datetime, timedelta
+import math
+
+def apply_temporal_decay(entities: list, decay_rate=0.1):
+    """Apply temporal decay to entity scores"""
+    now = datetime.now()
+
+    for entity in entities:
+        # Calculate age in days
+        age_days = (now - entity['updated_at']).days
+
+        # Apply exponential decay
+        decay_factor = math.exp(-decay_rate * age_days)
+
+        # Update score
+        entity['score'] = entity.get('score', 1.0) * decay_factor
+
+    return sorted(entities, key=lambda x: x['score'], reverse=True)
+```
+
+### Sliding Window
+
+Keep only recent entities:
+
+```python
+def sliding_window_filter(graph: KnowledgeGraph, window_days=30):
+    """Filter graph to recent entities"""
+    cutoff = datetime.now() - timedelta(days=window_days)
+
+    # Filter entities
+    recent_entities = {
+        eid: entity
+        for eid, entity in graph.entities.items()
+        if entity.updated_at >= cutoff
+    }
+
+    # Filter relationships
+    recent_relationships = [
+        rel for rel in graph.relationships
+        if rel.updated_at >= cutoff
+        and rel.subject_id in recent_entities
+        and rel.object_id in recent_entities
+    ]
+
+    return KnowledgeGraph(
+        entities=recent_entities,
+        relationships=recent_relationships
+    )
+```
+
+**Best Practices**:
+- Apply temporal decay for long-running agents
+- Use sliding windows to limit graph size
+- Adjust decay rate based on domain
+- Preserve important entities regardless of age
+
+---
+
+## 7. Graph Database Options
+
+### Comparison
+
+| Database | Type | Scale | Query Language | Features |
+|----------|------|-------|----------------|----------|
+| **Neo4j** | Native graph | Billions | Cypher | ACID, clustering, visualization |
+| **Amazon Neptune** | Managed | Billions | Gremlin/SPARQL | Serverless, high availability |
+| **ArangoDB** | Multi-model | Millions | AQL | Document + Graph, flexible |
+| **NetworkX** | In-memory | Thousands | Python API | Simple, local, analysis |
+
+### Neo4j Example
+
+```python
+from neo4j import GraphDatabase
+
+class Neo4jGraph:
+    def __init__(self, uri, user, password):
+        self.driver = GraphDatabase.driver(uri, auth=(user, password))
+
+    def add_entity(self, entity: Entity):
+        """Add entity to Neo4j"""
+        with self.driver.session() as session:
+            session.run(
+                "MERGE (e:Entity {id: $id}) "
+                "SET e.name = $name, e.type = $type, e.updated_at = datetime()",
+                id=entity.id, name=entity.name, type=entity.type
+            )
+
+    def add_relationship(self, rel: Relationship):
+        """Add relationship to Neo4j"""
+        with self.driver.session() as session:
+            session.run(
+                "MATCH (a:Entity {id: $subject_id}), (b:Entity {id: $object_id}) "
+                "MERGE (a)-[r:RELATES {predicate: $predicate}]->(b) "
+                "SET r.confidence = $confidence, r.updated_at = datetime()",
+                subject_id=rel.subject_id,
+                object_id=rel.object_id,
+                predicate=rel.predicate,
+                confidence=rel.confidence
+            )
+
+    def traverse(self, entity_id: str, max_depth=2):
+        """Traverse graph from entity"""
+        with self.driver.session() as session:
+            result = session.run(
+                "MATCH path = (start:Entity {id: $id})-[*1..$depth]-(end:Entity) "
+                "RETURN path",
+                id=entity_id, depth=max_depth
+            )
+            return [record["path"] for record in result]
+```
+
+**Best Practices**:
+- Use Neo4j for production graph workloads
+- Use NetworkX for prototyping and analysis
+- Use managed services (Neptune) for scale
+- Optimize queries with indexes
+
+---
+
+## 8. Best Practices
+
+### DO
+
+✅ **Extract entities accurately**: Use hybrid NER + LLM
+✅ **Validate relationships**: Ensure consistency
+✅ **Limit traversal depth**: Avoid graph explosion
+✅ **Apply temporal decay**: Keep graph relevant
+✅ **Use graph databases**: For large-scale graphs
+✅ **Combine with vector search**: Best of both worlds
+✅ **Version graph schema**: Support evolution
+✅ **Monitor graph size**: Prune periodically
+
+### DON'T
+
+❌ **Don't extract all entities**: Be selective
+❌ **Don't ignore confidence scores**: Use for filtering
+❌ **Don't traverse entire graph**: Limit scope
+❌ **Don't keep stale entities**: Apply decay
+❌ **Don't use in-memory for large graphs**: Use database
+❌ **Don't forget to deduplicate**: Entities and relationships
+❌ **Don't ignore graph structure**: Leverage relationships
+
+---
+
+## 9. Common Pitfalls
+
+### Graph Explosion
+
+**Problem**: Graph grows too large, traversal too slow
+
+**Solution**:
+- Limit traversal depth (1-3 hops)
+- Apply temporal decay
+- Prune low-confidence relationships
+- Use subgraph extraction
+
+### Poor Entity Extraction
+
+**Problem**: Missing or incorrect entities
+
+**Solution**:
+- Use hybrid NER + LLM extraction
+- Validate entities against schema
+- Implement entity resolution (deduplication)
+- Use domain-specific models
+
+### Relationship Noise
+
+**Problem**: Too many low-quality relationships
+
+**Solution**:
+- Filter by confidence threshold
+- Validate relationship types
+- Use pattern-based extraction for precision
+- Review and prune periodically
+
+---
+
+## Configuration Example
+
+```json
+{
+  "mcp": {
+    "type": "graph",
+    "entityExtraction": {
+      "method": "hybrid",
+      "nerModel": "en_core_web_sm",
+      "llmModel": "gpt-4o-mini",
+      "confidenceThreshold": 0.7
+    },
+    "relationshipExtraction": {
+      "method": "llm",
+      "llmModel": "gpt-4o-mini",
+      "confidenceThreshold": 0.8
+    },
+    "graphDatabase": {
+      "provider": "neo4j",
+      "uri": "bolt://localhost:7687",
+      "maxConnections": 50
+    },
+    "traversal": {
+      "maxDepth": 2,
+      "maxResults": 50
+    },
+    "temporalDecay": {
+      "enabled": true,
+      "decayRate": 0.1,
+      "slidingWindowDays": 30
+    },
+    "tokenBudget": {
+      "maxGraphTokens": 2048
+    }
+  }
+}
+```
+
+---
+
+# Hybrid MCP Guidelines
+
+## Overview
+
+**Hybrid MCP** combines multiple memory types (token, state, vector, graph, compressed) to create sophisticated multi-memory architectures. This enables optimal context management across diverse use cases.
+
+**Key Challenge**: Orchestrating multiple memory systems with different characteristics, budgets, and retrieval patterns while maintaining coherence and performance.
+
+---
+
+## 1. Multi-Memory Architecture
+
+### Memory Type Characteristics
+
+| Memory Type | Latency | Capacity | Precision | Cost | Use Case |
+|-------------|---------|----------|-----------|------|----------|
+| **Token** | Instant | Limited (200k) | Perfect | High | Immediate context |
+| **State** | Low | Medium | Perfect | Low | Session continuity |
+| **Vector** | Medium | High | Approximate | Medium | Semantic search |
+| **Graph** | Medium | High | Structured | Medium | Relationships |
+| **Compressed** | Low | High | Lossy | Low | Long-term memory |
+
+### Architecture Patterns
+
+**Tiered Memory**:
+
+```python
+class TieredMemory:
+    """Multi-tier memory with hot/warm/cold storage"""
+    
+    def __init__(self):
+        # Tier 1: Hot (token-based, immediate context)
+        self.hot_memory = TokenMemory(max_tokens=4096)
+        
+        # Tier 2: Warm (state-based, session context)
+        self.warm_memory = StateMemory()
+        
+        # Tier 3: Cold (vector-based, long-term knowledge)
+        self.cold_memory = VectorMemory()
+    
+    def retrieve(self, query: str, token_budget=4096):
+        """Retrieve from all tiers with budget allocation"""
+        # Allocate budget across tiers
+        hot_budget = int(token_budget * 0.5)   # 50% for immediate context
+        warm_budget = int(token_budget * 0.3)  # 30% for session context
+        cold_budget = int(token_budget * 0.2)  # 20% for knowledge base
+        
+        # Retrieve from each tier
+        hot_context = self.hot_memory.get_recent(hot_budget)
+        warm_context = self.warm_memory.get_session(warm_budget)
+        cold_context = self.cold_memory.search(query, cold_budget)
+        
+        # Combine contexts
+        return self.merge_contexts(hot_context, warm_context, cold_context)
+    
+    def merge_contexts(self, hot, warm, cold):
+        """Merge contexts with deduplication"""
+        # Deduplicate and prioritize by tier
+        seen = set()
+        merged = []
+        
+        for context in [hot, warm, cold]:
+            for item in context:
+                key = self.get_key(item)
+                if key not in seen:
+                    merged.append(item)
+                    seen.add(key)
+        
+        return merged
+```
+
+**Specialized Memory**:
+
+```python
+class SpecializedMemory:
+    """Different memory types for different content"""
+    
+    def __init__(self):
+        # Vector memory for documents
+        self.document_memory = VectorMemory()
+        
+        # Graph memory for entities and relationships
+        self.entity_memory = GraphMemory()
+        
+        # State memory for conversation
+        self.conversation_memory = StateMemory()
+        
+        # Compressed memory for long-term history
+        self.history_memory = CompressedMemory()
+    
+    def retrieve(self, query: str, query_type: str):
+        """Route to appropriate memory based on query type"""
+        if query_type == "factual":
+            return self.document_memory.search(query)
+        elif query_type == "relational":
+            return self.entity_memory.traverse(query)
+        elif query_type == "conversational":
+            return self.conversation_memory.get_context()
+        elif query_type == "historical":
+            return self.history_memory.recall(query)
+        else:
+            # Hybrid retrieval
+            return self.hybrid_retrieve(query)
+```
+
+**Best Practices**:
+- Allocate token budget across memory types
+- Use tiered memory for general-purpose agents
+- Use specialized memory for domain-specific agents
+- Implement fallback strategies
+
+---
+
+## 2. Budget Allocation
+
+### Static Allocation
+
+Fixed budget per memory type:
+
+```python
+class StaticBudgetAllocator:
+    """Fixed budget allocation across memory types"""
+    
+    def __init__(self, total_budget=4096):
+        self.total_budget = total_budget
+        self.allocations = {
+            'token': 0.4,    # 40% for immediate context
+            'state': 0.2,    # 20% for session state
+            'vector': 0.3,   # 30% for semantic search
+            'graph': 0.1     # 10% for relationships
+        }
+    
+    def allocate(self):
+        """Return budget for each memory type"""
+        return {
+            memory_type: int(self.total_budget * ratio)
+            for memory_type, ratio in self.allocations.items()
+        }
+```
+
+### Dynamic Allocation
+
+Adaptive budget based on query:
+
+```python
+class DynamicBudgetAllocator:
+    """Adaptive budget allocation based on query characteristics"""
+    
+    def __init__(self, total_budget=4096):
+        self.total_budget = total_budget
+    
+    def allocate(self, query: str, query_type: str):
+        """Allocate budget based on query type"""
+        if query_type == "factual":
+            # Prioritize vector search
+            return {
+                'token': int(self.total_budget * 0.2),
+                'vector': int(self.total_budget * 0.6),
+                'graph': int(self.total_budget * 0.2)
+            }
+        elif query_type == "conversational":
+            # Prioritize conversation history
+            return {
+                'token': int(self.total_budget * 0.5),
+                'state': int(self.total_budget * 0.4),
+                'vector': int(self.total_budget * 0.1)
+            }
+        elif query_type == "analytical":
+            # Prioritize graph traversal
+            return {
+                'token': int(self.total_budget * 0.2),
+                'graph': int(self.total_budget * 0.5),
+                'vector': int(self.total_budget * 0.3)
+            }
+        else:
+            # Balanced allocation
+            return {
+                'token': int(self.total_budget * 0.3),
+                'state': int(self.total_budget * 0.2),
+                'vector': int(self.total_budget * 0.3),
+                'graph': int(self.total_budget * 0.2)
+            }
+```
+
+**Best Practices**:
+- Start with static allocation for simplicity
+- Use dynamic allocation for complex agents
+- Monitor actual usage vs allocation
+- Adjust based on performance metrics
+
+---
+
+## 3. Orchestration Patterns
+
+### Sequential Orchestration
+
+Retrieve from memory types in sequence:
+
+```python
+class SequentialOrchestrator:
+    """Retrieve from memory types sequentially"""
+
+    def __init__(self, memories: dict):
+        self.memories = memories
+
+    def retrieve(self, query: str, budget_allocation: dict):
+        """Retrieve sequentially with early stopping"""
+        results = []
+        total_tokens = 0
+
+        # Define retrieval order
+        order = ['token', 'state', 'vector', 'graph']
+
+        for memory_type in order:
+            if memory_type not in self.memories:
+                continue
+
+            budget = budget_allocation.get(memory_type, 0)
+            if budget == 0:
+                continue
+
+            # Retrieve from this memory type
+            memory_results = self.memories[memory_type].retrieve(query, budget)
+
+            # Add to results
+            for result in memory_results:
+                result_tokens = count_tokens(result)
+                if total_tokens + result_tokens <= sum(budget_allocation.values()):
+                    results.append(result)
+                    total_tokens += result_tokens
+                else:
+                    # Budget exhausted
+                    return results
+
+        return results
+```
+
+### Parallel Orchestration
+
+Retrieve from all memory types simultaneously:
+
+```python
+import asyncio
+
+class ParallelOrchestrator:
+    """Retrieve from memory types in parallel"""
+
+    def __init__(self, memories: dict):
+        self.memories = memories
+
+    async def retrieve(self, query: str, budget_allocation: dict):
+        """Retrieve in parallel and merge"""
+        # Create retrieval tasks
+        tasks = []
+        for memory_type, memory in self.memories.items():
+            budget = budget_allocation.get(memory_type, 0)
+            if budget > 0:
+                task = memory.retrieve_async(query, budget)
+                tasks.append((memory_type, task))
+
+        # Execute in parallel
+        results_by_type = {}
+        for memory_type, task in tasks:
+            results_by_type[memory_type] = await task
+
+        # Merge and deduplicate
+        return self.merge_results(results_by_type, budget_allocation)
+
+    def merge_results(self, results_by_type: dict, budget_allocation: dict):
+        """Merge results with priority weighting"""
+        merged = []
+        seen = set()
+
+        # Priority order
+        priority = ['token', 'state', 'vector', 'graph']
+
+        for memory_type in priority:
+            if memory_type not in results_by_type:
+                continue
+
+            for result in results_by_type[memory_type]:
+                key = self.get_key(result)
+                if key not in seen:
+                    merged.append(result)
+                    seen.add(key)
+
+        return merged
+```
+
+### Hierarchical Orchestration
+
+Use coarse-to-fine retrieval:
+
+```python
+class HierarchicalOrchestrator:
+    """Hierarchical retrieval with refinement"""
+
+    def __init__(self, memories: dict):
+        self.memories = memories
+
+    def retrieve(self, query: str, budget_allocation: dict):
+        """Retrieve hierarchically"""
+        # Stage 1: Coarse retrieval (compressed memory)
+        if 'compressed' in self.memories:
+            coarse_results = self.memories['compressed'].retrieve(
+                query,
+                budget_allocation.get('compressed', 512)
+            )
+
+            # Extract relevant topics/entities
+            topics = self.extract_topics(coarse_results)
+        else:
+            topics = [query]
+
+        # Stage 2: Medium retrieval (vector memory)
+        if 'vector' in self.memories:
+            medium_results = []
+            for topic in topics:
+                results = self.memories['vector'].retrieve(
+                    topic,
+                    budget_allocation.get('vector', 2048) // len(topics)
+                )
+                medium_results.extend(results)
+
+            # Extract specific entities
+            entities = self.extract_entities(medium_results)
+        else:
+            entities = []
+
+        # Stage 3: Fine retrieval (graph memory)
+        if 'graph' in self.memories and entities:
+            fine_results = self.memories['graph'].traverse(
+                entities,
+                budget_allocation.get('graph', 1024)
+            )
+        else:
+            fine_results = []
+
+        # Combine all stages
+        return self.combine_stages(coarse_results, medium_results, fine_results)
+```
+
+**Best Practices**:
+- Use sequential for simple agents
+- Use parallel for low-latency requirements
+- Use hierarchical for complex queries
+- Monitor latency and adjust
+
+---
+
+## 4. Conflict Resolution
+
+### Deduplication
+
+Remove duplicate information:
+
+```python
+def deduplicate_results(results: list, similarity_threshold=0.9):
+    """Remove duplicate results based on semantic similarity"""
+    unique_results = []
+    embeddings = generate_embeddings([r['text'] for r in results])
+
+    for i, result in enumerate(results):
+        is_duplicate = False
+
+        for j, unique_result in enumerate(unique_results):
+            similarity = cosine_similarity(embeddings[i], embeddings[j])
+            if similarity > similarity_threshold:
+                is_duplicate = True
+                break
+
+        if not is_duplicate:
+            unique_results.append(result)
+
+    return unique_results
+```
+
+### Contradiction Detection
+
+Identify conflicting information:
+
+```python
+def detect_contradictions(results: list):
+    """Detect contradictions in retrieved results"""
+    contradictions = []
+
+    for i, result1 in enumerate(results):
+        for j, result2 in enumerate(results[i+1:], start=i+1):
+            # Use LLM to detect contradiction
+            prompt = f"""
+            Do these two statements contradict each other?
+
+            Statement 1: {result1['text']}
+            Statement 2: {result2['text']}
+
+            Answer with YES or NO and explain briefly.
+            """
+
+            response = llm_call(prompt)
+            if response.startswith("YES"):
+                contradictions.append({
+                    'result1': result1,
+                    'result2': result2,
+                    'explanation': response
+                })
+
+    return contradictions
+```
+
+### Priority-Based Resolution
+
+Resolve conflicts using priority:
+
+```python
+def resolve_conflicts(results: list, priority_order: list):
+    """Resolve conflicts using memory type priority"""
+    # Group by memory type
+    by_type = {}
+    for result in results:
+        memory_type = result['memory_type']
+        if memory_type not in by_type:
+            by_type[memory_type] = []
+        by_type[memory_type].append(result)
+
+    # Detect contradictions
+    contradictions = detect_contradictions(results)
+
+    # Resolve using priority
+    resolved = []
+    for contradiction in contradictions:
+        result1 = contradiction['result1']
+        result2 = contradiction['result2']
+
+        # Choose based on priority
+        type1_priority = priority_order.index(result1['memory_type'])
+        type2_priority = priority_order.index(result2['memory_type'])
+
+        if type1_priority < type2_priority:
+            resolved.append(result1)
+        else:
+            resolved.append(result2)
+
+    # Add non-conflicting results
+    conflicting_ids = set()
+    for c in contradictions:
+        conflicting_ids.add(c['result1']['id'])
+        conflicting_ids.add(c['result2']['id'])
+
+    for result in results:
+        if result['id'] not in conflicting_ids:
+            resolved.append(result)
+
+    return resolved
+```
+
+**Best Practices**:
+- Always deduplicate results
+- Detect contradictions for critical applications
+- Use priority-based resolution (token > state > vector > graph)
+- Log conflicts for debugging
+
+---
+
+## 5. Best Practices
+
+### DO
+
+✅ **Allocate budget strategically**: Prioritize based on query type
+✅ **Use parallel retrieval**: Reduce latency
+✅ **Deduplicate results**: Avoid redundant context
+✅ **Detect contradictions**: Ensure consistency
+✅ **Monitor performance**: Track latency and quality
+✅ **Implement fallbacks**: Handle memory failures gracefully
+✅ **Version memory schemas**: Support evolution
+✅ **Cache frequently accessed data**: Improve performance
+
+### DON'T
+
+❌ **Don't use all memory types for every query**: Be selective
+❌ **Don't ignore conflicts**: Contradictions confuse LLMs
+❌ **Don't over-allocate**: Respect token budgets
+❌ **Don't forget to deduplicate**: Wastes tokens
+❌ **Don't use sequential when parallel is better**: Optimize latency
+❌ **Don't hard-code allocations**: Make them configurable
+❌ **Don't ignore memory type characteristics**: Match to use case
+
+---
+
+## 6. Common Pitfalls
+
+### Over-Complexity
+
+**Problem**: Too many memory types, complex orchestration
+
+**Solution**:
+- Start simple (2-3 memory types)
+- Add complexity only when needed
+- Measure impact of each memory type
+
+### Budget Imbalance
+
+**Problem**: Poor allocation leads to suboptimal retrieval
+
+**Solution**:
+- Monitor actual usage
+- Adjust allocations based on query patterns
+- Use dynamic allocation for diverse queries
+
+### Latency Issues
+
+**Problem**: Sequential retrieval too slow
+
+**Solution**:
+- Use parallel orchestration
+- Implement caching
+- Optimize each memory type independently
+
+### Conflict Proliferation
+
+**Problem**: Too many contradictions, unclear resolution
+
+**Solution**:
+- Establish clear priority order
+- Use recency as tiebreaker
+- Log and review conflicts regularly
+
+---
+
+## 7. Integration Example
+
+Complete hybrid MCP implementation:
+
+```python
+class HybridMCP:
+    """Complete hybrid MCP with multiple memory types"""
+
+    def __init__(self, config: dict):
+        # Initialize memory types
+        self.token_memory = TokenMemory(config['token'])
+        self.state_memory = StateMemory(config['state'])
+        self.vector_memory = VectorMemory(config['vector'])
+        self.graph_memory = GraphMemory(config['graph'])
+
+        # Initialize orchestrator
+        memories = {
+            'token': self.token_memory,
+            'state': self.state_memory,
+            'vector': self.vector_memory,
+            'graph': self.graph_memory
+        }
+        self.orchestrator = ParallelOrchestrator(memories)
+
+        # Initialize budget allocator
+        self.allocator = DynamicBudgetAllocator(config['total_budget'])
+
+    async def retrieve(self, query: str, query_type: str = "general"):
+        """Retrieve context from all memory types"""
+        # Allocate budget
+        budget = self.allocator.allocate(query, query_type)
+
+        # Retrieve in parallel
+        results = await self.orchestrator.retrieve(query, budget)
+
+        # Deduplicate
+        results = deduplicate_results(results)
+
+        # Detect and resolve conflicts
+        contradictions = detect_contradictions(results)
+        if contradictions:
+            priority_order = ['token', 'state', 'vector', 'graph']
+            results = resolve_conflicts(results, priority_order)
+
+        return results
+
+    def update(self, content: str, memory_types: list):
+        """Update multiple memory types"""
+        for memory_type in memory_types:
+            if memory_type == 'token':
+                self.token_memory.add(content)
+            elif memory_type == 'state':
+                self.state_memory.update(content)
+            elif memory_type == 'vector':
+                self.vector_memory.index(content)
+            elif memory_type == 'graph':
+                self.graph_memory.add_entities(content)
+```
+
+---
+
+## Configuration Example
+
+```json
+{
+  "mcp": {
+    "type": "hybrid",
+    "total_budget": 8192,
+    "memories": {
+      "token": {
+        "max_tokens": 4096,
+        "sliding_window": true
+      },
+      "state": {
+        "persistence": "redis",
+        "ttl": 3600
+      },
+      "vector": {
+        "provider": "pinecone",
+        "embedding_model": "text-embedding-3-small",
+        "chunk_size": 512
+      },
+      "graph": {
+        "provider": "neo4j",
+        "entity_extraction": "llm"
+      }
+    },
+    "orchestration": {
+      "mode": "parallel",
+      "deduplication": true,
+      "conflict_detection": true,
+      "priority_order": ["token", "state", "vector", "graph"]
+    },
+    "allocation": {
+      "mode": "dynamic",
+      "default": {
+        "token": 0.3,
+        "state": 0.2,
+        "vector": 0.3,
+        "graph": 0.2
+      }
+    }
+  }
+}
+```
+
+---
+
+# State-Based MCP Guidelines
+
+## Overview
+
+**State-based MCP** focuses on persisting conversation and task state across sessions. This enables multi-turn interactions, workflow continuity, and stateful agent behavior.
+
+**Key Challenge**: Maintaining consistent, reliable state across distributed systems with concurrency, serialization, and persistence concerns.
+
+---
+
+## 1. State Tracking
+
+### State Machines
+
+Define explicit state transitions:
+
+```python
+from enum import Enum
+from typing import Optional
+
+class ConversationState(Enum):
+    INITIALIZED = "initialized"
+    GATHERING_INFO = "gathering_info"
+    PROCESSING = "processing"
+    AWAITING_CONFIRMATION = "awaiting_confirmation"
+    COMPLETED = "completed"
+    ERROR = "error"
+
+class StateMachine:
+    def __init__(self, initial_state: ConversationState):
+        self.current_state = initial_state
+        self.transitions = {
+            ConversationState.INITIALIZED: [ConversationState.GATHERING_INFO],
+            ConversationState.GATHERING_INFO: [ConversationState.PROCESSING, ConversationState.ERROR],
+            ConversationState.PROCESSING: [ConversationState.AWAITING_CONFIRMATION, ConversationState.ERROR],
+            ConversationState.AWAITING_CONFIRMATION: [ConversationState.COMPLETED, ConversationState.GATHERING_INFO],
+            ConversationState.COMPLETED: [],
+            ConversationState.ERROR: [ConversationState.INITIALIZED]
+        }
+    
+    def transition(self, new_state: ConversationState) -> bool:
+        """Attempt state transition"""
+        if new_state in self.transitions[self.current_state]:
+            self.current_state = new_state
+            return True
+        return False
+```
+
+**Best Practices**:
+- Define all valid states explicitly
+- Document state transition rules
+- Validate transitions before applying
+- Log all state changes
+
+### State Schema
+
+Use typed schemas (Pydantic, TypedDict):
+
+```python
+from pydantic import BaseModel, Field, validator
+from typing import List, Dict, Optional
+from datetime import datetime
+
+class Message(BaseModel):
+    role: str
+    content: str
+    timestamp: datetime
+
+class AgentState(BaseModel):
+    schema_version: str = "1.0"
+    session_id: str
+    user_id: str
+    conversation_state: ConversationState
+    conversation_history: List[Message] = []
+    context: Dict[str, any] = {}
+    metadata: Dict[str, any] = {}
+    created_at: datetime
+    updated_at: datetime
+    etag: Optional[str] = None
+    
+    class Config:
+        validate_assignment = True  # Validate on mutation
+    
+    @validator('conversation_history')
+    def validate_history(cls, v):
+        if len(v) > 1000:
+            raise ValueError("Conversation history too long")
+        return v
+```
+
+**Best Practices**:
+- Use Pydantic for runtime validation
+- Version schemas explicitly
+- Validate on both load and mutation
+- Set reasonable limits (e.g., max history length)
+
+### State Validation
+
+Validate state on load and mutation:
+
+```python
+def validate_state(state: AgentState) -> bool:
+    """Validate state integrity"""
+    # Schema validation (handled by Pydantic)
+    
+    # Business logic validation
+    if state.conversation_state == ConversationState.COMPLETED:
+        if not state.context.get('result'):
+            raise ValueError("Completed state must have result")
+    
+    # Consistency checks
+    if len(state.conversation_history) > 0:
+        if state.conversation_history[-1].timestamp > state.updated_at:
+            raise ValueError("Message timestamp after state update")
+    
+    return True
+```
+
+### State History
+
+Maintain audit trail of state changes:
+
+```python
+class StateHistory(BaseModel):
+    state_id: str
+    session_id: str
+    previous_state: Optional[ConversationState]
+    new_state: ConversationState
+    changed_fields: List[str]
+    changed_by: str
+    timestamp: datetime
+    reason: Optional[str]
+
+def log_state_change(old_state: AgentState, new_state: AgentState, changed_by: str):
+    """Log state change to audit trail"""
+    changed_fields = []
+    for field in new_state.__fields__:
+        if getattr(old_state, field) != getattr(new_state, field):
+            changed_fields.append(field)
+    
+    history = StateHistory(
+        state_id=generate_id(),
+        session_id=new_state.session_id,
+        previous_state=old_state.conversation_state,
+        new_state=new_state.conversation_state,
+        changed_fields=changed_fields,
+        changed_by=changed_by,
+        timestamp=datetime.utcnow()
+    )
+    
+    save_to_audit_log(history)
+```
+
+---
+
+## 2. Serialization and Persistence
+
+### Format
+
+Use JSON with schema version field:
+
+```python
+def serialize_state(state: AgentState) -> str:
+    """Serialize state to JSON"""
+    return state.json(indent=2)
+
+def deserialize_state(json_str: str) -> AgentState:
+    """Deserialize state from JSON"""
+    try:
+        state = AgentState.parse_raw(json_str)
+        validate_state(state)
+        return state
+    except Exception as e:
+        logger.error(f"Failed to deserialize state: {e}")
+        raise
+```
+
+**Best Practices**:
+- Always include schema version
+- Use ISO 8601 for timestamps
+- Serialize enums as strings
+- Handle timezone-aware datetimes
+
+### Compression
+
+Apply compression for large states:
+
+```python
+import gzip
+import json
+
+def compress_state(state: AgentState) -> bytes:
+    """Compress state using gzip"""
+    json_str = state.json()
+    return gzip.compress(json_str.encode('utf-8'))
+
+def decompress_state(compressed: bytes) -> AgentState:
+    """Decompress state"""
+    json_str = gzip.decompress(compressed).decode('utf-8')
+    return AgentState.parse_raw(json_str)
+```
+
+**When to compress**:
+- State > 10KB
+- Long conversation histories
+- Large context dictionaries
+- Network transfer
+
+### Encryption
+
+Encrypt sensitive state data at rest:
+
+```python
+from cryptography.fernet import Fernet
+
+class EncryptedStateManager:
+    def __init__(self, encryption_key: bytes):
+        self.cipher = Fernet(encryption_key)
+    
+    def encrypt_state(self, state: AgentState) -> bytes:
+        """Encrypt state"""
+        json_str = state.json()
+        return self.cipher.encrypt(json_str.encode('utf-8'))
+    
+    def decrypt_state(self, encrypted: bytes) -> AgentState:
+        """Decrypt state"""
+        json_str = self.cipher.decrypt(encrypted).decode('utf-8')
+        return AgentState.parse_raw(json_str)
+```
+
+**What to encrypt**:
+- User PII
+- API keys/credentials
+- Sensitive conversation content
+- Business-critical data
+
+### Versioning
+
+Support schema migration across versions:
+
+```python
+def migrate_state(state_dict: dict) -> AgentState:
+    """Migrate state from old schema to new"""
+    version = state_dict.get('schema_version', '0.1')
+    
+    if version == '0.1':
+        # Migrate 0.1 -> 1.0
+        state_dict['schema_version'] = '1.0'
+        state_dict['metadata'] = {}  # Add new field
+        # ... other migrations
+    
+    return AgentState(**state_dict)
+```
+
+---
+
+## 3. Concurrency Safety
+
+### Optimistic Locking
+
+Use ETags or version numbers:
+
+```python
+import hashlib
+
+def generate_etag(state: AgentState) -> str:
+    """Generate ETag for state"""
+    content = state.json()
+    return hashlib.sha256(content.encode()).hexdigest()[:16]
+
+class StateManager:
+    def save_state(self, state: AgentState) -> bool:
+        """Save state with optimistic locking"""
+        # Load current state
+        current = self.load_state(state.session_id)
+        
+        # Check ETag
+        if current and current.etag != state.etag:
+            raise ConcurrencyError(
+                f"State was modified by another process. "
+                f"Expected ETag: {state.etag}, Actual: {current.etag}"
+            )
+        
+        # Update ETag
+        state.etag = generate_etag(state)
+        state.updated_at = datetime.utcnow()
+        
+        # Save
+        self.db.save(state.session_id, state.json())
+        return True
+```
+
+### Pessimistic Locking
+
+Acquire locks for critical sections:
+
+```python
+import redis
+from contextlib import contextmanager
+
+class LockManager:
+    def __init__(self, redis_client: redis.Redis):
+        self.redis = redis_client
+    
+    @contextmanager
+    def acquire_lock(self, session_id: str, timeout: int = 10):
+        """Acquire distributed lock"""
+        lock_key = f"lock:session:{session_id}"
+        lock_acquired = False
+        
+        try:
+            # Try to acquire lock
+            lock_acquired = self.redis.set(lock_key, "1", nx=True, ex=timeout)
+            if not lock_acquired:
+                raise LockError(f"Could not acquire lock for {session_id}")
+            
+            yield
+        finally:
+            # Release lock
+            if lock_acquired:
+                self.redis.delete(lock_key)
+
+# Usage
+with lock_manager.acquire_lock(session_id):
+    state = load_state(session_id)
+    state.context['key'] = 'value'
+    save_state(state)
+```
+
+### Conflict Resolution
+
+Define merge strategies for conflicts:
+
+```python
+def resolve_conflict(local_state: AgentState, remote_state: AgentState) -> AgentState:
+    """Resolve state conflict"""
+    # Strategy 1: Last-write-wins
+    if remote_state.updated_at > local_state.updated_at:
+        return remote_state
+    
+    # Strategy 2: Merge conversation histories
+    merged = local_state.copy()
+    merged.conversation_history = merge_histories(
+        local_state.conversation_history,
+        remote_state.conversation_history
+    )
+    
+    # Strategy 3: Prefer remote for specific fields
+    merged.conversation_state = remote_state.conversation_state
+    
+    return merged
+```
+
+### Idempotency
+
+Ensure state operations are idempotent:
+
+```python
+def add_message_idempotent(state: AgentState, message: Message, message_id: str):
+    """Add message idempotently"""
+    # Check if message already exists
+    existing_ids = {msg.metadata.get('id') for msg in state.conversation_history}
+    
+    if message_id not in existing_ids:
+        message.metadata['id'] = message_id
+        state.conversation_history.append(message)
+    
+    return state
+```
+
+---
+
+## 4. Integration Patterns
+
+### LangGraph
+
+State as graph nodes with typed edges:
+
+```python
+from langgraph.graph import StateGraph, END
+
+# Define state
+class GraphState(TypedDict):
+    messages: List[Message]
+    context: Dict[str, any]
+    next_action: str
+
+# Create graph
+workflow = StateGraph(GraphState)
+
+# Add nodes
+workflow.add_node("gather_info", gather_info_node)
+workflow.add_node("process", process_node)
+
+# Add edges
+workflow.add_edge("gather_info", "process")
+workflow.add_conditional_edges("process", should_continue, {
+    "continue": "gather_info",
+    "end": END
+})
+```
+
+### CrewAI
+
+Agent state with task context:
+
+```python
+from crewai import Agent, Task, Crew
+
+class StatefulAgent(Agent):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.state = AgentState(
+            session_id=generate_id(),
+            user_id=kwargs.get('user_id'),
+            conversation_state=ConversationState.INITIALIZED,
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow()
+        )
+    
+    def execute_task(self, task: Task):
+        # Load state
+        self.state = load_state(self.state.session_id)
+        
+        # Execute task
+        result = super().execute_task(task)
+        
+        # Update state
+        self.state.context['last_task'] = task.description
+        self.state.updated_at = datetime.utcnow()
+        save_state(self.state)
+        
+        return result
+```
+
+### AutoGen
+
+Conversation state with message history:
+
+```python
+from autogen import ConversableAgent
+
+class StatefulConversableAgent(ConversableAgent):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.session_id = kwargs.get('session_id', generate_id())
+        self.state = load_or_create_state(self.session_id)
+    
+    def receive(self, message, sender):
+        # Add to state
+        self.state.conversation_history.append(Message(
+            role=sender.name,
+            content=message,
+            timestamp=datetime.utcnow()
+        ))
+        save_state(self.state)
+        
+        # Process message
+        return super().receive(message, sender)
+```
+
+---
+
+## Best Practices
+
+✅ **DO**:
+- Always validate state schema on deserialization
+- Log state deltas, not full snapshots (unless checkpointing)
+- Implement graceful rollback on corruption
+- Use Redis/Memcached for hot-path state
+- Persist to PostgreSQL/MongoDB for durability
+- Test state serialization round-trips
+- Use optimistic locking for most cases
+- Version state schemas explicitly
+
+❌ **DON'T**:
+- Store unencrypted PII in state
+- Skip validation on state load
+- Ignore concurrency conflicts
+- Store unbounded data (e.g., unlimited history)
+- Use pessimistic locking unless necessary
+- Change schema without migration path
+- Log full state on every change (use deltas)
+
+# MCP Testing and Validation
+
+## Overview
+
+This document defines testing strategies and validation approaches for MCP implementations. Comprehensive testing is critical for ensuring context quality, performance, and reliability.
+
+---
+
+## 1. Unit Testing
+
+### Context Transformations
+
+Test individual context transformation functions:
+
+```python
+def test_context_compression():
+    """Test context compression maintains key information"""
+    original = "Long context with important details..."
+    compressed = compress_context(original, ratio=0.5)
+    
+    assert len(compressed) < len(original)
+    assert "important details" in compressed
+    assert calculate_fidelity(original, compressed) > 0.85
+
+def test_chunking():
+    """Test semantic chunking preserves boundaries"""
+    document = "Section 1.\n\nSection 2.\n\nSection 3."
+    chunks = chunk_document(document, chunk_size=512)
+    
+    assert len(chunks) == 3
+    assert all("Section" in chunk for chunk in chunks)
+```
+
+### State Serialization
+
+Test round-trip serialization:
+
+```python
+def test_state_serialization():
+    """Test state serialization round-trip"""
+    original_state = AgentState(
+        session_id="test-123",
+        context={"key": "value"},
+        history=[{"role": "user", "content": "Hello"}]
+    )
+    
+    # Serialize
+    serialized = original_state.json()
+    
+    # Deserialize
+    restored_state = AgentState.parse_raw(serialized)
+    
+    assert restored_state == original_state
+    assert restored_state.session_id == "test-123"
+```
+
+### Configuration Validation
+
+Test configuration parsing and validation:
+
+```python
+def test_config_validation():
+    """Test configuration validation"""
+    valid_config = {
+        "version": "1.0",
+        "mcpTypes": ["token", "vector"]
+    }
+    
+    config = MCPConfig(**valid_config)
+    assert config.mcpTypes == ["token", "vector"]
+    
+    # Test invalid config
+    invalid_config = {"version": "1.0", "mcpTypes": ["invalid"]}
+    with pytest.raises(ValidationError):
+        MCPConfig(**invalid_config)
+```
+
+### Error Handling
+
+Test error scenarios:
+
+```python
+def test_overflow_handling():
+    """Test graceful handling of context overflow"""
+    large_context = "x" * 300000  # Exceeds 200k token limit
+    
+    result = process_context(large_context, max_tokens=200000)
+    
+    assert result.truncated == True
+    assert result.token_count <= 200000
+    assert result.warning == "Context truncated due to token limit"
+```
+
+---
+
+## 2. Integration Testing
+
+### End-to-End Pipeline
+
+Test complete MCP pipeline:
+
+```python
+def test_rag_pipeline():
+    """Test end-to-end RAG pipeline"""
+    # Setup
+    knowledge_base = ["Document 1 content", "Document 2 content"]
+    index_documents(knowledge_base)
+    
+    # Query
+    query = "What is in document 1?"
+    results = retrieve_and_generate(query, top_k=3)
+    
+    # Validate
+    assert len(results.retrieved_docs) <= 3
+    assert results.generated_response is not None
+    assert "Document 1" in results.generated_response
+```
+
+### Multi-Type Integration
+
+Test hybrid MCP configurations:
+
+```python
+def test_hybrid_mcp():
+    """Test hybrid MCP with multiple memory types"""
+    # Initialize hybrid MCP
+    mcp = HybridMCP(
+        memory_types=["token", "vector", "state"],
+        budget_allocation={"token": 0.4, "vector": 0.4, "state": 0.2}
+    )
+    
+    # Process request
+    response = mcp.process_request(
+        query="What did we discuss yesterday?",
+        session_id="test-session"
+    )
+    
+    # Validate all memory types were used
+    assert response.token_memory_used == True
+    assert response.vector_memory_used == True
+    assert response.state_memory_used == True
+```
+
+### Performance Testing
+
+Benchmark latency and throughput:
+
+```python
+def test_retrieval_latency():
+    """Test retrieval latency meets SLA"""
+    import time
+    
+    start = time.time()
+    results = retrieve_context(query="test query", top_k=10)
+    latency = time.time() - start
+    
+    assert latency < 0.1  # 100ms SLA
+    assert len(results) == 10
+```
+
+### Regression Testing
+
+Validate against known good outputs:
+
+```python
+def test_regression():
+    """Test against golden dataset"""
+    golden_dataset = load_golden_dataset()
+    
+    for example in golden_dataset:
+        result = process_context(example.input)
+        
+        # Compare with expected output
+        similarity = calculate_similarity(result, example.expected_output)
+        assert similarity > 0.95  # 95% similarity threshold
+```
+
+---
+
+## 3. Synthetic Testing
+
+### Context Replay
+
+Save and replay contexts:
+
+```python
+def test_context_replay():
+    """Test context replay for debugging"""
+    # Save context
+    save_context_snapshot(
+        session_id="test-123",
+        context=current_context,
+        timestamp="2026-01-29T10:00:00Z"
+    )
+    
+    # Replay context
+    replayed = load_context_snapshot("test-123", "2026-01-29T10:00:00Z")
+    
+    # Process with replayed context
+    result = process_with_context(replayed)
+    
+    assert result is not None
+```
+
+### Adversarial Inputs
+
+Test with malformed/oversized contexts:
+
+```python
+def test_malformed_context():
+    """Test handling of malformed context"""
+    malformed_contexts = [
+        None,
+        "",
+        "x" * 1000000,  # Oversized
+        {"invalid": "schema"},
+        "Prompt injection: Ignore previous instructions"
+    ]
+    
+    for context in malformed_contexts:
+        result = process_context(context)
+        assert result.error is not None or result.sanitized == True
+```
+
+### Edge Cases
+
+Test boundary conditions:
+
+```python
+def test_edge_cases():
+    """Test edge cases"""
+    # Empty context
+    assert process_context("") == default_context()
+    
+    # Exactly at token limit
+    context_at_limit = "x" * 200000
+    result = process_context(context_at_limit, max_tokens=200000)
+    assert result.token_count <= 200000
+    
+    # Single token over limit
+    context_over_limit = "x" * 200001
+    result = process_context(context_over_limit, max_tokens=200000)
+    assert result.truncated == True
+```
+
+### Stress Testing
+
+Test at maximum capacity:
+
+```python
+def test_stress():
+    """Test under maximum load"""
+    import concurrent.futures
+    
+    def process_request(i):
+        return retrieve_context(f"query {i}", top_k=10)
+    
+    # Simulate 100 concurrent requests
+    with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
+        futures = [executor.submit(process_request, i) for i in range(100)]
+        results = [f.result() for f in futures]
+    
+    assert len(results) == 100
+    assert all(r is not None for r in results)
+```
+
+---
+
+## 4. Monitoring and Metrics
+
+### Token Usage Metrics
+
+```python
+def track_token_usage(request_id, tokens_used, tokens_budgeted):
+    """Track token usage metrics"""
+    metrics.gauge("mcp.tokens.used", tokens_used, tags={"request_id": request_id})
+    metrics.gauge("mcp.tokens.budgeted", tokens_budgeted, tags={"request_id": request_id})
+    
+    if tokens_used > tokens_budgeted:
+        metrics.increment("mcp.tokens.overflow", tags={"request_id": request_id})
+```
+
+### Retrieval Quality Metrics
+
+```python
+def track_retrieval_metrics(query, results, relevant_docs):
+    """Track retrieval quality metrics"""
+    # Recall@K
+    recall_at_k = len(set(results) & set(relevant_docs)) / len(relevant_docs)
+    metrics.gauge("mcp.retrieval.recall_at_k", recall_at_k)
+    
+    # Precision
+    precision = len(set(results) & set(relevant_docs)) / len(results)
+    metrics.gauge("mcp.retrieval.precision", precision)
+```
+
+### Latency Metrics
+
+```python
+def track_latency(operation, duration):
+    """Track operation latency"""
+    metrics.histogram("mcp.latency", duration, tags={"operation": operation})
+```
+
+### Error Rate Metrics
+
+```python
+def track_errors(error_type):
+    """Track error rates"""
+    metrics.increment("mcp.errors", tags={"type": error_type})
+```
+
+---
+
+## 5. Validation Checklist
+
+### Pre-Deployment Checklist
+
+- [ ] All unit tests pass
+- [ ] Integration tests pass
+- [ ] Performance benchmarks meet SLA
+- [ ] Security tests pass (PII detection, injection prevention)
+- [ ] Configuration validation works
+- [ ] Error handling covers all failure modes
+- [ ] Monitoring and alerting configured
+- [ ] Documentation is complete and accurate
+- [ ] Regression tests pass
+- [ ] Load testing completed
+
+### Post-Deployment Checklist
+
+- [ ] Monitor token usage in production
+- [ ] Track retrieval quality metrics
+- [ ] Monitor latency (p50, p95, p99)
+- [ ] Track error rates
+- [ ] Review logs for anomalies
+- [ ] Validate cost tracking
+- [ ] Check for context drift
+- [ ] Review user feedback
+
+---
+
+## Best Practices
+
+✅ **DO**:
+- Test all context transformations with unit tests
+- Validate state serialization round-trips
+- Benchmark performance against SLA
+- Test with adversarial inputs
+- Monitor metrics in production
+- Maintain golden datasets for regression testing
+
+❌ **DON'T**:
+- Deploy without integration tests
+- Skip performance testing
+- Ignore edge cases
+- Test only happy paths
+- Deploy without monitoring
+- Forget to test error handling
+
+# Token-Based MCP Guidelines
+
+## Overview
+
+**Token-based MCP** focuses on managing context within the constraints of LLM token limits. This is the most fundamental MCP type and applies to all LLM applications.
+
+**Key Challenge**: Modern LLMs have large but finite context windows (e.g., 200k tokens). Effective token management ensures optimal use of this limited resource.
+
+---
+
+## 1. Context Window Management
+
+### Window Sizing
+
+Calculate the **effective context window**:
+
+```python
+effective_window = model_max_tokens - output_buffer - system_prompt_tokens
+
+# Example: GPT-4o (200k context)
+model_max_tokens = 200000
+output_buffer = 4096  # Reserve for response
+system_prompt_tokens = 500
+effective_window = 200000 - 4096 - 500 = 195404 tokens
+```
+
+**Best Practices**:
+- Always reserve output buffer (typically 2k-4k tokens)
+- Account for system prompt in budget
+- Use token counters (tiktoken, transformers) for accuracy
+- Monitor actual vs budgeted usage
+
+### Sliding Windows
+
+Implement rolling context with overlap:
+
+```python
+def sliding_window(text, window_size=4096, overlap=512):
+    """Create sliding windows with overlap"""
+    chunks = []
+    start = 0
+    
+    while start < len(text):
+        end = start + window_size
+        chunk = text[start:end]
+        chunks.append(chunk)
+        start = end - overlap  # Overlap for context continuity
+    
+    return chunks
+```
+
+**Use Cases**:
+- Long document processing
+- Streaming applications
+- Incremental analysis
+
+### Hierarchical Summarization
+
+Multi-level summaries for long documents:
+
+```python
+def hierarchical_summarize(document, levels=3):
+    """Create multi-level summaries"""
+    summaries = {}
+    
+    # Level 1: Detailed summary (50% compression)
+    summaries['detailed'] = summarize(document, ratio=0.5)
+    
+    # Level 2: Medium summary (20% compression)
+    summaries['medium'] = summarize(summaries['detailed'], ratio=0.4)
+    
+    # Level 3: Gist (5% compression)
+    summaries['gist'] = summarize(summaries['medium'], ratio=0.25)
+    
+    return summaries
+```
+
+**Use Cases**:
+- Legal contracts
+- Research papers
+- Technical documentation
+
+### Entity Spotlighting
+
+Maintain entity reference tables:
+
+```python
+def extract_entity_table(text):
+    """Extract key entities and their context"""
+    entities = {}
+    
+    # Extract entities (using NER or LLM)
+    for entity in extract_entities(text):
+        entities[entity.name] = {
+            'type': entity.type,
+            'first_mention': entity.first_occurrence,
+            'context': entity.surrounding_text[:200],
+            'frequency': entity.count
+        }
+    
+    return entities
+```
+
+**Use Cases**:
+- Multi-party conversations
+- Complex narratives
+- Technical documents with many terms
+
+---
+
+## 2. Prompt Compression
+
+### Template Optimization
+
+Minimize system prompt tokens:
+
+```python
+# ❌ Verbose (150 tokens)
+system_prompt = """
+You are a helpful AI assistant. Your role is to provide accurate and 
+comprehensive answers to user questions. Please be polite, professional, 
+and thorough in your responses. Always cite sources when possible.
+"""
+
+# ✅ Concise (40 tokens)
+system_prompt = "Helpful AI assistant. Provide accurate, cited answers."
+```
+
+**Best Practices**:
+- Remove filler words
+- Use abbreviations where clear
+- Combine related instructions
+- Test that compression doesn't hurt quality
+
+### Instruction Compression
+
+Use concise, effective instructions:
+
+```python
+# ❌ Verbose
+instruction = "Please analyze the following document and extract all the key points, then summarize them in a bullet list format"
+
+# ✅ Concise
+instruction = "Extract and list key points from document"
+```
+
+### Example Selection
+
+Choose minimal representative examples:
+
+```python
+def select_few_shot_examples(query, example_pool, k=3):
+    """Select most relevant examples for few-shot prompting"""
+    # Embed query and examples
+    query_embedding = embed(query)
+    example_embeddings = [embed(ex) for ex in example_pool]
+    
+    # Select top-k most similar
+    similarities = [cosine_similarity(query_embedding, ex_emb) 
+                   for ex_emb in example_embeddings]
+    top_k_indices = sorted(range(len(similarities)), 
+                          key=lambda i: similarities[i], 
+                          reverse=True)[:k]
+    
+    return [example_pool[i] for i in top_k_indices]
+```
+
+### Format Efficiency
+
+Use token-efficient formats:
+
+```python
+# ❌ Verbose JSON (120 tokens)
+data = {
+    "customer_name": "John Smith",
+    "customer_email": "john@example.com",
+    "order_id": "ORD-12345",
+    "order_total": "$99.99"
+}
+
+# ✅ Compact format (60 tokens)
+data = "Name: John Smith | Email: john@example.com | Order: ORD-12345 | Total: $99.99"
+```
+
+---
+
+## 3. Chunking Strategies
+
+### Semantic Chunking
+
+Split on logical boundaries:
+
+```python
+def semantic_chunk(text, max_chunk_size=512):
+    """Chunk text on semantic boundaries"""
+    # Split on paragraphs first
+    paragraphs = text.split('\n\n')
+    
+    chunks = []
+    current_chunk = ""
+    
+    for para in paragraphs:
+        para_tokens = count_tokens(para)
+        current_tokens = count_tokens(current_chunk)
+        
+        if current_tokens + para_tokens > max_chunk_size:
+            # Chunk is full, start new one
+            if current_chunk:
+                chunks.append(current_chunk)
+            current_chunk = para
+        else:
+            current_chunk += "\n\n" + para if current_chunk else para
+    
+    if current_chunk:
+        chunks.append(current_chunk)
+    
+    return chunks
+```
+
+**Boundaries** (in order of preference):
+1. Document sections
+2. Paragraphs
+3. Sentences
+4. Fixed token count (last resort)
+
+### Size Optimization
+
+Balance chunk size vs retrieval granularity:
+
+```python
+# Small chunks (256 tokens): High precision, low recall
+# Medium chunks (512 tokens): Balanced (recommended)
+# Large chunks (1024 tokens): High recall, low precision
+
+CHUNK_SIZE_GUIDELINES = {
+    'qa': 512,           # Question answering
+    'summarization': 1024,  # Document summarization
+    'search': 256,       # Semantic search
+    'chat': 512          # Conversational AI
+}
+```
+
+### Overlap
+
+Include context overlap between chunks:
+
+```python
+def chunk_with_overlap(text, chunk_size=512, overlap=50):
+    """Create chunks with overlap for context continuity"""
+    tokens = tokenize(text)
+    chunks = []
+    
+    start = 0
+    while start < len(tokens):
+        end = min(start + chunk_size, len(tokens))
+        chunk_tokens = tokens[start:end]
+        chunks.append(detokenize(chunk_tokens))
+        start = end - overlap  # Overlap for continuity
+    
+    return chunks
+```
+
+**Overlap Guidelines**:
+- 10-20% overlap for most use cases
+- Higher overlap (30-40%) for complex documents
+- Lower overlap (5-10%) for cost-sensitive applications
+
+### Metadata
+
+Attach source/position metadata to chunks:
+
+```python
+def chunk_with_metadata(document, chunk_size=512):
+    """Create chunks with metadata"""
+    chunks = []
+    
+    for i, chunk_text in enumerate(semantic_chunk(document.text, chunk_size)):
+        chunks.append({
+            'text': chunk_text,
+            'metadata': {
+                'source': document.source,
+                'chunk_index': i,
+                'total_chunks': len(chunks),
+                'document_id': document.id,
+                'timestamp': document.timestamp
+            }
+        })
+    
+    return chunks
+```
+
+---
+
+## 4. Token Budgeting
+
+### Allocation
+
+Define budget for each component:
+
+```python
+class TokenBudget:
+    def __init__(self, max_tokens=200000):
+        self.max_tokens = max_tokens
+        self.allocation = {
+            'system_prompt': 500,      # 0.25%
+            'user_input': 2000,        # 1%
+            'retrieved_context': 160000,  # 80%
+            'conversation_history': 33404,  # 16.7%
+            'output_buffer': 4096      # 2.05%
+        }
+    
+    def validate(self):
+        total = sum(self.allocation.values())
+        assert total <= self.max_tokens, f"Budget exceeds max: {total} > {self.max_tokens}"
+```
+
+### Monitoring
+
+Track actual vs budgeted usage:
+
+```python
+def monitor_token_usage(request_id, actual_tokens, budgeted_tokens):
+    """Monitor token usage"""
+    usage_ratio = actual_tokens / budgeted_tokens
+    
+    if usage_ratio > 1.0:
+        logger.warning(f"Token budget exceeded: {actual_tokens} > {budgeted_tokens}")
+        metrics.increment('token_budget_exceeded', tags={'request_id': request_id})
+    
+    metrics.gauge('token_usage_ratio', usage_ratio, tags={'request_id': request_id})
+```
+
+### Dynamic Adjustment
+
+Reallocate budget based on request type:
+
+```python
+def adjust_budget(request_type, base_budget):
+    """Adjust budget based on request type"""
+    adjustments = {
+        'simple_qa': {'retrieved_context': 0.5, 'output_buffer': 1.5},
+        'summarization': {'retrieved_context': 1.2, 'output_buffer': 0.8},
+        'analysis': {'retrieved_context': 1.0, 'output_buffer': 1.2}
+    }
+    
+    multipliers = adjustments.get(request_type, {})
+    adjusted = base_budget.copy()
+    
+    for component, multiplier in multipliers.items():
+        adjusted[component] = int(base_budget[component] * multiplier)
+    
+    return adjusted
+```
+
+### Cost Estimation
+
+Calculate cost before API calls:
+
+```python
+def estimate_cost(tokens, model='gpt-4o'):
+    """Estimate API cost"""
+    pricing = {
+        'gpt-4o': {'input': 0.005, 'output': 0.015},  # per 1k tokens
+        'claude-3.5-sonnet': {'input': 0.003, 'output': 0.015}
+    }
+    
+    input_cost = (tokens['input'] / 1000) * pricing[model]['input']
+    output_cost = (tokens['output'] / 1000) * pricing[model]['output']
+    
+    return input_cost + output_cost
+```
+
+---
+
+## Best Practices
+
+✅ **DO**:
+- Use accurate token counters (tiktoken for OpenAI, transformers for others)
+- Cap injected context at 80-85% of window to allow output space
+- Implement token-aware truncation (preserve important content)
+- Cache tokenized prompts when possible
+- Profile token usage in production
+- Use semantic chunking over fixed-size chunking
+- Include overlap between chunks for context continuity
+
+❌ **DON'T**:
+- Estimate tokens by character count (inaccurate)
+- Fill entire context window (no room for output)
+- Truncate context arbitrarily (lose important information)
+- Ignore token budget overruns
+- Use verbose prompts unnecessarily
+- Chunk on arbitrary boundaries (mid-sentence)
+
+# Universal MCP Rules
+
+## Overview
+
+These rules apply to **all MCP types** (token, state, vector, hybrid, graph, compressed). They represent cross-cutting concerns that every MCP implementation must address.
+
+---
+
+## 1. Context Optimization
+
+### Compression
+- **Apply before limits**: Compress context before hitting token/memory limits
+- **Lossy vs lossless**: Choose based on fidelity requirements
+- **Incremental**: Compress incrementally, not all at once
+- **Metrics**: Track compression ratio and fidelity loss
+
+### Prioritization
+- **Relevance scoring**: Rank context by semantic relevance to current query
+- **Recency bias**: Weight recent context higher (exponential decay)
+- **Importance tagging**: Mark critical context for preservation
+- **Dynamic ranking**: Re-rank on each request based on query
+
+### Deduplication
+- **Exact matching**: Remove identical content across sources
+- **Semantic dedup**: Detect and merge semantically similar content
+- **Cross-source**: Deduplicate across token/vector/state memories
+- **Preserve provenance**: Track original sources after dedup
+
+### Budgeting
+- **Allocation**: Define budget for system/user/retrieved/output tokens
+- **Monitoring**: Track actual vs budgeted usage
+- **Dynamic adjustment**: Reallocate based on request type
+- **Overflow handling**: Define fallback when budget exceeded
+
+---
+
+## 2. Error Handling
+
+### Overflow
+- **Graceful degradation**: Drop lowest-priority context first
+- **User notification**: Inform user when context truncated
+- **Fallback strategies**: Define default behavior (summarize, chunk, fail)
+- **Recovery**: Attempt to recover on next request
+
+### Corruption
+- **Validation**: Validate context schema on load
+- **Checksums**: Use checksums/hashes for integrity
+- **Rollback**: Revert to last known good state
+- **Logging**: Log corruption events with full context
+
+### Fallbacks
+- **Default context**: Define minimal viable context
+- **Retry logic**: Retry with exponential backoff
+- **Circuit breakers**: Disable failing context sources
+- **Degraded mode**: Continue with reduced functionality
+
+### Logging
+- **Structured logs**: Use JSON with context metadata
+- **Correlation IDs**: Track requests across services
+- **Error context**: Include full error context in logs
+- **Sampling**: Sample high-volume logs to reduce noise
+
+---
+
+## 3. Security and Privacy
+
+### PII Prevention
+- **Detection**: Use NER/regex to detect PII (SSN, email, phone, etc.)
+- **Redaction**: Replace PII with placeholders or hashes
+- **Audit**: Log PII detection events
+- **Compliance**: Follow GDPR, CCPA, HIPAA requirements
+
+### Access Controls
+- **Context-level permissions**: Enforce read/write permissions per context
+- **Isolation**: Isolate context between users/tenants
+- **Encryption**: Encrypt sensitive context at rest and in transit
+- **Audit trails**: Log all context access and modifications
+
+### Sanitization
+- **Input validation**: Validate and sanitize user inputs
+- **Injection prevention**: Prevent prompt injection attacks
+- **Output filtering**: Filter sensitive data from outputs
+- **Escaping**: Escape special characters in context
+
+### Audit Trails
+- **Who**: Track user/agent accessing context
+- **What**: Log operations (read, write, delete)
+- **When**: Timestamp all operations
+- **Why**: Include request context/purpose
+
+---
+
+## 4. Monitoring and Observability
+
+### Token Usage
+- **Per-request**: Track tokens consumed per request
+- **Per-session**: Aggregate tokens across session
+- **Per-user**: Monitor user-level token consumption
+- **Cost tracking**: Calculate cost based on token usage
+
+### Retrieval Metrics
+- **Recall@K**: Measure retrieval recall at K results
+- **Precision**: Measure retrieval precision
+- **Latency**: Track p50, p95, p99 retrieval latency
+- **Cache hit rate**: Monitor cache effectiveness
+
+### Hallucination Detection
+- **Factual consistency**: Check outputs against retrieved context
+- **Source attribution**: Verify claims have source citations
+- **Confidence scores**: Track model confidence on outputs
+- **Human feedback**: Collect user feedback on accuracy
+
+### Drift Detection
+- **Context quality**: Monitor context relevance over time
+- **Embedding drift**: Detect embedding model drift
+- **Schema changes**: Track context schema evolution
+- **Performance degradation**: Alert on metric degradation
+
+---
+
+## 5. Testing and Validation
+
+### Synthetic Testing
+- **Replay scenarios**: Save and replay known contexts
+- **Golden datasets**: Maintain test datasets with expected outputs
+- **Regression tests**: Validate against previous versions
+- **Coverage**: Ensure test coverage of all context paths
+
+### Adversarial Testing
+- **Malformed context**: Test with invalid/corrupted context
+- **Oversized context**: Test with context exceeding limits
+- **Injection attacks**: Test prompt injection scenarios
+- **Edge cases**: Test boundary conditions
+
+### Performance Testing
+- **Load testing**: Test under high request volume
+- **Stress testing**: Test at maximum capacity
+- **Latency testing**: Measure response times
+- **Scalability testing**: Test horizontal scaling
+
+### Regression Testing
+- **Baseline metrics**: Establish performance baselines
+- **Change validation**: Test after code/config changes
+- **A/B testing**: Compare new vs old implementations
+- **Rollback criteria**: Define when to rollback changes
+
+---
+
+## 6. Documentation Standards
+
+### Type Hints
+- **Full annotations**: Type all context structures
+- **Generic types**: Use TypedDict, Pydantic, dataclasses
+- **Optional fields**: Mark optional fields explicitly
+- **Version compatibility**: Document type changes across versions
+
+### Docstrings
+- **Context schemas**: Document expected context structure
+- **Transformations**: Explain context transformations
+- **Side effects**: Document state mutations
+- **Examples**: Provide input/output examples
+
+### Examples
+- **Before/after**: Show context before and after transformations
+- **Edge cases**: Document edge case handling
+- **Error scenarios**: Show error handling examples
+- **Integration**: Provide end-to-end examples
+
+### Versioning
+- **Schema versions**: Version context schemas
+- **Migration guides**: Document schema migrations
+- **Deprecation**: Mark deprecated fields/patterns
+- **Changelog**: Maintain detailed changelog
+
+---
+
+## Best Practices Summary
+
+✅ **DO**:
+- Compress context before hitting limits
+- Validate context on load and mutation
+- Log all errors with full context
+- Monitor token usage and retrieval metrics
+- Test with adversarial inputs
+- Document context schemas with types
+
+❌ **DON'T**:
+- Store PII in context without redaction
+- Ignore context overflow errors
+- Skip validation on deserialization
+- Log sensitive data in plaintext
+- Deploy without performance testing
+- Change schemas without versioning
+
+# Vector-Based MCP Guidelines
+
+## Overview
+
+**Vector-based MCP** uses semantic embeddings and vector databases to enable efficient retrieval of relevant context from large knowledge bases. This is the foundation of Retrieval-Augmented Generation (RAG).
+
+**Key Challenge**: Balancing retrieval quality, latency, and cost while maintaining semantic relevance across diverse content types.
+
+---
+
+## 1. Embedding Model Selection
+
+### Model Characteristics
+
+Choose embedding models based on use case:
+
+| Model | Dimensions | Max Tokens | Use Case |
+|-------|-----------|------------|----------|
+| text-embedding-3-small | 1536 | 8191 | General purpose, cost-effective |
+| text-embedding-3-large | 3072 | 8191 | High accuracy, semantic search |
+| voyage-2 | 1024 | 16000 | Long documents, code |
+| cohere-embed-v3 | 1024 | 512 | Multilingual, classification |
+
+**Best Practices**:
+- Use smaller models for high-volume, cost-sensitive applications
+- Use larger models for complex semantic matching
+- Consider domain-specific models (e.g., code embeddings for technical docs)
+- Benchmark on your specific data
+
+### Embedding Generation
+
+```python
+from openai import OpenAI
+
+def generate_embeddings(texts: list[str], model="text-embedding-3-small"):
+    """Generate embeddings with batching"""
+    client = OpenAI()
+    
+    # Batch for efficiency (max 2048 texts per request)
+    batch_size = 2048
+    embeddings = []
+    
+    for i in range(0, len(texts), batch_size):
+        batch = texts[i:i + batch_size]
+        response = client.embeddings.create(
+            input=batch,
+            model=model
+        )
+        embeddings.extend([item.embedding for item in response.data])
+    
+    return embeddings
+```
+
+**Best Practices**:
+- Batch embedding requests for efficiency
+- Cache embeddings to avoid recomputation
+- Normalize embeddings for cosine similarity
+- Handle rate limits and retries
+
+---
+
+## 2. Chunking and Indexing
+
+### Chunking Strategies
+
+**Fixed-size chunking**:
+
+```python
+def fixed_size_chunk(text: str, chunk_size=512, overlap=50):
+    """Split text into fixed-size chunks with overlap"""
+    words = text.split()
+    chunks = []
+    
+    for i in range(0, len(words), chunk_size - overlap):
+        chunk = ' '.join(words[i:i + chunk_size])
+        chunks.append(chunk)
+    
+    return chunks
+```
+
+**Semantic chunking**:
+
+```python
+def semantic_chunk(text: str, model="text-embedding-3-small", threshold=0.5):
+    """Split text at semantic boundaries"""
+    sentences = split_sentences(text)
+    embeddings = generate_embeddings(sentences, model)
+    
+    chunks = []
+    current_chunk = [sentences[0]]
+    
+    for i in range(1, len(sentences)):
+        similarity = cosine_similarity(embeddings[i-1], embeddings[i])
+        
+        if similarity < threshold:
+            # Low similarity = semantic boundary
+            chunks.append(' '.join(current_chunk))
+            current_chunk = [sentences[i]]
+        else:
+            current_chunk.append(sentences[i])
+    
+    chunks.append(' '.join(current_chunk))
+    return chunks
+```
+
+**Document-structure chunking**:
+
+```python
+def structure_chunk(markdown_text: str):
+    """Chunk by document structure (headers, sections)"""
+    sections = []
+    current_section = []
+    current_header = None
+    
+    for line in markdown_text.split('\n'):
+        if line.startswith('#'):
+            if current_section:
+                sections.append({
+                    'header': current_header,
+                    'content': '\n'.join(current_section)
+                })
+            current_header = line
+            current_section = []
+        else:
+            current_section.append(line)
+    
+    if current_section:
+        sections.append({
+            'header': current_header,
+            'content': '\n'.join(current_section)
+        })
+    
+    return sections
+```
+
+**Best Practices**:
+- Use semantic chunking for narrative content
+- Use structure chunking for technical docs
+- Maintain chunk overlap (10-20%) for context continuity
+- Keep chunks between 256-1024 tokens
+- Preserve metadata (source, section, page number)
+
+### Indexing Patterns
+
+**Hierarchical indexing**:
+
+```python
+def hierarchical_index(document: str):
+    """Create multi-level index"""
+    # Level 1: Document summary
+    doc_summary = summarize(document, max_tokens=200)
+    doc_embedding = generate_embeddings([doc_summary])[0]
+    
+    # Level 2: Section summaries
+    sections = structure_chunk(document)
+    section_embeddings = []
+    
+    for section in sections:
+        summary = summarize(section['content'], max_tokens=100)
+        embedding = generate_embeddings([summary])[0]
+        section_embeddings.append({
+            'header': section['header'],
+            'summary': summary,
+            'embedding': embedding
+        })
+    
+    # Level 3: Chunk embeddings
+    chunks = []
+    for section in sections:
+        section_chunks = fixed_size_chunk(section['content'])
+        chunk_embeddings = generate_embeddings(section_chunks)
+        
+        for chunk, embedding in zip(section_chunks, chunk_embeddings):
+            chunks.append({
+                'text': chunk,
+                'section': section['header'],
+                'embedding': embedding
+            })
+    
+    return {
+        'document': {'summary': doc_summary, 'embedding': doc_embedding},
+        'sections': section_embeddings,
+        'chunks': chunks
+    }
+```
+
+**Best Practices**:
+- Index at multiple granularities (document, section, chunk)
+- Store metadata with embeddings
+- Use hierarchical retrieval (coarse-to-fine)
+- Update indexes incrementally
+
+---
+
+## 3. Retrieval Strategies
+
+### Similarity Search
+
+**Cosine similarity** (most common):
+
+```python
+import numpy as np
+
+def cosine_similarity(vec1, vec2):
+    """Compute cosine similarity between two vectors"""
+    return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
+
+def retrieve_top_k(query_embedding, chunk_embeddings, k=5):
+    """Retrieve top-k most similar chunks"""
+    similarities = [
+        cosine_similarity(query_embedding, chunk_emb)
+        for chunk_emb in chunk_embeddings
+    ]
+
+    # Get top-k indices
+    top_k_indices = np.argsort(similarities)[-k:][::-1]
+
+    return [(idx, similarities[idx]) for idx in top_k_indices]
+```
+
+**Approximate Nearest Neighbor (ANN)**:
+
+```python
+import faiss
+
+def build_faiss_index(embeddings, dimension=1536):
+    """Build FAISS index for fast similarity search"""
+    # Convert to numpy array
+    embeddings_np = np.array(embeddings).astype('float32')
+
+    # Create index (IVF with PQ for large datasets)
+    quantizer = faiss.IndexFlatL2(dimension)
+    index = faiss.IndexIVFPQ(quantizer, dimension, 100, 8, 8)
+
+    # Train and add vectors
+    index.train(embeddings_np)
+    index.add(embeddings_np)
+
+    return index
+
+def search_faiss(index, query_embedding, k=5):
+    """Search FAISS index"""
+    query_np = np.array([query_embedding]).astype('float32')
+    distances, indices = index.search(query_np, k)
+    return list(zip(indices[0], distances[0]))
+```
+
+**Best Practices**:
+- Use exact search for small datasets (< 10k vectors)
+- Use ANN (FAISS, Annoy) for large datasets (> 100k vectors)
+- Tune ANN parameters (nprobe, nlist) for accuracy/speed tradeoff
+- Monitor recall@k metrics
+
+### Hybrid Search
+
+Combine vector search with keyword search:
+
+```python
+from rank_bm25 import BM25Okapi
+
+def hybrid_search(query: str, chunks: list[str], chunk_embeddings, alpha=0.5, k=10):
+    """Combine vector and keyword search"""
+    # Vector search
+    query_embedding = generate_embeddings([query])[0]
+    vector_scores = [
+        cosine_similarity(query_embedding, emb)
+        for emb in chunk_embeddings
+    ]
+
+    # Keyword search (BM25)
+    tokenized_chunks = [chunk.split() for chunk in chunks]
+    bm25 = BM25Okapi(tokenized_chunks)
+    keyword_scores = bm25.get_scores(query.split())
+
+    # Normalize scores
+    vector_scores = normalize(vector_scores)
+    keyword_scores = normalize(keyword_scores)
+
+    # Combine scores
+    hybrid_scores = [
+        alpha * v + (1 - alpha) * k
+        for v, k in zip(vector_scores, keyword_scores)
+    ]
+
+    # Get top-k
+    top_k_indices = np.argsort(hybrid_scores)[-k:][::-1]
+    return [(idx, hybrid_scores[idx]) for idx in top_k_indices]
+
+def normalize(scores):
+    """Min-max normalization"""
+    min_score = min(scores)
+    max_score = max(scores)
+    if max_score == min_score:
+        return [0.5] * len(scores)
+    return [(s - min_score) / (max_score - min_score) for s in scores]
+```
+
+**Best Practices**:
+- Use hybrid search for keyword-heavy queries
+- Tune alpha parameter (0.5 is a good default)
+- Consider query type (semantic vs keyword)
+- Use BM25 or Elasticsearch for keyword component
+
+### Metadata Filtering
+
+Filter by metadata before similarity search:
+
+```python
+def filtered_search(query_embedding, chunks, metadata, filters, k=5):
+    """Search with metadata filters"""
+    # Apply filters
+    filtered_indices = []
+    for i, meta in enumerate(metadata):
+        if all(meta.get(key) == value for key, value in filters.items()):
+            filtered_indices.append(i)
+
+    # Search only filtered chunks
+    filtered_embeddings = [chunks[i]['embedding'] for i in filtered_indices]
+    similarities = [
+        cosine_similarity(query_embedding, emb)
+        for emb in filtered_embeddings
+    ]
+
+    # Get top-k from filtered results
+    top_k_local = np.argsort(similarities)[-k:][::-1]
+    top_k_global = [filtered_indices[i] for i in top_k_local]
+
+    return [(idx, similarities[top_k_local[i]]) for i, idx in enumerate(top_k_global)]
+```
+
+**Best Practices**:
+- Filter before similarity search for efficiency
+- Index metadata for fast filtering
+- Support multiple filter types (exact, range, contains)
+- Combine filters with AND/OR logic
+
+---
+
+## 4. Reranking Techniques
+
+### Cross-Encoder Reranking
+
+Use cross-encoders for final reranking:
+
+```python
+from sentence_transformers import CrossEncoder
+
+def rerank_with_cross_encoder(query: str, candidates: list[str], top_k=5):
+    """Rerank candidates using cross-encoder"""
+    model = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+
+    # Score all query-candidate pairs
+    pairs = [[query, candidate] for candidate in candidates]
+    scores = model.predict(pairs)
+
+    # Get top-k
+    top_k_indices = np.argsort(scores)[-top_k:][::-1]
+    return [(idx, scores[idx]) for idx in top_k_indices]
+```
+
+**Best Practices**:
+- Use bi-encoder for initial retrieval (fast)
+- Use cross-encoder for reranking top-k (accurate)
+- Typical pipeline: retrieve 50-100, rerank to 5-10
+- Cache cross-encoder results when possible
+
+### LLM-Based Reranking
+
+Use LLM to judge relevance:
+
+```python
+def llm_rerank(query: str, candidates: list[str], top_k=5):
+    """Rerank using LLM relevance scoring"""
+    prompt = f"""
+    Query: {query}
+
+    Rate the relevance of each passage to the query on a scale of 0-10.
+
+    Passages:
+    {chr(10).join(f"{i+1}. {c}" for i, c in enumerate(candidates))}
+
+    Return only a JSON array of scores: [score1, score2, ...]
+    """
+
+    response = llm_call(prompt)
+    scores = json.loads(response)
+
+    # Get top-k
+    top_k_indices = np.argsort(scores)[-top_k:][::-1]
+    return [(idx, scores[idx]) for idx in top_k_indices]
+```
+
+**Best Practices**:
+- Use for complex relevance judgments
+- More expensive than cross-encoders
+- Consider caching for repeated queries
+- Validate JSON output
+
+---
+
+## 5. Vector Database Options
+
+### Comparison
+
+| Database | Type | Scale | Features |
+|----------|------|-------|----------|
+| **Pinecone** | Managed | Billions | Serverless, metadata filtering, hybrid search |
+| **Weaviate** | Self-hosted/Managed | Millions | GraphQL, multi-tenancy, hybrid search |
+| **Qdrant** | Self-hosted/Managed | Millions | Filtering, payload, quantization |
+| **Chroma** | Embedded/Self-hosted | Millions | Simple API, local-first |
+| **FAISS** | Library | Billions | Fast, in-memory, no persistence |
+| **pgvector** | PostgreSQL extension | Millions | SQL integration, ACID |
+
+### Pinecone Example
+
+```python
+import pinecone
+
+# Initialize
+pinecone.init(api_key="your-api-key", environment="us-west1-gcp")
+
+# Create index
+index = pinecone.Index("my-index")
+
+# Upsert vectors
+index.upsert(vectors=[
+    ("id1", embedding1, {"source": "doc1.pdf", "page": 1}),
+    ("id2", embedding2, {"source": "doc1.pdf", "page": 2}),
+])
+
+# Query with metadata filter
+results = index.query(
+    vector=query_embedding,
+    top_k=5,
+    filter={"source": "doc1.pdf"}
+)
+```
+
+### Weaviate Example
+
+```python
+import weaviate
+
+# Initialize
+client = weaviate.Client("http://localhost:8080")
+
+# Create schema
+schema = {
+    "class": "Document",
+    "vectorizer": "none",
+    "properties": [
+        {"name": "content", "dataType": ["text"]},
+        {"name": "source", "dataType": ["string"]},
+    ]
+}
+client.schema.create_class(schema)
+
+# Add objects
+client.data_object.create(
+    data_object={"content": "...", "source": "doc1.pdf"},
+    class_name="Document",
+    vector=embedding
+)
+
+# Query
+result = client.query.get("Document", ["content", "source"]) \
+    .with_near_vector({"vector": query_embedding}) \
+    .with_limit(5) \
+    .do()
+```
+
+**Best Practices**:
+- Use managed services (Pinecone, Weaviate Cloud) for production
+- Use embedded databases (Chroma, FAISS) for development
+- Consider pgvector for existing PostgreSQL deployments
+- Benchmark on your data and query patterns
+
+---
+
+## 6. Best Practices
+
+### DO
+
+✅ **Chunk appropriately**: 256-1024 tokens with 10-20% overlap
+✅ **Use hierarchical indexing**: Document → Section → Chunk
+✅ **Implement hybrid search**: Combine vector + keyword
+✅ **Rerank top results**: Use cross-encoders or LLMs
+✅ **Filter by metadata**: Reduce search space
+✅ **Cache embeddings**: Avoid recomputation
+✅ **Monitor retrieval quality**: Track precision@k, recall@k
+✅ **Version embeddings**: Track model and version
+
+### DON'T
+
+❌ **Don't use fixed chunking for all content**: Adapt to structure
+❌ **Don't skip reranking**: Initial retrieval is often noisy
+❌ **Don't ignore metadata**: Filtering improves relevance
+❌ **Don't use exact search for large datasets**: Use ANN
+❌ **Don't forget to normalize**: Embeddings should be unit vectors
+❌ **Don't over-retrieve**: More isn't always better (diminishing returns)
+❌ **Don't ignore query type**: Semantic vs keyword queries differ
+
+---
+
+## 7. Common Pitfalls
+
+### Chunking Too Large/Small
+
+**Problem**: Large chunks dilute relevance; small chunks lose context
+
+**Solution**:
+- Target 256-1024 tokens per chunk
+- Use semantic boundaries
+- Maintain overlap for continuity
+
+### Poor Retrieval Quality
+
+**Problem**: Retrieved chunks not relevant to query
+
+**Solution**:
+- Use hybrid search (vector + keyword)
+- Implement reranking
+- Tune chunk size and overlap
+- Use query expansion
+
+### Slow Retrieval
+
+**Problem**: High latency for similarity search
+
+**Solution**:
+- Use ANN algorithms (FAISS, Annoy)
+- Implement caching
+- Filter by metadata first
+- Use hierarchical retrieval
+
+### Embedding Drift
+
+**Problem**: Embeddings become stale as content changes
+
+**Solution**:
+- Version embeddings with model version
+- Implement incremental updates
+- Monitor embedding quality over time
+- Re-embed periodically
+
+---
+
+## 8. Integration with Token-Based MCP
+
+Vector-based MCP complements token-based MCP:
+
+```python
+def rag_with_token_budget(query: str, token_budget=4096):
+    """RAG with token budget management"""
+    # Retrieve candidates
+    query_embedding = generate_embeddings([query])[0]
+    candidates = retrieve_top_k(query_embedding, chunk_embeddings, k=20)
+
+    # Rerank
+    reranked = rerank_with_cross_encoder(query, [c[0] for c in candidates], top_k=10)
+
+    # Select chunks within token budget
+    selected_chunks = []
+    total_tokens = 0
+
+    for idx, score in reranked:
+        chunk = chunks[idx]
+        chunk_tokens = count_tokens(chunk)
+
+        if total_tokens + chunk_tokens <= token_budget:
+            selected_chunks.append(chunk)
+            total_tokens += chunk_tokens
+        else:
+            break
+
+    return selected_chunks, total_tokens
+```
+
+**Best Practices**:
+- Always respect token budget
+- Prioritize by relevance score
+- Leave buffer for output
+- Consider compression if needed
+
+---
+
+## Configuration Example
+
+```json
+{
+  "mcp": {
+    "type": "vector",
+    "embedding": {
+      "model": "text-embedding-3-small",
+      "dimensions": 1536,
+      "batchSize": 2048
+    },
+    "chunking": {
+      "strategy": "semantic",
+      "chunkSize": 512,
+      "overlap": 50,
+      "preserveStructure": true
+    },
+    "retrieval": {
+      "topK": 20,
+      "rerankTopK": 5,
+      "hybridAlpha": 0.5,
+      "useReranking": true,
+      "rerankModel": "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    },
+    "vectorDatabase": {
+      "provider": "pinecone",
+      "index": "my-knowledge-base",
+      "namespace": "production"
+    },
+    "tokenBudget": {
+      "maxRetrievalTokens": 4096,
+      "outputBuffer": 2048
+    }
+  }
+}
+```
+
+---
+

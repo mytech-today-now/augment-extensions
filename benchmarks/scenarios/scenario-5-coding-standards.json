@@ -1,0 +1,18 @@
+{
+  "id": "scenario-5-coding-standards",
+  "name": "Scenario 5: Coding Standards Task",
+  "description": "Apply TypeScript coding standards",
+  "baseline": {
+    "modules": ["coding-standards/typescript"],
+    "files": ["benchmarks/baseline/typescript-module.txt"]
+  },
+  "skills": {
+    "skills": ["typescript-naming", "typescript-types"],
+    "files": [
+      "benchmarks/skills/typescript-naming.txt",
+      "benchmarks/skills/typescript-types.txt"
+    ]
+  },
+  "expectedReduction": 80.0
+}
+

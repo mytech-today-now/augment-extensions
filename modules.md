@@ -414,6 +414,128 @@ augx link examples/rest-api-plugin
 augx link examples/woocommerce-extension
 ```
 
+## Skills System
+
+### Overview
+- **Location**: `skills/`
+- **Version**: 1.0.0
+- **Total Skills**: 4
+- **Description**: Token-efficient skill-based system for on-demand AI context injection. Skills are lightweight, focused definitions that replace full modules for specific tasks.
+
+### Key Features
+- **Token Reduction**: 97.18% average reduction vs full modules
+- **Dynamic Loading**: Load only what you need, when you need it
+- **Dependency Resolution**: Automatic dependency management
+- **CLI Integration**: Wrap MCP servers and external tools
+- **Caching**: Intelligent caching for performance
+
+### Skill Categories
+
+#### Retrieval Skills
+- **sdk-query**: Query SDK documentation and code examples
+- **context-retrieval**: Retrieve code context using semantic search
+
+#### Analysis Skills
+- **code-analysis**: Analyze code for quality and patterns
+
+#### Generation Skills
+- **add-mcp-skill**: Generate new MCP-based skills
+
+### Usage
+
+```bash
+# List available skills
+augx skill list
+
+# Show skill details
+augx skill show sdk-query
+
+# Inject skill into context
+augx skill inject sdk-query
+
+# Load multiple skills
+augx skill load sdk-query context-retrieval
+
+# Validate a skill
+augx skill validate skills/retrieval/my-skill.md
+
+# Cache management
+augx skill cache-clear
+augx skill cache-stats
+```
+
+### Token Budget Guidelines
+- **Micro skills**: 500-1000 tokens (single focused task)
+- **Small skills**: 1000-2000 tokens (simple functionality)
+- **Medium skills**: 2000-5000 tokens (moderate complexity)
+- **Large skills**: 5000-10000 tokens (complex functionality)
+
+### Performance Benchmarks
+
+Based on `benchmarks/results.json`:
+
+| Scenario | Baseline Tokens | Skill Tokens | Reduction |
+|----------|----------------|--------------|-----------|
+| SDK Query | 27,706 | 804 | 97.10% |
+| Context Retrieval | 27,706 | 1,021 | 96.31% |
+| Multiple Skills | 27,706 | 1,825 | 93.41% |
+| Workflow Task | 8,804 | 8 | 99.91% |
+| Coding Standards | 1,440 | 12 | 99.17% |
+| **Average** | - | - | **97.18%** |
+
+### Creating New Skills
+
+See `skills/README.md` for detailed instructions on creating new skills.
+
+**Quick Start**:
+1. Choose appropriate category
+2. Create skill file: `skills/<category>/<skill-id>.md`
+3. Follow skill.md schema
+4. Keep within token budget (500-10k tokens)
+5. Test with `augx skill validate <skill-id>`
+
+**Automated MCP Skill Creation**:
+```bash
+# Create a new MCP skill automatically
+augx skill create-mcp \
+  --name "GitHub MCP" \
+  --description "GitHub repository management" \
+  --category "integration" \
+  --package "@modelcontextprotocol/server-github" \
+  --token-budget 2500 \
+  --tags "github,repository"
+```
+
+### MCP Integration
+
+The skills system integrates with Model Context Protocol (MCP) servers:
+
+```bash
+# List MCP servers
+augx mcp list
+
+# Add MCP server
+augx mcp add github-mcp "npx -y @modelcontextprotocol/server-github"
+
+# Execute MCP tool
+augx mcp exec github-mcp search-repos --args '{"query": "augment"}'
+
+# Generate skill wrapper for MCP tool
+augx mcp wrap github-mcp search-repos github-search --category retrieval
+```
+
+### Meta-Skills
+
+**Meta-skills** are skills that help create or manage other skills:
+
+- **add-mcp-skill**: Automates onboarding of new MCP integrations
+  - Generates skill files from templates
+  - Validates skill structure
+  - Updates documentation
+  - Reduces skill creation time from 30+ minutes to < 1 minute
+
+---
+
 ## Statistics
 
 - **Total Modules**: 18
@@ -421,4 +543,5 @@ augx link examples/woocommerce-extension
 - **Domain Rules**: 5
 - **Workflows**: 2
 - **Examples**: 4
+- **Total Skills**: 4
 - **Total Character Count**: ~1,774,692

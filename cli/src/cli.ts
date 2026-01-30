@@ -19,7 +19,27 @@ import { installRulesCommand } from './commands/install-rules';
 import { guiCommand } from './commands/gui';
 import { unlinkCommand } from './commands/unlink';
 import { selfRemoveCommand } from './commands/self-remove';
-import { skillListCommand, skillShowCommand, skillValidateCommand, skillSearchCommand, skillExecCommand, skillInjectCommand } from './commands/skill';
+import {
+  skillListCommand,
+  skillShowCommand,
+  skillValidateCommand,
+  skillSearchCommand,
+  skillExecCommand,
+  skillInjectCommand,
+  skillLoadBatchCommand,
+  skillCacheClearCommand,
+  skillCacheStatsCommand,
+  skillCreateMcpCommand
+} from './commands/skill';
+import {
+  mcpListCommand,
+  mcpAddCommand,
+  mcpRemoveCommand,
+  mcpExecCommand,
+  mcpWrapCommand,
+  mcpDiscoverCommand,
+  mcpGenerateCLICommand
+} from './commands/mcp';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -260,9 +280,86 @@ skillCommand
 
 skillCommand
   .command('inject <skillId>')
-  .description('Inject skill content into AI context')
+  .description('Inject skill content into AI context (with dynamic loading)')
   .option('--json', 'Output as JSON')
+  .option('--no-deps', 'Do not resolve dependencies')
+  .option('--max-tokens <number>', 'Maximum token budget', parseInt)
   .action(skillInjectCommand);
+
+skillCommand
+  .command('load <skillIds...>')
+  .description('Load multiple skills in batch')
+  .option('--json', 'Output as JSON')
+  .option('--max-tokens <number>', 'Maximum token budget', parseInt)
+  .action(skillLoadBatchCommand);
+
+skillCommand
+  .command('cache-clear')
+  .description('Clear skill cache')
+  .action(skillCacheClearCommand);
+
+skillCommand
+  .command('cache-stats')
+  .description('Show skill cache statistics')
+  .action(skillCacheStatsCommand);
+
+skillCommand
+  .command('create-mcp')
+  .description('Create a new MCP skill')
+  .requiredOption('--name <name>', 'MCP server name')
+  .requiredOption('--description <description>', 'Brief description')
+  .requiredOption('--category <category>', 'Skill category (retrieval, transformation, analysis, generation, integration, utility)')
+  .option('--package <package>', 'npm package or URL')
+  .option('--token-budget <number>', 'Token budget estimate', parseInt, 2000)
+  .option('--tags <tags>', 'Comma-separated tags', (val) => val.split(',').map(t => t.trim()))
+  .action(skillCreateMcpCommand);
+
+// MCP commands
+const mcpCommand = program.command('mcp').description('Manage MCP server integrations');
+
+mcpCommand
+  .command('list')
+  .description('List all configured MCP servers')
+  .option('--json', 'Output as JSON')
+  .action(mcpListCommand);
+
+mcpCommand
+  .command('add <name> <command>')
+  .description('Add MCP server configuration')
+  .option('--args <args>', 'Command arguments (space-separated)')
+  .option('--transport <type>', 'Transport type (stdio or http)', 'stdio')
+  .option('--url <url>', 'Server URL (for HTTP transport)')
+  .option('--env <json>', 'Environment variables (JSON)')
+  .action(mcpAddCommand);
+
+mcpCommand
+  .command('remove <name>')
+  .description('Remove MCP server configuration')
+  .action(mcpRemoveCommand);
+
+mcpCommand
+  .command('exec <serverName> <toolName>')
+  .description('Execute MCP tool')
+  .option('--args <json>', 'Tool arguments (JSON)')
+  .option('--json', 'Output as JSON')
+  .action(mcpExecCommand);
+
+mcpCommand
+  .command('wrap <serverName> <toolName> <skillId>')
+  .description('Generate skill wrapper for MCP tool')
+  .option('--category <category>', 'Skill category', 'integration')
+  .action(mcpWrapCommand);
+
+mcpCommand
+  .command('discover <serverName>')
+  .description('Discover tools from MCP server')
+  .option('--json', 'Output as JSON')
+  .action(mcpDiscoverCommand);
+
+mcpCommand
+  .command('generate-cli <serverCommand> <outputPath>')
+  .description('Generate CLI using mcporter')
+  .action(mcpGenerateCLICommand);
 
 program.parse(process.argv);
 

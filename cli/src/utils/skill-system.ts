@@ -203,3 +203,164 @@ export function registerSkillInCoordination(skill: Skill, taskId?: string): void
   fs.writeFileSync(coordPath, JSON.stringify(coordination, null, 2));
 }
 
+/**
+ * Dynamic Skill Loader
+ *
+ * Loads skills on-demand with dependency resolution and token budget management.
+ */
+
+export interface LoadedSkill {
+  skill: Skill;
+  dependencies: LoadedSkill[];
+  totalTokens: number;
+}
+
+export interface SkillLoaderOptions {
+  maxTokens?: number;
+  resolveDependencies?: boolean;
+  cache?: boolean;
+}
+
+// Skill cache
+const skillCache = new Map<string, LoadedSkill>();
+
+/**
+ * Load a skill with dependency resolution
+ */
+export function loadSkillDynamic(
+  skillId: string,
+  options: SkillLoaderOptions = {}
+): LoadedSkill | null {
+  const {
+    maxTokens = 50000,
+    resolveDependencies = true,
+    cache = true
+  } = options;
+
+  // Check cache first
+  if (cache && skillCache.has(skillId)) {
+    return skillCache.get(skillId)!;
+  }
+
+  // Find the skill
+  const skill = findSkill(skillId);
+  if (!skill) {
+    return null;
+  }
+
+  // Load dependencies if requested
+  const dependencies: LoadedSkill[] = [];
+  let totalTokens = skill.metadata.tokenBudget;
+
+  if (resolveDependencies && skill.metadata.dependencies) {
+    for (const depId of skill.metadata.dependencies) {
+      const depLoaded = loadSkillDynamic(depId, {
+        ...options,
+        cache: false // Don't cache dependencies during resolution
+      });
+
+      if (!depLoaded) {
+        console.warn(`Warning: Dependency ${depId} not found for skill ${skillId}`);
+        continue;
+      }
+
+      dependencies.push(depLoaded);
+      totalTokens += depLoaded.totalTokens;
+    }
+  }
+
+  // Check token budget
+  if (totalTokens > maxTokens) {
+    throw new Error(
+      `Token budget exceeded: ${totalTokens} > ${maxTokens} for skill ${skillId} with dependencies`
+    );
+  }
+
+  const loaded: LoadedSkill = {
+    skill,
+    dependencies,
+    totalTokens
+  };
+
+  // Cache the result
+  if (cache) {
+    skillCache.set(skillId, loaded);
+  }
+
+  return loaded;
+}
+
+/**
+ * Load multiple skills with shared dependency resolution
+ */
+export function loadSkillsBatch(
+  skillIds: string[],
+  options: SkillLoaderOptions = {}
+): LoadedSkill[] {
+  const loaded: LoadedSkill[] = [];
+  const seen = new Set<string>();
+
+  for (const skillId of skillIds) {
+    if (seen.has(skillId)) {
+      continue;
+    }
+
+    const loadedSkill = loadSkillDynamic(skillId, options);
+    if (loadedSkill) {
+      loaded.push(loadedSkill);
+      seen.add(skillId);
+
+      // Mark dependencies as seen to avoid duplicates
+      const markDeps = (ls: LoadedSkill) => {
+        for (const dep of ls.dependencies) {
+          seen.add(dep.skill.metadata.id);
+          markDeps(dep);
+        }
+      };
+      markDeps(loadedSkill);
+    }
+  }
+
+  return loaded;
+}
+
+/**
+ * Get skill content for injection (flattened with dependencies)
+ */
+export function getSkillContentForInjection(loadedSkill: LoadedSkill): string {
+  const parts: string[] = [];
+
+  // Add dependencies first (depth-first)
+  for (const dep of loadedSkill.dependencies) {
+    parts.push(getSkillContentForInjection(dep));
+  }
+
+  // Add main skill content
+  const { skill } = loadedSkill;
+  parts.push(`# Skill: ${skill.metadata.name} (${skill.metadata.id})`);
+  parts.push(`Category: ${skill.metadata.category}`);
+  parts.push(`Token Budget: ${skill.metadata.tokenBudget}`);
+  parts.push('');
+  parts.push(skill.content);
+  parts.push('');
+
+  return parts.join('\n');
+}
+
+/**
+ * Clear skill cache
+ */
+export function clearSkillCache(): void {
+  skillCache.clear();
+}
+
+/**
+ * Get cache statistics
+ */
+export function getSkillCacheStats(): { size: number; skills: string[] } {
+  return {
+    size: skillCache.size,
+    skills: Array.from(skillCache.keys())
+  };
+}
+

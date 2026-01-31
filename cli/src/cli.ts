@@ -6,7 +6,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { initCommand } from './commands/init';
 import { listCommand } from './commands/list';
-import { showCommand } from './commands/show';
+import { showCommand, showModuleCommand } from './commands/show';
 import { linkCommand } from './commands/link';
 import { updateCommand } from './commands/update';
 import { searchCommand } from './commands/search';
@@ -76,6 +76,33 @@ program
   .description('Display detailed information about a module')
   .option('--json', 'Output as JSON')
   .action(showCommand);
+
+// Enhanced module inspection command
+const showModuleCmd = program
+  .command('show module <module-name> [file-path]')
+  .description('Inspect module structure, content, and files')
+  .option('--json', 'Output as JSON')
+  .option('--content', 'Display aggregated content from all module files')
+  .option('--format <format>', 'Output format: json, markdown, text', 'text')
+  .option('--depth <number>', 'Recursion depth for submodules (max 5)', '1')
+  .option('--filter <pattern>', 'Filter files by glob pattern (e.g., "*.md")')
+  .option('--search <term>', 'Search within module content')
+  .option('--page <number>', 'Page number for paginated output', parseInt)
+  .option('--page-size <number>', 'Number of items per page (default: 10)', parseInt)
+  .action((moduleName: string, filePath: string | undefined, options: any) => {
+    showModuleCommand(moduleName, filePath, options);
+  });
+
+showModuleCmd.addHelpText('after', `
+Examples:
+  $ augx show module php-standards                    # Module overview
+  $ augx show module php-standards --content          # Aggregated content
+  $ augx show module php-standards rules/psr.md       # Individual file
+  $ augx show module php-standards --format json      # JSON output
+  $ augx show module php-standards --filter "*.md"    # Filter markdown files
+  $ augx show module php-standards --search "PSR-12"  # Search content
+  $ augx show module php-standards --content --page 2 # View page 2
+`);
 
 program
   .command('link <module>')

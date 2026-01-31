@@ -5,6 +5,74 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-01-31
+
+### Added
+
+#### Skills System (Beta)
+- **Token-Efficient Skills** - Lightweight, focused modules (500-10K tokens vs 50K+ for full modules)
+  - 97.2% average token reduction compared to full modules
+  - On-demand loading with dynamic dependency resolution
+  - 6 skill categories: retrieval, transformation, analysis, generation, integration, utility
+  - Intelligent caching for performance optimization
+
+#### Skill Commands
+- `augx skill list` - List all available skills
+- `augx skill show <skill-id>` - Show skill details and content
+- `augx skill search <keyword>` - Search for skills by name, description, or tags
+- `augx skill validate <file>` - Validate skill file format and metadata
+- `augx skill exec <skill-id>` - Execute skill CLI commands
+- `augx skill inject <skill-id>` - Inject skill content into AI context with dependency resolution
+- `augx skill load <skill-ids...>` - Load multiple skills in batch
+- `augx skill cache-clear` - Clear skill cache
+- `augx skill cache-stats` - Show cache statistics
+- `augx skill create-mcp` - Create new MCP skill wrapper
+
+#### MCP Integration (Beta)
+- **MCP Server Management** - Wrap Model Context Protocol servers as CLI commands and skills
+  - Inspired by [mcporter](https://github.com/steipete/mcporter)
+  - Configure MCP servers in `.augment/mcp/servers.json`
+  - Execute MCP tools via CLI
+  - Generate skill wrappers for MCP tools
+  - Discover available tools from MCP servers
+
+#### MCP Commands
+- `augx mcp list` - List configured MCP servers
+- `augx mcp add <name> <command>` - Add MCP server configuration
+- `augx mcp remove <name>` - Remove MCP server
+- `augx mcp exec <server> <tool>` - Execute MCP tool
+- `augx mcp wrap <server> <tool> <skill-id>` - Generate skill wrapper
+- `augx mcp discover <server>` - Discover tools from server
+- `augx mcp generate-cli <command> <output>` - Generate CLI using mcporter
+
+#### Documentation
+- **Skill Development Guide** (`docs/SKILL_DEVELOPMENT.md`) - Comprehensive guide for creating skills
+- **Migration Guide** (`docs/MIGRATION_GUIDE.md`) - Migrate from modules to skills
+- **CLI Reference** (`docs/CLI_REFERENCE.md`) - Complete CLI command reference
+- **MCP Integration** (`.augment/mcp/README.md`) - MCP integration documentation
+
+#### Initial Skills
+- **sdk-query** (retrieval) - Query SDK documentation and code examples
+- **context-retrieval** (retrieval) - Retrieve code context using semantic search
+- **code-analysis** (analysis) - Analyze code for quality and security
+- **add-mcp-skill** (generation) - Meta-skill for automating MCP skill creation
+
+### Changed
+- Updated repository structure to include `skills/` directory
+- Enhanced README.md with Skills System and MCP Integration sections
+- Updated package.json repository URLs to `mytech-today-now/augment-extensions`
+- Improved coordination system to track skills alongside modules
+
+### Performance
+- **97.2% token reduction** - Measured in benchmarks (skills vs full modules)
+- **Faster context injection** - Smaller files, faster parsing
+- **Better organization** - Focused, single-purpose skills
+
+### Statistics
+- **Total Skills**: 4 (1 retrieval, 1 analysis, 1 generation)
+- **Total Modules**: 20 (8 coding standards, 6 domain rules, 2 workflows, 4 examples, 1 collection)
+- **Total Character Count**: ~1,774,692 (1.7M+ characters in modules)
+
 ## [0.3.0] - 2026-01-29
 
 ### Added
@@ -101,10 +169,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic CLI functionality
 - Module linking system
 
-[0.3.0]: https://github.com/mytech-today-now/augment/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/mytech-today-now/augment/compare/v0.1.3...v0.2.0
-[0.1.3]: https://github.com/mytech-today-now/augment/compare/v0.1.2...v0.1.3
-[0.1.2]: https://github.com/mytech-today-now/augment/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/mytech-today-now/augment/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/mytech-today-now/augment/releases/tag/v0.1.0
+[0.4.0]: https://github.com/mytech-today-now/augment-extensions/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/mytech-today-now/augment-extensions/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/mytech-today-now/augment-extensions/compare/v0.1.3...v0.2.0
+[0.1.3]: https://github.com/mytech-today-now/augment-extensions/compare/v0.1.2...v0.1.3
+[0.1.2]: https://github.com/mytech-today-now/augment-extensions/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/mytech-today-now/augment-extensions/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/mytech-today-now/augment-extensions/releases/tag/v0.1.0
 

@@ -269,6 +269,355 @@ export function loadModule(modulePath: string): Module | null {
 }
 
 /**
+ * Extended module metadata with file information
+ */
+export interface ExtendedModuleMetadata extends ModuleMetadata {
+  files?: {
+    total: number;
+    rules: number;
+    examples: number;
+    other: number;
+  };
+  size?: {
+    totalBytes: number;
+    totalCharacters: number;
+  };
+  lastModified?: Date;
+}
+
+/**
+ * Extract comprehensive metadata from a module
+ * Includes file counts, sizes, and last modified dates
+ */
+export function extractModuleMetadata(modulePath: string): ExtendedModuleMetadata | null {
+  const moduleJsonPath = path.join(modulePath, 'module.json');
+
+  // Try to load module.json
+  let metadata: ModuleMetadata;
+  if (fs.existsSync(moduleJsonPath)) {
+    try {
+      metadata = JSON.parse(fs.readFileSync(moduleJsonPath, 'utf-8'));
+    } catch (error) {
+      // Invalid JSON - generate default metadata
+      metadata = generateDefaultMetadata(modulePath);
+    }
+  } else {
+    // Missing module.json - generate default metadata
+    metadata = generateDefaultMetadata(modulePath);
+  }
+
+  // Collect file statistics
+  const fileStats = collectFileStatistics(modulePath);
+  const sizeStats = calculateSizeStatistics(modulePath);
+  const lastModified = getLastModifiedDate(modulePath);
+
+  return {
+    ...metadata,
+    files: fileStats,
+    size: sizeStats,
+    lastModified
+  };
+}
+
+/**
+ * Generate default metadata for modules without module.json
+ */
+export function generateDefaultMetadata(modulePath: string): ModuleMetadata {
+  const modulesDir = getModulesDir();
+  const relativePath = path.relative(modulesDir, modulePath);
+  const parts = relativePath.split(path.sep);
+
+  const category = parts[0] as ModuleMetadata['type'];
+  const moduleName = parts[parts.length - 1];
+
+  return {
+    name: moduleName,
+    version: '0.0.0',
+    displayName: moduleName.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+    description: `Module: ${moduleName}`,
+    type: ['coding-standards', 'domain-rules', 'workflows', 'examples'].includes(category)
+      ? category as ModuleMetadata['type']
+      : 'examples',
+    augment: {
+      characterCount: 0,
+      priority: 'medium',
+      category: category
+    }
+  };
+}
+
+/**
+ * Collect file statistics for a module
+ */
+function collectFileStatistics(modulePath: string): { total: number; rules: number; examples: number; other: number } {
+  let total = 0;
+  let rules = 0;
+  let examples = 0;
+  let other = 0;
+
+  function countFiles(dir: string, isRulesDir: boolean = false, isExamplesDir: boolean = false) {
+    if (!fs.existsSync(dir)) return;
+
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+
+      if (entry.isDirectory()) {
+        const isRules = entry.name === 'rules';
+        const isExamples = entry.name === 'examples';
+        countFiles(fullPath, isRules, isExamples);
+      } else if (entry.isFile()) {
+        total++;
+        if (isRulesDir) {
+          rules++;
+        } else if (isExamplesDir) {
+          examples++;
+        } else {
+          other++;
+        }
+      }
+    }
+  }
+
+  countFiles(modulePath);
+
+  return { total, rules, examples, other };
+}
+
+/**
+ * Calculate size statistics for a module
+ */
+function calculateSizeStatistics(modulePath: string): { totalBytes: number; totalCharacters: number } {
+  let totalBytes = 0;
+  let totalCharacters = 0;
+
+  function calculateSize(dir: string) {
+    if (!fs.existsSync(dir)) return;
+
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+
+      if (entry.isDirectory()) {
+        calculateSize(fullPath);
+      } else if (entry.isFile()) {
+        const stats = fs.statSync(fullPath);
+        totalBytes += stats.size;
+
+        // Count characters for text files
+        if (entry.name.endsWith('.md') || entry.name.endsWith('.json') || entry.name.endsWith('.txt')) {
+          try {
+            const content = fs.readFileSync(fullPath, 'utf-8');
+            totalCharacters += content.length;
+          } catch (error) {
+            // Skip binary files
+          }
+        }
+      }
+    }
+  }
+
+  calculateSize(modulePath);
+
+  return { totalBytes, totalCharacters };
+}
+
+/**
+ * Get the last modified date of a module (most recent file modification)
+ */
+function getLastModifiedDate(modulePath: string): Date {
+  let latestDate = new Date(0); // Epoch
+
+  function findLatestDate(dir: string) {
+    if (!fs.existsSync(dir)) return;
+
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+
+      if (entry.isDirectory()) {
+        findLatestDate(fullPath);
+      } else if (entry.isFile()) {
+        const stats = fs.statSync(fullPath);
+        if (stats.mtime > latestDate) {
+          latestDate = stats.mtime;
+        }
+      }
+    }
+  }
+
+  findLatestDate(modulePath);
+
+  return latestDate;
+}
+
+/**
+ * File information interface
+ */
+export interface FileInfo {
+  name: string;
+  path: string;
+  relativePath: string;
+  size: number;
+  modified: Date;
+  type: 'rule' | 'example' | 'config' | 'documentation' | 'other';
+  extension: string;
+  directory: string;
+}
+
+/**
+ * List all files in a module with metadata
+ */
+export function listModuleFiles(modulePath: string, options: {
+  recursive?: boolean;
+  filter?: string;
+  groupByDirectory?: boolean;
+} = {}): FileInfo[] {
+  const {
+    recursive = true,
+    filter,
+    groupByDirectory = false
+  } = options;
+
+  const files: FileInfo[] = [];
+
+  function scanDirectory(dir: string, baseDir: string = modulePath) {
+    if (!fs.existsSync(dir)) return;
+
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      const relativePath = path.relative(baseDir, fullPath);
+
+      if (entry.isDirectory()) {
+        if (recursive) {
+          scanDirectory(fullPath, baseDir);
+        }
+      } else if (entry.isFile()) {
+        // Apply filter if specified
+        if (filter && !matchesFilter(entry.name, filter)) {
+          continue;
+        }
+
+        const stats = fs.statSync(fullPath);
+        const extension = path.extname(entry.name);
+        const directory = path.dirname(relativePath);
+
+        // Determine file type
+        let fileType: FileInfo['type'] = 'other';
+        if (directory.includes('rules')) {
+          fileType = 'rule';
+        } else if (directory.includes('examples')) {
+          fileType = 'example';
+        } else if (entry.name === 'module.json' || entry.name === 'collection.json') {
+          fileType = 'config';
+        } else if (entry.name === 'README.md' || extension === '.md') {
+          fileType = 'documentation';
+        }
+
+        files.push({
+          name: entry.name,
+          path: fullPath,
+          relativePath,
+          size: stats.size,
+          modified: stats.mtime,
+          type: fileType,
+          extension,
+          directory
+        });
+      }
+    }
+  }
+
+  scanDirectory(modulePath);
+
+  // Sort files
+  if (groupByDirectory) {
+    files.sort((a, b) => {
+      // Sort by directory first, then by name
+      if (a.directory !== b.directory) {
+        return a.directory.localeCompare(b.directory);
+      }
+      return a.name.localeCompare(b.name);
+    });
+  } else {
+    // Sort by name only
+    files.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  return files;
+}
+
+/**
+ * Match file name against filter pattern (simple glob support)
+ */
+function matchesFilter(fileName: string, filter: string): boolean {
+  // Convert glob pattern to regex
+  const regexPattern = filter
+    .replace(/\./g, '\\.')  // Escape dots
+    .replace(/\*/g, '.*')   // * matches any characters
+    .replace(/\?/g, '.');   // ? matches single character
+
+  const regex = new RegExp(`^${regexPattern}$`, 'i');
+  return regex.test(fileName);
+}
+
+/**
+ * Group files by directory
+ */
+export function groupFilesByDirectory(files: FileInfo[]): Map<string, FileInfo[]> {
+  const grouped = new Map<string, FileInfo[]>();
+
+  for (const file of files) {
+    const dir = file.directory || '.';
+    if (!grouped.has(dir)) {
+      grouped.set(dir, []);
+    }
+    grouped.get(dir)!.push(file);
+  }
+
+  return grouped;
+}
+
+/**
+ * Get file statistics for a list of files
+ */
+export function getFileStatistics(files: FileInfo[]): {
+  totalFiles: number;
+  totalSize: number;
+  byType: Record<FileInfo['type'], number>;
+  byExtension: Record<string, number>;
+} {
+  const byType: Record<FileInfo['type'], number> = {
+    rule: 0,
+    example: 0,
+    config: 0,
+    documentation: 0,
+    other: 0
+  };
+
+  const byExtension: Record<string, number> = {};
+
+  let totalSize = 0;
+
+  for (const file of files) {
+    totalSize += file.size;
+    byType[file.type]++;
+
+    const ext = file.extension || 'no-extension';
+    byExtension[ext] = (byExtension[ext] || 0) + 1;
+  }
+
+  return {
+    totalFiles: files.length,
+    totalSize,
+    byType,
+    byExtension
+  };
+}
+
+/**
  * Discover all modules in the modules directory
  */
 export function discoverModules(): Module[] {
@@ -385,6 +734,112 @@ export function findModule(moduleName: string): Module | null {
   // Search all categories for the module
   const modules = discoverModules();
   return modules.find(m => m.fullName.endsWith(`/${moduleName}`)) || null;
+}
+
+/**
+ * Search for modules by name with fuzzy matching
+ * Supports exact, partial, and case-insensitive matching
+ */
+export interface ModuleSearchOptions {
+  caseSensitive?: boolean;
+  exactMatch?: boolean;
+  category?: string;
+}
+
+export function searchModules(searchTerm: string, options: ModuleSearchOptions = {}): Module[] {
+  const {
+    caseSensitive = false,
+    exactMatch = false,
+    category
+  } = options;
+
+  const allModules = discoverModules();
+  const searchLower = caseSensitive ? searchTerm : searchTerm.toLowerCase();
+
+  return allModules.filter(module => {
+    const moduleName = caseSensitive ? module.fullName : module.fullName.toLowerCase();
+    const moduleShortName = caseSensitive ? module.metadata.name : module.metadata.name.toLowerCase();
+
+    // Filter by category if specified
+    if (category) {
+      const moduleCategory = module.fullName.split('/')[0];
+      if (moduleCategory !== category) {
+        return false;
+      }
+    }
+
+    // Exact match
+    if (exactMatch) {
+      return moduleName === searchLower || moduleShortName === searchLower;
+    }
+
+    // Partial match (contains search term)
+    return moduleName.includes(searchLower) ||
+           moduleShortName.includes(searchLower) ||
+           (module.metadata.displayName &&
+            (caseSensitive ? module.metadata.displayName : module.metadata.displayName.toLowerCase()).includes(searchLower));
+  });
+}
+
+/**
+ * Find module with enhanced discovery
+ * Tries exact match first, then falls back to fuzzy search
+ */
+export function findModuleEnhanced(moduleName: string): Module | null {
+  // Try exact match first
+  let module = findModule(moduleName);
+  if (module) {
+    return module;
+  }
+
+  // Try case-insensitive search
+  const results = searchModules(moduleName, { caseSensitive: false, exactMatch: false });
+
+  // If exactly one result, return it
+  if (results.length === 1) {
+    return results[0];
+  }
+
+  // If multiple results, try to find exact match (case-insensitive)
+  const exactMatches = results.filter(m =>
+    m.fullName.toLowerCase() === moduleName.toLowerCase() ||
+    m.metadata.name.toLowerCase() === moduleName.toLowerCase()
+  );
+
+  if (exactMatches.length === 1) {
+    return exactMatches[0];
+  }
+
+  // No unique match found
+  return null;
+}
+
+/**
+ * Get module suggestions for a search term
+ * Returns up to maxSuggestions similar modules
+ */
+export function getModuleSuggestions(searchTerm: string, maxSuggestions: number = 5): Module[] {
+  const results = searchModules(searchTerm, { caseSensitive: false, exactMatch: false });
+
+  // Sort by relevance (exact matches first, then by length)
+  results.sort((a, b) => {
+    const aName = a.fullName.toLowerCase();
+    const bName = b.fullName.toLowerCase();
+    const searchLower = searchTerm.toLowerCase();
+
+    // Exact match scores highest
+    if (aName === searchLower) return -1;
+    if (bName === searchLower) return 1;
+
+    // Starts with search term scores next
+    if (aName.startsWith(searchLower) && !bName.startsWith(searchLower)) return -1;
+    if (bName.startsWith(searchLower) && !aName.startsWith(searchLower)) return 1;
+
+    // Shorter names score higher (more specific)
+    return aName.length - bName.length;
+  });
+
+  return results.slice(0, maxSuggestions);
 }
 
 /**

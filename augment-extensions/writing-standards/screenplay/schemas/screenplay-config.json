@@ -235,6 +235,10 @@
           "description": "Check for continuity errors"
         }
       }
+    },
+    "screenplay_enhancements": {
+      "$ref": "feature-selection.json#/properties/screenplay_enhancements",
+      "description": "Genre, theme, and style enhancements (see feature-selection.json)"
     }
   }
 }

@@ -1,0 +1,75 @@
+{
+  "name": "beads-integration",
+  "version": "1.0.0",
+  "displayName": "Beads Integration Workflow",
+  "description": "Comprehensive guidelines and automation for AI-driven Beads task generation, OpenSpec decomposition, and workflow integration",
+  "type": "workflow",
+  "tags": [
+    "beads",
+    "task-management",
+    "openspec",
+    "workflow",
+    "automation",
+    "ai-integration",
+    "task-generation"
+  ],
+  "dependencies": {
+    "workflows/openspec": ">=1.0.0",
+    "workflows/beads": ">=1.0.0"
+  },
+  "augment": {
+    "characterCount": 0,
+    "priority": "high",
+    "category": "workflow",
+    "appliesTo": {
+      "filePatterns": [
+        ".beads/**/*",
+        "openspec/**/*",
+        "**/*.md"
+      ],
+      "languages": ["markdown", "json", "typescript"]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link workflows/beads-integration",
+      "Configure mode in config/defaults.json (basic, advanced, or custom)",
+      "Enable desired features in configuration"
+    ]
+  },
+  "features": {
+    "task_generation": {
+      "enabled": true,
+      "description": "AI-driven comprehensive task generation with quality standards"
+    },
+    "openspec_integration": {
+      "enabled": true,
+      "description": "Automated OpenSpec-to-Beads decomposition"
+    },
+    "typescript_commands": {
+      "enabled": true,
+      "description": "TypeScript automation commands for validation and generation"
+    },
+    "effectiveness_rules": {
+      "enabled": true,
+      "description": "Effectiveness standards ensuring high-quality task content"
+    }
+  },
+  "contents": [
+    "rules/core-rules.md - Universal guidelines for all beads task generation",
+    "rules/task-generation.md - Comprehensive task generation guidelines",
+    "rules/effectiveness-standards.md - Quality and effectiveness criteria",
+    "rules/openspec-integration.md - OpenSpec decomposition automation",
+    "rules/typescript-commands.md - TypeScript command framework",
+    "config/schema.json - Configuration schema",
+    "config/defaults.json - Default configuration",
+    "examples/basic-task-generation.md - Basic task generation examples",
+    "examples/advanced-decomposition.md - Advanced decomposition examples",
+    "examples/typescript-automation.md - TypeScript automation examples",
+    "scripts/validators/ - Validation commands",
+    "scripts/generators/ - Generation commands",
+    "scripts/integrations/ - Integration commands"
+  ]
+}
+

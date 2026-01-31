@@ -1,0 +1,26 @@
+{
+  "name": "gruvbox-dark",
+  "version": "1.0.0",
+  "displayName": "Gruvbox Dark Theme",
+  "description": "Retro-inspired dark theme with warm earthy tones",
+  "type": "theme",
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "themes"
+  },
+  "installation": "optional",
+  "colors": {
+    "primary": "#83a598",
+    "secondary": "#8ec07c",
+    "background": "#282828",
+    "surface": "#3c3836",
+    "text": "#ebdbb2",
+    "accent": "#fe8019",
+    "success": "#b8bb26",
+    "warning": "#fabd2f",
+    "error": "#fb4934",
+    "info": "#83a598"
+  }
+}
+

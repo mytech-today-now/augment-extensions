@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Beads Integration Configuration Schema",
+  "description": "Configuration schema for the Beads Integration Workflow module",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "type": "string",
+      "enum": ["basic", "advanced", "custom"],
+      "default": "advanced",
+      "description": "Configuration mode: basic (simplified), advanced (full features), custom (configurable)"
+    },
+    "features": {
+      "type": "object",
+      "description": "Feature flags for enabling/disabling functionality",
+      "properties": {
+        "task_generation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable AI-driven comprehensive task generation"
+        },
+        "openspec_integration": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automated OpenSpec-to-Beads decomposition"
+        },
+        "typescript_commands": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable TypeScript automation commands"
+        },
+        "effectiveness_rules": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable effectiveness standards for task quality"
+        }
+      }
+    },
+    "rules": {
+      "type": "object",
+      "description": "Rule settings for task generation and validation",
+      "properties": {
+        "task_detail_level": {
+          "type": "string",
+          "enum": ["minimal", "standard", "comprehensive"],
+          "default": "comprehensive",
+          "description": "Level of detail required in task descriptions"
+        },
+        "require_dependencies": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require explicit dependency declarations"
+        },
+        "require_verification": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require verification/acceptance criteria in tasks"
+        },
+        "require_prerequisites": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require prerequisite documentation in tasks"
+        },
+        "require_success_metrics": {
+          "type": "boolean",
+          "default": true,
+          "description": "Require success metrics in task descriptions"
+        }
+      }
+    },
+    "openspec": {
+      "type": "object",
+      "description": "OpenSpec integration settings",
+      "properties": {
+        "auto_decompose": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically decompose OpenSpec specs into tasks"
+        },
+        "dependency_detection": {
+          "type": "string",
+          "enum": ["automatic", "manual", "hybrid"],
+          "default": "hybrid",
+          "description": "Method for detecting task dependencies"
+        },
+        "parallelization": {
+          "type": "boolean",
+          "default": true,
+          "description": "Identify and mark parallelizable tasks"
+        }
+      }
+    },
+    "typescript": {
+      "type": "object",
+      "description": "TypeScript command settings",
+      "properties": {
+        "validation_level": {
+          "type": "string",
+          "enum": ["strict", "standard", "lenient"],
+          "default": "standard",
+          "description": "Validation strictness level"
+        },
+        "auto_fix": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically fix validation errors when possible"
+        }
+      }
+    },
+    "effectiveness": {
+      "type": "object",
+      "description": "Effectiveness standards settings",
+      "properties": {
+        "atomicity_check": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify tasks are atomic (single-purpose)"
+        },
+        "completeness_check": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify tasks contain all necessary information"
+        },
+        "clarity_check": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify tasks have clear, unambiguous instructions"
+        },
+        "testability_check": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify tasks have clear success criteria"
+        }
+      }
+    }
+  },
+  "required": ["mode"],
+  "additionalProperties": false
+}
+

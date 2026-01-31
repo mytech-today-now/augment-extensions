@@ -62,5 +62,29 @@ ai-prompts/
 
 # scripts (entire directory - project-specific tests)
 scripts/
+
 # Augment Extensions
 .augment/extensions.json
+
+# Benchmarks
+.benchmarks/
+
+# CLI
+.cli/
+
+# CLI
+IMPLEMENTATION_SUMMARY.md
+TASK_COMPLETION_SUMMARY.md
+TASK-EXECUTION-SUMMARY.md
+test-modules.md
+npm-publish-checklist.md
+close-tasks-simple.ps1
+close-inspect-tasks.ps1
+close-screenplay-tasks.ps1
+publishing.md
+project-status.md
+module-development.md
+CONTRIBUTING.md
+MODULES.md
+BEADS-USAGE.md
+

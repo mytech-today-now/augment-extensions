@@ -1,0 +1,66 @@
+{
+  "name": "screenplay-themes",
+  "version": "1.0.0",
+  "displayName": "Screenplay Themes",
+  "description": "Thematic integration rules and guidelines for screenplay writing across 15+ universal themes",
+  "type": "writing-standards",
+  "category": "screenplay",
+  "tags": [
+    "screenplay",
+    "themes",
+    "storytelling",
+    "character-development",
+    "subtext"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": []
+  },
+  "augment": {
+    "characterCount": 0,
+    "priority": "high",
+    "category": "screenplay-themes",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md"
+      ],
+      "languages": ["fountain", "markdown"]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/themes",
+      "Configure themes in .augment/screenplay-config.json",
+      "Select specific themes to integrate"
+    ]
+  },
+  "configuration": {
+    "schema": "../schemas/feature-selection.json",
+    "defaultConfig": {
+      "enabled": true,
+      "selected": []
+    }
+  },
+  "contents": [
+    "rules/redemption.md - Redemption theme integration",
+    "rules/love.md - Love theme integration",
+    "rules/revenge.md - Revenge theme integration",
+    "rules/identity.md - Identity theme integration",
+    "rules/power.md - Power theme integration",
+    "rules/survival.md - Survival theme integration",
+    "rules/friendship.md - Friendship theme integration",
+    "rules/betrayal.md - Betrayal theme integration",
+    "rules/growth.md - Growth theme integration",
+    "rules/isolation.md - Isolation theme integration",
+    "rules/justice.md - Justice theme integration",
+    "rules/ambition.md - Ambition theme integration",
+    "rules/fate.md - Fate theme integration",
+    "rules/technology.md - Technology's Impact theme integration",
+    "rules/environment.md - Environmental Concerns theme integration",
+    "examples/theme-integrations.md - Theme integration examples"
+  ]
+}
+

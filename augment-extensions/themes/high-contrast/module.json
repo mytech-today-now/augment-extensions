@@ -1,0 +1,26 @@
+{
+  "name": "high-contrast",
+  "version": "1.0.0",
+  "displayName": "High Contrast Theme",
+  "description": "Accessibility-focused theme with maximum contrast for better readability",
+  "type": "theme",
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "themes"
+  },
+  "installation": "optional",
+  "colors": {
+    "primary": "#0066ff",
+    "secondary": "#ff00ff",
+    "background": "#000000",
+    "surface": "#1a1a1a",
+    "text": "#ffffff",
+    "accent": "#00ffff",
+    "success": "#00ff00",
+    "warning": "#ffff00",
+    "error": "#ff0000",
+    "info": "#0066ff"
+  }
+}
+

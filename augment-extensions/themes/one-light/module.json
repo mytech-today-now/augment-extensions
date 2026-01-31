@@ -1,0 +1,26 @@
+{
+  "name": "one-light",
+  "version": "1.0.0",
+  "displayName": "One Light Theme",
+  "description": "Popular light theme inspired by Atom's One Light",
+  "type": "theme",
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "themes"
+  },
+  "installation": "optional",
+  "colors": {
+    "primary": "#4078f2",
+    "secondary": "#a626a4",
+    "background": "#fafafa",
+    "surface": "#f0f0f0",
+    "text": "#383a42",
+    "accent": "#0184bc",
+    "success": "#50a14f",
+    "warning": "#c18401",
+    "error": "#e45649",
+    "info": "#4078f2"
+  }
+}
+

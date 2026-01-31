@@ -1,0 +1,26 @@
+{
+  "name": "dracula",
+  "version": "1.0.0",
+  "displayName": "Dracula Theme",
+  "description": "Dark theme with purple and pink accents inspired by the popular Dracula color scheme",
+  "type": "theme",
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "themes"
+  },
+  "installation": "optional",
+  "colors": {
+    "primary": "#bd93f9",
+    "secondary": "#ff79c6",
+    "background": "#282a36",
+    "surface": "#44475a",
+    "text": "#f8f8f2",
+    "accent": "#8be9fd",
+    "success": "#50fa7b",
+    "warning": "#f1fa8c",
+    "error": "#ff5555",
+    "info": "#8be9fd"
+  }
+}
+

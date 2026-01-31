@@ -1,0 +1,26 @@
+{
+  "name": "nord",
+  "version": "1.0.0",
+  "displayName": "Nord Theme",
+  "description": "Arctic-inspired dark theme with cool blue tones",
+  "type": "theme",
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "themes"
+  },
+  "installation": "optional",
+  "colors": {
+    "primary": "#88c0d0",
+    "secondary": "#81a1c1",
+    "background": "#2e3440",
+    "surface": "#3b4252",
+    "text": "#eceff4",
+    "accent": "#5e81ac",
+    "success": "#a3be8c",
+    "warning": "#ebcb8b",
+    "error": "#bf616a",
+    "info": "#88c0d0"
+  }
+}
+

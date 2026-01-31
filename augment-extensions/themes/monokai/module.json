@@ -1,0 +1,26 @@
+{
+  "name": "monokai",
+  "version": "1.0.0",
+  "displayName": "Monokai Theme",
+  "description": "Dark theme with vibrant colors inspired by the classic Monokai editor theme",
+  "type": "theme",
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "themes"
+  },
+  "installation": "optional",
+  "colors": {
+    "primary": "#f92672",
+    "secondary": "#a6e22e",
+    "background": "#272822",
+    "surface": "#3e3d32",
+    "text": "#f8f8f2",
+    "accent": "#66d9ef",
+    "success": "#a6e22e",
+    "warning": "#e6db74",
+    "error": "#f92672",
+    "info": "#66d9ef"
+  }
+}
+

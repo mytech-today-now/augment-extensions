@@ -1,0 +1,643 @@
+# Content Calendar Example: Q1 2026 Marketing Campaign
+# AI Analytics Platform Launch - 90-Day Content Schedule
+
+metadata:
+  campaignName: "AI Analytics Platform Launch"
+  campaignId: "ai-analytics-q1-2026"
+  quarter: "Q1 2026"
+  startDate: "2026-03-01"
+  endDate: "2026-05-31"
+  owner: "Marketing Team"
+  lastUpdated: "2026-01-31"
+
+# Content Themes by Week
+themes:
+  week1:
+    theme: "Launch Week - Product Announcement"
+    focus: "Awareness and excitement"
+    hashtags: ["#ProductLaunch", "#AIAnalytics", "#DataDriven"]
+  
+  week2:
+    theme: "Social Proof Week - Customer Success"
+    focus: "Trust and credibility"
+    hashtags: ["#CustomerSuccess", "#CaseStudy", "#Results"]
+  
+  week3:
+    theme: "Education Week - How-To Content"
+    focus: "Value and expertise"
+    hashtags: ["#DataTips", "#Analytics", "#BestPractices"]
+  
+  week4:
+    theme: "Feature Spotlight Week"
+    focus: "Product capabilities"
+    hashtags: ["#ProductFeatures", "#Innovation", "#AI"]
+
+# Weekly Content Schedule
+schedule:
+  # Week 1: Launch Week (March 1-7, 2026)
+  - date: "2026-03-01"
+    dayOfWeek: "Monday"
+    week: 1
+    content:
+      - platform: "LinkedIn"
+        type: "Article"
+        title: "The Future of Data Analytics: AI-Powered Insights"
+        author: "CEO - John Smith"
+        status: "Draft"
+        deadline: "2026-02-25"
+        assignedTo: "Content Team"
+        wordCount: 1200
+        keywords: ["AI analytics", "data-driven decisions", "business intelligence"]
+        cta: "Read more on our blog"
+        notes: "Thought leadership piece to set stage for launch"
+      
+      - platform: "Twitter"
+        type: "Teaser Post"
+        content: "Something big is coming tomorrow 👀 Hint: AI + Data + Simplicity"
+        scheduledTime: "14:00 EST"
+        status: "Approved"
+        assignedTo: "Social Media Manager"
+        media: "teaser-video-15s.mp4"
+        hashtags: ["#AI", "#ComingSoon"]
+  
+  - date: "2026-03-02"
+    dayOfWeek: "Tuesday"
+    week: 1
+    content:
+      - platform: "All Platforms"
+        type: "Launch Announcement"
+        title: "Introducing TechFlow AI Analytics Platform"
+        scheduledTime: "10:00 EST"
+        status: "Approved"
+        assignedTo: "Marketing Team"
+        budget: "$1,200"
+        paidPromotion: true
+        targeting:
+          audience: "Data analysts, BI professionals, C-suite"
+          industries: ["SaaS", "E-commerce", "Finance"]
+          jobTitles: ["Data Analyst", "Business Intelligence Manager", "VP Analytics"]
+        deliverables:
+          - "LinkedIn post + carousel (5 slides)"
+          - "Twitter thread (5 tweets)"
+          - "Instagram carousel (10 slides)"
+          - "Facebook post + video"
+        media:
+          - "product-dashboard-screenshot.png"
+          - "launch-video-60s.mp4"
+          - "feature-highlights-carousel.pdf"
+      
+      - platform: "Blog"
+        type: "Blog Post"
+        title: "How AI Analytics Transforms Data Chaos Into Insights"
+        author: "Content Marketing Manager"
+        wordCount: 1500
+        status: "In Progress"
+        deadline: "2026-03-01"
+        keywords: ["AI analytics", "data integration", "automated insights"]
+        seoTarget: "AI analytics platform"
+        cta: "Start free trial"
+  
+  - date: "2026-03-03"
+    dayOfWeek: "Wednesday"
+    week: 1
+    content:
+      - platform: "LinkedIn"
+        type: "Educational Post"
+        title: "5 Signs Your Business Needs AI-Powered Analytics"
+        scheduledTime: "09:00 EST"
+        status: "Scheduled"
+        assignedTo: "Content Team"
+        media: "infographic-5-signs.png"
+        hashtags: ["#DataTips", "#Analytics", "#BestPractices"]
+      
+      - platform: "Email"
+        type: "Newsletter"
+        subject: "🚀 Introducing TechFlow AI Analytics - Transform Your Data"
+        segment: "Existing customers + prospects"
+        listSize: 50000
+        status: "Draft"
+        deadline: "2026-03-02"
+        assignedTo: "Email Marketing Specialist"
+        abTest:
+          variant_a: "Subject: Transform Data Chaos Into Insights"
+          variant_b: "Subject: AI Analytics That Actually Makes Sense"
+          metric: "Open rate"
+  
+  - date: "2026-03-04"
+    dayOfWeek: "Thursday"
+    week: 1
+    content:
+      - platform: "LinkedIn"
+        type: "Thought Leadership"
+        title: "Why Traditional BI Tools Are Failing Modern Businesses"
+        author: "VP of Product"
+        scheduledTime: "11:00 EST"
+        status: "Approved"
+        wordCount: 800
+        hashtags: ["#BusinessIntelligence", "#DataStrategy"]
+      
+      - platform: "Twitter"
+        type: "Thread"
+        title: "5 Data Analytics Mistakes That Cost You Money (Thread)"
+        scheduledTime: "13:00 EST"
+        status: "Scheduled"
+        tweetCount: 5
+        assignedTo: "Social Media Manager"
+  
+  - date: "2026-03-05"
+    dayOfWeek: "Friday"
+    week: 1
+    content:
+      - platform: "Instagram"
+        type: "Reel"
+        title: "Product Demo: Natural Language Queries in Action"
+        duration: "60s"
+        scheduledTime: "17:00 EST"
+        status: "In Production"
+        deadline: "2026-03-04"
+        assignedTo: "Video Production Team"
+        hashtags: ["#ProductDemo", "#AIAnalytics", "#TechInnovation"]
+      
+      - platform: "YouTube"
+        type: "Video"
+        title: "TechFlow AI Analytics Platform - Full Product Tour"
+        duration: "5:00"
+        status: "Filming"
+        deadline: "2026-03-03"
+        assignedTo: "Video Team"
+        seoKeywords: ["AI analytics platform tour", "data analytics software demo"]
+  
+  # Week 2: Social Proof Week (March 8-14, 2026)
+  - date: "2026-03-09"
+    dayOfWeek: "Monday"
+    week: 2
+    content:
+      - platform: "LinkedIn"
+        type: "Case Study Carousel"
+        title: "How SwiftShop Increased Revenue 35% with AI Analytics"
+        scheduledTime: "10:00 EST"
+        status: "Draft"
+        deadline: "2026-03-06"
+        assignedTo: "Content Team"
+        slides: 5
+        media: "case-study-swiftshop-carousel.pdf"
+        paidPromotion: true
+        budget: "$300"
+      
+      - platform: "Blog"
+        type: "Case Study"
+        title: "Customer Success Story: SwiftShop's Data Transformation"
+        wordCount: 2000
+        status: "In Progress"
+        deadline: "2026-03-08"
+        author: "Customer Success Manager"
+        includes:
+          - "Customer interview quotes"
+          - "Before/after metrics"
+          - "Implementation timeline"
+          - "ROI calculation"
+  
+  - date: "2026-03-10"
+    dayOfWeek: "Tuesday"
+    week: 2
+    content:
+      - platform: "Twitter"
+        type: "Customer Testimonial"
+        content: "Quote from Sarah Chen, VP Analytics at SwiftShop"
+        scheduledTime: "11:00 EST"
+        status: "Approved"
+        media: "testimonial-quote-card.png"
+      
+      - platform: "Facebook"
+        type: "Video Testimonial"
+        title: "Customer Interview: Sarah Chen, SwiftShop"
+        duration: "90s"
+        scheduledTime: "11:00 EST"
+        status: "Editing"
+        deadline: "2026-03-09"
+        paidPromotion: true
+        budget: "$400"
+
+  - date: "2026-03-11"
+    dayOfWeek: "Wednesday"
+    week: 2
+    content:
+      - platform: "LinkedIn"
+        type: "Industry Insights"
+        title: "2026 Data Analytics Trends Report"
+        scheduledTime: "09:00 EST"
+        status: "Scheduled"
+        assignedTo: "Content Team"
+        media: "trends-report-infographic.png"
+        hashtags: ["#DataTrends", "#Analytics2026", "#Industry"]
+
+      - platform: "Email"
+        type: "Free Resource"
+        subject: "📊 Free Download: Complete Guide to Data-Driven Decisions"
+        segment: "Prospects + trial users"
+        listSize: 25000
+        status: "Scheduled"
+        deadline: "2026-03-10"
+        assignedTo: "Email Marketing Specialist"
+        cta: "Download free guide"
+
+  - date: "2026-03-12"
+    dayOfWeek: "Thursday"
+    week: 2
+    content:
+      - platform: "Twitter"
+        type: "Poll"
+        content: "What's your biggest data analytics challenge?"
+        scheduledTime: "14:00 EST"
+        status: "Approved"
+        pollOptions:
+          - "Data integration"
+          - "Visualization"
+          - "Finding insights"
+          - "Team adoption"
+        duration: "24 hours"
+
+      - platform: "Blog"
+        type: "How-To Guide"
+        title: "10 Dashboard Templates You Can Use Today"
+        wordCount: 1800
+        status: "Draft"
+        deadline: "2026-03-11"
+        author: "Content Marketing Manager"
+        includes:
+          - "Downloadable templates"
+          - "Step-by-step setup"
+          - "Best practices"
+
+  - date: "2026-03-13"
+    dayOfWeek: "Friday"
+    week: 2
+    content:
+      - platform: "Instagram"
+        type: "Behind-the-Scenes Reel"
+        title: "How Our AI Actually Works (60s Explainer)"
+        duration: "60s"
+        scheduledTime: "17:00 EST"
+        status: "Approved"
+        assignedTo: "Video Production Team"
+        hashtags: ["#BehindTheScenes", "#TechExplained", "#AI"]
+
+  # Week 3: Education Week (March 15-21, 2026)
+  - date: "2026-03-16"
+    dayOfWeek: "Monday"
+    week: 3
+    content:
+      - platform: "LinkedIn"
+        type: "Educational Article"
+        title: "Data Integration 101: A Complete Guide"
+        author: "Technical Content Writer"
+        wordCount: 1500
+        status: "In Progress"
+        deadline: "2026-03-13"
+        keywords: ["data integration", "ETL", "data pipeline"]
+
+      - platform: "YouTube"
+        type: "Tutorial Video"
+        title: "Getting Started with TechFlow - Beginner's Guide"
+        duration: "10:00"
+        status: "Scripting"
+        deadline: "2026-03-14"
+        assignedTo: "Video Team"
+
+  - date: "2026-03-17"
+    dayOfWeek: "Tuesday"
+    week: 3
+    content:
+      - platform: "Twitter"
+        type: "Thread"
+        title: "7 Data Visualization Best Practices (Thread)"
+        scheduledTime: "12:00 EST"
+        status: "Draft"
+        tweetCount: 7
+        assignedTo: "Social Media Manager"
+        media: "visualization-examples.png"
+
+      - platform: "Webinar"
+        type: "Live Event"
+        title: "Masterclass: AI-Powered Analytics for Beginners"
+        scheduledTime: "14:00 EST"
+        duration: "60 minutes"
+        status: "Promoted"
+        registrationGoal: 500
+        platform: "Zoom"
+        assignedTo: "Product Marketing Manager"
+
+  - date: "2026-03-18"
+    dayOfWeek: "Wednesday"
+    week: 3
+    content:
+      - platform: "Blog"
+        type: "Comparison Guide"
+        title: "TechFlow vs Traditional BI Tools: Complete Comparison"
+        wordCount: 2500
+        status: "Draft"
+        deadline: "2026-03-17"
+        author: "Product Marketing Manager"
+        includes:
+          - "Feature comparison table"
+          - "Pricing comparison"
+          - "Use case scenarios"
+
+      - platform: "LinkedIn"
+        type: "Infographic"
+        title: "The ROI of AI Analytics (Infographic)"
+        scheduledTime: "10:00 EST"
+        status: "Design"
+        deadline: "2026-03-17"
+        assignedTo: "Design Team"
+
+  - date: "2026-03-19"
+    dayOfWeek: "Thursday"
+    week: 3
+    content:
+      - platform: "Email"
+        type: "Educational Series (Part 1)"
+        subject: "📚 Data Analytics Crash Course - Day 1"
+        segment: "Trial users + engaged prospects"
+        listSize: 15000
+        status: "Scheduled"
+        series: "5-day email course"
+        assignedTo: "Email Marketing Specialist"
+
+      - platform: "Twitter"
+        type: "Quick Tip"
+        content: "💡 Pro tip: Use natural language queries to save 10+ hours per week"
+        scheduledTime: "15:00 EST"
+        status: "Approved"
+        media: "tip-screenshot.png"
+
+  - date: "2026-03-20"
+    dayOfWeek: "Friday"
+    week: 3
+    content:
+      - platform: "Instagram"
+        type: "Carousel"
+        title: "5 Analytics Mistakes to Avoid"
+        slides: 6
+        scheduledTime: "16:00 EST"
+        status: "Design"
+        deadline: "2026-03-19"
+        assignedTo: "Design Team"
+        hashtags: ["#DataTips", "#Analytics", "#BestPractices"]
+
+  # Week 4: Feature Spotlight Week (March 22-28, 2026)
+  - date: "2026-03-23"
+    dayOfWeek: "Monday"
+    week: 4
+    content:
+      - platform: "LinkedIn"
+        type: "Feature Spotlight"
+        title: "Feature Spotlight: Natural Language Queries"
+        scheduledTime: "10:00 EST"
+        status: "Draft"
+        deadline: "2026-03-20"
+        assignedTo: "Product Marketing Manager"
+        media: "feature-demo-video-30s.mp4"
+
+      - platform: "Blog"
+        type: "Feature Deep Dive"
+        title: "How Natural Language Queries Work (Technical Deep Dive)"
+        wordCount: 2000
+        status: "In Progress"
+        deadline: "2026-03-22"
+        author: "Technical Writer"
+
+  - date: "2026-03-24"
+    dayOfWeek: "Tuesday"
+    week: 4
+    content:
+      - platform: "Twitter"
+        type: "Feature Demo"
+        content: "Watch how easy it is to create a dashboard (15s demo)"
+        scheduledTime: "13:00 EST"
+        status: "Approved"
+        media: "dashboard-demo-15s.mp4"
+
+      - platform: "YouTube"
+        type: "Feature Tutorial"
+        title: "Predictive Analytics Tutorial - Forecast Revenue in 5 Minutes"
+        duration: "8:00"
+        status: "Filming"
+        deadline: "2026-03-23"
+        assignedTo: "Video Team"
+
+  - date: "2026-03-25"
+    dayOfWeek: "Wednesday"
+    week: 4
+    content:
+      - platform: "LinkedIn"
+        type: "Product Update"
+        title: "New Feature: Smart Alerts & Notifications"
+        scheduledTime: "09:00 EST"
+        status: "Scheduled"
+        assignedTo: "Product Marketing Manager"
+        media: "alerts-feature-screenshot.png"
+
+      - platform: "Email"
+        type: "Product Announcement"
+        subject: "🚨 New Feature Alert: Smart Notifications"
+        segment: "Existing customers"
+        listSize: 5000
+        status: "Draft"
+        deadline: "2026-03-24"
+
+  - date: "2026-03-26"
+    dayOfWeek: "Thursday"
+    week: 4
+    content:
+      - platform: "Facebook"
+        type: "Live Demo"
+        title: "Facebook Live: Product Demo & Q&A"
+        scheduledTime: "15:00 EST"
+        duration: "45 minutes"
+        status: "Promoted"
+        assignedTo: "Product Team"
+        paidPromotion: true
+        budget: "$200"
+
+      - platform: "Twitter"
+        type: "Live Tweet Thread"
+        content: "Live tweeting our Facebook demo - join us!"
+        scheduledTime: "15:00 EST"
+        status: "Scheduled"
+
+  - date: "2026-03-27"
+    dayOfWeek: "Friday"
+    week: 4
+    content:
+      - platform: "Instagram"
+        type: "Stories Series"
+        title: "Feature Friday: Top 5 Features You Should Know"
+        slides: 10
+        scheduledTime: "18:00 EST"
+        status: "Design"
+        deadline: "2026-03-26"
+        assignedTo: "Design Team"
+
+# Milestones and Key Dates
+milestones:
+  - date: "2026-03-02"
+    milestone: "Official Product Launch"
+    deliverables:
+      - "Press release distribution"
+      - "All platform announcements"
+      - "Launch video published"
+
+  - date: "2026-03-17"
+    milestone: "First Webinar"
+    deliverables:
+      - "Webinar registration page live"
+      - "Email promotion sent"
+      - "Social media promotion"
+
+  - date: "2026-03-26"
+    milestone: "Facebook Live Demo"
+    deliverables:
+      - "Demo script finalized"
+      - "Q&A preparation"
+      - "Promotion across all channels"
+
+  - date: "2026-03-31"
+    milestone: "End of Month Review"
+    deliverables:
+      - "Performance report"
+      - "Content audit"
+      - "Q2 planning session"
+
+# Review and Approval Workflow
+workflow:
+  draft:
+    assignedTo: "Content Creator"
+    deadline: "3 days before publish"
+    nextStep: "Review"
+
+  review:
+    assignedTo: "Content Manager"
+    sla: "24 hours"
+    nextStep: "Approval"
+
+  approval:
+    assignedTo: "Marketing Director"
+    sla: "12 hours"
+    nextStep: "Scheduled"
+
+  scheduled:
+    assignedTo: "Social Media Manager"
+    tool: "Hootsuite"
+    nextStep: "Published"
+
+  published:
+    tracking: "Google Analytics + Platform Analytics"
+    reportingFrequency: "Weekly"
+
+# Performance Tracking
+tracking:
+  kpis:
+    - metric: "Total Reach"
+      target: 500000
+      platform: "All"
+
+    - metric: "Engagement Rate"
+      target: "3%"
+      platform: "All"
+
+    - metric: "Website Traffic"
+      target: 15000
+      source: "Social + Email"
+
+    - metric: "MQLs Generated"
+      target: 750
+      source: "All channels"
+
+    - metric: "Trial Signups"
+      target: 150
+      source: "All channels"
+
+  reportingSchedule:
+    daily:
+      - "Social media engagement"
+      - "Website traffic"
+
+    weekly:
+      - "Content performance review"
+      - "Campaign metrics dashboard"
+      - "Team sync meeting"
+
+    monthly:
+      - "Comprehensive performance report"
+      - "ROI analysis"
+      - "Strategy adjustment meeting"
+
+# Budget Allocation
+budget:
+  total: "$15,000"
+  breakdown:
+    paidSocial: "$5,000"
+    contentCreation: "$7,000"
+    tools: "$2,000"
+    misc: "$1,000"
+
+  byPlatform:
+    linkedin: "$2,000"
+    twitter: "$1,500"
+    instagram: "$1,000"
+    facebook: "$500"
+
+  byContentType:
+    video: "$4,000"
+    graphics: "$2,000"
+    copywriting: "$1,000"
+
+# Team Assignments
+team:
+  - role: "Content Marketing Manager"
+    responsibilities:
+      - "Blog posts"
+      - "Long-form content"
+      - "Content strategy"
+    capacity: "20 hours/week"
+
+  - role: "Social Media Manager"
+    responsibilities:
+      - "Social posts"
+      - "Community management"
+      - "Scheduling"
+    capacity: "30 hours/week"
+
+  - role: "Video Production Team"
+    responsibilities:
+      - "Video content"
+      - "Reels and shorts"
+      - "Editing"
+    capacity: "40 hours/week"
+
+  - role: "Design Team"
+    responsibilities:
+      - "Graphics"
+      - "Infographics"
+      - "Carousels"
+    capacity: "25 hours/week"
+
+  - role: "Email Marketing Specialist"
+    responsibilities:
+      - "Email campaigns"
+      - "Newsletter"
+      - "Automation"
+    capacity: "15 hours/week"
+
+# Notes and Best Practices
+notes:
+  - "All content must be approved 24 hours before publishing"
+  - "Use UTM parameters for all links (utm_source, utm_medium, utm_campaign)"
+  - "Include accessibility alt text for all images"
+  - "Follow brand guidelines for all visual content"
+  - "Respond to comments within 2 hours during business hours"
+  - "A/B test email subject lines (minimum 1,000 recipients per variant)"
+  - "Repurpose top-performing content across platforms"
+  - "Archive all content in shared drive for future reference"
+

@@ -1,0 +1,326 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/marketing/brand-kit.json",
+  "title": "Brand Kit",
+  "description": "JSON schema for brand kit configuration including colors, logos, fonts, and brand assets",
+  "type": "object",
+  "required": ["brandName", "colors", "logos", "typography"],
+  "properties": {
+    "brandName": {
+      "type": "string",
+      "description": "Official brand name"
+    },
+    "tagline": {
+      "type": "string",
+      "description": "Brand tagline or slogan"
+    },
+    "colors": {
+      "type": "object",
+      "required": ["primary", "secondary"],
+      "properties": {
+        "primary": {
+          "type": "array",
+          "description": "Primary brand colors",
+          "items": {
+            "type": "object",
+            "required": ["name", "hex"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Color name (e.g., 'Brand Blue')"
+              },
+              "hex": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$",
+                "description": "Hexadecimal color code"
+              },
+              "rgb": {
+                "type": "object",
+                "properties": {
+                  "r": { "type": "integer", "minimum": 0, "maximum": 255 },
+                  "g": { "type": "integer", "minimum": 0, "maximum": 255 },
+                  "b": { "type": "integer", "minimum": 0, "maximum": 255 }
+                }
+              },
+              "cmyk": {
+                "type": "object",
+                "properties": {
+                  "c": { "type": "integer", "minimum": 0, "maximum": 100 },
+                  "m": { "type": "integer", "minimum": 0, "maximum": 100 },
+                  "y": { "type": "integer", "minimum": 0, "maximum": 100 },
+                  "k": { "type": "integer", "minimum": 0, "maximum": 100 }
+                }
+              },
+              "pantone": {
+                "type": "string",
+                "description": "Pantone color code"
+              },
+              "usage": {
+                "type": "string",
+                "description": "Usage guidelines for this color"
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "secondary": {
+          "type": "array",
+          "description": "Secondary/accent colors",
+          "items": {
+            "$ref": "#/properties/colors/properties/primary/items"
+          }
+        },
+        "neutral": {
+          "type": "array",
+          "description": "Neutral colors (grays, whites, blacks)",
+          "items": {
+            "$ref": "#/properties/colors/properties/primary/items"
+          }
+        },
+        "accessibility": {
+          "type": "object",
+          "description": "Accessibility-compliant color combinations",
+          "properties": {
+            "wcagAACompliant": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "foreground": { "type": "string" },
+                  "background": { "type": "string" },
+                  "contrastRatio": { "type": "number", "minimum": 4.5 }
+                }
+              }
+            },
+            "wcagAAACompliant": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "foreground": { "type": "string" },
+                  "background": { "type": "string" },
+                  "contrastRatio": { "type": "number", "minimum": 7.0 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "logos": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "required": ["url", "formats"],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to primary logo"
+            },
+            "formats": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["svg", "png", "jpg", "pdf", "eps"]
+              },
+              "minItems": 1
+            },
+            "variants": {
+              "type": "object",
+              "properties": {
+                "light": { "type": "string", "format": "uri" },
+                "dark": { "type": "string", "format": "uri" },
+                "monochrome": { "type": "string", "format": "uri" },
+                "icon": { "type": "string", "format": "uri" }
+              }
+            },
+            "clearSpace": {
+              "type": "string",
+              "description": "Minimum clear space around logo (e.g., '0.5x logo height')"
+            },
+            "minSize": {
+              "type": "object",
+              "properties": {
+                "print": { "type": "string", "description": "Minimum size for print (e.g., '1 inch')" },
+                "digital": { "type": "string", "description": "Minimum size for digital (e.g., '32px')" }
+              }
+            }
+          }
+        },
+        "secondary": {
+          "$ref": "#/properties/logos/properties/primary"
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "required": ["primary", "secondary"],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "required": ["family", "weights"],
+          "properties": {
+            "family": {
+              "type": "string",
+              "description": "Primary font family name"
+            },
+            "weights": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "enum": [100, 200, 300, 400, 500, 600, 700, 800, 900]
+              },
+              "minItems": 1
+            },
+            "fallback": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Fallback font stack"
+            },
+            "source": {
+              "type": "string",
+              "enum": ["google-fonts", "adobe-fonts", "custom", "system"],
+              "description": "Font source"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to font files or CDN"
+            }
+          }
+        },
+        "secondary": {
+          "$ref": "#/properties/typography/properties/primary"
+        },
+        "monospace": {
+          "$ref": "#/properties/typography/properties/primary"
+        },
+        "scale": {
+          "type": "object",
+          "description": "Type scale for consistent sizing",
+          "properties": {
+            "base": { "type": "number", "description": "Base font size in pixels" },
+            "ratio": { "type": "number", "description": "Scale ratio (e.g., 1.25 for major third)" },
+            "sizes": {
+              "type": "object",
+              "properties": {
+                "h1": { "type": "string" },
+                "h2": { "type": "string" },
+                "h3": { "type": "string" },
+                "h4": { "type": "string" },
+                "h5": { "type": "string" },
+                "h6": { "type": "string" },
+                "body": { "type": "string" },
+                "small": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "description": "Brand voice and tone guidelines",
+      "properties": {
+        "personality": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Brand personality traits (e.g., 'professional', 'friendly', 'innovative')"
+        },
+        "tone": {
+          "type": "object",
+          "properties": {
+            "formal": { "type": "boolean" },
+            "casual": { "type": "boolean" },
+            "humorous": { "type": "boolean" },
+            "serious": { "type": "boolean" }
+          }
+        },
+        "doList": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Voice guidelines - what to do"
+        },
+        "dontList": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Voice guidelines - what not to do"
+        }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "description": "Additional brand assets",
+      "properties": {
+        "icons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "usage": { "type": "string" }
+            }
+          }
+        },
+        "patterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "usage": { "type": "string" }
+            }
+          }
+        },
+        "photography": {
+          "type": "object",
+          "properties": {
+            "style": { "type": "string" },
+            "guidelines": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "description": "Usage guidelines and restrictions",
+      "properties": {
+        "doList": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "dontList": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "imageUrl": { "type": "string", "format": "uri" },
+              "correct": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": { "type": "string" },
+        "lastUpdated": { "type": "string", "format": "date" },
+        "owner": { "type": "string" },
+        "approver": { "type": "string" }
+      }
+    }
+  }
+}
+

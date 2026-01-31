@@ -1,0 +1,200 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment-extensions.dev/schemas/screenplay/feature-selection.json",
+  "title": "Screenplay Feature Selection Schema",
+  "description": "Configuration schema for selecting screenplay genres, themes, and styles",
+  "type": "object",
+  "properties": {
+    "screenplay_enhancements": {
+      "type": "object",
+      "description": "Screenplay enhancement features configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable/disable all screenplay enhancements",
+          "default": true
+        },
+        "features": {
+          "type": "object",
+          "description": "Individual feature configurations",
+          "properties": {
+            "genres": {
+              "type": "object",
+              "description": "Genre-specific rules and guidelines",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enable/disable genre features",
+                  "default": true
+                },
+                "selected": {
+                  "type": "array",
+                  "description": "List of selected genres to apply",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "action",
+                      "adventure",
+                      "comedy",
+                      "drama",
+                      "horror",
+                      "sci-fi",
+                      "fantasy",
+                      "romance",
+                      "thriller",
+                      "mystery",
+                      "western",
+                      "historical",
+                      "biographical",
+                      "animation",
+                      "documentary",
+                      "musical",
+                      "noir",
+                      "superhero"
+                    ]
+                  },
+                  "uniqueItems": true,
+                  "default": []
+                },
+                "hybridMode": {
+                  "type": "boolean",
+                  "description": "Enable hybrid genre mode (allows multiple genres)",
+                  "default": false
+                },
+                "conflictResolution": {
+                  "type": "string",
+                  "description": "How to resolve conflicts between genre rules",
+                  "enum": ["merge", "priority", "manual"],
+                  "default": "merge"
+                }
+              },
+              "required": ["enabled", "selected"]
+            },
+            "themes": {
+              "type": "object",
+              "description": "Thematic integration rules",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enable/disable theme features",
+                  "default": true
+                },
+                "selected": {
+                  "type": "array",
+                  "description": "List of selected themes to integrate",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "redemption",
+                      "love",
+                      "revenge",
+                      "identity",
+                      "power",
+                      "survival",
+                      "friendship",
+                      "betrayal",
+                      "growth",
+                      "isolation",
+                      "justice",
+                      "ambition",
+                      "fate",
+                      "technology",
+                      "environment"
+                    ]
+                  },
+                  "uniqueItems": true,
+                  "default": []
+                },
+                "primaryTheme": {
+                  "type": "string",
+                  "description": "Primary theme (takes precedence in conflicts)",
+                  "enum": [
+                    "redemption",
+                    "love",
+                    "revenge",
+                    "identity",
+                    "power",
+                    "survival",
+                    "friendship",
+                    "betrayal",
+                    "growth",
+                    "isolation",
+                    "justice",
+                    "ambition",
+                    "fate",
+                    "technology",
+                    "environment"
+                  ]
+                },
+                "integrationLevel": {
+                  "type": "string",
+                  "description": "How deeply to integrate themes",
+                  "enum": ["subtle", "moderate", "prominent"],
+                  "default": "moderate"
+                }
+              },
+              "required": ["enabled", "selected"]
+            },
+            "styles": {
+              "type": "object",
+              "description": "Narrative style rules and techniques",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enable/disable style features",
+                  "default": true
+                },
+                "selected": {
+                  "type": "array",
+                  "description": "List of selected narrative styles (typically one)",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "linear",
+                      "non-linear",
+                      "ensemble",
+                      "minimalist",
+                      "epic",
+                      "satirical",
+                      "poetic",
+                      "realistic",
+                      "surreal",
+                      "experimental",
+                      "voice-over",
+                      "flashback",
+                      "dialogue-centric"
+                    ]
+                  },
+                  "uniqueItems": true,
+                  "maxItems": 1,
+                  "default": []
+                }
+              },
+              "required": ["enabled", "selected"]
+            }
+          },
+          "required": ["genres", "themes", "styles"]
+        },
+        "validation": {
+          "type": "object",
+          "description": "Validation settings",
+          "properties": {
+            "strictMode": {
+              "type": "boolean",
+              "description": "Enforce strict adherence to selected features",
+              "default": false
+            },
+            "warningsAsErrors": {
+              "type": "boolean",
+              "description": "Treat validation warnings as errors",
+              "default": false
+            }
+          }
+        }
+      },
+      "required": ["enabled", "features"]
+    }
+  },
+  "required": ["screenplay_enhancements"]
+}
+

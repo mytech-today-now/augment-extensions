@@ -1,0 +1,26 @@
+{
+  "name": "catppuccin-mocha",
+  "version": "1.0.0",
+  "displayName": "Catppuccin Mocha Theme",
+  "description": "Soothing dark theme with pastel colors (Mocha variant)",
+  "type": "theme",
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "themes"
+  },
+  "installation": "optional",
+  "colors": {
+    "primary": "#89b4fa",
+    "secondary": "#cba6f7",
+    "background": "#1e1e2e",
+    "surface": "#313244",
+    "text": "#cdd6f4",
+    "accent": "#89dceb",
+    "success": "#a6e3a1",
+    "warning": "#f9e2af",
+    "error": "#f38ba8",
+    "info": "#89b4fa"
+  }
+}
+

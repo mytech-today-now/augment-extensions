@@ -1,0 +1,70 @@
+{
+  "name": "screenplay-genres",
+  "version": "1.0.0",
+  "displayName": "Screenplay Genres",
+  "description": "Genre-specific rules and guidelines for screenplay writing across 18+ film genres",
+  "type": "writing-standards",
+  "category": "screenplay",
+  "tags": [
+    "screenplay",
+    "genres",
+    "film",
+    "writing",
+    "storytelling"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": []
+  },
+  "augment": {
+    "characterCount": 243000,
+    "priority": "high",
+    "category": "screenplay-genres",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md"
+      ],
+      "languages": ["fountain", "markdown"]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/genres",
+      "Configure genres in .augment/screenplay-config.json",
+      "Select specific genres to activate"
+    ]
+  },
+  "configuration": {
+    "schema": "../schemas/feature-selection.json",
+    "defaultConfig": {
+      "enabled": true,
+      "selected": []
+    }
+  },
+  "contents": [
+    "rules/action.md - Action genre conventions",
+    "rules/adventure.md - Adventure genre conventions",
+    "rules/comedy.md - Comedy genre conventions",
+    "rules/drama.md - Drama genre conventions",
+    "rules/horror.md - Horror genre conventions",
+    "rules/sci-fi.md - Science Fiction genre conventions",
+    "rules/fantasy.md - Fantasy genre conventions",
+    "rules/romance.md - Romance genre conventions",
+    "rules/thriller.md - Thriller genre conventions",
+    "rules/mystery.md - Mystery genre conventions",
+    "rules/western.md - Western genre conventions",
+    "rules/historical.md - Historical genre conventions",
+    "rules/biographical.md - Biographical genre conventions",
+    "rules/animation.md - Animation genre conventions",
+    "rules/documentary.md - Documentary genre conventions",
+    "rules/musical.md - Musical genre conventions",
+    "rules/noir.md - Film Noir genre conventions",
+    "rules/superhero.md - Superhero genre conventions",
+    "rules/hybrids.md - Hybrid genre combinations",
+    "examples/genre-applications.md - Genre application examples"
+  ]
+}
+

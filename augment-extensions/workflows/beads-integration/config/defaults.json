@@ -1,0 +1,32 @@
+{
+  "mode": "advanced",
+  "features": {
+    "task_generation": true,
+    "openspec_integration": true,
+    "typescript_commands": true,
+    "effectiveness_rules": true
+  },
+  "rules": {
+    "task_detail_level": "comprehensive",
+    "require_dependencies": true,
+    "require_verification": true,
+    "require_prerequisites": true,
+    "require_success_metrics": true
+  },
+  "openspec": {
+    "auto_decompose": false,
+    "dependency_detection": "hybrid",
+    "parallelization": true
+  },
+  "typescript": {
+    "validation_level": "standard",
+    "auto_fix": false
+  },
+  "effectiveness": {
+    "atomicity_check": true,
+    "completeness_check": true,
+    "clarity_check": true,
+    "testability_check": true
+  }
+}
+

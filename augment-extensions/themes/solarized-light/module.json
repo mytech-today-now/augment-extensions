@@ -1,0 +1,26 @@
+{
+  "name": "solarized-light",
+  "version": "1.0.0",
+  "displayName": "Solarized Light Theme",
+  "description": "Light theme with warm tones based on the Solarized color palette",
+  "type": "theme",
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "themes"
+  },
+  "installation": "optional",
+  "colors": {
+    "primary": "#268bd2",
+    "secondary": "#2aa198",
+    "background": "#fdf6e3",
+    "surface": "#eee8d5",
+    "text": "#657b83",
+    "accent": "#cb4b16",
+    "success": "#859900",
+    "warning": "#b58900",
+    "error": "#dc322f",
+    "info": "#268bd2"
+  }
+}
+

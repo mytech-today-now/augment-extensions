@@ -1,0 +1,383 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/marketing/content-template.json",
+  "title": "Content Template",
+  "description": "JSON schema for content templates (blog, social, email) with validation rules",
+  "type": "object",
+  "required": ["templateName", "contentType"],
+  "properties": {
+    "templateName": {
+      "type": "string",
+      "description": "Template name"
+    },
+    "templateId": {
+      "type": "string",
+      "description": "Unique template identifier"
+    },
+    "contentType": {
+      "type": "string",
+      "enum": ["blog_post", "social_media", "email", "landing_page", "case_study", "whitepaper", "press_release", "newsletter", "ad_copy", "other"],
+      "description": "Type of content"
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["website", "facebook", "instagram", "twitter", "linkedin", "youtube", "tiktok", "email", "other"],
+      "description": "Target platform (for social media and email)"
+    },
+    "structure": {
+      "type": "object",
+      "description": "Content structure and sections",
+      "properties": {
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Section name (e.g., 'Introduction', 'Body', 'CTA')"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["heading", "paragraph", "list", "image", "video", "cta", "quote", "code", "table", "custom"],
+                "description": "Section type"
+              },
+              "required": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether this section is required"
+              },
+              "placeholder": {
+                "type": "string",
+                "description": "Placeholder text or instructions"
+              },
+              "maxLength": {
+                "type": "integer",
+                "description": "Maximum character length"
+              },
+              "minLength": {
+                "type": "integer",
+                "description": "Minimum character length"
+              },
+              "validation": {
+                "type": "object",
+                "properties": {
+                  "pattern": { "type": "string" },
+                  "errorMessage": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Content metadata fields",
+      "properties": {
+        "title": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean", "default": true },
+            "maxLength": { "type": "integer", "default": 60 },
+            "placeholder": { "type": "string" }
+          }
+        },
+        "description": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean", "default": true },
+            "maxLength": { "type": "integer", "default": 160 },
+            "placeholder": { "type": "string" }
+          }
+        },
+        "keywords": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean", "default": false },
+            "minItems": { "type": "integer", "default": 3 },
+            "maxItems": { "type": "integer", "default": 10 }
+          }
+        },
+        "author": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean", "default": true },
+            "placeholder": { "type": "string" }
+          }
+        },
+        "publishDate": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean", "default": true },
+            "format": { "type": "string", "default": "date-time" }
+          }
+        },
+        "category": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean", "default": false },
+            "options": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "tags": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean", "default": false },
+            "minItems": { "type": "integer" },
+            "maxItems": { "type": "integer" }
+          }
+        }
+      }
+    },
+    "seo": {
+      "type": "object",
+      "description": "SEO-specific fields",
+      "properties": {
+        "metaTitle": {
+          "type": "object",
+          "properties": {
+            "maxLength": { "type": "integer", "default": 60 },
+            "includeKeyword": { "type": "boolean", "default": true }
+          }
+        },
+        "metaDescription": {
+          "type": "object",
+          "properties": {
+            "maxLength": { "type": "integer", "default": 160 },
+            "includeKeyword": { "type": "boolean", "default": true }
+          }
+        },
+        "focusKeyword": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean", "default": true },
+            "density": {
+              "type": "object",
+              "properties": {
+                "min": { "type": "number", "default": 0.5 },
+                "max": { "type": "number", "default": 2.5 }
+              }
+            }
+          }
+        },
+        "headings": {
+          "type": "object",
+          "properties": {
+            "h1Count": { "type": "integer", "default": 1 },
+            "h2MinCount": { "type": "integer", "default": 2 },
+            "includeKeywordInH1": { "type": "boolean", "default": true }
+          }
+        },
+        "internalLinks": {
+          "type": "object",
+          "properties": {
+            "minCount": { "type": "integer", "default": 2 }
+          }
+        },
+        "externalLinks": {
+          "type": "object",
+          "properties": {
+            "minCount": { "type": "integer", "default": 1 }
+          }
+        }
+      }
+    },
+    "formatting": {
+      "type": "object",
+      "description": "Formatting guidelines",
+      "properties": {
+        "wordCount": {
+          "type": "object",
+          "properties": {
+            "min": { "type": "integer" },
+            "max": { "type": "integer" },
+            "target": { "type": "integer" }
+          }
+        },
+        "paragraphLength": {
+          "type": "object",
+          "properties": {
+            "maxSentences": { "type": "integer", "default": 4 },
+            "maxWords": { "type": "integer", "default": 150 }
+          }
+        },
+        "sentenceLength": {
+          "type": "object",
+          "properties": {
+            "maxWords": { "type": "integer", "default": 20 }
+          }
+        },
+        "readabilityScore": {
+          "type": "object",
+          "properties": {
+            "target": { "type": "string", "enum": ["elementary", "middle_school", "high_school", "college", "professional"] },
+            "fleschKincaid": {
+              "type": "object",
+              "properties": {
+                "min": { "type": "number" },
+                "max": { "type": "number" }
+              }
+            }
+          }
+        },
+        "tone": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["professional", "casual", "friendly", "authoritative", "conversational", "formal", "humorous", "inspirational"]
+          }
+        }
+      }
+    },
+    "callToAction": {
+      "type": "object",
+      "description": "Call-to-action requirements",
+      "properties": {
+        "required": {
+          "type": "boolean",
+          "default": true
+        },
+        "placement": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["beginning", "middle", "end", "sidebar", "popup"]
+          }
+        },
+        "minCount": {
+          "type": "integer",
+          "default": 1
+        },
+        "maxCount": {
+          "type": "integer",
+          "default": 3
+        },
+        "examples": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "images": {
+      "type": "object",
+      "description": "Image requirements",
+      "properties": {
+        "required": {
+          "type": "boolean",
+          "default": false
+        },
+        "minCount": {
+          "type": "integer"
+        },
+        "maxCount": {
+          "type": "integer"
+        },
+        "featuredImage": {
+          "type": "object",
+          "properties": {
+            "required": { "type": "boolean", "default": true },
+            "dimensions": {
+              "type": "object",
+              "properties": {
+                "width": { "type": "integer" },
+                "height": { "type": "integer" }
+              }
+            },
+            "altTextRequired": { "type": "boolean", "default": true }
+          }
+        },
+        "formats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["jpg", "png", "webp", "svg", "gif"]
+          }
+        }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "description": "Legal and compliance requirements",
+      "properties": {
+        "disclaimerRequired": {
+          "type": "boolean",
+          "default": false
+        },
+        "disclosureRequired": {
+          "type": "boolean",
+          "default": false
+        },
+        "copyrightNotice": {
+          "type": "boolean",
+          "default": false
+        },
+        "privacyPolicy": {
+          "type": "boolean",
+          "default": false
+        },
+        "unsubscribeLink": {
+          "type": "boolean",
+          "default": false,
+          "description": "Required for email templates"
+        }
+      }
+    },
+    "variables": {
+      "type": "array",
+      "description": "Template variables for personalization",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Variable name (e.g., 'firstName', 'companyName')"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["string", "number", "date", "boolean", "url", "email"],
+            "description": "Variable data type"
+          },
+          "required": {
+            "type": "boolean",
+            "default": false
+          },
+          "defaultValue": {
+            "type": "string",
+            "description": "Default value if not provided"
+          },
+          "placeholder": {
+            "type": "string",
+            "description": "Placeholder text"
+          }
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "description": "Template version"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation date"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update date"
+    },
+    "author": {
+      "type": "string",
+      "description": "Template author"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Template tags for categorization"
+    }
+  }
+}
+

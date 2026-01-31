@@ -1,0 +1,64 @@
+{
+  "name": "screenplay-styles",
+  "version": "1.0.0",
+  "displayName": "Screenplay Narrative Styles",
+  "description": "Narrative style rules and techniques for screenplay writing across 13+ storytelling approaches",
+  "type": "writing-standards",
+  "category": "screenplay",
+  "tags": [
+    "screenplay",
+    "narrative-style",
+    "storytelling",
+    "structure",
+    "pacing"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": []
+  },
+  "augment": {
+    "characterCount": 350000,
+    "priority": "high",
+    "category": "screenplay-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md"
+      ],
+      "languages": ["fountain", "markdown"]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/styles",
+      "Configure styles in .augment/screenplay-config.json",
+      "Select specific narrative style to apply"
+    ]
+  },
+  "configuration": {
+    "schema": "../schemas/feature-selection.json",
+    "defaultConfig": {
+      "enabled": true,
+      "selected": []
+    }
+  },
+  "contents": [
+    "rules/linear.md - Linear narrative style",
+    "rules/non-linear.md - Non-linear narrative style",
+    "rules/ensemble.md - Ensemble narrative style",
+    "rules/minimalist.md - Minimalist narrative style",
+    "rules/epic.md - Epic narrative style",
+    "rules/satirical.md - Satirical narrative style",
+    "rules/poetic.md - Poetic narrative style",
+    "rules/realistic.md - Realistic narrative style",
+    "rules/surreal.md - Surreal narrative style",
+    "rules/experimental.md - Experimental narrative style",
+    "rules/voice-over.md - Voice-over driven narrative style",
+    "rules/flashback.md - Flashback-heavy narrative style",
+    "rules/dialogue-centric.md - Dialogue-centric narrative style",
+    "examples/style-applications.md - Style application examples"
+  ]
+}
+

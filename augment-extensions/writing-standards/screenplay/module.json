@@ -1,0 +1,124 @@
+{
+  "name": "screenplay",
+  "version": "1.0.0",
+  "displayName": "Screenplay Writing Standards",
+  "description": "Comprehensive screenplay writing and crafting standards for AI-driven content creation across AAA Hollywood films, independent films, TV series, web content, news broadcasts, commercials, streaming content, and live TV productions",
+  "type": "writing-standards",
+  "language": "screenplay",
+  "tags": [
+    "screenplay",
+    "writing",
+    "film",
+    "tv",
+    "narrative",
+    "dialogue",
+    "formatting",
+    "fountain",
+    "final-draft",
+    "ampas",
+    "hollywood",
+    "independent",
+    "streaming",
+    "web-content",
+    "news",
+    "commercials"
+  ],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 0,
+    "priority": "high",
+    "category": "writing-standards"
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module using: augx link writing-standards/screenplay",
+      "Configure category in .augment/screenplay-config.json",
+      "Install VS Code extension: Better Fountain (optional)",
+      "Use Fountain format (.fountain) for screenplay files"
+    ]
+  },
+  "configuration": {
+    "file": ".augment/screenplay-config.json",
+    "schema": {
+      "categories": {
+        "type": "array",
+        "items": {
+          "enum": [
+            "aaa-hollywood-films",
+            "independent-films",
+            "tv-series",
+            "web-content",
+            "news-broadcasts",
+            "commercials",
+            "streaming-content",
+            "live-tv-productions"
+          ]
+        },
+        "description": "Select screenplay categories to apply"
+      },
+      "universalRules": {
+        "type": "boolean",
+        "default": true,
+        "description": "Apply universal formatting and narrative standards"
+      },
+      "fountainFormat": {
+        "type": "boolean",
+        "default": true,
+        "description": "Use Fountain markup format"
+      },
+      "exportFormats": {
+        "type": "array",
+        "items": {
+          "enum": ["fdx", "pdf", "html"]
+        },
+        "description": "Supported export formats"
+      }
+    }
+  },
+  "contents": {
+    "rules": [
+      "universal-formatting.md",
+      "narrative-structures.md",
+      "character-development.md",
+      "dialogue-writing.md",
+      "screen-continuity.md",
+      "pacing-timing.md",
+      "diversity-inclusion.md",
+      "aaa-hollywood-films.md",
+      "independent-films.md",
+      "tv-series.md",
+      "web-content.md",
+      "news-broadcasts.md",
+      "commercials.md",
+      "streaming-content.md",
+      "live-tv-productions.md"
+    ],
+    "schemas": [
+      "character-profile.json",
+      "beat-sheet.json",
+      "plot-outline.json",
+      "trope-inventory.json"
+    ],
+    "examples": [
+      "aaa-hollywood-scene.fountain",
+      "independent-monologue.fountain",
+      "tv-episode-teaser.fountain",
+      "news-segment.fountain",
+      "commercial-30sec.fountain",
+      "character-profile-example.yaml",
+      "beat-sheet-example.yaml",
+      "plot-outline-example.yaml"
+    ]
+  },
+  "references": {
+    "ampas": "https://www.oscars.org/nicholl/requirements",
+    "fountain": "https://fountain.io/",
+    "finalDraft": "https://www.finaldraft.com/",
+    "sydField": "Screenplay: The Foundations of Screenwriting",
+    "blakeSnyder": "Save the Cat!",
+    "josephCampbell": "The Hero with a Thousand Faces",
+    "robertMcKee": "Story: Substance, Structure, Style and the Principles of Screenwriting"
+  }
+}
+

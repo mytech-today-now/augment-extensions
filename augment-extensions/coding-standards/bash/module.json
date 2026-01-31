@@ -1,0 +1,163 @@
+{
+  "name": "bash-standards",
+  "version": "1.0.0",
+  "displayName": "Bash Coding Standards",
+  "description": "Comprehensive Bash coding standards for professional, maintainable, and secure Bash scripts across automation, CI/CD, CLI tools, configuration, data processing, system administration, and cross-platform development.",
+  "type": "coding-standards",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "keywords": [
+    "bash",
+    "shell",
+    "coding-standards",
+    "automation",
+    "cicd",
+    "cli",
+    "shellcheck",
+    "bats",
+    "security",
+    "performance",
+    "cross-platform"
+  ],
+  "augment": {
+    "characterCount": 0,
+    "priority": "high",
+    "category": "coding-standards",
+    "language": "bash",
+    "tags": ["bash", "shell-scripting", "automation", "devops"],
+    "categories": {
+      "automation": {
+        "description": "Automation scripts (backups, scheduled tasks)",
+        "rules": ["automation-scripts.md"],
+        "examples": ["automation-example.sh"]
+      },
+      "cicd": {
+        "description": "CI/CD pipeline scripts",
+        "rules": ["cicd-pipelines.md"],
+        "examples": ["cicd-example.sh"]
+      },
+      "cli": {
+        "description": "Command-line tools and utilities",
+        "rules": ["cli-tools.md"],
+        "examples": ["cli-example.sh"]
+      },
+      "config": {
+        "description": "Configuration files (.bashrc, .profile)",
+        "rules": ["configuration-files.md"],
+        "examples": ["config-example.sh"]
+      },
+      "data": {
+        "description": "Data processing scripts",
+        "rules": ["data-processing.md"],
+        "examples": ["data-processing-example.sh"]
+      },
+      "sysadmin": {
+        "description": "System administration tasks",
+        "rules": ["system-administration.md"],
+        "examples": ["sysadmin-example.sh"]
+      },
+      "crossplatform": {
+        "description": "Cross-platform scripts (macOS, Linux)",
+        "rules": ["cross-platform.md"],
+        "examples": ["cross-platform-example.sh"]
+      }
+    },
+    "universalRules": [
+      "universal-standards.md",
+      "naming-conventions.md",
+      "error-handling.md",
+      "security-practices.md",
+      "performance-optimization.md",
+      "testing-guidelines.md"
+    ]
+  },
+  "installation": {
+    "required": false,
+    "instructions": "This module is automatically loaded when working with Bash files. Configure categories in .augment/bash-config.json"
+  },
+  "configuration": {
+    "file": ".augment/bash-config.json",
+    "schema": {
+      "bash_categories": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["automation", "cicd", "cli", "config", "data", "sysadmin", "crossplatform"]
+        },
+        "description": "Project categories to apply"
+      },
+      "bash_version": {
+        "type": "string",
+        "description": "Minimum Bash version",
+        "default": "4.0"
+      },
+      "strict_mode": {
+        "type": "boolean",
+        "description": "Enforce set -euo pipefail",
+        "default": true
+      },
+      "static_analysis": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "type": "string",
+            "enum": ["shellcheck"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["error", "warning", "info", "style"]
+          }
+        }
+      },
+      "testing": {
+        "type": "object",
+        "properties": {
+          "framework": {
+            "type": "string",
+            "enum": ["bats", "shunit2"]
+          },
+          "version": {
+            "type": "string",
+            "default": "1.x"
+          }
+        }
+      },
+      "posix_compliance": {
+        "type": "boolean",
+        "description": "Enforce POSIX compliance",
+        "default": false
+      }
+    }
+  },
+  "dependencies": {
+    "external": {
+      "shellcheck": ">=0.8.0",
+      "bats": ">=1.0.0"
+    }
+  },
+  "contents": [
+    "module.json",
+    "README.md",
+    "rules/universal-standards.md",
+    "rules/naming-conventions.md",
+    "rules/error-handling.md",
+    "rules/security-practices.md",
+    "rules/performance-optimization.md",
+    "rules/testing-guidelines.md",
+    "rules/automation-scripts.md",
+    "rules/cicd-pipelines.md",
+    "rules/cli-tools.md",
+    "rules/configuration-files.md",
+    "rules/data-processing.md",
+    "rules/system-administration.md",
+    "rules/cross-platform.md",
+    "examples/automation-example.sh",
+    "examples/cicd-example.sh",
+    "examples/cli-example.sh",
+    "examples/config-example.sh",
+    "examples/data-processing-example.sh",
+    "examples/sysadmin-example.sh",
+    "examples/cross-platform-example.sh"
+  ]
+}
+

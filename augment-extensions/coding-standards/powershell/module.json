@@ -1,0 +1,165 @@
+{
+  "name": "powershell-standards",
+  "version": "1.0.0",
+  "displayName": "PowerShell Coding Standards",
+  "description": "Comprehensive PowerShell coding standards for professional, maintainable, and secure PowerShell code across automation, modules, DSC, cloud orchestration, administrative tools, cross-platform scripts, and legacy migrations.",
+  "type": "coding-standards",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "keywords": [
+    "powershell",
+    "coding-standards",
+    "automation",
+    "modules",
+    "dsc",
+    "cloud",
+    "azure",
+    "aws",
+    "admin",
+    "cross-platform",
+    "legacy",
+    "pester",
+    "security",
+    "performance"
+  ],
+  "augment": {
+    "characterCount": 162000,
+    "priority": "high",
+    "category": "coding-standards",
+    "appliesTo": {
+      "languages": ["powershell"],
+      "filePatterns": ["**/*.ps1", "**/*.psm1", "**/*.psd1"],
+      "frameworks": [
+        "pester",
+        "dsc",
+        "azure-powershell",
+        "aws-powershell"
+      ]
+    },
+    "categories": {
+      "automation": {
+        "description": "Task automation and scheduled tasks",
+        "rules": ["automation-scripts.md"],
+        "examples": ["automation-example.ps1"]
+      },
+      "modules": {
+        "description": "PowerShell modules and advanced functions",
+        "rules": ["modules-functions.md"],
+        "examples": ["module-example.psm1"]
+      },
+      "dsc": {
+        "description": "Desired State Configuration",
+        "rules": ["dsc-configurations.md"],
+        "examples": ["dsc-example.ps1"]
+      },
+      "cloud": {
+        "description": "Cloud orchestration (Azure, AWS)",
+        "rules": ["cloud-orchestration.md"],
+        "examples": ["cloud-example.ps1"]
+      },
+      "admin": {
+        "description": "Administrative tools (AD, Exchange, SQL)",
+        "rules": ["administrative-tools.md"],
+        "examples": ["admin-example.ps1"]
+      },
+      "cross-platform": {
+        "description": "Cross-platform PowerShell scripts",
+        "rules": ["cross-platform-scripts.md"],
+        "examples": ["cross-platform-example.ps1"]
+      },
+      "legacy": {
+        "description": "Legacy Windows PowerShell to PowerShell Core migration",
+        "rules": ["legacy-migrations.md"],
+        "examples": ["legacy-migration-example.ps1"]
+      }
+    },
+    "universalRules": [
+      "universal-standards.md",
+      "naming-conventions.md",
+      "error-handling.md",
+      "security-practices.md",
+      "performance-optimization.md",
+      "testing-guidelines.md"
+    ]
+  },
+  "installation": {
+    "required": false,
+    "instructions": "This module is automatically loaded when working with PowerShell files. Configure categories in .augment/powershell-config.json"
+  },
+  "configuration": {
+    "file": ".augment/powershell-config.json",
+    "schema": {
+      "powershell_categories": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["automation", "modules", "dsc", "cloud", "admin", "cross-platform", "legacy"]
+        },
+        "description": "Project categories to apply"
+      },
+      "powershell_version": {
+        "type": "string",
+        "description": "Minimum PowerShell version",
+        "default": "7.4"
+      },
+      "strict_mode": {
+        "type": "boolean",
+        "description": "Enforce Set-StrictMode",
+        "default": true
+      },
+      "static_analysis": {
+        "type": "object",
+        "properties": {
+          "tool": {
+            "type": "string",
+            "enum": ["PSScriptAnalyzer"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["Error", "Warning", "Information"]
+          }
+        }
+      },
+      "testing": {
+        "type": "object",
+        "properties": {
+          "framework": {
+            "type": "string",
+            "enum": ["Pester"]
+          },
+          "version": {
+            "type": "string",
+            "default": "5.x"
+          }
+        }
+      },
+      "code_style": {
+        "type": "object",
+        "properties": {
+          "indentation": {
+            "type": "integer",
+            "default": 4
+          },
+          "brace_style": {
+            "type": "string",
+            "enum": ["Allman", "K&R"]
+          }
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "powershell": {
+      "PSScriptAnalyzer": ">=1.21.0",
+      "Pester": ">=5.0.0"
+    }
+  },
+  "links": {
+    "homepage": "https://github.com/augment-code/augment-extensions",
+    "documentation": "https://github.com/augment-code/augment-extensions/tree/main/augment-extensions/coding-standards/powershell",
+    "powershell": "https://docs.microsoft.com/en-us/powershell/",
+    "pester": "https://pester.dev/",
+    "psscriptanalyzer": "https://github.com/PowerShell/PSScriptAnalyzer"
+  }
+}
+

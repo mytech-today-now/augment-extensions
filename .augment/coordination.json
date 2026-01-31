@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-01-26T12:00:00Z",
+  "lastUpdated": "2026-01-30T22:00:00Z",
   "specs": {
     "wordpress-plugin-module/core": {
       "path": "openspec/specs/wordpress-plugin-module/wordpress-plugin-development-module.md",
@@ -169,6 +169,35 @@
         ".augment/**/*",
         ".augment/coordination.json",
         "scripts/validate-augment-config.ps1"
+      ],
+      "dependencies": []
+    },
+    "powershell-coding-standards": {
+      "path": "openspec/archive/powershell-coding-standards/proposal.md",
+      "status": "archived",
+      "relatedTasks": [
+        "bd-4t4f",
+        "bd-kibm",
+        "bd-4w1b",
+        "bd-hswe",
+        "bd-91m1",
+        "bd-z9wm",
+        "bd-ps6",
+        "bd-ps6.1",
+        "bd-ps6.2",
+        "bd-ps6.3",
+        "bd-ps6.4",
+        "bd-ps6.5"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md",
+        "augment-extensions-workflow.md"
+      ],
+      "affectedFiles": [
+        "augment-extensions/coding-standards/powershell/**/*",
+        "MODULES.md",
+        ".augment/coordination.json"
       ],
       "dependencies": []
     }
@@ -847,6 +876,94 @@
         "module-development.md"
       ],
       "outputFiles": []
+    },
+    "bd-ps6": {
+      "title": "PowerShell Coding Standards Extension - Documentation and Finalization",
+      "status": "closed",
+      "relatedSpecs": [
+        "powershell-coding-standards"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md",
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/coding-standards/powershell/rules/configuration-schema.md",
+        ".augment/coordination.json",
+        "augment-extensions/coding-standards/powershell/module.json",
+        "augment-extensions/coding-standards/powershell/README.md",
+        "MODULES.md",
+        "openspec/archive/powershell-coding-standards/README.md"
+      ]
+    },
+    "bd-ps6.1": {
+      "title": "Update MODULES.md",
+      "status": "closed",
+      "relatedSpecs": [
+        "powershell-coding-standards"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [
+        "MODULES.md"
+      ]
+    },
+    "bd-ps6.2": {
+      "title": "Create configuration schema documentation",
+      "status": "closed",
+      "relatedSpecs": [
+        "powershell-coding-standards"
+      ],
+      "relatedRules": [
+        "module-development.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/coding-standards/powershell/rules/configuration-schema.md"
+      ]
+    },
+    "bd-ps6.3": {
+      "title": "Update coordination manifest",
+      "status": "closed",
+      "relatedSpecs": [
+        "powershell-coding-standards"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "outputFiles": [
+        ".augment/coordination.json"
+      ]
+    },
+    "bd-ps6.4": {
+      "title": "Final review and quality check",
+      "status": "closed",
+      "relatedSpecs": [
+        "powershell-coding-standards"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/coding-standards/powershell/module.json",
+        "augment-extensions/coding-standards/powershell/README.md",
+        "MODULES.md"
+      ]
+    },
+    "bd-ps6.5": {
+      "title": "Archive OpenSpec change",
+      "status": "closed",
+      "relatedSpecs": [
+        "powershell-coding-standards"
+      ],
+      "relatedRules": [
+        "augment-extensions-workflow.md"
+      ],
+      "outputFiles": [
+        "openspec/archive/powershell-coding-standards/README.md"
+      ]
     }
   },
   "rules": {
@@ -1085,9 +1202,39 @@
     },
     ".augment/coordination.json": {
       "createdBy": "bd-coord1",
-      "modifiedBy": ["bd-wp10-1"],
-      "governedBy": ["harmonize-workflows", "wordpress-plugin-module/core"],
+      "modifiedBy": ["bd-wp10-1", "bd-ps6.3"],
+      "governedBy": ["harmonize-workflows", "wordpress-plugin-module/core", "powershell-coding-standards"],
       "rulesApplied": ["coordination-system.md"]
+    },
+    "augment-extensions/coding-standards/powershell/module.json": {
+      "createdBy": "bd-4t4f",
+      "modifiedBy": ["bd-ps6.4"],
+      "governedBy": ["powershell-coding-standards"],
+      "rulesApplied": ["module-development.md", "character-count-management.md"]
+    },
+    "augment-extensions/coding-standards/powershell/README.md": {
+      "createdBy": "bd-4t4f",
+      "modifiedBy": ["bd-ps6.4"],
+      "governedBy": ["powershell-coding-standards"],
+      "rulesApplied": ["module-development.md", "no-unnecessary-docs.md"]
+    },
+    "MODULES.md": {
+      "createdBy": null,
+      "modifiedBy": ["bd-ps6.1", "bd-ps6.4"],
+      "governedBy": ["powershell-coding-standards"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "augment-extensions/coding-standards/powershell/rules/configuration-schema.md": {
+      "createdBy": "bd-ps6.2",
+      "modifiedBy": [],
+      "governedBy": ["powershell-coding-standards"],
+      "rulesApplied": ["module-development.md"]
+    },
+    "openspec/archive/powershell-coding-standards/README.md": {
+      "createdBy": null,
+      "modifiedBy": ["bd-ps6.5"],
+      "governedBy": ["powershell-coding-standards"],
+      "rulesApplied": ["augment-extensions-workflow.md"]
     }
   }
 }

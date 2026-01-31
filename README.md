@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-0.4.0--beta-blue.svg)](https://github.com/mytech-today-now/augment)
+[![Version](https://img.shields.io/badge/version-0.4.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 
@@ -20,7 +20,7 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v0.4.0 (Beta)
+## ✨ What's New in v0.4.0
 
 - 🧠 **Skills System** - Token-efficient, on-demand skill loading (500-10K tokens vs 50K+ for modules)
 - 🔧 **CLI Integration** - Wrap external tools and MCP servers as skills
@@ -759,13 +759,13 @@ MIT License - See [LICENSE](./LICENSE) for details.
 ## 🔗 Links
 
 - **npm Package**: [@mytechtoday/augment-extensions](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
-- **Repository**: [github.com/mytech-today-now/augment](https://github.com/mytech-today-now/augment)
-- **Issues**: [github.com/mytech-today-now/augment/issues](https://github.com/mytech-today-now/augment/issues)
+- **Repository**: [github.com/mytech-today-now/augment-extensions](https://github.com/mytech-today-now/augment-extensions)
+- **Issues**: [github.com/mytech-today-now/augment-extensions/issues](https://github.com/mytech-today-now/augment-extensions/issues)
 - **Documentation**: [MODULES.md](./MODULES.md) | [AGENTS.md](./AGENTS.md)
 
 ---
 
-**Status**: Active Development | **Version**: 0.3.0 | **Maintainer**: @mytech-today-now
+**Status**: Active Development | **Version**: 0.4.0 | **Maintainer**: @mytech-today-now
 
-**Latest Release**: Model Context Protocol (MCP) module, PHP standards, Database guidelines, and enhanced module management with GUI.
+**Latest Release**: Skills System (Beta) - Token-efficient, on-demand skill loading with 97.2% token reduction. MCP Integration for wrapping external tools as skills.
 

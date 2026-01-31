@@ -1,0 +1,221 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/screenplay/trope-inventory.json",
+  "title": "Trope Inventory",
+  "description": "JSON schema for tracking tropes, clichés, and their usage/subversion in screenplays",
+  "type": "object",
+  "required": ["title", "tropes"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the screenplay"
+    },
+    "genre": {
+      "type": "string",
+      "description": "Story genre"
+    },
+    "tropes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "category", "usage"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the trope"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "character",
+              "plot",
+              "setting",
+              "dialogue",
+              "relationship",
+              "conflict",
+              "resolution",
+              "theme",
+              "visual",
+              "genre-specific"
+            ],
+            "description": "Category of trope"
+          },
+          "subcategory": {
+            "type": "string",
+            "description": "More specific subcategory"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the trope"
+          },
+          "usage": {
+            "type": "string",
+            "enum": ["played-straight", "subverted", "inverted", "deconstructed", "reconstructed", "lampshaded", "avoided"],
+            "description": "How the trope is used"
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "act": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3,
+                "description": "Act where trope appears"
+              },
+              "page": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Approximate page number"
+              },
+              "scene": {
+                "type": "string",
+                "description": "Scene description or number"
+              }
+            },
+            "description": "Where the trope appears in the screenplay"
+          },
+          "subversionStrategy": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "description": "How the trope is subverted"
+              },
+              "justification": {
+                "type": "string",
+                "description": "Why this subversion works for the story"
+              },
+              "expectedOutcome": {
+                "type": "string",
+                "description": "What audience expects from this trope"
+              },
+              "actualOutcome": {
+                "type": "string",
+                "description": "What actually happens"
+              }
+            },
+            "description": "Strategy for subverting the trope (if applicable)"
+          },
+          "clichéRisk": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"],
+            "description": "Risk level of this trope becoming a cliché"
+          },
+          "clichéWarning": {
+            "type": "object",
+            "properties": {
+              "warning": {
+                "type": "string",
+                "description": "Warning about potential cliché"
+              },
+              "mitigation": {
+                "type": "string",
+                "description": "How to mitigate the cliché risk"
+              },
+              "alternatives": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Alternative approaches to avoid cliché"
+              }
+            },
+            "description": "Cliché warning and mitigation strategies"
+          },
+          "genreExpectation": {
+            "type": "boolean",
+            "description": "Whether this trope is expected in the genre"
+          },
+          "audienceExpectation": {
+            "type": "string",
+            "description": "What the audience expects from this trope"
+          },
+          "freshnessFactor": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10,
+            "description": "How fresh/original the execution is (1=stale, 10=innovative)"
+          },
+          "relatedTropes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Related tropes that often appear together"
+          },
+          "examples": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Title of example work"
+                },
+                "usage": {
+                  "type": "string",
+                  "description": "How the trope was used in this example"
+                },
+                "effectiveness": {
+                  "type": "string",
+                  "enum": ["effective", "ineffective", "mixed"],
+                  "description": "How effective the usage was"
+                }
+              }
+            },
+            "description": "Examples of this trope in other works"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes about this trope usage"
+          }
+        }
+      },
+      "description": "Tropes used in the screenplay"
+    },
+    "tropeAnalysis": {
+      "type": "object",
+      "properties": {
+        "totalTropes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of tropes identified"
+        },
+        "playedStraight": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of tropes played straight"
+        },
+        "subverted": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of tropes subverted"
+        },
+        "highRiskClichés": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of high-risk clichés"
+        },
+        "averageFreshness": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Average freshness factor across all tropes"
+        },
+        "recommendations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Recommendations for improving trope usage"
+        }
+      },
+      "description": "Analysis of trope usage in the screenplay"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about trope inventory"
+    }
+  }
+}
+

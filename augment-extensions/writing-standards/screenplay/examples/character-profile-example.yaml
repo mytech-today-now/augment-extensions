@@ -1,0 +1,116 @@
+# Character Profile Example
+# Demonstrates the character-profile.json schema usage
+
+name: "Sarah Mitchell"
+role: "protagonist"
+age: 32
+gender: "Female"
+
+physicalDescription:
+  height: "5'6\""
+  build: "Athletic, runner's physique"
+  hairColor: "Dark brown, shoulder-length"
+  eyeColor: "Green"
+  distinguishingFeatures:
+    - "Small scar above left eyebrow from childhood accident"
+    - "Wears her grandmother's silver locket"
+  appearance: "Professional but approachable. Often wears practical clothing - jeans, comfortable shoes. Minimal makeup. Carries herself with quiet confidence that masks deep insecurity."
+
+personality:
+  traits:
+    - "Intelligent and analytical"
+    - "Compassionate but guarded"
+    - "Perfectionist"
+    - "Self-sacrificing"
+    - "Struggles with vulnerability"
+  strengths:
+    - "Problem-solving ability"
+    - "Empathy for others"
+    - "Determination and resilience"
+    - "Loyalty to those she cares about"
+  weaknesses:
+    - "Difficulty trusting others"
+    - "Tendency to isolate when stressed"
+    - "Fear of failure"
+    - "Puts others' needs before her own to a fault"
+  fears:
+    - "Abandonment"
+    - "Being a burden to others"
+    - "Losing control"
+    - "Repeating her mother's mistakes"
+  desires:
+    - "To build meaningful connections"
+    - "To prove her worth"
+    - "To break free from her past"
+    - "To find a place where she belongs"
+
+backstory:
+  summary: "Raised by a single mother who struggled with addiction, Sarah learned early to be self-reliant. She put herself through college, became a social worker, and dedicated her life to helping others - perhaps as a way to save the mother she couldn't save as a child."
+  formativeEvents:
+    - event: "Mother's first overdose"
+      age: 8
+      impact: "Learned she couldn't rely on adults to take care of her. Became hyper-responsible and self-sufficient."
+    - event: "Placed in foster care temporarily"
+      age: 12
+      impact: "Developed deep fear of abandonment and loss of control. Vowed never to be helpless again."
+    - event: "Mother's death from overdose"
+      age: 19
+      impact: "Reinforced belief that she failed to save someone she loved. Drives her work as a social worker but also her inability to accept help."
+    - event: "Failed engagement at 28"
+      age: 28
+      impact: "Confirmed her fear that she's incapable of maintaining close relationships. Withdrew further emotionally."
+  family: "Only child. Mother deceased. Father unknown. No extended family connections."
+  education: "Bachelor's in Social Work from state university. Graduated with honors while working two jobs."
+  occupation: "Social worker specializing in addiction and family services"
+
+motivations:
+  externalGoal: "To save a troubled family from the same fate as her own"
+  internalGoal: "To learn that she's worthy of love and doesn't have to earn her place in the world"
+  stakes: "If she fails, she'll confirm her deepest fear - that she's fundamentally broken and incapable of saving anyone, including herself"
+  conflictingMotivations:
+    - "Wants to help others but fears getting too close"
+    - "Desires connection but pushes people away"
+    - "Needs to be in control but must learn to trust"
+
+characterArc:
+  arcType: "positive"
+  startingState: "Emotionally isolated, believes she must handle everything alone, defines her worth by her ability to save others"
+  endingState: "Learns to accept help, builds genuine connections, understands that her worth isn't dependent on being perfect or saving everyone"
+  transformation: "From self-reliant isolation to vulnerable connection. Learns that asking for help isn't weakness and that she deserves love not because of what she does, but because of who she is."
+
+relationships:
+  - character: "Marcus Thompson"
+    relationship: "Colleague and potential love interest"
+    description: "Fellow social worker who sees through Sarah's walls. Patient, kind, but won't let her push him away completely."
+    conflictPoints:
+      - "Sarah's inability to accept his help or support"
+      - "Her tendency to prioritize work over personal connection"
+      - "His frustration with her self-destructive patterns"
+  
+  - character: "Elena Rodriguez"
+    relationship: "Client/Mirror character"
+    description: "Young mother struggling with addiction. Reminds Sarah of her own mother. Their relationship becomes the catalyst for Sarah's transformation."
+    conflictPoints:
+      - "Sarah's over-identification with Elena's situation"
+      - "Professional boundaries vs. personal investment"
+      - "Elena's resistance to help mirrors Sarah's own patterns"
+  
+  - character: "Dr. Patricia Hayes"
+    relationship: "Mentor/Supervisor"
+    description: "Sarah's supervisor who recognizes Sarah's talent but worries about her burnout and emotional isolation."
+    conflictPoints:
+      - "Patricia pushes Sarah to take care of herself"
+      - "Challenges Sarah's belief that she must save everyone"
+      - "Forces Sarah to confront her own trauma"
+
+voice:
+  speechPattern: "Measured and professional in work settings. More hesitant and uncertain in personal conversations. Uses humor as deflection."
+  vocabulary: "Professional social work terminology when discussing cases. Simpler, more vulnerable language when discussing personal matters (though she rarely does)."
+  catchphrases:
+    - "I'm fine" (when she's clearly not)
+    - "I've got it handled" (when she's overwhelmed)
+    - "It's not about me" (deflecting from her own needs)
+  accent: "Neutral American, slight working-class inflections that emerge when stressed"
+
+notes: "Sarah's journey is about learning that vulnerability is strength, not weakness. Her arc parallels Elena's - as Sarah helps Elena, she must confront her own need for help. The key is that Sarah can't save Elena (or anyone) until she learns to save herself by accepting that she doesn't have to do it alone."
+

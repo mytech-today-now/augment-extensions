@@ -25,7 +25,7 @@
   ],
   "dependencies": [],
   "augment": {
-    "characterCount": 0,
+    "characterCount": 163500,
     "priority": "high",
     "category": "writing-standards"
   },

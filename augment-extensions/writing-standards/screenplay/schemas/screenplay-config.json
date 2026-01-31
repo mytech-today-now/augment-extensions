@@ -1,0 +1,241 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/screenplay/config.json",
+  "title": "Screenplay Configuration",
+  "description": "Configuration schema for screenplay writing preferences and tool integration",
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string",
+      "enum": [
+        "aaa-hollywood",
+        "independent-film",
+        "tv-series",
+        "streaming-content",
+        "live-tv",
+        "news-broadcast",
+        "commercial",
+        "web-content"
+      ],
+      "description": "Primary screenplay category for this project"
+    },
+    "format": {
+      "type": "object",
+      "properties": {
+        "standard": {
+          "type": "string",
+          "enum": ["AMPAS", "BBC", "custom"],
+          "default": "AMPAS",
+          "description": "Formatting standard to follow"
+        },
+        "pageSize": {
+          "type": "string",
+          "enum": ["US Letter", "A4"],
+          "default": "US Letter",
+          "description": "Page size for screenplay"
+        },
+        "font": {
+          "type": "string",
+          "default": "Courier",
+          "description": "Font family (typically Courier or Courier New)"
+        },
+        "fontSize": {
+          "type": "integer",
+          "default": 12,
+          "description": "Font size in points"
+        },
+        "margins": {
+          "type": "object",
+          "properties": {
+            "top": {
+              "type": "number",
+              "default": 1.0,
+              "description": "Top margin in inches"
+            },
+            "bottom": {
+              "type": "number",
+              "default": 1.0,
+              "description": "Bottom margin in inches"
+            },
+            "left": {
+              "type": "number",
+              "default": 1.5,
+              "description": "Left margin in inches"
+            },
+            "right": {
+              "type": "number",
+              "default": 1.0,
+              "description": "Right margin in inches"
+            }
+          }
+        }
+      }
+    },
+    "structure": {
+      "type": "object",
+      "properties": {
+        "beatSheetTemplate": {
+          "type": "string",
+          "enum": ["save-the-cat", "hero's-journey", "three-act", "five-act", "custom"],
+          "default": "save-the-cat",
+          "description": "Preferred beat sheet structure"
+        },
+        "targetLength": {
+          "type": "object",
+          "properties": {
+            "feature": {
+              "type": "integer",
+              "default": 110,
+              "description": "Target page count for feature films"
+            },
+            "tvHour": {
+              "type": "integer",
+              "default": 55,
+              "description": "Target page count for one-hour TV episodes"
+            },
+            "tvHalf": {
+              "type": "integer",
+              "default": 30,
+              "description": "Target page count for half-hour TV episodes"
+            }
+          }
+        }
+      }
+    },
+    "tools": {
+      "type": "object",
+      "properties": {
+        "editor": {
+          "type": "string",
+          "enum": ["vscode", "final-draft", "celtx", "writersolo", "highland", "fade-in"],
+          "description": "Primary screenplay editor"
+        },
+        "vscode": {
+          "type": "object",
+          "properties": {
+            "betterFountain": {
+              "type": "boolean",
+              "default": true,
+              "description": "Use Better Fountain extension"
+            },
+            "autoFormat": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable automatic formatting"
+            },
+            "livePreview": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable live preview"
+            }
+          }
+        },
+        "exportFormats": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["pdf", "fdx", "fountain", "html", "docx"]
+          },
+          "default": ["pdf", "fountain"],
+          "description": "Preferred export formats"
+        }
+      }
+    },
+    "characterDevelopment": {
+      "type": "object",
+      "properties": {
+        "useProfiles": {
+          "type": "boolean",
+          "default": true,
+          "description": "Create detailed character profiles"
+        },
+        "trackArcs": {
+          "type": "boolean",
+          "default": true,
+          "description": "Track character arcs throughout screenplay"
+        },
+        "relationshipMapping": {
+          "type": "boolean",
+          "default": true,
+          "description": "Map character relationships"
+        }
+      }
+    },
+    "tropeManagement": {
+      "type": "object",
+      "properties": {
+        "trackTropes": {
+          "type": "boolean",
+          "default": true,
+          "description": "Track trope usage"
+        },
+        "clichéWarnings": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable cliché warnings"
+        },
+        "subversionSuggestions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Suggest trope subversions"
+        }
+      }
+    },
+    "aiAssistance": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable AI assistance for screenplay writing"
+        },
+        "suggestions": {
+          "type": "object",
+          "properties": {
+            "dialogue": {
+              "type": "boolean",
+              "default": true,
+              "description": "AI dialogue suggestions"
+            },
+            "sceneDescription": {
+              "type": "boolean",
+              "default": true,
+              "description": "AI scene description suggestions"
+            },
+            "structureAnalysis": {
+              "type": "boolean",
+              "default": true,
+              "description": "AI structure analysis"
+            },
+            "characterConsistency": {
+              "type": "boolean",
+              "default": true,
+              "description": "AI character consistency checking"
+            }
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "formatChecking": {
+          "type": "boolean",
+          "default": true,
+          "description": "Validate screenplay formatting"
+        },
+        "industryStandards": {
+          "type": "boolean",
+          "default": true,
+          "description": "Check against industry standards"
+        },
+        "continuityChecking": {
+          "type": "boolean",
+          "default": true,
+          "description": "Check for continuity errors"
+        }
+      }
+    }
+  }
+}
+

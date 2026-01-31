@@ -1,0 +1,233 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/screenplay/plot-outline.json",
+  "title": "Plot Outline",
+  "description": "JSON schema for screenplay plot outlines with acts, beats, turning points, sequences, and scenes",
+  "type": "object",
+  "required": ["title", "acts"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the screenplay"
+    },
+    "logline": {
+      "type": "string",
+      "description": "One-sentence story summary"
+    },
+    "genre": {
+      "type": "string",
+      "description": "Story genre"
+    },
+    "targetLength": {
+      "type": "integer",
+      "description": "Target screenplay length in pages"
+    },
+    "acts": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["actNumber", "title", "pageRange", "sequences"],
+        "properties": {
+          "actNumber": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Act number (1, 2, or 3)"
+          },
+          "title": {
+            "type": "string",
+            "description": "Act title or description"
+          },
+          "pageRange": {
+            "type": "object",
+            "required": ["start", "end"],
+            "properties": {
+              "start": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Starting page number"
+              },
+              "end": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Ending page number"
+              }
+            }
+          },
+          "summary": {
+            "type": "string",
+            "description": "Summary of what happens in this act"
+          },
+          "turningPoints": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["page", "description"],
+              "properties": {
+                "page": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Page number of turning point"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Description of the turning point"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["inciting-incident", "plot-point-1", "midpoint", "plot-point-2", "climax"],
+                  "description": "Type of turning point"
+                }
+              }
+            },
+            "description": "Major turning points in this act"
+          },
+          "sequences": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["sequenceNumber", "title", "scenes"],
+              "properties": {
+                "sequenceNumber": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "Sequence number within the act"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Sequence title or description"
+                },
+                "pageRange": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "end": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "Summary of the sequence"
+                },
+                "purpose": {
+                  "type": "string",
+                  "description": "Narrative purpose of this sequence"
+                },
+                "scenes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["sceneNumber", "heading", "summary"],
+                    "properties": {
+                      "sceneNumber": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Scene number"
+                      },
+                      "heading": {
+                        "type": "string",
+                        "description": "Scene heading (e.g., 'INT. COFFEE SHOP - DAY')"
+                      },
+                      "location": {
+                        "type": "string",
+                        "description": "Scene location"
+                      },
+                      "timeOfDay": {
+                        "type": "string",
+                        "enum": ["DAY", "NIGHT", "MORNING", "AFTERNOON", "EVENING", "DUSK", "DAWN", "CONTINUOUS", "LATER", "MOMENTS LATER"],
+                        "description": "Time of day"
+                      },
+                      "intExt": {
+                        "type": "string",
+                        "enum": ["INT", "EXT", "INT/EXT"],
+                        "description": "Interior or exterior"
+                      },
+                      "pageNumber": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Approximate page number"
+                      },
+                      "summary": {
+                        "type": "string",
+                        "description": "What happens in this scene"
+                      },
+                      "characters": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Characters present in the scene"
+                      },
+                      "purpose": {
+                        "type": "string",
+                        "description": "Narrative purpose of the scene"
+                      },
+                      "conflict": {
+                        "type": "string",
+                        "description": "Central conflict in the scene"
+                      },
+                      "outcome": {
+                        "type": "string",
+                        "description": "How the scene ends/what changes"
+                      },
+                      "emotionalBeat": {
+                        "type": "string",
+                        "description": "Emotional tone or beat of the scene"
+                      },
+                      "notes": {
+                        "type": "string",
+                        "description": "Additional notes about the scene"
+                      }
+                    }
+                  },
+                  "description": "Scenes in this sequence"
+                }
+              }
+            },
+            "description": "Sequences in this act"
+          }
+        }
+      },
+      "description": "Acts in the screenplay (typically 3)"
+    },
+    "subplots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "description"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Subplot title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Subplot description"
+          },
+          "characters": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Characters involved in subplot"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "How the subplot resolves"
+          }
+        }
+      },
+      "description": "Subplots in the story"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the plot outline"
+    }
+  }
+}
+

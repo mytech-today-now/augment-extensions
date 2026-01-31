@@ -202,6 +202,47 @@ augx link coding-standards/powershell
 }
 ```
 
+## Writing Standards
+
+### Screenplay Writing Standards
+- **Module**: `writing-standards/screenplay`
+- **Version**: 1.0.0
+- **Character Count**: ~163,500
+- **Description**: Comprehensive screenplay writing and crafting standards for AI-driven content creation across AAA Hollywood films, independent films, TV series, web content, news broadcasts, commercials, streaming content, and live TV productions
+- **Contents**:
+  - Universal formatting (AMPAS standards)
+  - Narrative structures (Field, Snyder, Campbell)
+  - Character development and arcs
+  - Dialogue writing and subtext
+  - Screen continuity (180-degree rule, match cuts)
+  - Pacing and timing
+  - Diversity and inclusion
+  - AAA Hollywood films
+  - Independent films
+  - TV series (episodic/serialized)
+  - Web content (YouTube, TikTok, social media)
+  - News broadcasts (SPJ Code of Ethics)
+  - Commercials (15/30/60 second formats)
+  - Streaming content (Netflix, Amazon, Disney+)
+  - Live TV productions
+  - Fountain format support
+  - Export to Final Draft, PDF, HTML
+
+**Usage**:
+```bash
+augx link writing-standards/screenplay
+```
+
+**Configuration** (`.augment/screenplay-config.json`):
+```json
+{
+  "categories": ["aaa-hollywood-films", "tv-series"],
+  "universalRules": true,
+  "fountainFormat": true,
+  "exportFormats": ["fdx", "pdf"]
+}
+```
+
 ## Collections
 
 Collections bundle multiple related modules together for easier installation.
@@ -579,10 +620,11 @@ augx mcp wrap github-mcp search-repos github-search --category retrieval
 
 ## Statistics
 
-- **Total Modules**: 18
+- **Total Modules**: 19
 - **Coding Standards**: 5
+- **Writing Standards**: 1
 - **Domain Rules**: 5
 - **Workflows**: 2
 - **Examples**: 4
 - **Total Skills**: 4
-- **Total Character Count**: ~1,774,692
+- **Total Character Count**: ~1,938,192

@@ -1,0 +1,95 @@
+# Beat Sheet Example - Save the Cat Structure
+# Demonstrates the beat-sheet.json schema usage
+# Based on a psychological thriller about a social worker
+
+title: "The Weight We Carry"
+logline: "A dedicated social worker must confront her own traumatic past when a case mirrors the addiction that destroyed her family."
+genre: "Psychological Drama/Thriller"
+targetLength: 110
+
+beats:
+  openingImage:
+    page: 1
+    description: "Sarah sits alone in her car outside a rundown apartment building at 3 AM, watching a window. She's been here before - many times. This is her life: watching, waiting, trying to save people who don't want to be saved."
+    visualMetaphor: "Sarah isolated in her car, separated from the world by glass - representing her emotional isolation and her role as observer rather than participant in life."
+
+  themeStated:
+    page: 5
+    description: "Sarah's supervisor, Dr. Hayes, tells her during a review meeting."
+    dialogue: "You can't save everyone, Sarah. And you can't save anyone if you don't save yourself first."
+
+  catalyst:
+    page: 12
+    description: "Sarah is assigned a new case: Elena Rodriguez, a young mother with a 6-year-old daughter, struggling with opioid addiction. When Sarah meets Elena, she's shocked - Elena could be her mother 25 years ago. Same age, same situation, same desperate eyes."
+    impact: "Sarah sees a chance to save the mother she couldn't save as a child. She becomes obsessed with Elena's case."
+
+  debate:
+    page: 15
+    description: "Sarah debates whether to take the case. Dr. Hayes warns her she's too personally invested. Marcus, her colleague, offers to take it instead. But Sarah can't let go - this is her chance to rewrite history."
+    internalConflict: "Should she recuse herself from a case that's clearly triggering her own trauma, or is this her opportunity to finally make things right?"
+
+  breakIntoTwo:
+    page: 25
+    description: "Sarah commits to Elena's case despite warnings. She promises Elena's daughter, Sofia, that she'll keep her family together. It's a promise she couldn't keep for her own family."
+    decision: "Sarah officially takes on Elena's case and begins intensive intervention, crossing professional boundaries in her determination to succeed."
+
+  bStory:
+    page: 30
+    description: "Marcus becomes more present in Sarah's life. He's been interested in her for months, but she's always kept him at arm's length. Now, as the case intensifies, he refuses to let her isolate herself completely."
+    characters:
+      - "Sarah Mitchell"
+      - "Marcus Thompson"
+
+  funAndGames:
+    page: 35
+    description: "Sarah throws herself into helping Elena. We see her success: Elena enters rehab, starts attending meetings, reconnects with her daughter. Sarah feels like she's finally winning. She also begins to open up to Marcus, allowing small moments of connection."
+    setpieces:
+      - "Emotional breakthrough session with Elena"
+      - "Sarah and Marcus's first real conversation over late-night coffee"
+      - "Sofia's joy when Elena completes 30 days sober"
+      - "Sarah letting Marcus see her apartment (her private space) for the first time"
+
+  midpoint:
+    page: 55
+    description: "False victory: Elena celebrates 60 days sober. Sarah is praised at work. She and Marcus share their first kiss. For the first time in years, Sarah feels like she might deserve happiness. Stakes are raised when Elena's abusive ex-boyfriend is released from prison."
+    type: "false-victory"
+    stakeRaise: "Elena's ex, the source of her trauma and addiction, returns. Sarah's personal investment deepens as she sees parallels to her own mother's destructive relationships."
+
+  badGuysCloseIn:
+    page: 60
+    description: "Elena's ex manipulates his way back into her life. Elena starts missing meetings. Sarah becomes increasingly desperate, working longer hours, neglecting her own wellbeing. Marcus tries to help but Sarah pushes him away. Dr. Hayes threatens to remove Sarah from the case."
+    escalation:
+      - "Elena misses a supervised visit with Sofia"
+      - "Sarah finds evidence Elena is using again"
+      - "Marcus confronts Sarah about her obsessive behavior"
+      - "Dr. Hayes officially warns Sarah about boundary violations"
+      - "Sarah's own trauma symptoms intensify - insomnia, anxiety, flashbacks"
+
+  allIsLost:
+    page: 75
+    description: "Elena overdoses. She survives, but Sofia is removed from her care and placed in foster care. Sarah has failed - just like she failed her mother. Dr. Hayes removes her from the case. Marcus tells her he can't watch her destroy herself anymore."
+    whiffOfDeath: "Elena's overdose mirrors Sarah's mother's death. Sarah has a panic attack, reliving finding her mother's body."
+
+  darkNightOfTheSoul:
+    page: 85
+    description: "Sarah sits alone in her apartment, surrounded by Elena's case files. She's lost everything - the case, Marcus, her sense of purpose. She looks at an old photo of her mother and realizes: she's been trying to save her mother through Elena, but her mother is gone. She can't change the past."
+    realization: "Sarah realizes she's been running from her own pain by trying to fix everyone else. She can't save Elena or anyone else until she confronts her own trauma and accepts that her mother's death wasn't her fault."
+
+  breakIntoThree:
+    page: 90
+    description: "Sarah does something she's never done: she asks for help. She calls Marcus and admits she needs support. She starts seeing a therapist. She visits Elena in the hospital - not as a savior, but as someone who understands."
+    solution: "Instead of trying to save Elena, Sarah offers her something more valuable: the truth that recovery is possible, but it has to be Elena's choice, not Sarah's mission."
+
+  finale:
+    page: 95
+    description: "Sarah testifies at Elena's custody hearing. Instead of making promises she can't keep, she tells the truth: recovery is hard, relapse is part of the process, but Elena deserves the chance to fight for her daughter. Elena chooses rehab - for herself, not for Sarah. Sarah reconnects with Marcus, this time with honesty and vulnerability. She begins her own healing journey."
+    climax: "Elena must choose between her ex and her daughter. Sarah must choose between her savior complex and genuine connection."
+    resolution: "Elena chooses recovery (though the outcome is uncertain). Sarah chooses vulnerability and begins building real relationships. Sofia gets a chance at stability, whether with Elena or in a loving foster home."
+
+  finalImage:
+    page: 110
+    description: "Sarah sits in her car outside an apartment building - but this time, Marcus is with her. She's not alone anymore. She's not watching from outside; she's part of the world. She gets out of the car and walks toward her own apartment, toward her own life."
+    transformation: "The opening image showed Sarah isolated, watching life from behind glass. The final image shows her connected, participating, moving forward. She's learned that she can't save everyone, but she can save herself - and that's enough."
+
+notes: "This beat sheet follows the Save the Cat structure while telling a character-driven story about trauma, codependency, and healing. The external plot (saving Elena) drives the internal plot (Sarah saving herself). Each beat serves both the plot and character arc."
+

@@ -1,0 +1,332 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/screenplay/beat-sheet.json",
+  "title": "Beat Sheet",
+  "description": "JSON schema for screenplay beat sheets using Save the Cat structure",
+  "type": "object",
+  "required": ["title", "beats"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the screenplay"
+    },
+    "logline": {
+      "type": "string",
+      "description": "One-sentence story summary"
+    },
+    "genre": {
+      "type": "string",
+      "description": "Story genre"
+    },
+    "targetLength": {
+      "type": "integer",
+      "description": "Target screenplay length in pages"
+    },
+    "beats": {
+      "type": "object",
+      "required": ["openingImage", "themeStated", "catalyst", "debate", "breakIntoTwo", "bStory", "funAndGames", "midpoint", "badGuysCloseIn", "allIsLost", "darkNightOfTheSoul", "breakIntoThree", "finale", "finalImage"],
+      "properties": {
+        "openingImage": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number (typically 1)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Opening image that sets tone and theme"
+            },
+            "visualMetaphor": {
+              "type": "string",
+              "description": "Visual metaphor for the story's theme"
+            }
+          }
+        },
+        "themeStated": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "Page number (typically 1-5)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Statement of the story's theme"
+            },
+            "dialogue": {
+              "type": "string",
+              "description": "Actual dialogue that states the theme"
+            }
+          }
+        },
+        "catalyst": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 10,
+              "maximum": 12,
+              "description": "Page number (typically 10-12)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Inciting incident that disrupts the status quo"
+            },
+            "impact": {
+              "type": "string",
+              "description": "How this event affects the protagonist"
+            }
+          }
+        },
+        "debate": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 12,
+              "maximum": 25,
+              "description": "Page number (typically 12-25)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Protagonist debates whether to act"
+            },
+            "internalConflict": {
+              "type": "string",
+              "description": "Internal struggle the protagonist faces"
+            }
+          }
+        },
+        "breakIntoTwo": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 25,
+              "maximum": 30,
+              "description": "Page number (typically 25-30)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Protagonist commits to the journey (Act 2 begins)"
+            },
+            "decision": {
+              "type": "string",
+              "description": "The specific decision or action taken"
+            }
+          }
+        },
+        "bStory": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 30,
+              "description": "Page number (typically 30)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Introduction of B-story (usually love story or relationship)"
+            },
+            "characters": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Characters involved in B-story"
+            }
+          }
+        },
+        "funAndGames": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 30,
+              "maximum": 55,
+              "description": "Page number (typically 30-55)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Promise of the premise - what the trailer would show"
+            },
+            "setpieces": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Key set pieces and fun moments"
+            }
+          }
+        },
+        "midpoint": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 55,
+              "maximum": 60,
+              "description": "Page number (typically 55-60)"
+            },
+            "description": {
+              "type": "string",
+              "description": "False victory or false defeat - stakes are raised"
+            },
+            "type": {
+              "type": "string",
+              "enum": ["false-victory", "false-defeat"],
+              "description": "Type of midpoint"
+            },
+            "stakeRaise": {
+              "type": "string",
+              "description": "How the stakes are raised"
+            }
+          }
+        },
+        "badGuysCloseIn": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 60,
+              "maximum": 75,
+              "description": "Page number (typically 60-75)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Opposition intensifies, team falls apart"
+            },
+            "escalation": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "How problems escalate"
+            }
+          }
+        },
+        "allIsLost": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 75,
+              "maximum": 85,
+              "description": "Page number (typically 75-85)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Lowest point - opposite of midpoint"
+            },
+            "whiffOfDeath": {
+              "type": "string",
+              "description": "Literal or metaphorical death moment"
+            }
+          }
+        },
+        "darkNightOfTheSoul": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 85,
+              "maximum": 90,
+              "description": "Page number (typically 85-90)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Protagonist's moment of despair and reflection"
+            },
+            "realization": {
+              "type": "string",
+              "description": "What the protagonist realizes or learns"
+            }
+          }
+        },
+        "breakIntoThree": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 90,
+              "maximum": 95,
+              "description": "Page number (typically 90-95)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Solution found - Act 3 begins"
+            },
+            "solution": {
+              "type": "string",
+              "description": "The specific solution or plan"
+            }
+          }
+        },
+        "finale": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 95,
+              "maximum": 110,
+              "description": "Page number (typically 95-110)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Climax and resolution"
+            },
+            "climax": {
+              "type": "string",
+              "description": "The climactic confrontation"
+            },
+            "resolution": {
+              "type": "string",
+              "description": "How conflicts are resolved"
+            }
+          }
+        },
+        "finalImage": {
+          "type": "object",
+          "required": ["page", "description"],
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 110,
+              "description": "Page number (typically 110)"
+            },
+            "description": {
+              "type": "string",
+              "description": "Final image - opposite of opening image showing change"
+            },
+            "transformation": {
+              "type": "string",
+              "description": "How this image shows the protagonist's transformation"
+            }
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the beat sheet"
+    }
+  }
+}
+

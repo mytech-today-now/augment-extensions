@@ -1,0 +1,184 @@
+# Plot Outline Example - Three-Act Structure
+# Demonstrates the plot-outline.json schema usage
+
+title: "The Weight We Carry"
+logline: "A dedicated social worker must confront her own traumatic past when a case mirrors the addiction that destroyed her family."
+genre: "Psychological Drama"
+targetLength: 110
+
+acts:
+  - actNumber: 1
+    title: "Setup - The Savior Complex"
+    pageRange:
+      start: 1
+      end: 25
+    summary: "Introduce Sarah's world: a dedicated social worker who lives for her job because she has nothing else. When she takes on Elena's case, she sees a chance to rewrite her own tragic history."
+    
+    turningPoints:
+      - page: 12
+        description: "Sarah meets Elena and her daughter Sofia for the first time. Elena reminds Sarah of her own mother."
+        type: "inciting-incident"
+      
+      - page: 25
+        description: "Despite warnings, Sarah commits to Elena's case and promises Sofia she'll keep the family together."
+        type: "plot-point-1"
+    
+    sequences:
+      - sequenceNumber: 1
+        title: "Sarah's World"
+        pageRange:
+          start: 1
+          end: 12
+        summary: "Establish Sarah's isolated life, her dedication to work, and her inability to form personal connections."
+        purpose: "Show who Sarah is before the story begins - competent professionally but emotionally shut down."
+        
+        scenes:
+          - sceneNumber: 1
+            heading: "INT. SARAH'S CAR - NIGHT"
+            location: "Outside rundown apartment"
+            timeOfDay: "NIGHT"
+            intExt: "INT"
+            pageNumber: 1
+            summary: "Sarah conducts late-night surveillance on a client's apartment, alone."
+            characters: ["Sarah"]
+            purpose: "Opening image - establish Sarah's isolation and obsessive dedication"
+            conflict: "Sarah vs. her own inability to disconnect from work"
+            outcome: "She stays watching until dawn"
+            emotionalBeat: "Loneliness masked as dedication"
+          
+          - sceneNumber: 2
+            heading: "INT. SOCIAL SERVICES OFFICE - DAY"
+            location: "Sarah's office"
+            timeOfDay: "DAY"
+            intExt: "INT"
+            pageNumber: 3
+            summary: "Sarah meets with Dr. Hayes for her quarterly review. Hayes expresses concern about Sarah's work-life balance."
+            characters: ["Sarah", "Dr. Hayes"]
+            purpose: "Theme stated - 'You can't save everyone'"
+            conflict: "Sarah's resistance to acknowledging her own needs"
+            outcome: "Sarah deflects and changes subject"
+            emotionalBeat: "Defensive, guarded"
+            notes: "Theme stated on page 5"
+
+      - sequenceNumber: 2
+        title: "The Catalyst"
+        pageRange:
+          start: 12
+          end: 25
+        summary: "Sarah is assigned Elena's case and becomes obsessed with saving this family."
+        purpose: "Inciting incident and commitment to the journey"
+
+        scenes:
+          - sceneNumber: 3
+            heading: "INT. RUNDOWN APARTMENT - DAY"
+            location: "Elena's apartment"
+            timeOfDay: "DAY"
+            intExt: "INT"
+            pageNumber: 12
+            summary: "Sarah meets Elena and Sofia for the first time. The resemblance to her own past is striking."
+            characters: ["Sarah", "Elena", "Sofia"]
+            purpose: "Catalyst - Sarah sees her mother in Elena"
+            conflict: "Professional distance vs. personal connection"
+            outcome: "Sarah is deeply affected, can't remain objective"
+            emotionalBeat: "Triggered, determined"
+
+          - sceneNumber: 4
+            heading: "INT. SARAH'S APARTMENT - NIGHT"
+            location: "Sarah's apartment"
+            timeOfDay: "NIGHT"
+            intExt: "INT"
+            pageNumber: 20
+            summary: "Sarah looks at old photos of her mother, sees the parallels to Elena. She makes a decision."
+            characters: ["Sarah"]
+            purpose: "Show Sarah's internal commitment"
+            conflict: "Past trauma vs. present opportunity"
+            outcome: "Sarah decides she will save this family"
+            emotionalBeat: "Resolved, driven"
+
+  - actNumber: 2
+    title: "Confrontation - The Unraveling"
+    pageRange:
+      start: 26
+      end: 85
+    summary: "Sarah's attempts to save Elena initially succeed, but her personal investment and unresolved trauma lead to increasingly desperate behavior. When Elena relapses, Sarah's world collapses."
+
+    turningPoints:
+      - page: 55
+        description: "Elena celebrates 60 days sober. Sarah feels victorious. Then Elena's abusive ex is released from prison."
+        type: "midpoint"
+
+      - page: 75
+        description: "Elena overdoses. Sarah has failed, just like she failed her mother."
+        type: "plot-point-2"
+
+    sequences:
+      - sequenceNumber: 3
+        title: "Progress and Connection"
+        pageRange:
+          start: 26
+          end: 55
+        summary: "Sarah helps Elena enter recovery. Things improve. Sarah also begins opening up to Marcus."
+        purpose: "False hope - show what Sarah wants before taking it away"
+
+        scenes:
+          - sceneNumber: 5
+            heading: "INT. REHAB FACILITY - DAY"
+            location: "Intake office"
+            timeOfDay: "DAY"
+            intExt: "INT"
+            pageNumber: 30
+            summary: "Sarah helps Elena check into rehab. Elena is scared but hopeful."
+            characters: ["Sarah", "Elena"]
+            purpose: "Show Sarah's methods working"
+            conflict: "Elena's fear vs. Sarah's determination"
+            outcome: "Elena commits to treatment"
+            emotionalBeat: "Hopeful"
+
+  - actNumber: 3
+    title: "Resolution - Letting Go"
+    pageRange:
+      start: 86
+      end: 110
+    summary: "Sarah confronts her own trauma and learns that she can't save everyone - but she can save herself. Elena makes her own choice about recovery."
+
+    turningPoints:
+      - page: 90
+        description: "Sarah asks for help for the first time in her life."
+        type: "climax"
+
+    sequences:
+      - sequenceNumber: 4
+        title: "Healing"
+        pageRange:
+          start: 86
+          end: 110
+        summary: "Sarah begins her own recovery journey and learns to build genuine connections."
+        purpose: "Resolution and transformation"
+
+        scenes:
+          - sceneNumber: 6
+            heading: "INT. SARAH'S APARTMENT - NIGHT"
+            location: "Sarah's apartment"
+            timeOfDay: "NIGHT"
+            intExt: "INT"
+            pageNumber: 90
+            summary: "Sarah calls Marcus and admits she needs help."
+            characters: ["Sarah", "Marcus (phone)"]
+            purpose: "Sarah's breakthrough moment"
+            conflict: "Pride vs. need for connection"
+            outcome: "Sarah chooses vulnerability"
+            emotionalBeat: "Scared but hopeful"
+
+subplots:
+  - title: "Sarah and Marcus Romance"
+    description: "Sarah's growing relationship with Marcus mirrors her journey toward vulnerability and connection."
+    characters: ["Sarah", "Marcus"]
+    resolution: "Sarah learns to accept love and support, allowing Marcus into her life."
+
+  - title: "Dr. Hayes as Mentor"
+    description: "Dr. Hayes tries to guide Sarah toward healthier boundaries and self-care."
+    characters: ["Sarah", "Dr. Hayes"]
+    resolution: "Sarah finally hears Hayes's wisdom and begins therapy."
+
+notes: "This outline demonstrates the three-act structure with sequences and scenes. Each scene serves the overall arc while maintaining its own conflict and resolution. The plot (saving Elena) drives the character arc (Sarah saving herself)."
+

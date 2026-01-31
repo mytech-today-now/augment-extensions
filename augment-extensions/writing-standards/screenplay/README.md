@@ -4,9 +4,9 @@
 
 Comprehensive screenplay writing and crafting standards for AI-driven content creation across multiple formats and industries.
 
-**Version**: 1.0.0  
-**Type**: writing-standards  
-**Character Count**: ~TBD
+**Version**: 1.0.0
+**Type**: writing-standards
+**Character Count**: ~163,500
 
 ## Key Benefits
 
@@ -155,9 +155,138 @@ FADE OUT.
 
 ## Export Formats
 
-- **Final Draft (.fdx)**: Industry-standard format
-- **PDF**: Print-ready screenplay
-- **HTML**: Web-friendly format
+### Final Draft (.fdx)
+**Industry Standard** - Most widely used professional screenplay format
+
+**Tools**:
+- **Better Fountain** (VS Code): Export → Final Draft
+- **Fountain CLI**: `fountain --fdx screenplay.fountain`
+- **Highland 2**: Native Fountain support with FDX export
+- **WriterDuet**: Import Fountain, export FDX
+
+**Use Cases**:
+- Professional submissions
+- Studio collaboration
+- Production scheduling
+- Script breakdowns
+
+### PDF
+**Print-Ready** - Universal format for reading and distribution
+
+**Tools**:
+- **Better Fountain** (VS Code): `Ctrl+Shift+P` → "Fountain: Export to PDF"
+- **Fountain CLI**: `fountain --pdf screenplay.fountain`
+- **Highland 2**: Export → PDF
+- **Wrap**: Online Fountain to PDF converter
+
+**Formatting**:
+- Industry-standard margins
+- Courier 12pt font
+- Page numbers
+- Title page
+- Proper scene numbering
+
+**Use Cases**:
+- Script distribution
+- Table reads
+- Submissions
+- Archival
+
+### HTML
+**Web-Friendly** - For online viewing and sharing
+
+**Tools**:
+- **Better Fountain** (VS Code): Export → HTML
+- **Fountain CLI**: `fountain --html screenplay.fountain`
+- **Afterwriting**: Online Fountain editor with HTML export
+
+**Features**:
+- Responsive design
+- Searchable text
+- Hyperlinked scenes
+- Mobile-friendly
+- Easy sharing
+
+**Use Cases**:
+- Online portfolios
+- Web publishing
+- Collaborative review
+- Mobile reading
+
+### Conversion Workflow
+
+**Fountain → Final Draft**:
+```bash
+# Using Better Fountain in VS Code
+1. Open .fountain file
+2. Ctrl+Shift+P
+3. "Fountain: Export to Final Draft"
+4. Save as .fdx
+```
+
+**Fountain → PDF**:
+```bash
+# Using Better Fountain in VS Code
+1. Open .fountain file
+2. Ctrl+Shift+P
+3. "Fountain: Export to PDF"
+4. Configure settings (title page, scene numbers)
+5. Save as .pdf
+```
+
+**Fountain → HTML**:
+```bash
+# Using Fountain CLI
+fountain --html screenplay.fountain > screenplay.html
+```
+
+### Recommended Tools
+
+**VS Code + Better Fountain** (Free):
+- Syntax highlighting
+- Live preview
+- Export to PDF/FDX/HTML
+- Autocomplete
+- Snippet support
+
+**Highland 2** ($50):
+- Native Fountain support
+- Professional export options
+- Revision tracking
+- Gender analysis
+- Sprint mode
+
+**WriterDuet** (Free/Pro):
+- Real-time collaboration
+- Cloud-based
+- Import/export Fountain
+- Mobile apps
+- Version control
+
+**Fade In** ($80):
+- Professional screenwriting software
+- Fountain import/export
+- Production features
+- Cross-platform
+
+### Export Best Practices
+
+**Before Exporting**:
+- ✅ Spell check
+- ✅ Verify scene headings
+- ✅ Check character name consistency
+- ✅ Review dialogue formatting
+- ✅ Confirm page count
+- ✅ Add title page
+- ✅ Number scenes (if required)
+
+**For Submissions**:
+- Use PDF for most submissions
+- Use FDX for production/collaboration
+- Include title page with contact info
+- Follow specific submission guidelines
+- Verify file size limits
+- Test file opens correctly
 
 ## References
 

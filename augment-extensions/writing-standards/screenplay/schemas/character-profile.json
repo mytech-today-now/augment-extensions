@@ -1,0 +1,247 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/screenplay/character-profile.json",
+  "title": "Character Profile",
+  "description": "JSON schema for screenplay character profiles with traits, arcs, motivations, relationships, backstory, and physical description",
+  "type": "object",
+  "required": ["name", "role"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Character's full name"
+    },
+    "role": {
+      "type": "string",
+      "enum": ["protagonist", "antagonist", "supporting", "minor"],
+      "description": "Character's role in the story"
+    },
+    "age": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 150,
+      "description": "Character's age in years"
+    },
+    "gender": {
+      "type": "string",
+      "description": "Character's gender identity"
+    },
+    "physicalDescription": {
+      "type": "object",
+      "properties": {
+        "height": {
+          "type": "string",
+          "description": "Character's height (e.g., '5'10\"', '180cm')"
+        },
+        "build": {
+          "type": "string",
+          "description": "Character's body type (e.g., 'athletic', 'slender', 'stocky')"
+        },
+        "hairColor": {
+          "type": "string",
+          "description": "Character's hair color"
+        },
+        "eyeColor": {
+          "type": "string",
+          "description": "Character's eye color"
+        },
+        "distinguishingFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Notable physical features (scars, tattoos, etc.)"
+        },
+        "appearance": {
+          "type": "string",
+          "description": "Overall appearance description"
+        }
+      }
+    },
+    "personality": {
+      "type": "object",
+      "properties": {
+        "traits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Core personality traits"
+        },
+        "strengths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Character strengths"
+        },
+        "weaknesses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Character flaws and weaknesses"
+        },
+        "fears": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Character's fears"
+        },
+        "desires": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Character's desires and wants"
+        }
+      }
+    },
+    "backstory": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "Brief backstory summary"
+        },
+        "formativeEvents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "event": {
+                "type": "string",
+                "description": "Description of the event"
+              },
+              "age": {
+                "type": "integer",
+                "description": "Age when event occurred"
+              },
+              "impact": {
+                "type": "string",
+                "description": "How this event shaped the character"
+              }
+            }
+          },
+          "description": "Key events that shaped the character"
+        },
+        "family": {
+          "type": "string",
+          "description": "Family background"
+        },
+        "education": {
+          "type": "string",
+          "description": "Educational background"
+        },
+        "occupation": {
+          "type": "string",
+          "description": "Current or past occupation"
+        }
+      }
+    },
+    "motivations": {
+      "type": "object",
+      "properties": {
+        "externalGoal": {
+          "type": "string",
+          "description": "What the character wants to achieve (plot-level)"
+        },
+        "internalGoal": {
+          "type": "string",
+          "description": "What the character needs to learn/overcome (theme-level)"
+        },
+        "stakes": {
+          "type": "string",
+          "description": "What the character stands to lose"
+        },
+        "conflictingMotivations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Competing desires that create internal conflict"
+        }
+      }
+    },
+    "characterArc": {
+      "type": "object",
+      "properties": {
+        "arcType": {
+          "type": "string",
+          "enum": ["positive", "negative", "flat"],
+          "description": "Type of character arc"
+        },
+        "startingState": {
+          "type": "string",
+          "description": "Character's state at story beginning"
+        },
+        "endingState": {
+          "type": "string",
+          "description": "Character's state at story end"
+        },
+        "transformation": {
+          "type": "string",
+          "description": "How the character changes"
+        }
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["character", "relationship"],
+        "properties": {
+          "character": {
+            "type": "string",
+            "description": "Name of related character"
+          },
+          "relationship": {
+            "type": "string",
+            "description": "Type of relationship (e.g., 'mentor', 'rival', 'love interest')"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the relationship dynamic"
+          },
+          "conflictPoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Sources of conflict in this relationship"
+          }
+        }
+      },
+      "description": "Character's relationships with other characters"
+    },
+    "voice": {
+      "type": "object",
+      "properties": {
+        "speechPattern": {
+          "type": "string",
+          "description": "How the character speaks (formal, casual, etc.)"
+        },
+        "vocabulary": {
+          "type": "string",
+          "description": "Type of vocabulary used (technical, simple, etc.)"
+        },
+        "catchphrases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Recurring phrases or expressions"
+        },
+        "accent": {
+          "type": "string",
+          "description": "Character's accent or dialect"
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the character"
+    }
+  }
+}
+

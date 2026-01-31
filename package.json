@@ -1,6 +1,6 @@
 {
   "name": "@mytechtoday/augment-extensions",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "CLI tool for managing Augment Code AI extension modules",
   "main": "cli/dist/index.js",
   "bin": {
@@ -22,7 +22,12 @@
     "test:coverage": "jest --coverage",
     "lint": "cd cli && eslint src/**/*.ts",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "install:cli": "npm install && npm run build && npm install -g .",
+    "uninstall:cli": "npm uninstall -g @mytechtoday/augment-extensions",
+    "reinstall:cli": "npm run uninstall:cli && npm run install:cli",
+    "check:node": "node -e \"const v=process.version.match(/^v(\\d+)/)[1]; if(v<16){console.error('Node.js >=16 required, found v'+process.version); process.exit(1);} else {console.log('Node.js version OK: '+process.version);}\"",
+    "postinstall": "npm run check:node"
   },
   "keywords": [
     "augment",

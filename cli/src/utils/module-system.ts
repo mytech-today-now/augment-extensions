@@ -281,6 +281,7 @@ export function discoverModules(): Module[] {
 
   const categories = fs.readdirSync(modulesDir, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
+    .filter(dirent => dirent.name !== 'collections') // Exclude collections directory
     .map(dirent => dirent.name);
 
   for (const category of categories) {
@@ -384,6 +385,67 @@ export function findModule(moduleName: string): Module | null {
   // Search all categories for the module
   const modules = discoverModules();
   return modules.find(m => m.fullName.endsWith(`/${moduleName}`)) || null;
+}
+
+/**
+ * Find collection by name (supports both "collections/name" and "name" formats)
+ */
+export function findCollection(collectionName: string): Collection | null {
+  const modulesDir = getModulesDir();
+  const collectionsDir = path.join(modulesDir, 'collections');
+
+  // Remove "collections/" prefix if present
+  const name = collectionName.replace(/^collections\//, '');
+  const collectionPath = path.join(collectionsDir, name);
+  const collectionJsonPath = path.join(collectionPath, 'collection.json');
+
+  if (!fs.existsSync(collectionJsonPath)) {
+    return null;
+  }
+
+  try {
+    const metadata = JSON.parse(fs.readFileSync(collectionJsonPath, 'utf-8'));
+    return {
+      metadata,
+      path: collectionPath,
+      fullName: `collections/${name}`
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * Resolve collection to its constituent modules
+ * Returns array of module IDs that are part of the collection
+ */
+export function resolveCollection(collection: Collection): string[] {
+  return collection.metadata.modules.map(m => m.id);
+}
+
+/**
+ * Resolve collection by name to its constituent modules
+ */
+export function resolveCollectionByName(collectionName: string): string[] | null {
+  const collection = findCollection(collectionName);
+  if (!collection) {
+    return null;
+  }
+  return resolveCollection(collection);
+}
+
+/**
+ * Check if a name refers to a collection
+ */
+export function isCollection(name: string): boolean {
+  return findCollection(name) !== null;
+}
+
+/**
+ * Check if a name refers to a module
+ */
+export function isModule(name: string): boolean {
+  return findModule(name) !== null;
 }
 
 /**

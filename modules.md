@@ -161,6 +161,47 @@ augx link coding-standards/typescript
 augx link coding-standards/php
 ```
 
+### PowerShell Coding Standards
+- **Module**: `coding-standards/powershell`
+- **Version**: 1.0.0
+- **Character Count**: ~162,000
+- **Description**: Comprehensive PowerShell coding standards for professional, maintainable, and secure PowerShell code across automation, modules, DSC, cloud orchestration, administrative tools, cross-platform scripts, and legacy migrations
+- **Contents**:
+  - Universal standards (naming, error handling, security, performance, testing)
+  - Configuration schema documentation (.augment/powershell-config.json)
+  - Automation scripts (scheduled tasks, event-driven automation)
+  - PowerShell modules and advanced functions
+  - Desired State Configuration (DSC)
+  - Cloud orchestration (Azure, AWS)
+  - Administrative tools (Active Directory, Exchange, SQL Server)
+  - Cross-platform scripts (PowerShell Core compatibility)
+  - Legacy migrations (Windows PowerShell to PowerShell Core)
+  - Category configuration system
+  - PSScriptAnalyzer integration
+  - Pester testing framework
+
+**Usage**:
+```bash
+augx link coding-standards/powershell
+```
+
+**Configuration** (`.augment/powershell-config.json`):
+```json
+{
+  "powershell_categories": ["automation", "modules", "cloud"],
+  "powershell_version": "7.4",
+  "strict_mode": true,
+  "static_analysis": {
+    "tool": "PSScriptAnalyzer",
+    "severity": "Warning"
+  },
+  "testing": {
+    "framework": "Pester",
+    "version": "5.x"
+  }
+}
+```
+
 ## Collections
 
 Collections bundle multiple related modules together for easier installation.

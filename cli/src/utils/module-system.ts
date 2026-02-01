@@ -9,7 +9,7 @@ export interface ModuleMetadata {
   version: string;
   displayName: string;
   description: string;
-  type: 'coding-standards' | 'domain-rules' | 'workflows' | 'examples';
+  type: 'coding-standards' | 'domain-rules' | 'workflows' | 'examples' | 'marketing-standards' | 'writing-standards' | 'themes';
   tags?: string[];
   augment?: {
     characterCount?: number;
@@ -62,7 +62,7 @@ export function validateModuleMetadata(metadata: any): ValidationResult {
   if (!metadata.type) errors.push('Missing required field: type');
 
   // Validate type
-  const validTypes = ['coding-standards', 'domain-rules', 'workflows', 'examples'];
+  const validTypes = ['coding-standards', 'domain-rules', 'workflows', 'examples', 'marketing-standards', 'writing-standards', 'themes'];
   if (metadata.type && !validTypes.includes(metadata.type)) {
     errors.push(`Invalid type: ${metadata.type}. Must be one of: ${validTypes.join(', ')}`);
   }
@@ -335,7 +335,7 @@ export function generateDefaultMetadata(modulePath: string): ModuleMetadata {
     version: '0.0.0',
     displayName: moduleName.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
     description: `Module: ${moduleName}`,
-    type: ['coding-standards', 'domain-rules', 'workflows', 'examples'].includes(category)
+    type: ['coding-standards', 'domain-rules', 'workflows', 'examples', 'marketing-standards', 'writing-standards', 'themes'].includes(category)
       ? category as ModuleMetadata['type']
       : 'examples',
     augment: {
@@ -618,6 +618,33 @@ export function getFileStatistics(files: FileInfo[]): {
 }
 
 /**
+ * Recursively find all module.json files in a directory
+ */
+function findModuleJsonFiles(dir: string): string[] {
+  const results: string[] = [];
+
+  if (!fs.existsSync(dir)) {
+    return results;
+  }
+
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      // Recursively search subdirectories
+      results.push(...findModuleJsonFiles(fullPath));
+    } else if (entry.isFile() && entry.name === 'module.json') {
+      // Found a module.json file - return its parent directory
+      results.push(dir);
+    }
+  }
+
+  return results;
+}
+
+/**
  * Discover all modules in the modules directory
  */
 export function discoverModules(): Module[] {
@@ -628,24 +655,17 @@ export function discoverModules(): Module[] {
     return modules;
   }
 
-  const categories = fs.readdirSync(modulesDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .filter(dirent => dirent.name !== 'collections') // Exclude collections directory
-    .map(dirent => dirent.name);
+  // Recursively find all directories containing module.json files
+  const modulePaths = findModuleJsonFiles(modulesDir);
 
-  for (const category of categories) {
-    const categoryPath = path.join(modulesDir, category);
-    const moduleNames = fs.readdirSync(categoryPath, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name);
+  // Filter out collections directory
+  const filteredPaths = modulePaths.filter(p => !p.includes(path.join(modulesDir, 'collections')));
 
-    for (const moduleName of moduleNames) {
-      const modulePath = path.join(categoryPath, moduleName);
-      const module = loadModule(modulePath);
+  for (const modulePath of filteredPaths) {
+    const module = loadModule(modulePath);
 
-      if (module) {
-        modules.push(module);
-      }
+    if (module) {
+      modules.push(module);
     }
   }
 

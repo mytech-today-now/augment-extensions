@@ -1,0 +1,342 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/marketing/campaign-brief.json",
+  "title": "Campaign Brief",
+  "description": "JSON schema for marketing campaign planning and briefs with validation rules",
+  "type": "object",
+  "required": ["campaignName", "objectives", "audience", "budget", "timeline"],
+  "properties": {
+    "campaignName": {
+      "type": "string",
+      "description": "Campaign name"
+    },
+    "campaignId": {
+      "type": "string",
+      "description": "Unique campaign identifier"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["product_launch", "brand_awareness", "lead_generation", "customer_retention", "event_promotion", "seasonal", "other"],
+      "description": "Campaign type"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["planning", "approved", "in_progress", "paused", "completed", "cancelled"],
+      "description": "Campaign status"
+    },
+    "objectives": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "required": ["goal", "metric", "target"],
+          "properties": {
+            "goal": {
+              "type": "string",
+              "description": "Primary campaign goal"
+            },
+            "metric": {
+              "type": "string",
+              "description": "Primary success metric"
+            },
+            "target": {
+              "type": ["number", "string"],
+              "description": "Target value for metric"
+            },
+            "timeframe": {
+              "type": "string",
+              "description": "Timeframe to achieve target"
+            }
+          }
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["goal", "metric", "target"],
+            "properties": {
+              "goal": { "type": "string" },
+              "metric": { "type": "string" },
+              "target": { "type": ["number", "string"] }
+            }
+          }
+        },
+        "kpis": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "target"],
+            "properties": {
+              "name": { "type": "string" },
+              "target": { "type": "string" },
+              "measurement": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "audience": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "properties": {
+            "segment": { "type": "string" },
+            "demographics": {
+              "type": "object",
+              "properties": {
+                "ageRange": { "type": "string" },
+                "gender": { "type": "array", "items": { "type": "string" } },
+                "location": { "type": "array", "items": { "type": "string" } },
+                "income": { "type": "string" },
+                "education": { "type": "string" },
+                "occupation": { "type": "array", "items": { "type": "string" } }
+              }
+            },
+            "psychographics": {
+              "type": "object",
+              "properties": {
+                "interests": { "type": "array", "items": { "type": "string" } },
+                "values": { "type": "array", "items": { "type": "string" } },
+                "lifestyle": { "type": "string" },
+                "painPoints": { "type": "array", "items": { "type": "string" } }
+              }
+            },
+            "behaviors": {
+              "type": "object",
+              "properties": {
+                "purchaseBehavior": { "type": "string" },
+                "mediaConsumption": { "type": "array", "items": { "type": "string" } },
+                "brandAffinity": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "$ref": "#/properties/audience/properties/primary"
+          }
+        }
+      }
+    },
+    "messaging": {
+      "type": "object",
+      "properties": {
+        "keyMessage": {
+          "type": "string",
+          "description": "Primary campaign message"
+        },
+        "valueProposition": {
+          "type": "string",
+          "description": "Unique value proposition"
+        },
+        "supportingMessages": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "callToAction": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tone": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["professional", "casual", "humorous", "serious", "inspirational", "urgent", "friendly", "authoritative"]
+          }
+        }
+      }
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["channel", "budget"],
+        "properties": {
+          "channel": {
+            "type": "string",
+            "enum": ["email", "social_media", "ppc", "seo", "content_marketing", "display_ads", "video", "influencer", "events", "pr", "direct_mail", "other"]
+          },
+          "platform": {
+            "type": "string",
+            "description": "Specific platform (e.g., 'Facebook', 'Google Ads')"
+          },
+          "budget": {
+            "type": "string",
+            "description": "Budget allocated to this channel"
+          },
+          "tactics": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "kpis": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "required": ["total"],
+      "properties": {
+        "total": {
+          "type": "string",
+          "description": "Total campaign budget"
+        },
+        "currency": {
+          "type": "string",
+          "default": "USD",
+          "description": "Currency code (ISO 4217)"
+        },
+        "breakdown": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": { "type": "string" },
+              "amount": { "type": "string" },
+              "percentage": { "type": "number", "minimum": 0, "maximum": 100 }
+            }
+          }
+        }
+      }
+    },
+    "timeline": {
+      "type": "object",
+      "required": ["startDate", "endDate"],
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Campaign start date"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Campaign end date"
+        },
+        "milestones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "date"],
+            "properties": {
+              "name": { "type": "string" },
+              "date": { "type": "string", "format": "date" },
+              "description": { "type": "string" },
+              "deliverables": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "creative": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "Creative theme or concept"
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["image", "video", "copy", "landing_page", "email_template", "ad_creative", "other"]
+              },
+              "name": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "status": {
+                "type": "string",
+                "enum": ["planned", "in_progress", "review", "approved", "completed"]
+              }
+            }
+          }
+        },
+        "brandGuidelines": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link to brand guidelines"
+        }
+      }
+    },
+    "team": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "Campaign owner/manager"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "role": { "type": "string" },
+              "email": { "type": "string", "format": "email" }
+            }
+          }
+        },
+        "stakeholders": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "tracking": {
+      "type": "object",
+      "properties": {
+        "utmParameters": {
+          "type": "object",
+          "properties": {
+            "source": { "type": "string" },
+            "medium": { "type": "string" },
+            "campaign": { "type": "string" },
+            "term": { "type": "string" },
+            "content": { "type": "string" }
+          }
+        },
+        "conversionGoals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "value": { "type": "number" }
+            }
+          }
+        },
+        "reportingFrequency": {
+          "type": "string",
+          "enum": ["daily", "weekly", "biweekly", "monthly"],
+          "description": "How often to report on campaign performance"
+        },
+        "dashboardUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link to campaign dashboard"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": { "type": "string" },
+        "created": { "type": "string", "format": "date-time" },
+        "lastUpdated": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "approvedBy": { "type": "string" },
+        "approvalDate": { "type": "string", "format": "date" }
+      }
+    }
+  }
+}
+

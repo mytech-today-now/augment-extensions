@@ -1,0 +1,292 @@
+# Brand Kit Configuration Example
+# This YAML file demonstrates a complete brand kit configuration
+# following the brand-kit.schema.json schema
+
+brandName: "TechFlow Solutions"
+tagline: "Innovate. Automate. Elevate."
+
+# Color Palette
+colors:
+  primary:
+    - name: "Brand Blue"
+      hex: "#0066CC"
+      rgb:
+        r: 0
+        g: 102
+        b: 204
+      cmyk:
+        c: 100
+        m: 50
+        y: 0
+        k: 20
+      pantone: "PMS 300 C"
+      usage: "Primary brand color for headers, CTAs, and key UI elements"
+    
+    - name: "Electric Cyan"
+      hex: "#00D4FF"
+      rgb:
+        r: 0
+        g: 212
+        b: 255
+      cmyk:
+        c: 100
+        m: 17
+        y: 0
+        k: 0
+      usage: "Accent color for highlights and interactive elements"
+  
+  secondary:
+    - name: "Sunset Orange"
+      hex: "#FF6B35"
+      rgb:
+        r: 255
+        g: 107
+        b: 53
+      cmyk:
+        c: 0
+        m: 58
+        y: 79
+        k: 0
+      usage: "Secondary accent for CTAs and important notifications"
+    
+    - name: "Forest Green"
+      hex: "#2ECC71"
+      rgb:
+        r: 46
+        g: 204
+        b: 113
+      cmyk:
+        c: 77
+        m: 0
+        y: 45
+        k: 20
+      usage: "Success states and positive messaging"
+  
+  neutral:
+    - name: "Charcoal"
+      hex: "#2C3E50"
+      rgb:
+        r: 44
+        g: 62
+        b: 80
+      usage: "Primary text color"
+    
+    - name: "Light Gray"
+      hex: "#ECF0F1"
+      rgb:
+        r: 236
+        g: 240
+        b: 241
+      usage: "Background and subtle borders"
+    
+    - name: "Pure White"
+      hex: "#FFFFFF"
+      rgb:
+        r: 255
+        g: 255
+        b: 255
+      usage: "Card backgrounds and clean spaces"
+  
+  accessibility:
+    wcagAACompliant:
+      - foreground: "#0066CC"
+        background: "#FFFFFF"
+        contrastRatio: 4.52
+      - foreground: "#2C3E50"
+        background: "#FFFFFF"
+        contrastRatio: 12.63
+    
+    wcagAAACompliant:
+      - foreground: "#2C3E50"
+        background: "#FFFFFF"
+        contrastRatio: 12.63
+      - foreground: "#2C3E50"
+        background: "#ECF0F1"
+        contrastRatio: 10.89
+
+# Logo Assets
+logos:
+  primary:
+    url: "https://cdn.techflow.com/brand/logo-primary.svg"
+    formats:
+      - svg
+      - png
+      - pdf
+      - eps
+    variants:
+      light: "https://cdn.techflow.com/brand/logo-light.svg"
+      dark: "https://cdn.techflow.com/brand/logo-dark.svg"
+      monochrome: "https://cdn.techflow.com/brand/logo-mono.svg"
+      icon: "https://cdn.techflow.com/brand/icon.svg"
+    clearSpace: "0.5x logo height on all sides"
+    minSize:
+      print: "1 inch width"
+      digital: "120px width"
+  
+  secondary:
+    url: "https://cdn.techflow.com/brand/logo-stacked.svg"
+    formats:
+      - svg
+      - png
+    clearSpace: "0.5x logo height on all sides"
+    minSize:
+      print: "0.75 inch width"
+      digital: "80px width"
+
+# Typography
+typography:
+  primary:
+    family: "Inter"
+    weights: [400, 500, 600, 700, 800]
+    fallback:
+      - "-apple-system"
+      - "BlinkMacSystemFont"
+      - "Segoe UI"
+      - "Roboto"
+      - "sans-serif"
+    source: "google-fonts"
+    url: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+  
+  secondary:
+    family: "Source Sans Pro"
+    weights: [400, 600]
+    fallback:
+      - "Helvetica Neue"
+      - "Arial"
+      - "sans-serif"
+    source: "google-fonts"
+    url: "https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap"
+
+  monospace:
+    family: "Fira Code"
+    weights: [400, 500]
+    fallback:
+      - "Courier New"
+      - "monospace"
+    source: "google-fonts"
+    url: "https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap"
+
+  scale:
+    base: 16
+    ratio: 1.25
+    sizes:
+      h1: "3.052rem"
+      h2: "2.441rem"
+      h3: "1.953rem"
+      h4: "1.563rem"
+      h5: "1.25rem"
+      h6: "1rem"
+      body: "1rem"
+      small: "0.8rem"
+
+# Brand Voice and Tone
+voice:
+  personality:
+    - "Professional"
+    - "Innovative"
+    - "Approachable"
+    - "Trustworthy"
+    - "Forward-thinking"
+
+  tone:
+    formal: true
+    casual: false
+    humorous: false
+    serious: true
+
+  doList:
+    - "Use active voice and clear, concise language"
+    - "Focus on customer benefits and outcomes"
+    - "Emphasize innovation and cutting-edge technology"
+    - "Maintain a professional yet approachable tone"
+    - "Use industry-specific terminology appropriately"
+    - "Highlight data-driven results and ROI"
+
+  dontList:
+    - "Use overly casual or slang language"
+    - "Make unsubstantiated claims"
+    - "Use jargon without explanation"
+    - "Adopt a condescending or overly technical tone"
+    - "Use humor that could be misinterpreted"
+    - "Make promises we can't keep"
+
+# Additional Brand Assets
+assets:
+  icons:
+    - name: "Innovation Icon"
+      url: "https://cdn.techflow.com/brand/icons/innovation.svg"
+      usage: "Use for innovation-related content and features"
+
+    - name: "Automation Icon"
+      url: "https://cdn.techflow.com/brand/icons/automation.svg"
+      usage: "Use for automation features and workflows"
+
+    - name: "Analytics Icon"
+      url: "https://cdn.techflow.com/brand/icons/analytics.svg"
+      usage: "Use for data and analytics content"
+
+  patterns:
+    - name: "Circuit Pattern"
+      url: "https://cdn.techflow.com/brand/patterns/circuit.svg"
+      usage: "Background pattern for tech-focused sections"
+
+    - name: "Gradient Mesh"
+      url: "https://cdn.techflow.com/brand/patterns/gradient-mesh.svg"
+      usage: "Hero section backgrounds and feature highlights"
+
+  photography:
+    style: "Modern, clean, technology-focused with diverse representation"
+    guidelines:
+      - "Use high-quality, professional photography"
+      - "Feature diverse teams and individuals"
+      - "Emphasize modern technology and workspaces"
+      - "Avoid stock photo clichés"
+      - "Maintain consistent lighting and color grading"
+      - "Include authentic workplace scenarios"
+
+# Usage Guidelines
+usage:
+  doList:
+    - "Always use official brand assets from the CDN"
+    - "Maintain proper logo clear space"
+    - "Use approved color combinations only"
+    - "Follow typography hierarchy consistently"
+    - "Ensure WCAG AA compliance for all text/background combinations"
+    - "Test all designs across multiple devices and screen sizes"
+
+  dontList:
+    - "Modify logo files or create custom variations"
+    - "Use unapproved colors or color combinations"
+    - "Mix different font families within the same design"
+    - "Place logos on busy or low-contrast backgrounds"
+    - "Use outdated brand assets"
+    - "Ignore accessibility guidelines"
+
+  examples:
+    - title: "Correct Logo Usage"
+      description: "Logo on white background with proper clear space"
+      imageUrl: "https://cdn.techflow.com/brand/examples/logo-correct.png"
+      correct: true
+
+    - title: "Incorrect Logo Usage"
+      description: "Logo stretched and placed on busy background"
+      imageUrl: "https://cdn.techflow.com/brand/examples/logo-incorrect.png"
+      correct: false
+
+    - title: "Correct Color Combination"
+      description: "Brand Blue (#0066CC) on white with 4.52:1 contrast ratio"
+      imageUrl: "https://cdn.techflow.com/brand/examples/color-correct.png"
+      correct: true
+
+    - title: "Incorrect Color Combination"
+      description: "Electric Cyan on Sunset Orange - fails accessibility"
+      imageUrl: "https://cdn.techflow.com/brand/examples/color-incorrect.png"
+      correct: false
+
+# Metadata
+metadata:
+  version: "2.1.0"
+  lastUpdated: "2026-01-15"
+  owner: "Marketing Team"
+  approver: "Chief Marketing Officer"
+

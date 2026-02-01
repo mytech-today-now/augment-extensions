@@ -1,0 +1,50 @@
+{
+  "name": "seo-sales-marketing",
+  "version": "1.0.0",
+  "displayName": "SEO, Sales, and Marketing Content Standards",
+  "description": "Comprehensive marketing and sales content standards for AI-driven content creation",
+  "type": "domain-rules",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 288256,
+    "priority": "high",
+    "category": "domain-rules",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.md",
+        "**/*.html",
+        "**/*.txt",
+        "**/marketing/**",
+        "**/content/**",
+        "**/campaigns/**"
+      ],
+      "contentTypes": [
+        "blog-post",
+        "social-media",
+        "email",
+        "landing-page",
+        "ad-copy",
+        "sales-copy"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "cli": "augx link domain-rules/marketing-standards/seo-sales-marketing",
+    "manual": "Copy module contents to project's .augment/ folder"
+  },
+  "dependencies": [],
+  "keywords": [
+    "marketing",
+    "seo",
+    "sales",
+    "content-marketing",
+    "social-media",
+    "email-marketing",
+    "ppc",
+    "advertising",
+    "conversion-optimization"
+  ]
+}
+

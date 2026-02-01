@@ -1,0 +1,223 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/marketing/color-palette.json",
+  "title": "Color Palette",
+  "description": "JSON schema for color palettes with hex, RGB, CMYK values and accessibility validation",
+  "type": "object",
+  "required": ["name", "colors"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Palette name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Palette description and usage context"
+    },
+    "colors": {
+      "type": "array",
+      "description": "Array of colors in the palette",
+      "items": {
+        "type": "object",
+        "required": ["name", "hex"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Color name (e.g., 'Primary Blue', 'Accent Red')"
+          },
+          "hex": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$",
+            "description": "Hexadecimal color code (e.g., '#3B82F6')"
+          },
+          "rgb": {
+            "type": "object",
+            "required": ["r", "g", "b"],
+            "properties": {
+              "r": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255,
+                "description": "Red channel (0-255)"
+              },
+              "g": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255,
+                "description": "Green channel (0-255)"
+              },
+              "b": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255,
+                "description": "Blue channel (0-255)"
+              }
+            }
+          },
+          "hsl": {
+            "type": "object",
+            "required": ["h", "s", "l"],
+            "properties": {
+              "h": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 360,
+                "description": "Hue (0-360 degrees)"
+              },
+              "s": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Saturation (0-100%)"
+              },
+              "l": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Lightness (0-100%)"
+              }
+            }
+          },
+          "cmyk": {
+            "type": "object",
+            "required": ["c", "m", "y", "k"],
+            "properties": {
+              "c": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Cyan (0-100%)"
+              },
+              "m": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Magenta (0-100%)"
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Yellow (0-100%)"
+              },
+              "k": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100,
+                "description": "Key/Black (0-100%)"
+              }
+            }
+          },
+          "pantone": {
+            "type": "string",
+            "description": "Pantone color code (e.g., 'PMS 286 C')"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["primary", "secondary", "accent", "neutral", "semantic"],
+            "description": "Color category"
+          },
+          "usage": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["background", "text", "border", "button", "link", "error", "warning", "success", "info"]
+            },
+            "description": "Recommended usage contexts"
+          },
+          "accessibility": {
+            "type": "object",
+            "description": "Accessibility information",
+            "properties": {
+              "wcagLevel": {
+                "type": "string",
+                "enum": ["AA", "AAA", "fail"],
+                "description": "WCAG compliance level when used as text on white"
+              },
+              "contrastRatioOnWhite": {
+                "type": "number",
+                "minimum": 1,
+                "description": "Contrast ratio against white background"
+              },
+              "contrastRatioOnBlack": {
+                "type": "number",
+                "minimum": 1,
+                "description": "Contrast ratio against black background"
+              },
+              "colorBlindSafe": {
+                "type": "boolean",
+                "description": "Whether color is distinguishable for color-blind users"
+              }
+            }
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "combinations": {
+      "type": "array",
+      "description": "Recommended color combinations",
+      "items": {
+        "type": "object",
+        "required": ["name", "foreground", "background"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Combination name (e.g., 'Primary Button')"
+          },
+          "foreground": {
+            "type": "string",
+            "description": "Foreground color name from palette"
+          },
+          "background": {
+            "type": "string",
+            "description": "Background color name from palette"
+          },
+          "contrastRatio": {
+            "type": "number",
+            "minimum": 1,
+            "description": "Calculated contrast ratio"
+          },
+          "wcagLevel": {
+            "type": "string",
+            "enum": ["AA", "AAA", "fail"],
+            "description": "WCAG compliance level"
+          },
+          "usage": {
+            "type": "string",
+            "description": "Recommended usage context"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Palette version"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation date"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update date"
+        },
+        "author": {
+          "type": "string",
+          "description": "Palette author"
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Searchable tags"
+        }
+      }
+    }
+  }
+}
+

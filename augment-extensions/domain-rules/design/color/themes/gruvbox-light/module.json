@@ -1,0 +1,26 @@
+{
+  "name": "gruvbox-light",
+  "version": "1.0.0",
+  "displayName": "Gruvbox Light Theme",
+  "description": "Retro-inspired light theme with warm earthy tones",
+  "type": "domain-rules",
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "domain-rules"
+  },
+  "installation": "optional",
+  "colors": {
+    "primary": "#458588",
+    "secondary": "#689d6a",
+    "background": "#fbf1c7",
+    "surface": "#ebdbb2",
+    "text": "#3c3836",
+    "accent": "#d65d0e",
+    "success": "#98971a",
+    "warning": "#d79921",
+    "error": "#cc241d",
+    "info": "#458588"
+  }
+}
+

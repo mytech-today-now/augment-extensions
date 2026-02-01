@@ -1,0 +1,33 @@
+{
+  "version": "0.1.0",
+  "modules": [
+    {
+      "name": "workflows/beads",
+      "version": "1.0.0",
+      "type": "workflows",
+      "description": "Distributed, git-backed graph issue tracker for AI agents. Provides persistent, structured memory for coding agents with dependency tracking."
+    },
+    {
+      "name": "workflows/openspec",
+      "version": "1.0.0",
+      "type": "workflows",
+      "description": "Spec-driven development (SDD) workflow for AI coding assistants. Provides structured change management with proposals, specs, and tasks."
+    },
+    {
+      "name": "marketing-standards/seo-sales-marketing",
+      "version": "1.0.0",
+      "type": "marketing-standards",
+      "description": "Comprehensive marketing and sales content standards for AI-driven content creation"
+    },
+    {
+      "name": "domain-rules/design/color/themes/dracula",
+      "version": "1.0.0",
+      "type": "domain-rules",
+      "description": "Dark theme with purple and pink accents inspired by the popular Dracula color scheme"
+    }
+  ],
+  "settings": {
+    "autoUpdate": false,
+    "checkUpdatesOnInit": true
+  }
+}

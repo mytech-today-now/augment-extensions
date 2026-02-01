@@ -189,6 +189,60 @@ describe('CLI Command Parsing', () => {
     });
   });
 
+  describe('show linked command', () => {
+    it('should parse show linked command', () => {
+      const mockAction = jest.fn();
+      program
+        .command('show linked')
+        .option('--json', 'Output as JSON')
+        .action(mockAction);
+
+      program.parse(['node', 'augx', 'show', 'linked']);
+
+      expect(mockAction).toHaveBeenCalled();
+    });
+
+    it('should parse show linked command with --json flag', () => {
+      const mockAction = jest.fn();
+      program
+        .command('show linked')
+        .option('--json', 'Output as JSON')
+        .action(mockAction);
+
+      program.parse(['node', 'augx', 'show', 'linked', '--json']);
+
+      expect(mockAction).toHaveBeenCalled();
+      expect(mockAction.mock.calls[0][0].json).toBe(true);
+    });
+  });
+
+  describe('show all command', () => {
+    it('should parse show all command', () => {
+      const mockAction = jest.fn();
+      program
+        .command('show all')
+        .option('--json', 'Output as JSON')
+        .action(mockAction);
+
+      program.parse(['node', 'augx', 'show', 'all']);
+
+      expect(mockAction).toHaveBeenCalled();
+    });
+
+    it('should parse show all command with --json flag', () => {
+      const mockAction = jest.fn();
+      program
+        .command('show all')
+        .option('--json', 'Output as JSON')
+        .action(mockAction);
+
+      program.parse(['node', 'augx', 'show', 'all', '--json']);
+
+      expect(mockAction).toHaveBeenCalled();
+      expect(mockAction.mock.calls[0][0].json).toBe(true);
+    });
+  });
+
   describe('show module command', () => {
     it('should parse show module command with required argument', () => {
       const mockAction = jest.fn();

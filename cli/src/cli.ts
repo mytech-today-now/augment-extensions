@@ -122,8 +122,10 @@ program
 
 program
   .command('update')
-  .description('Update all linked modules to latest versions')
+  .description('Update CLI and/or linked modules to latest versions')
   .option('--module <name>', 'Update specific module only')
+  .option('--cli', 'Update the CLI itself to the latest version')
+  .option('--all', 'Update both CLI and all linked modules')
   .action(updateCommand);
 
 program

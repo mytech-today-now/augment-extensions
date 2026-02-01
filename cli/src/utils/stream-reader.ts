@@ -47,13 +47,14 @@ export async function readFileStreaming(
       highWaterMark
     });
 
-    stream.on('data', async (chunk: string) => {
-      stats.bytesRead += Buffer.byteLength(chunk, encoding);
+    stream.on('data', async (chunk: string | Buffer) => {
+      const chunkStr = typeof chunk === 'string' ? chunk : chunk.toString(encoding);
+      stats.bytesRead += Buffer.byteLength(chunkStr, encoding);
       stats.chunksProcessed++;
       stats.memoryUsed = process.memoryUsage().heapUsed;
 
       try {
-        await onChunk(chunk, stats);
+        await onChunk(chunkStr, stats);
       } catch (error) {
         stream.destroy();
         reject(error);

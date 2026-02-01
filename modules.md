@@ -358,6 +358,32 @@ augx link domain-rules/mcp
 augx link domain-rules/security
 ```
 
+### SEO, Sales, and Marketing Content Standards
+- **Module**: `domain-rules/seo-sales-marketing`
+- **Version**: 1.0.0
+- **Character Count**: ~288,256
+- **Description**: Comprehensive marketing and sales content standards for AI-driven content creation including SEO optimization, social media marketing, email campaigns, PPC advertising, content marketing, and direct sales
+- **Contents**:
+  - Universal marketing standards (audience targeting, messaging frameworks, metrics)
+  - Brand consistency (voice, colors, logos, typography)
+  - Asset management (programmatic handling of colors, logos, fonts, media)
+  - Legal compliance (FTC, CAN-SPAM, GDPR, WCAG)
+  - Conversion optimization (CTAs, A/B testing, funnel optimization)
+  - SEO optimization (keyword research, on-page SEO, technical SEO, schema markup)
+  - Content marketing (blog posts, long-form content, case studies, storytelling)
+  - Social media marketing (platform-specific strategies, engagement, influencer marketing)
+  - Email marketing (campaigns, automation, segmentation, deliverability)
+  - PPC advertising (Google Ads, Facebook Ads, bidding strategies, ad copy)
+  - Affiliate and influencer marketing (partnerships, tracking, compliance)
+  - Direct sales (sales copy, objection handling, closing techniques)
+  - 8 complete examples (SEO blog post, social media campaign, email newsletter, landing page, PPC ads, brand kit, campaign brief, content calendar)
+  - 5 JSON schemas for validation (brand kit, color palette, campaign brief, content template, asset inventory)
+
+**Usage**:
+```bash
+augx link domain-rules/seo-sales-marketing
+```
+
 ### WordPress Development Standards
 - **Module**: `domain-rules/wordpress`
 - **Version**: 1.0.0

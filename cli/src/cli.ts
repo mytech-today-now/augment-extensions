@@ -6,7 +6,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { initCommand } from './commands/init';
 import { listCommand } from './commands/list';
-import { showCommand, showModuleCommand } from './commands/show';
+import { showCommand, showModuleCommand, showLinkedCommand, showAllCommand } from './commands/show';
 import { linkCommand } from './commands/link';
 import { updateCommand } from './commands/update';
 import { searchCommand } from './commands/search';
@@ -107,6 +107,20 @@ Examples:
   $ augx show module php-standards --search "PSR-12"  # Search content
   $ augx show module php-standards --content --page 2 # View page 2
 `);
+
+// Show linked modules command
+program
+  .command('show linked')
+  .description('Show all linked modules')
+  .option('--json', 'Output as JSON')
+  .action(showLinkedCommand);
+
+// Show all modules command
+program
+  .command('show all')
+  .description('Show all available modules')
+  .option('--json', 'Output as JSON')
+  .action(showAllCommand);
 
 program
   .command('link <module>')

@@ -20,6 +20,18 @@ interface ShowOptions {
   json?: boolean;
 }
 
+interface ShowListOptions {
+  json?: boolean;
+}
+
+interface ModuleListItem {
+  name: string;
+  version: string;
+  description: string;
+  type: string;
+  linked?: boolean;
+}
+
 interface ShowModuleOptions {
   json?: boolean;
   content?: boolean;
@@ -1128,5 +1140,145 @@ function redactSensitiveData(content: string, logRedactions: boolean = false): s
   }
 
   return redactedContent;
+}
+
+/**
+ * Show all linked modules
+ */
+export async function showLinkedCommand(options: ShowListOptions): Promise<void> {
+  try {
+    const linkedModules = getLinkedModules();
+
+    if (options.json) {
+      console.log(JSON.stringify(linkedModules, null, 2));
+      return;
+    }
+
+    if (linkedModules.length === 0) {
+      console.log(chalk.yellow('No linked modules found.'));
+      console.log(chalk.gray('\nUse "augx link <module>" to link modules.'));
+      console.log(chalk.gray('Use "augx list" to see all available modules.'));
+      return;
+    }
+
+    console.log(chalk.bold.blue('\n📦 Linked Modules:\n'));
+
+    linkedModules.forEach((module) => {
+      console.log(chalk.green('✓') + ' ' + chalk.bold(module.name) + ' ' + chalk.gray(`(v${module.version})`));
+      console.log(`  ${chalk.gray(module.description)}`);
+      console.log(`  ${chalk.cyan(`Type: ${module.type}`)}\n`);
+    });
+
+    console.log(chalk.gray(`Total: ${linkedModules.length} linked module(s)\n`));
+  } catch (error) {
+    console.error(chalk.red('Error showing linked modules:'), error);
+    process.exit(1);
+  }
+}
+
+/**
+ * Show all available modules
+ */
+export async function showAllCommand(options: ShowListOptions): Promise<void> {
+  try {
+    const allModules = await getAllModules();
+
+    if (options.json) {
+      console.log(JSON.stringify(allModules, null, 2));
+      return;
+    }
+
+    if (allModules.length === 0) {
+      console.log(chalk.yellow('No modules available.'));
+      return;
+    }
+
+    console.log(chalk.bold.blue('\n📦 All Available Modules:\n'));
+
+    allModules.forEach((module) => {
+      const status = module.linked ? chalk.green('✓') : chalk.gray('○');
+      console.log(`${status} ${chalk.bold(module.name)} ${chalk.gray(`(v${module.version})`)}`);
+      console.log(`  ${chalk.gray(module.description)}`);
+      console.log(`  ${chalk.cyan(`Type: ${module.type}`)}\n`);
+    });
+
+    const linkedCount = allModules.filter(m => m.linked).length;
+    console.log(chalk.gray(`Total: ${allModules.length} module(s) (${linkedCount} linked)\n`));
+  } catch (error) {
+    console.error(chalk.red('Error showing modules:'), error);
+    process.exit(1);
+  }
+}
+
+/**
+ * Get linked modules from extensions.json
+ */
+function getLinkedModules(): ModuleListItem[] {
+  const configPath = path.join(process.cwd(), '.augment', 'extensions.json');
+
+  if (!fs.existsSync(configPath)) {
+    return [];
+  }
+
+  try {
+    const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    return (config.modules || []).map((m: any) => ({
+      name: m.name,
+      version: m.version,
+      description: m.description,
+      type: m.type,
+      linked: true
+    }));
+  } catch (error) {
+    return [];
+  }
+}
+
+/**
+ * Get all available modules with linked status
+ */
+async function getAllModules(): Promise<ModuleListItem[]> {
+  const modules: ModuleListItem[] = [];
+
+  // Check for linked modules in current project
+  const linkedModules = getLinkedModules();
+
+  // Get all available modules from repository
+  const modulesDir = path.join(__dirname, '../../../augment-extensions');
+
+  if (!fs.existsSync(modulesDir)) {
+    return linkedModules;
+  }
+
+  const categories = fs.readdirSync(modulesDir, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+
+  for (const category of categories) {
+    const categoryPath = path.join(modulesDir, category);
+    const moduleNames = fs.readdirSync(categoryPath, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name);
+
+    for (const moduleName of moduleNames) {
+      const modulePath = path.join(categoryPath, moduleName);
+      const moduleJsonPath = path.join(modulePath, 'module.json');
+
+      if (fs.existsSync(moduleJsonPath)) {
+        const moduleData = JSON.parse(fs.readFileSync(moduleJsonPath, 'utf-8'));
+        const fullName = `${category}/${moduleName}`;
+
+        modules.push({
+          name: fullName,
+          version: moduleData.version,
+          description: moduleData.description,
+          type: moduleData.type,
+          linked: linkedModules.some(m => m.name === fullName)
+        });
+      }
+    }
+  }
+
+  return modules;
 }
 

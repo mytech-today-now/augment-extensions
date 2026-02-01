@@ -47,6 +47,8 @@ Each module contains:
 - `augx list` - List all available modules
 - `augx list --linked` - List modules linked to current project
 - `augx show <module>` - Display module content
+- `augx show linked` - Show all linked modules
+- `augx show all` - Show all available modules
 - `augx search <term>` - Search for modules
 - `augx update` - Update all linked modules
 - `augx version` - Show CLI version

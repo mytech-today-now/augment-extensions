@@ -623,6 +623,12 @@ augx list --linked
 # Show module details
 augx show <module-name>
 
+# Show all linked modules
+augx show linked
+
+# Show all available modules
+augx show all
+
 # Show module as JSON
 augx show <module-name> --json
 

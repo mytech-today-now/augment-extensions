@@ -472,17 +472,25 @@ export function listModuleFiles(modulePath: string, options: {
   recursive?: boolean;
   filter?: string;
   groupByDirectory?: boolean;
+  depth?: number;
 } = {}): FileInfo[] {
   const {
     recursive = true,
     filter,
-    groupByDirectory = false
+    groupByDirectory = false,
+    depth = Infinity
   } = options;
 
   const files: FileInfo[] = [];
 
-  function scanDirectory(dir: string, baseDir: string = modulePath) {
+  // Enforce maximum depth limit of 5
+  const maxDepth = Math.min(depth, 5);
+
+  function scanDirectory(dir: string, baseDir: string = modulePath, currentDepth: number = 0) {
     if (!fs.existsSync(dir)) return;
+
+    // Check depth limit
+    if (currentDepth >= maxDepth) return;
 
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
@@ -492,7 +500,7 @@ export function listModuleFiles(modulePath: string, options: {
 
       if (entry.isDirectory()) {
         if (recursive) {
-          scanDirectory(fullPath, baseDir);
+          scanDirectory(fullPath, baseDir, currentDepth + 1);
         }
       } else if (entry.isFile()) {
         // Apply filter if specified

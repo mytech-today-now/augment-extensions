@@ -89,6 +89,10 @@ const showModuleCmd = program
   .option('--search <term>', 'Search within module content')
   .option('--page <number>', 'Page number for paginated output', parseInt)
   .option('--page-size <number>', 'Number of items per page (default: 10)', parseInt)
+  .option('--secure', 'Redact sensitive data (API keys, secrets, tokens, passwords)')
+  .option('--no-cache', 'Disable caching for this inspection')
+  .option('--open', 'Open file in VS Code editor')
+  .option('--preview', 'Open file in VS Code preview pane')
   .action((moduleName: string, filePath: string | undefined, options: any) => {
     showModuleCommand(moduleName, filePath, options);
   });

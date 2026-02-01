@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
+import hljs from 'highlight.js';
 import {
   findModule,
   findModuleEnhanced,
@@ -9,6 +10,11 @@ import {
   extractModuleMetadata,
   Module
 } from '../utils/module-system';
+import { moduleInspectionCache } from '../utils/inspection-cache';
+import { readFileStreaming, readFileLineByLine } from '../utils/stream-reader';
+import { Spinner, ProgressBar } from '../utils/progress';
+import { formatClickablePath, getWorkspaceRoot } from '../utils/vscode-links';
+import { openInEditor, openInPreview, isVSCodeAvailable } from '../utils/vscode-editor';
 
 interface ShowOptions {
   json?: boolean;
@@ -23,6 +29,10 @@ interface ShowModuleOptions {
   search?: string;
   page?: number;
   pageSize?: number;
+  secure?: boolean;
+  noCache?: boolean;
+  open?: boolean;
+  preview?: boolean;
 }
 
 /**
@@ -113,6 +123,11 @@ export async function showModuleCommand(
       process.exit(1);
     }
 
+    // Disable cache if --no-cache flag is set
+    if (options.noCache) {
+      moduleInspectionCache.setEnabled(false);
+    }
+
     // Discover and validate module using enhanced discovery
     const module = findModuleEnhanced(moduleName);
 
@@ -144,10 +159,19 @@ export async function showModuleCommand(
       await showModuleOverview(module, options);
     }
 
+    // Re-enable cache after command completes
+    if (options.noCache) {
+      moduleInspectionCache.setEnabled(true);
+    }
+
   } catch (error) {
     console.error(chalk.red('Error inspecting module:'), error);
     if (error instanceof Error) {
       console.error(chalk.gray(error.message));
+    }
+    // Re-enable cache on error
+    if (options.noCache) {
+      moduleInspectionCache.setEnabled(true);
     }
     process.exit(1);
   }
@@ -157,12 +181,21 @@ export async function showModuleCommand(
  * Display module overview with metadata and file listing
  */
 async function showModuleOverview(module: Module, options: ShowModuleOptions): Promise<void> {
-  // Extract comprehensive metadata
-  const extendedMetadata = extractModuleMetadata(module.path);
+  // Try to get from cache first
+  const cacheKey = `overview:${module.fullName}`;
+  let extendedMetadata = moduleInspectionCache.get(cacheKey, module.path);
 
   if (!extendedMetadata) {
-    console.error(chalk.red('Failed to extract module metadata'));
-    return;
+    // Extract comprehensive metadata
+    extendedMetadata = extractModuleMetadata(module.path);
+
+    if (!extendedMetadata) {
+      console.error(chalk.red('Failed to extract module metadata'));
+      return;
+    }
+
+    // Cache the result
+    moduleInspectionCache.set(cacheKey, extendedMetadata, module.path);
   }
 
   // Handle JSON output format
@@ -192,7 +225,82 @@ async function showModuleOverview(module: Module, options: ShowModuleOptions): P
     return;
   }
 
-  // Text output format (default)
+  // Handle Markdown output format
+  if (options.format === 'markdown') {
+    console.log(`# ${module.fullName}\n`);
+    console.log(`**Version:** ${extendedMetadata.version}\n`);
+    console.log(`**Type:** ${extendedMetadata.type}\n`);
+    console.log(`**Description:** ${extendedMetadata.description}\n`);
+
+    if (extendedMetadata.tags && extendedMetadata.tags.length > 0) {
+      console.log(`**Tags:** ${extendedMetadata.tags.join(', ')}\n`);
+    }
+
+    console.log(`## Files\n`);
+    console.log(`- Total: ${extendedMetadata.files?.total || 0}`);
+    console.log(`- Rules: ${extendedMetadata.files?.rules || 0}`);
+    console.log(`- Examples: ${extendedMetadata.files?.examples || 0}`);
+    console.log(`- Other: ${extendedMetadata.files?.other || 0}\n`);
+
+    console.log(`## Size\n`);
+    const totalBytes = extendedMetadata.size?.totalBytes || 0;
+    const totalChars = extendedMetadata.size?.totalCharacters || 0;
+    console.log(`- Total: ${formatBytes(totalBytes)} (${totalBytes.toLocaleString()} bytes)`);
+    console.log(`- Characters: ${totalChars.toLocaleString()}\n`);
+
+    if (extendedMetadata.lastModified) {
+      console.log(`**Last Modified:** ${formatDate(extendedMetadata.lastModified)}\n`);
+    }
+
+    console.log(`**Location:** \`${module.path}\`\n`);
+    return;
+  }
+
+  // Handle plain text output format (ASCII-only, no colors)
+  if (options.format === 'text') {
+    console.log();
+    console.log(`Module: ${module.fullName}`);
+    console.log('='.repeat(60));
+    console.log();
+
+    console.log('Metadata:');
+    console.log(`  Name:        ${extendedMetadata.displayName}`);
+    console.log(`  Version:     ${extendedMetadata.version}`);
+    console.log(`  Type:        ${extendedMetadata.type}`);
+    console.log(`  Description: ${extendedMetadata.description}`);
+
+    if (extendedMetadata.tags && extendedMetadata.tags.length > 0) {
+      console.log(`  Tags:        ${extendedMetadata.tags.join(', ')}`);
+    }
+    console.log();
+
+    console.log('Files:');
+    console.log(`  Total:       ${extendedMetadata.files?.total || 0}`);
+    console.log(`  Rules:       ${extendedMetadata.files?.rules || 0}`);
+    console.log(`  Examples:    ${extendedMetadata.files?.examples || 0}`);
+    console.log(`  Other:       ${extendedMetadata.files?.other || 0}`);
+    console.log();
+
+    console.log('Size:');
+    const totalBytes = extendedMetadata.size?.totalBytes || 0;
+    const totalChars = extendedMetadata.size?.totalCharacters || 0;
+    console.log(`  Total:       ${formatBytes(totalBytes)} (${totalBytes.toLocaleString()} bytes)`);
+    console.log(`  Characters:  ${totalChars.toLocaleString()}`);
+    console.log();
+
+    if (extendedMetadata.lastModified) {
+      console.log('Last Modified:');
+      console.log(`  ${formatDate(extendedMetadata.lastModified)}`);
+      console.log();
+    }
+
+    console.log('Location:');
+    console.log(`  ${module.path}`);
+    console.log();
+    return;
+  }
+
+  // Colored text output format (default)
   console.log();
   console.log(chalk.bold.blue(`📦 ${module.fullName}`));
   console.log(chalk.gray('─'.repeat(60)));
@@ -301,7 +409,8 @@ async function showModuleContent(module: Module, options: ShowModuleOptions): Pr
   const files = listModuleFiles(module.path, {
     recursive: true,
     filter: options.filter || '*.md',
-    groupByDirectory: true
+    groupByDirectory: true,
+    depth: options.depth
   });
 
   if (files.length === 0) {
@@ -338,12 +447,24 @@ async function showModuleContent(module: Module, options: ShowModuleOptions): Pr
         modified: f.modified,
         type: f.type
       })),
-      content: files.map(f => ({
-        file: f.relativePath,
-        content: fs.readFileSync(f.path, 'utf-8')
-      }))
+      content: files.map(f => {
+        let content = fs.readFileSync(f.path, 'utf-8');
+        if (options.secure) {
+          content = redactSensitiveData(content, false);
+        }
+        return {
+          file: f.relativePath,
+          content: content
+        };
+      })
     };
     console.log(JSON.stringify(jsonOutput, null, 2));
+
+    // Log redactions summary if secure mode is enabled
+    if (options.secure) {
+      console.error(chalk.yellow('\n⚠️  Sensitive data has been redacted from output'));
+    }
+
     return;
   }
 
@@ -352,18 +473,75 @@ async function showModuleContent(module: Module, options: ShowModuleOptions): Pr
     console.log(`# ${module.fullName}\n`);
     console.log(`**Module Type:** ${module.metadata.type}\n`);
     console.log(`**Version:** ${module.metadata.version}\n`);
+
+    if (options.secure) {
+      console.log(`**Security:** Sensitive data redacted\n`);
+    }
+
     console.log(`---\n`);
 
     for (const file of files) {
       console.log(`## ${file.relativePath}\n`);
-      const content = fs.readFileSync(file.path, 'utf-8');
+      let content = fs.readFileSync(file.path, 'utf-8');
+      if (options.secure) {
+        content = redactSensitiveData(content, false);
+      }
       console.log(content);
       console.log('\n---\n');
     }
+
+    if (options.secure) {
+      console.log(`\n> ⚠️ Sensitive data has been redacted from this output\n`);
+    }
+
     return;
   }
 
-  // Text output format (default)
+  // Handle plain text output format (ASCII-only, no colors)
+  if (options.format === 'text') {
+    console.log();
+    console.log(`Aggregated Content: ${module.fullName}`);
+    console.log('='.repeat(60));
+    console.log();
+    console.log(`Files: ${files.length}`);
+
+    if (options.secure) {
+      console.log('Security: Sensitive data redacted');
+    }
+
+    console.log();
+
+    for (const file of files) {
+      console.log(`File: ${file.relativePath}`);
+      console.log(`Size: ${formatBytes(file.size)} | Modified: ${formatDate(file.modified)}`);
+      console.log('-'.repeat(60));
+      console.log();
+
+      let content = fs.readFileSync(file.path, 'utf-8');
+      if (options.secure) {
+        content = redactSensitiveData(content, false);
+      }
+      console.log(content);
+      console.log();
+      console.log('='.repeat(60));
+      console.log();
+    }
+
+    const totalSize = files.reduce((sum, f) => sum + f.size, 0);
+    console.log('Summary:');
+    console.log(`  Total files:  ${files.length}`);
+    console.log(`  Total size:   ${formatBytes(totalSize)}`);
+
+    if (options.secure) {
+      console.log();
+      console.log('WARNING: Sensitive data has been redacted from this output');
+    }
+
+    console.log();
+    return;
+  }
+
+  // Colored text output format (default)
   console.log();
   console.log(chalk.bold.blue(`📄 Aggregated Content: ${module.fullName}`));
   console.log(chalk.gray('─'.repeat(60)));
@@ -385,6 +563,11 @@ async function showModuleContent(module: Module, options: ShowModuleOptions): Pr
   }
 
   console.log(chalk.bold(`Files: ${files.length}${paginationInfo}`));
+
+  if (options.secure) {
+    console.log(chalk.yellow('🔒 Security: Sensitive data redacted'));
+  }
+
   console.log();
 
   // Display each file with section headers
@@ -394,7 +577,11 @@ async function showModuleContent(module: Module, options: ShowModuleOptions): Pr
     console.log(chalk.bold.cyan('└' + '─'.repeat(58)));
     console.log();
 
-    const content = fs.readFileSync(file.path, 'utf-8');
+    let content = fs.readFileSync(file.path, 'utf-8');
+
+    if (options.secure) {
+      content = redactSensitiveData(content, false);
+    }
 
     // Preserve markdown formatting
     console.log(content);
@@ -423,6 +610,11 @@ async function showModuleContent(module: Module, options: ShowModuleOptions): Pr
     }
   }
 
+  if (options.secure) {
+    console.log();
+    console.log(chalk.yellow('⚠️  Sensitive data has been redacted from this output'));
+  }
+
   console.log();
 }
 
@@ -448,10 +640,77 @@ async function showModuleFile(module: Module, filePath: string, options: ShowMod
     process.exit(1);
   }
 
-  // Read file content
-  const content = fs.readFileSync(fullPath, 'utf-8');
-  const lines = content.split('\n');
+  // Handle --open flag: Open file in VS Code editor
+  if (options.open) {
+    try {
+      if (!isVSCodeAvailable()) {
+        console.error(chalk.red('VS Code CLI is not available. Please install VS Code and ensure "code" is in your PATH.'));
+        process.exit(1);
+      }
+      await openInEditor(fullPath);
+      console.log(chalk.green(`✓ Opened ${path.basename(fullPath)} in VS Code editor`));
+      return;
+    } catch (error) {
+      console.error(chalk.red(`Failed to open file: ${error instanceof Error ? error.message : String(error)}`));
+      process.exit(1);
+    }
+  }
+
+  // Handle --preview flag: Open file in VS Code preview pane
+  if (options.preview) {
+    try {
+      if (!isVSCodeAvailable()) {
+        console.error(chalk.red('VS Code CLI is not available. Please install VS Code and ensure "code" is in your PATH.'));
+        process.exit(1);
+      }
+      await openInPreview(fullPath);
+      console.log(chalk.green(`✓ Opened ${path.basename(fullPath)} in VS Code preview pane`));
+      return;
+    } catch (error) {
+      console.error(chalk.red(`Failed to open file: ${error instanceof Error ? error.message : String(error)}`));
+      process.exit(1);
+    }
+  }
+
   const stats = fs.statSync(fullPath);
+  const fileSizeThreshold = 1024 * 1024; // 1MB threshold for streaming
+
+  // Use streaming for large files
+  let content: string;
+  if (stats.size > fileSizeThreshold) {
+    // Show progress for large files
+    const spinner = new Spinner(`Reading large file (${formatBytes(stats.size)})...`);
+    spinner.start();
+
+    try {
+      // Stream large files
+      const chunks: string[] = [];
+      await readFileStreaming(
+        fullPath,
+        async (chunk, streamStats) => {
+          chunks.push(chunk);
+          const progress = (streamStats.bytesRead / stats.size) * 100;
+          spinner.setText(`Reading large file: ${progress.toFixed(1)}% (${formatBytes(streamStats.bytesRead)}/${formatBytes(stats.size)})`);
+        },
+        { highWaterMark: 64 * 1024 }
+      );
+      content = chunks.join('');
+      spinner.stop(chalk.green('✓ File loaded successfully'));
+    } catch (error) {
+      spinner.stop(chalk.red('✗ Failed to read file'));
+      throw error;
+    }
+  } else {
+    // Read small files normally
+    content = fs.readFileSync(fullPath, 'utf-8');
+  }
+
+  // Apply redaction if secure flag is set
+  if (options.secure) {
+    content = redactSensitiveData(content, true);
+  }
+
+  const lines = content.split('\n');
 
   // Get relative path for display
   const relativePath = path.relative(module.path, fullPath);
@@ -482,30 +741,95 @@ async function showModuleFile(module: Module, filePath: string, options: ShowMod
     return;
   }
 
-  // Text output format (default) with line numbers
+  // Handle plain text output format (ASCII-only, no colors, no line numbers)
+  if (options.format === 'text') {
+    console.log();
+    console.log(`File: ${relativePath}`);
+    console.log('='.repeat(60));
+    console.log();
+    console.log('File Information:');
+    console.log(`  Module:   ${module.fullName}`);
+    console.log(`  Path:     ${relativePath}`);
+    console.log(`  Size:     ${formatBytes(stats.size)}`);
+    console.log(`  Lines:    ${lines.length}`);
+    console.log(`  Modified: ${formatDate(stats.mtime)}`);
+
+    const detectedLang = detectLanguage(fullPath);
+    if (detectedLang) {
+      console.log(`  Language: ${detectedLang}`);
+    }
+    console.log();
+
+    console.log('Content:');
+    console.log('-'.repeat(60));
+    console.log();
+    console.log(content);
+    console.log();
+    console.log('='.repeat(60));
+    console.log();
+    return;
+  }
+
+  // Colored text output format (default) with line numbers
+  const workspaceRoot = getWorkspaceRoot();
+  const clickablePath = formatClickablePath(fullPath, { workspaceRoot });
+
   console.log();
   console.log(chalk.bold.blue(`📄 ${relativePath}`));
+  console.log(chalk.gray(`   ${clickablePath}`));
   console.log(chalk.gray('─'.repeat(60)));
   console.log();
 
   console.log(chalk.bold('File Information:'));
   console.log(chalk.gray(`  Module:   ${module.fullName}`));
   console.log(chalk.gray(`  Path:     ${relativePath}`));
+  console.log(chalk.gray(`  Full:     ${clickablePath}`));
   console.log(chalk.gray(`  Size:     ${formatBytes(stats.size)}`));
   console.log(chalk.gray(`  Lines:    ${lines.length}`));
   console.log(chalk.gray(`  Modified: ${formatDate(stats.mtime)}`));
+
+  // Display detected language
+  const detectedLang = detectLanguage(fullPath);
+  if (detectedLang) {
+    console.log(chalk.gray(`  Language: ${detectedLang}`));
+  }
   console.log();
 
   console.log(chalk.bold('Content:'));
   console.log(chalk.gray('─'.repeat(60)));
   console.log();
 
-  // Display content with line numbers
-  const lineNumberWidth = lines.length.toString().length;
-  lines.forEach((line, index) => {
-    const lineNumber = (index + 1).toString().padStart(lineNumberWidth, ' ');
-    console.log(chalk.gray(`${lineNumber} │ `) + line);
-  });
+  // Apply syntax highlighting if enabled (default: enabled)
+  const enableHighlighting = options.format !== 'text' && process.stdout.isTTY;
+
+  if (enableHighlighting && detectedLang) {
+    // Try to apply syntax highlighting
+    try {
+      const highlighted = applySyntaxHighlighting(content, fullPath, true);
+      const highlightedLines = highlighted.split('\n');
+
+      // Display with line numbers
+      const lineNumberWidth = highlightedLines.length.toString().length;
+      highlightedLines.forEach((line, index) => {
+        const lineNumber = (index + 1).toString().padStart(lineNumberWidth, ' ');
+        console.log(chalk.gray(`${lineNumber} │ `) + line);
+      });
+    } catch (error) {
+      // Fallback to plain display if highlighting fails
+      const lineNumberWidth = lines.length.toString().length;
+      lines.forEach((line, index) => {
+        const lineNumber = (index + 1).toString().padStart(lineNumberWidth, ' ');
+        console.log(chalk.gray(`${lineNumber} │ `) + line);
+      });
+    }
+  } else {
+    // Display content with line numbers (no highlighting)
+    const lineNumberWidth = lines.length.toString().length;
+    lines.forEach((line, index) => {
+      const lineNumber = (index + 1).toString().padStart(lineNumberWidth, ' ');
+      console.log(chalk.gray(`${lineNumber} │ `) + line);
+    });
+  }
 
   console.log();
   console.log(chalk.gray('─'.repeat(60)));
@@ -618,11 +942,191 @@ function highlightSearchTerm(text: string, searchTerm: string): string {
 }
 
 /**
+ * Apply syntax highlighting to code content
+ * Detects language from file extension and applies appropriate highlighting
+ */
+function applySyntaxHighlighting(content: string, filePath: string, enableColors: boolean = true): string {
+  if (!enableColors) {
+    return content;
+  }
+
+  try {
+    // Detect language from file extension
+    const ext = path.extname(filePath).toLowerCase();
+    const languageMap: Record<string, string> = {
+      '.ts': 'typescript',
+      '.js': 'javascript',
+      '.jsx': 'javascript',
+      '.tsx': 'typescript',
+      '.py': 'python',
+      '.php': 'php',
+      '.rb': 'ruby',
+      '.go': 'go',
+      '.rs': 'rust',
+      '.java': 'java',
+      '.c': 'c',
+      '.cpp': 'cpp',
+      '.cs': 'csharp',
+      '.sh': 'bash',
+      '.ps1': 'powershell',
+      '.md': 'markdown',
+      '.json': 'json',
+      '.yaml': 'yaml',
+      '.yml': 'yaml',
+      '.xml': 'xml',
+      '.html': 'html',
+      '.css': 'css',
+      '.scss': 'scss',
+      '.sql': 'sql'
+    };
+
+    const language = languageMap[ext];
+
+    if (language) {
+      const highlighted = hljs.highlight(content, { language, ignoreIllegals: true });
+      return highlighted.value;
+    }
+
+    // Auto-detect if no extension match
+    const autoDetected = hljs.highlightAuto(content);
+    return autoDetected.value;
+
+  } catch (error) {
+    // If highlighting fails, return original content
+    return content;
+  }
+}
+
+/**
+ * Convert ANSI color codes from highlight.js to chalk colors
+ * This is a simplified version - highlight.js uses HTML-like tags
+ */
+function convertHighlightToChalk(highlightedCode: string): string {
+  // highlight.js returns HTML-like output, we need to convert to terminal colors
+  // For now, return as-is since we're using it in terminal context
+  // A more sophisticated implementation would parse the HTML and apply chalk colors
+  return highlightedCode;
+}
+
+/**
+ * Detect language from file extension
+ */
+function detectLanguage(filePath: string): string | null {
+  const ext = path.extname(filePath).toLowerCase();
+  const languageMap: Record<string, string> = {
+    '.ts': 'TypeScript',
+    '.js': 'JavaScript',
+    '.jsx': 'JavaScript (JSX)',
+    '.tsx': 'TypeScript (TSX)',
+    '.py': 'Python',
+    '.php': 'PHP',
+    '.rb': 'Ruby',
+    '.go': 'Go',
+    '.rs': 'Rust',
+    '.java': 'Java',
+    '.c': 'C',
+    '.cpp': 'C++',
+    '.cs': 'C#',
+    '.sh': 'Bash',
+    '.ps1': 'PowerShell',
+    '.md': 'Markdown',
+    '.json': 'JSON',
+    '.yaml': 'YAML',
+    '.yml': 'YAML',
+    '.xml': 'XML',
+    '.html': 'HTML',
+    '.css': 'CSS',
+    '.scss': 'SCSS',
+    '.sql': 'SQL'
+  };
+
+  return languageMap[ext] || null;
+}
+
+/**
  * Get similar modules for legacy showCommand
  * @deprecated Use getModuleSuggestions from module-system instead
  */
 async function getSimilarModules(searchTerm: string): Promise<string[]> {
   const suggestions = getModuleSuggestions(searchTerm, 5);
   return suggestions.map(m => m.fullName);
+}
+
+/**
+ * Redaction patterns for sensitive data
+ */
+const REDACTION_PATTERNS = [
+  // API Keys
+  { pattern: /\b([A-Za-z0-9_-]*API[_-]?KEY[_-]?[A-Za-z0-9_-]*)\s*[:=]\s*['"]?([A-Za-z0-9_\-\/+=]{16,})['"]?/gi, name: 'API_KEY' },
+  { pattern: /\b(api[_-]?key)\s*[:=]\s*['"]?([A-Za-z0-9_\-\/+=]{16,})['"]?/gi, name: 'API_KEY' },
+
+  // Secrets
+  { pattern: /\b([A-Za-z0-9_-]*SECRET[_-]?[A-Za-z0-9_-]*)\s*[:=]\s*['"]?([A-Za-z0-9_\-\/+=]{16,})['"]?/gi, name: 'SECRET' },
+  { pattern: /\b(secret)\s*[:=]\s*['"]?([A-Za-z0-9_\-\/+=]{16,})['"]?/gi, name: 'SECRET' },
+
+  // Tokens
+  { pattern: /\b([A-Za-z0-9_-]*TOKEN[_-]?[A-Za-z0-9_-]*)\s*[:=]\s*['"]?([A-Za-z0-9_\-\/+=]{16,})['"]?/gi, name: 'TOKEN' },
+  { pattern: /\b(token)\s*[:=]\s*['"]?([A-Za-z0-9_\-\/+=]{16,})['"]?/gi, name: 'TOKEN' },
+  { pattern: /\b(bearer)\s+([A-Za-z0-9_\-\/+=]{16,})/gi, name: 'BEARER_TOKEN' },
+
+  // Passwords
+  { pattern: /\b([A-Za-z0-9_-]*PASSWORD[_-]?[A-Za-z0-9_-]*)\s*[:=]\s*['"]?([^\s'"]{8,})['"]?/gi, name: 'PASSWORD' },
+  { pattern: /\b(password|passwd|pwd)\s*[:=]\s*['"]?([^\s'"]{8,})['"]?/gi, name: 'PASSWORD' },
+
+  // Private Keys
+  { pattern: /(-----BEGIN\s+(?:RSA\s+)?PRIVATE\s+KEY-----[\s\S]*?-----END\s+(?:RSA\s+)?PRIVATE\s+KEY-----)/gi, name: 'PRIVATE_KEY' },
+
+  // AWS Keys
+  { pattern: /\b(AKIA[0-9A-Z]{16})\b/g, name: 'AWS_ACCESS_KEY' },
+  { pattern: /\b([A-Za-z0-9/+=]{40})\b/g, name: 'AWS_SECRET_KEY' },
+
+  // GitHub Tokens
+  { pattern: /\b(ghp_[A-Za-z0-9]{36})\b/g, name: 'GITHUB_TOKEN' },
+  { pattern: /\b(gho_[A-Za-z0-9]{36})\b/g, name: 'GITHUB_OAUTH' },
+  { pattern: /\b(ghu_[A-Za-z0-9]{36})\b/g, name: 'GITHUB_USER_TOKEN' },
+  { pattern: /\b(ghs_[A-Za-z0-9]{36})\b/g, name: 'GITHUB_SERVER_TOKEN' },
+  { pattern: /\b(ghr_[A-Za-z0-9]{36})\b/g, name: 'GITHUB_REFRESH_TOKEN' },
+
+  // Generic credentials
+  { pattern: /\b(credentials?)\s*[:=]\s*['"]?([^\s'"]{16,})['"]?/gi, name: 'CREDENTIALS' },
+  { pattern: /\b(auth)\s*[:=]\s*['"]?([A-Za-z0-9_\-\/+=]{16,})['"]?/gi, name: 'AUTH' }
+];
+
+/**
+ * Redact sensitive data from content
+ */
+function redactSensitiveData(content: string, logRedactions: boolean = false): string {
+  let redactedContent = content;
+  const redactions: Array<{pattern: string, count: number}> = [];
+
+  for (const { pattern, name } of REDACTION_PATTERNS) {
+    const matches = content.match(pattern);
+    if (matches && matches.length > 0) {
+      redactedContent = redactedContent.replace(pattern, (match, ...args) => {
+        // For patterns with capture groups, preserve the key name but redact the value
+        if (args.length >= 2) {
+          const keyName = args[0];
+          return `${keyName}=[REDACTED_${name}]`;
+        }
+        // For patterns without capture groups, redact the entire match
+        return `[REDACTED_${name}]`;
+      });
+
+      if (logRedactions) {
+        redactions.push({ pattern: name, count: matches.length });
+      }
+    }
+  }
+
+  // Log redactions if requested
+  if (logRedactions && redactions.length > 0) {
+    console.log(chalk.yellow('\n⚠️  Sensitive data redacted:'));
+    for (const { pattern, count } of redactions) {
+      console.log(chalk.gray(`   ${pattern}: ${count} occurrence(s)`));
+    }
+    console.log();
+  }
+
+  return redactedContent;
 }
 

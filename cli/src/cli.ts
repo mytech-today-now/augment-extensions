@@ -131,7 +131,7 @@ program
 program
   .command('create <name>')
   .description('Create a new extension module')
-  .option('--type <type>', 'Module type (coding-standards, domain-rules, examples)')
+  .option('--type <type>', 'Module type (coding-standards, domain-rules, workflows, examples, marketing-standards, writing-standards, themes)')
   .action((name: string, options: any) => {
     console.log(chalk.green(`Creating new module: ${name}`));
     console.log(chalk.gray(`Type: ${options.type || 'coding-standards'}`));

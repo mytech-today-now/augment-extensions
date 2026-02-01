@@ -1,9 +1,13 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
+import { execSync } from 'child_process';
+import * as semver from 'semver';
 
 interface UpdateOptions {
   module?: string;
+  cli?: boolean;
+  all?: boolean;
 }
 
 interface LinkedModule {
@@ -15,6 +19,15 @@ interface LinkedModule {
 
 export async function updateCommand(options: UpdateOptions): Promise<void> {
   try {
+    // If --cli flag is set, update the CLI itself
+    if (options.cli || options.all) {
+      await updateCLI();
+      if (options.cli && !options.all) {
+        return; // Only update CLI, not modules
+      }
+    }
+
+    // Update modules
     console.log(chalk.blue('\n🔄 Updating modules...\n'));
 
     // Load extensions config
@@ -69,7 +82,72 @@ export async function updateCommand(options: UpdateOptions): Promise<void> {
     console.log();
 
   } catch (error) {
-    console.error(chalk.red('Error updating modules:'), error);
+    console.error(chalk.red('Error updating:'), error);
+    process.exit(1);
+  }
+}
+
+async function updateCLI(): Promise<void> {
+  try {
+    console.log(chalk.blue('\n🔄 Updating CLI...\n'));
+
+    // Get current version from package.json
+    const packageJsonPath = path.join(__dirname, '../../../package.json');
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+    const currentVersion = packageJson.version;
+
+    console.log(chalk.gray(`Current version: ${currentVersion}`));
+
+    // Check npm registry for latest version
+    console.log(chalk.gray('Checking npm registry for latest version...'));
+
+    let latestVersion: string;
+    try {
+      const npmViewOutput = execSync('npm view @mytechtoday/augment-extensions version', {
+        encoding: 'utf-8',
+        stdio: ['pipe', 'pipe', 'pipe']
+      }).trim();
+      latestVersion = npmViewOutput;
+    } catch (error) {
+      console.error(chalk.red('✗ Failed to check npm registry'));
+      console.error(chalk.gray('Make sure you have internet connection and npm is configured correctly'));
+      throw error;
+    }
+
+    console.log(chalk.gray(`Latest version: ${latestVersion}`));
+
+    // Compare versions
+    if (semver.eq(currentVersion, latestVersion)) {
+      console.log(chalk.green(`\n✓ CLI is already up to date (v${currentVersion})\n`));
+      return;
+    }
+
+    if (semver.gt(currentVersion, latestVersion)) {
+      console.log(chalk.yellow(`\n⚠ Current version (${currentVersion}) is newer than npm registry (${latestVersion})\n`));
+      return;
+    }
+
+    // Update available
+    console.log(chalk.cyan(`\n📦 Update available: ${currentVersion} → ${latestVersion}\n`));
+    console.log(chalk.gray('Installing update...'));
+
+    try {
+      execSync('npm install -g @mytechtoday/augment-extensions@latest', {
+        encoding: 'utf-8',
+        stdio: 'inherit'
+      });
+
+      console.log(chalk.bold.green(`\n✨ CLI updated successfully to v${latestVersion}!\n`));
+      console.log(chalk.gray('You may need to restart your terminal for changes to take effect.\n'));
+    } catch (error) {
+      console.error(chalk.red('\n✗ Failed to update CLI'));
+      console.error(chalk.gray('You may need to run with elevated permissions (sudo/administrator)'));
+      console.error(chalk.gray('Or try: npm install -g @mytechtoday/augment-extensions@latest'));
+      throw error;
+    }
+
+  } catch (error) {
+    console.error(chalk.red('Error updating CLI:'), error);
     process.exit(1);
   }
 }

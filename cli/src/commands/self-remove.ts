@@ -2,7 +2,6 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as crypto from 'crypto';
 
 interface SelfRemoveOptions {
   dryRun?: boolean;
@@ -14,29 +13,37 @@ export async function selfRemoveCommand(options: SelfRemoveOptions = {}): Promis
     console.log(chalk.red('\n⚠️  Augment Extensions Self-Removal\n'));
 
     const augmentDir = path.join(process.cwd(), '.augment');
-    
-    if (!fs.existsSync(augmentDir)) {
+    const extensionsConfigPath = path.join(augmentDir, 'extensions.json');
+
+    if (!fs.existsSync(extensionsConfigPath)) {
       console.log(chalk.yellow('Augment Extensions not found in this project.'));
       return;
     }
 
-    // Collect files to be removed
-    const filesToRemove = collectFilesToRemove(augmentDir);
+    // Load current config to show what will be removed
+    const config = JSON.parse(fs.readFileSync(extensionsConfigPath, 'utf-8'));
+    const linkedModules = config.modules || [];
 
     if (options.dryRun) {
-      console.log(chalk.blue('Dry-run mode: The following files would be removed:\n'));
-      filesToRemove.forEach(file => {
-        console.log(chalk.gray(`  - ${file}`));
+      console.log(chalk.blue('Dry-run mode: The following would be removed:\n'));
+      console.log(chalk.gray('  - All linked modules from extensions.json:'));
+      linkedModules.forEach((module: any) => {
+        console.log(chalk.gray(`    • ${module.name} (v${module.version})`));
       });
-      console.log(chalk.blue(`\nTotal: ${filesToRemove.length} file(s)`));
+      console.log(chalk.gray('  - VS Code extensions.json entries (if any)'));
+      console.log(chalk.blue(`\nTotal: ${linkedModules.length} module(s)`));
+      console.log(chalk.gray('\nNote: .augment/ directory and extensions.json file will be preserved'));
       return;
     }
 
     // Display what will be removed
     console.log(chalk.yellow('The following will be removed:\n'));
-    console.log(chalk.gray(`  - .augment/ directory (${filesToRemove.length} files)`));
+    console.log(chalk.gray(`  - All linked modules (${linkedModules.length} modules):`));
+    linkedModules.forEach((module: any) => {
+      console.log(chalk.gray(`    • ${module.name} (v${module.version})`));
+    });
     console.log(chalk.gray(`  - VS Code extensions.json entries (if any)`));
-    console.log(chalk.gray(`  - augx CLI tool (if installed globally)`));
+    console.log(chalk.cyan('\nNote: .augment/ directory and extensions.json file will be preserved'));
 
     // Confirmation prompt
     if (!options.force) {
@@ -44,7 +51,7 @@ export async function selfRemoveCommand(options: SelfRemoveOptions = {}): Promis
         {
           type: 'confirm',
           name: 'confirm',
-          message: chalk.red('Are you sure you want to remove all Augment Extensions?'),
+          message: chalk.red('Are you sure you want to unlink all modules?'),
           default: false
         }
       ]);
@@ -54,52 +61,51 @@ export async function selfRemoveCommand(options: SelfRemoveOptions = {}): Promis
         return;
       }
 
-      // Double confirmation
-      const { doubleConfirm } = await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'doubleConfirm',
-          message: 'Type "REMOVE" to confirm:',
-          validate: (input: string) => input === 'REMOVE' || 'You must type "REMOVE" to confirm'
-        }
-      ]);
+      // Double confirmation only if there are many modules
+      if (linkedModules.length > 5) {
+        const { doubleConfirm } = await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'doubleConfirm',
+            message: 'Type "REMOVE" to confirm:',
+            validate: (input: string) => input === 'REMOVE' || 'You must type "REMOVE" to confirm'
+          }
+        ]);
 
-      if (doubleConfirm !== 'REMOVE') {
-        console.log(chalk.yellow('Cancelled.'));
-        return;
+        if (doubleConfirm !== 'REMOVE') {
+          console.log(chalk.yellow('Cancelled.'));
+          return;
+        }
       }
     }
 
-    // Calculate checksums before removal
-    console.log(chalk.blue('\nCalculating checksums...'));
-    const checksums = calculateChecksums(filesToRemove);
-
     // Perform removal
-    console.log(chalk.blue('Removing Augment Extensions...\n'));
+    console.log(chalk.blue('\nRemoving linked modules...\n'));
 
-    // Remove .augment directory
-    if (fs.existsSync(augmentDir)) {
-      fs.rmSync(augmentDir, { recursive: true, force: true });
-      console.log(chalk.green('✓ Removed .augment/ directory'));
-    }
+    // Clear modules array in extensions.json
+    const originalModules = [...config.modules];
+    config.modules = [];
+
+    fs.writeFileSync(extensionsConfigPath, JSON.stringify(config, null, 2));
+    console.log(chalk.green(`✓ Removed ${originalModules.length} linked module(s) from extensions.json`));
 
     // Clean up VS Code extensions.json
     const vscodeDir = path.join(process.cwd(), '.vscode');
-    const extensionsJsonPath = path.join(vscodeDir, 'extensions.json');
-    
-    if (fs.existsSync(extensionsJsonPath)) {
+    const vscodeExtensionsJsonPath = path.join(vscodeDir, 'extensions.json');
+
+    if (fs.existsSync(vscodeExtensionsJsonPath)) {
       try {
-        const extensionsJson = JSON.parse(fs.readFileSync(extensionsJsonPath, 'utf-8'));
-        
+        const extensionsJson = JSON.parse(fs.readFileSync(vscodeExtensionsJsonPath, 'utf-8'));
+
         // Remove Augment-related recommendations
         if (extensionsJson.recommendations) {
           const originalLength = extensionsJson.recommendations.length;
           extensionsJson.recommendations = extensionsJson.recommendations.filter(
             (ext: string) => !ext.includes('augment')
           );
-          
+
           if (extensionsJson.recommendations.length < originalLength) {
-            fs.writeFileSync(extensionsJsonPath, JSON.stringify(extensionsJson, null, 2));
+            fs.writeFileSync(vscodeExtensionsJsonPath, JSON.stringify(extensionsJson, null, 2));
             console.log(chalk.green('✓ Cleaned VS Code extensions.json'));
           }
         }
@@ -112,61 +118,21 @@ export async function selfRemoveCommand(options: SelfRemoveOptions = {}): Promis
     const logPath = path.join(process.cwd(), '.augment-removal.log');
     const logContent = {
       timestamp: new Date().toISOString(),
-      filesRemoved: filesToRemove.length,
-      checksums,
+      modulesRemoved: originalModules.length,
+      modules: originalModules,
       success: true
     };
     fs.writeFileSync(logPath, JSON.stringify(logContent, null, 2));
 
-    console.log(chalk.green('\n✓ Augment Extensions successfully removed!'));
+    console.log(chalk.green('\n✓ All linked modules successfully removed!'));
     console.log(chalk.gray(`\nRemoval log saved to: ${logPath}`));
-    console.log(chalk.blue('\nTo reinstall Augment Extensions:'));
-    console.log(chalk.gray('  npm install -g @mytechtoday/augment-extensions'));
-    console.log(chalk.gray('  augx init'));
+    console.log(chalk.cyan('\nNote: .augment/ directory and extensions.json preserved'));
+    console.log(chalk.blue('\nTo link modules again:'));
+    console.log(chalk.gray('  augx link <module-name>'));
 
   } catch (error: any) {
     console.error(chalk.red(`Error: ${error.message}`));
     process.exit(1);
   }
-}
-
-function collectFilesToRemove(augmentDir: string): string[] {
-  const files: string[] = [];
-
-  function walkDir(dir: string) {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-      
-      if (entry.isDirectory()) {
-        walkDir(fullPath);
-      } else {
-        files.push(fullPath);
-      }
-    }
-  }
-
-  if (fs.existsSync(augmentDir)) {
-    walkDir(augmentDir);
-  }
-
-  return files;
-}
-
-function calculateChecksums(files: string[]): Record<string, string> {
-  const checksums: Record<string, string> = {};
-
-  for (const file of files) {
-    try {
-      const content = fs.readFileSync(file);
-      const hash = crypto.createHash('sha256').update(content).digest('hex');
-      checksums[file] = hash;
-    } catch (error) {
-      // Skip files that can't be read
-    }
-  }
-
-  return checksums;
 }
 

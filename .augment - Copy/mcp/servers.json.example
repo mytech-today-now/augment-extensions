@@ -1,0 +1,21 @@
+{
+  "servers": [
+    {
+      "name": "example-stdio",
+      "command": "npx",
+      "args": ["-y", "example-mcp-server@latest"],
+      "transport": "stdio",
+      "env": {
+        "API_KEY": "your-api-key-here"
+      }
+    },
+    {
+      "name": "example-http",
+      "command": "node",
+      "args": ["./mcp-server.js"],
+      "transport": "http",
+      "url": "http://localhost:3000/mcp"
+    }
+  ]
+}
+

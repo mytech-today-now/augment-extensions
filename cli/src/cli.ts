@@ -6,7 +6,8 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { initCommand } from './commands/init';
 import { listCommand } from './commands/list';
-import { showCommand, showModuleCommand } from './commands/show';
+import { showCommand, showModuleCommand, showLinkedCommand, showAllCommand } from './commands/show';
+import { showCompletedCommand } from './commands/showCompleted';
 import { linkCommand } from './commands/link';
 import { updateCommand } from './commands/update';
 import { searchCommand } from './commands/search';
@@ -71,11 +72,29 @@ program
   .option('--json', 'Output as JSON')
   .action(listCommand);
 
+// Show completed tasks command (register before generic show command)
 program
-  .command('show <module>')
-  .description('Display detailed information about a module')
+  .command('show completed')
+  .description('Show completed Beads tasks from scripts/completed.jsonl')
+  .option('--since <date>', 'Filter tasks completed since date (ISO 8601 format)')
+  .option('--until <date>', 'Filter tasks completed until date (ISO 8601 format)')
   .option('--json', 'Output as JSON')
-  .action(showCommand);
+  .option('--limit <number>', 'Limit number of tasks shown', parseInt)
+  .action(showCompletedCommand);
+
+// Show linked modules command
+program
+  .command('show linked')
+  .description('Show all linked modules')
+  .option('--json', 'Output as JSON')
+  .action(showLinkedCommand);
+
+// Show all modules command
+program
+  .command('show all')
+  .description('Show all available modules')
+  .option('--json', 'Output as JSON')
+  .action(showAllCommand);
 
 // Enhanced module inspection command
 const showModuleCmd = program
@@ -107,6 +126,12 @@ Examples:
   $ augx show module php-standards --search "PSR-12"  # Search content
   $ augx show module php-standards --content --page 2 # View page 2
 `);
+
+program
+  .command('show <module>')
+  .description('Display detailed information about a module')
+  .option('--json', 'Output as JSON')
+  .action(showCommand);
 
 program
   .command('link <module>')

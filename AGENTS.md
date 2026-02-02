@@ -47,9 +47,41 @@ Each module contains:
 - `augx list` - List all available modules
 - `augx list --linked` - List modules linked to current project
 - `augx show <module>` - Display module content
+- `augx show linked` - Show all linked modules
+- `augx show all` - Show all available modules
 - `augx search <term>` - Search for modules
 - `augx update` - Update all linked modules
 - `augx version` - Show CLI version
+
+### Command Help Reference
+
+When `augx init` is run, the CLI automatically generates `.augment/COMMAND_HELP.md` containing comprehensive help documentation for all detected workflow tools (Beads, OpenSpec, Augx).
+
+**For AI Agents:**
+
+1. **Check for help reference**: Look for `.augment/COMMAND_HELP.md` in the project
+2. **Use for command discovery**: Reference the file to learn available commands and their syntax
+3. **Generate accurate commands**: Use the help text to construct correct command invocations
+4. **Understand tool capabilities**: Learn what each tool can do without executing commands
+
+**Example workflow:**
+
+```bash
+# AI agent discovers available commands
+cat .augment/COMMAND_HELP.md
+
+# AI agent learns Beads commands
+# Sees: "bd create <title> - Create a new issue"
+
+# AI agent generates correct command
+bd create "Implement feature X" -p 1
+```
+
+**Benefits:**
+- **No trial-and-error**: AI agents know exact command syntax before execution
+- **Always current**: Regenerated on `augx init` to reflect latest tool versions
+- **Comprehensive**: Includes main commands and all subcommands (up to 3 levels deep)
+- **Multi-tool**: Single reference for all workflow tools in the project
 
 ## Module Types
 

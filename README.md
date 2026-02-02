@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-0.4.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 
@@ -20,8 +20,19 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v0.4.0
+## ✨ What's New in v1.1.0
 
+- 📋 **Beads Completed Tracking** - Track and display completed Beads tasks with `augx show completed`
+- 🎨 **Color-Coded Status** - Visual indicators for task status (✓ closed, ⚙ in-progress, ○ open, ✖ blocked)
+- 📅 **Date Filtering** - Filter completed tasks by date range with `--since` and `--until` flags
+- 🔍 **BD-Style Formatting** - Display tasks in familiar Beads CLI format with full details
+- 🛡️ **Robust Parsing** - Graceful handling of corrupted JSON Lines data
+- 🚀 **Auto-Initialization** - `augx init` automatically creates `scripts/completed.jsonl` when `.beads` exists
+- 📊 **JSON Export** - Export completed tasks as JSON with `--json` flag
+
+### Previous Releases
+
+**v0.4.0:**
 - 🧠 **Skills System** - Token-efficient, on-demand skill loading (500-10K tokens vs 50K+ for modules)
 - 🔧 **CLI Integration** - Wrap external tools and MCP servers as skills
 - 📊 **Skill Categories** - 6 categories: retrieval, transformation, analysis, generation, integration, utility
@@ -162,6 +173,148 @@ augx skill inject <skill-id> --max-tokens 10000
 ### Creating New Skills
 
 See [docs/SKILL_DEVELOPMENT.md](./docs/SKILL_DEVELOPMENT.md) for detailed instructions on creating, testing, and publishing new skills.
+
+## 📋 Beads Integration
+
+Augment Extensions integrates with [Beads](https://github.com/steveyegge/beads) to track completed tasks in a separate record for easy reference and reporting.
+
+### Completed Task Tracking
+
+When you run `augx init` in a project with a `.beads` directory, the CLI automatically:
+1. **Creates `scripts/completed.jsonl`** - A separate record of completed tasks
+2. **Enables task tracking** - Track which tasks have been executed and closed
+
+### Viewing Completed Tasks
+
+```bash
+# Show all completed tasks
+augx show completed
+
+# Filter by date range (ISO 8601 format)
+augx show completed --since 2026-02-01
+augx show completed --until 2026-02-02T12:00:00Z
+augx show completed --since 2026-02-01 --until 2026-02-02
+
+# Limit number of tasks shown
+augx show completed --limit 10
+
+# Export as JSON
+augx show completed --json
+```
+
+### Features
+
+- **Color-Coded Status**: Visual indicators for task status
+  - ✓ closed (green)
+  - ⚙ in-progress (yellow)
+  - ○ open (blue)
+  - ✖ blocked (red)
+- **BD-Style Formatting**: Familiar Beads CLI format with task ID, title, status, priority, description, dates, and labels
+- **Date Filtering**: Filter tasks by completion date using ISO 8601 timestamps
+- **Robust Parsing**: Gracefully handles corrupted JSON Lines data with warnings
+- **JSON Export**: Export completed tasks as JSON for programmatic access
+
+### For AI Agents
+
+AI agents can query completed tasks to:
+- Check if a task has already been executed
+- Review task completion history
+- Generate reports on completed work
+- Avoid duplicate work
+
+```bash
+# Check if task is completed
+augx show completed --json | grep "bd-xyz"
+
+# Get tasks completed today
+augx show completed --since $(date -I)
+```
+
+## 📖 Command Help Extraction
+
+The CLI automatically extracts and formats command-line help documentation from workflow tools (Beads, OpenSpec, Augx) during initialization, creating an AI-friendly reference file.
+
+### What is Command Help Extraction?
+
+When you run `augx init`, the CLI:
+1. **Detects available workflow tools** in your repository (.beads, openspec, .augment directories)
+2. **Extracts help documentation** by executing `--help` commands recursively
+3. **Generates Markdown reference** at `.augment/COMMAND_HELP.md`
+4. **Provides AI-friendly format** for command discovery and usage
+
+### Benefits
+
+- **Automatic Documentation**: No manual documentation needed for CLI tools
+- **Always Up-to-Date**: Regenerated on each `augx init` to reflect current tool versions
+- **AI-Friendly Format**: Structured Markdown optimized for AI agent consumption
+- **Recursive Extraction**: Captures main commands and all subcommands (up to 3 levels deep)
+- **Multi-Tool Support**: Works with Beads, OpenSpec, Augx, and custom tools
+
+### Usage
+
+```bash
+# Automatic extraction during initialization
+augx init
+
+# Manual extraction (if needed)
+augx extract-help
+
+# View generated reference
+cat .augment/COMMAND_HELP.md
+```
+
+### Example Output
+
+The generated `COMMAND_HELP.md` file contains:
+
+```markdown
+# Command Help Reference
+
+Auto-generated command-line help for Augment workflow tools.
+
+**Generated**: 2026-02-01T19:30:00.000Z
+**Tools**: Augx, Beads, OpenSpec
+**Version**: 1.0.0
+
+---
+
+## Augx Commands (augx)
+
+### augx --help
+\`\`\`
+Usage: augx [command]
+
+Commands:
+  init      Initialize Augment Extensions
+  link      Link a module
+  list      List available modules
+  ...
+\`\`\`
+
+### augx init --help
+\`\`\`
+Initialize Augment Extensions in the current project
+...
+\`\`\`
+```
+
+### For AI Agents
+
+AI agents can use the generated reference to:
+- **Discover available commands** without executing them
+- **Learn command syntax** and options
+- **Generate accurate command invocations** based on help text
+- **Understand tool capabilities** across the project
+
+### Customization
+
+Add custom tools to extraction by modifying the tool configuration in `cli/src/utils/extractCommandHelp.ts`:
+
+```typescript
+const CUSTOM_TOOLS: Tool[] = [
+  { name: 'MyTool', command: 'mytool', directory: '.mytool', helpFlag: '--help' }
+];
+```
 
 ## 🔌 MCP Integration (Beta)
 
@@ -622,6 +775,12 @@ augx list --linked
 
 # Show module details
 augx show <module-name>
+
+# Show all linked modules
+augx show linked
+
+# Show all available modules
+augx show all
 
 # Show module as JSON
 augx show <module-name> --json

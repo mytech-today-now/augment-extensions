@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import inquirer from 'inquirer';
 import { installCharacterCountRule } from '../utils/install-rules';
+import { extractCommandHelp } from '../utils/extractCommandHelp';
 
 interface InitOptions {
   fromSubmodule?: boolean;
@@ -110,6 +111,37 @@ Check \`.augment/extensions.json\` for currently linked modules.
     if (!ruleResult.success) {
       console.log(chalk.yellow(`⚠ Warning: Could not install character count rule: ${ruleResult.error}`));
       console.log(chalk.gray('You can manually copy the rule from .augment/rules/character-count-management.md'));
+    }
+
+    // Extract command help for workflow tools
+    console.log(chalk.blue('\n📖 Extracting command help for workflow tools...\n'));
+    try {
+      const helpOutputPath = '.augment/COMMAND_HELP.md';
+      await extractCommandHelp(process.cwd(), helpOutputPath);
+      console.log(chalk.green('✓ Command help reference generated'));
+    } catch (error: any) {
+      console.log(chalk.yellow(`⚠ Warning: Could not extract command help: ${error.message}`));
+      console.log(chalk.gray('You can manually run: augx extract-help'));
+    }
+
+    // Initialize .beads directory and completed.jsonl if .beads exists
+    const beadsDir = path.join(process.cwd(), '.beads');
+    if (fs.existsSync(beadsDir)) {
+      console.log(chalk.blue('\n📋 Initializing Beads integration...\n'));
+
+      // Create scripts directory if it doesn't exist
+      const scriptsDir = path.join(process.cwd(), 'scripts');
+      if (!fs.existsSync(scriptsDir)) {
+        fs.mkdirSync(scriptsDir, { recursive: true });
+        console.log(chalk.green('✓ Created scripts directory'));
+      }
+
+      // Create completed.jsonl if it doesn't exist
+      const completedPath = path.join(scriptsDir, 'completed.jsonl');
+      if (!fs.existsSync(completedPath)) {
+        fs.writeFileSync(completedPath, '', 'utf-8');
+        console.log(chalk.green('✓ Created scripts/completed.jsonl'));
+      }
     }
 
     console.log(chalk.bold.green('\n✨ Augment Extensions initialized successfully!\n'));

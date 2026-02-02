@@ -73,6 +73,44 @@ augx show domain-rules/api-design --json
 
 ---
 
+### `augx show linked`
+
+Show all linked modules in the current project.
+
+```bash
+augx show linked [options]
+```
+
+**Options:**
+- `--json` - Output as JSON
+
+**Examples:**
+```bash
+augx show linked
+augx show linked --json
+```
+
+---
+
+### `augx show all`
+
+Show all available modules (both linked and unlinked).
+
+```bash
+augx show all [options]
+```
+
+**Options:**
+- `--json` - Output as JSON
+
+**Examples:**
+```bash
+augx show all
+augx show all --json
+```
+
+---
+
 ### `augx link <module>`
 
 Link an extension module to the current project.

@@ -31,7 +31,7 @@
   },
   "installation": {
     "required": false,
-    "cli": "augx link domain-rules/marketing-standards/seo-sales-marketing",
+    "cli": "augx link domain-rules/seo-sales-marketing",
     "manual": "Copy module contents to project's .augment/ folder"
   },
   "dependencies": [],

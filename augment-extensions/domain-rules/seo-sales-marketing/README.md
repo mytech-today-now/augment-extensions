@@ -18,7 +18,7 @@ This module provides comprehensive marketing and sales content standards for AI-
 ### With CLI (Recommended)
 
 ```bash
-augx link marketing-standards/seo-sales-marketing
+augx link domain-rules/seo-sales-marketing
 ```
 
 ### Manual Installation
@@ -28,7 +28,7 @@ Copy the contents of this module to your project's `.augment/` folder.
 ## Directory Structure
 
 ```
-augment-extensions/marketing-standards/seo-sales-marketing/
+augment-extensions/domain-rules/seo-sales-marketing/
 ├── module.json              # Module metadata
 ├── README.md                # This file
 ├── rules/                   # Marketing standards rules
@@ -85,7 +85,7 @@ Use `rules/asset-management.md` and `schemas/asset-inventory.schema.json` for pr
 
 ## Character Count
 
-**Total**: ~0 characters (will be updated after all files are created)
+**Total**: ~288,256 characters
 
 ## Contents
 
@@ -126,9 +126,13 @@ Use `rules/asset-management.md` and `schemas/asset-inventory.schema.json` for pr
 
 Link this module to your project and reference the appropriate rule files when creating marketing content. The AI will apply these standards automatically.
 
+For detailed usage instructions, see:
+- **USAGE-GUIDES.md** - Scenario-based usage guides for common marketing tasks
+- **TEST-VALIDATION.md** - Module validation report and effectiveness assessment
+
 ## Version
 
-**1.0.0** - Initial release
+**1.0.0** - Initial release (2026-02-01)
 
 ## License
 

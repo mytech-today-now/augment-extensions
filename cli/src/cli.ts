@@ -72,34 +72,10 @@ program
   .option('--json', 'Output as JSON')
   .action(listCommand);
 
-// Show completed tasks command (register before generic show command)
+// Generic show command (register FIRST as the default)
 program
-  .command('show completed')
-  .description('Show completed Beads tasks from scripts/completed.jsonl')
-  .option('--since <date>', 'Filter tasks completed since date (ISO 8601 format)')
-  .option('--until <date>', 'Filter tasks completed until date (ISO 8601 format)')
-  .option('--json', 'Output as JSON')
-  .option('--limit <number>', 'Limit number of tasks shown', parseInt)
-  .action(showCompletedCommand);
-
-// Show linked modules command
-program
-  .command('show linked')
-  .description('Show all linked modules')
-  .option('--json', 'Output as JSON')
-  .action(showLinkedCommand);
-
-// Show all modules command
-program
-  .command('show all')
-  .description('Show all available modules')
-  .option('--json', 'Output as JSON')
-  .action(showAllCommand);
-
-// Enhanced module inspection command
-const showModuleCmd = program
-  .command('show module <module-name> [file-path]')
-  .description('Inspect module structure, content, and files')
+  .command('show <module> [file-path]')
+  .description('Display detailed information about a module')
   .option('--json', 'Output as JSON')
   .option('--content', 'Display aggregated content from all module files')
   .option('--format <format>', 'Output format: json, markdown, text', 'text')
@@ -113,25 +89,28 @@ const showModuleCmd = program
   .option('--open', 'Open file in VS Code editor')
   .option('--preview', 'Open file in VS Code preview pane')
   .action((moduleName: string, filePath: string | undefined, options: any) => {
-    showModuleCommand(moduleName, filePath, options);
+    // Handle special subcommands
+    if (moduleName === 'completed') {
+      showCompletedCommand(options);
+      return;
+    }
+    if (moduleName === 'linked') {
+      showLinkedCommand(options);
+      return;
+    }
+    if (moduleName === 'all') {
+      showAllCommand(options);
+      return;
+    }
+
+    // If file-path is provided, use showModuleCommand for detailed inspection
+    if (filePath) {
+      showModuleCommand(moduleName, filePath, options);
+    } else {
+      // Otherwise use the basic showCommand
+      showCommand(moduleName, options);
+    }
   });
-
-showModuleCmd.addHelpText('after', `
-Examples:
-  $ augx show module php-standards                    # Module overview
-  $ augx show module php-standards --content          # Aggregated content
-  $ augx show module php-standards rules/psr.md       # Individual file
-  $ augx show module php-standards --format json      # JSON output
-  $ augx show module php-standards --filter "*.md"    # Filter markdown files
-  $ augx show module php-standards --search "PSR-12"  # Search content
-  $ augx show module php-standards --content --page 2 # View page 2
-`);
-
-program
-  .command('show <module>')
-  .description('Display detailed information about a module')
-  .option('--json', 'Output as JSON')
-  .action(showCommand);
 
 program
   .command('link <module>')

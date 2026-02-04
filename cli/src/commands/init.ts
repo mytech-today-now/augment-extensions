@@ -124,10 +124,39 @@ Check \`.augment/extensions.json\` for currently linked modules.
       console.log(chalk.gray('You can manually run: augx extract-help'));
     }
 
-    // Initialize .beads directory and completed.jsonl if .beads exists
+    // Initialize .beads directory and completed.jsonl
     const beadsDir = path.join(process.cwd(), '.beads');
-    if (fs.existsSync(beadsDir)) {
+    const beadsIssuesPath = path.join(beadsDir, 'issues.jsonl');
+    const beadsConfigPath = path.join(beadsDir, 'config.json');
+
+    // Check if Beads should be initialized (either .beads exists or issues.jsonl exists)
+    const shouldInitBeads = fs.existsSync(beadsDir) || fs.existsSync(beadsIssuesPath);
+
+    if (shouldInitBeads) {
       console.log(chalk.blue('\n📋 Initializing Beads integration...\n'));
+
+      // Create .beads directory if it doesn't exist
+      if (!fs.existsSync(beadsDir)) {
+        fs.mkdirSync(beadsDir, { recursive: true });
+        console.log(chalk.green('✓ Created .beads directory'));
+      }
+
+      // Create issues.jsonl if it doesn't exist
+      if (!fs.existsSync(beadsIssuesPath)) {
+        fs.writeFileSync(beadsIssuesPath, '', 'utf-8');
+        console.log(chalk.green('✓ Created .beads/issues.jsonl'));
+      }
+
+      // Create config.json if it doesn't exist
+      if (!fs.existsSync(beadsConfigPath)) {
+        const beadsConfig = {
+          version: '1.0.0',
+          project: path.basename(process.cwd()),
+          created: new Date().toISOString()
+        };
+        fs.writeFileSync(beadsConfigPath, JSON.stringify(beadsConfig, null, 2), 'utf-8');
+        console.log(chalk.green('✓ Created .beads/config.json'));
+      }
 
       // Create scripts directory if it doesn't exist
       const scriptsDir = path.join(process.cwd(), 'scripts');

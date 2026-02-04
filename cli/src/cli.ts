@@ -54,11 +54,82 @@ program
   .description('CLI tool for managing Augment Code AI extension modules')
   .version(packageJson.version);
 
-program
+// Init command with subcommands
+const initCmd = program
   .command('init')
-  .description('Initialize Augment Extensions in current project')
+  .description('Initialize Augment Extensions in current project (includes Beads integration if .beads/ exists)')
   .option('--from-submodule', 'Initialize from existing submodule')
   .action(initCommand);
+
+// Init beads subcommand
+initCmd
+  .command('beads')
+  .description('Initialize Beads task tracking in current project')
+  .action(() => {
+    const fs = require('fs');
+    const path = require('path');
+    const chalk = require('chalk');
+
+    console.log(chalk.blue('\n📋 Initializing Beads task tracking...\n'));
+
+    const beadsDir = path.join(process.cwd(), '.beads');
+    const beadsIssuesPath = path.join(beadsDir, 'issues.jsonl');
+    const beadsConfigPath = path.join(beadsDir, 'config.json');
+    const scriptsDir = path.join(process.cwd(), 'scripts');
+    const completedPath = path.join(scriptsDir, 'completed.jsonl');
+
+    // Create .beads directory
+    if (!fs.existsSync(beadsDir)) {
+      fs.mkdirSync(beadsDir, { recursive: true });
+      console.log(chalk.green('✓ Created .beads directory'));
+    } else {
+      console.log(chalk.gray('• .beads directory already exists'));
+    }
+
+    // Create issues.jsonl
+    if (!fs.existsSync(beadsIssuesPath)) {
+      fs.writeFileSync(beadsIssuesPath, '', 'utf-8');
+      console.log(chalk.green('✓ Created .beads/issues.jsonl'));
+    } else {
+      console.log(chalk.gray('• .beads/issues.jsonl already exists'));
+    }
+
+    // Create config.json
+    if (!fs.existsSync(beadsConfigPath)) {
+      const beadsConfig = {
+        version: '1.0.0',
+        project: path.basename(process.cwd()),
+        created: new Date().toISOString()
+      };
+      fs.writeFileSync(beadsConfigPath, JSON.stringify(beadsConfig, null, 2), 'utf-8');
+      console.log(chalk.green('✓ Created .beads/config.json'));
+    } else {
+      console.log(chalk.gray('• .beads/config.json already exists'));
+    }
+
+    // Create scripts directory
+    if (!fs.existsSync(scriptsDir)) {
+      fs.mkdirSync(scriptsDir, { recursive: true });
+      console.log(chalk.green('✓ Created scripts directory'));
+    } else {
+      console.log(chalk.gray('• scripts directory already exists'));
+    }
+
+    // Create completed.jsonl
+    if (!fs.existsSync(completedPath)) {
+      fs.writeFileSync(completedPath, '', 'utf-8');
+      console.log(chalk.green('✓ Created scripts/completed.jsonl'));
+    } else {
+      console.log(chalk.gray('• scripts/completed.jsonl already exists'));
+    }
+
+    console.log(chalk.green('\n✓ Beads initialization complete!\n'));
+    console.log(chalk.gray('Next steps:'));
+    console.log(chalk.cyan('  • Create tasks: bd create "Task title" -p 1'));
+    console.log(chalk.cyan('  • List tasks: bd list'));
+    console.log(chalk.cyan('  • Close tasks: bd close <task-id>'));
+    console.log(chalk.cyan('  • View completed: augx show completed\n'));
+  });
 
 program
   .command('gui')
@@ -75,7 +146,7 @@ program
 // Generic show command (register FIRST as the default)
 program
   .command('show <module> [file-path]')
-  .description('Display detailed information about a module')
+  .description('Display detailed information about a module (use "completed" to show Beads completed tasks, "linked" for linked modules, "all" for all modules)')
   .option('--json', 'Output as JSON')
   .option('--content', 'Display aggregated content from all module files')
   .option('--format <format>', 'Output format: json, markdown, text', 'text')
@@ -88,6 +159,18 @@ program
   .option('--no-cache', 'Disable caching for this inspection')
   .option('--open', 'Open file in VS Code editor')
   .option('--preview', 'Open file in VS Code preview pane')
+  .option('--since <date>', 'Filter completed tasks since date (ISO 8601 format, e.g., 2026-01-01)')
+  .option('--until <date>', 'Filter completed tasks until date (ISO 8601 format, e.g., 2026-12-31)')
+  .option('--limit <number>', 'Limit number of completed tasks shown', parseInt)
+  .option('--search <term>', 'Search completed tasks by title, description, or close reason')
+  .option('--labels <labels>', 'Filter completed tasks by labels (comma-separated)')
+  .option('--type <type>', 'Filter completed tasks by issue type (e.g., task, epic, bug)')
+  .option('--priority <number>', 'Filter completed tasks by priority (0-3)', parseInt)
+  .option('--assignee <email>', 'Filter completed tasks by assignee/owner')
+  .option('--sort <field>', 'Sort completed tasks by: date, title, priority (default: date)')
+  .option('--order <order>', 'Sort order: asc, desc (default: desc)')
+  .option('--verbose', 'Show detailed information for completed tasks')
+  .option('--quiet', 'Only output task IDs (one per line)')
   .action((moduleName: string, filePath: string | undefined, options: any) => {
     // Handle special subcommands
     if (moduleName === 'completed') {

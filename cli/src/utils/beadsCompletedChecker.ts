@@ -33,6 +33,16 @@ export interface BeadsTask {
 }
 
 /**
+ * Interface for completed tasks
+ * Extends BeadsTask with required fields for completed tasks
+ */
+export interface CompletedTask extends BeadsTask {
+  status: 'closed';
+  closed_at: string;
+  close_reason?: string;
+}
+
+/**
  * Check if a task exists in completed.jsonl
  */
 export function isTaskCompleted(taskId: string, completedPath: string = 'scripts/completed.jsonl'): boolean {
@@ -61,7 +71,7 @@ export function isTaskCompleted(taskId: string, completedPath: string = 'scripts
 /**
  * Get a completed task by ID from completed.jsonl
  */
-export function getCompletedTask(taskId: string, completedPath: string = 'scripts/completed.jsonl'): BeadsTask | null {
+export function getCompletedTask(taskId: string, completedPath: string = 'scripts/completed.jsonl'): CompletedTask | null {
   if (!fs.existsSync(completedPath)) {
     return null;
   }
@@ -70,12 +80,12 @@ export function getCompletedTask(taskId: string, completedPath: string = 'script
   const lines = content.trim().split('\n').filter(line => line.trim());
 
   // Find the last occurrence of the task (most recent update)
-  let foundTask: BeadsTask | null = null;
+  let foundTask: CompletedTask | null = null;
 
   for (const line of lines) {
     try {
-      const task = JSON.parse(line) as BeadsTask;
-      if (task.id === taskId) {
+      const task = JSON.parse(line) as CompletedTask;
+      if (task.id === taskId && task.status === 'closed' && task.closed_at) {
         foundTask = task;
       }
     } catch (error) {
@@ -90,7 +100,7 @@ export function getCompletedTask(taskId: string, completedPath: string = 'script
 /**
  * Get all completed tasks from completed.jsonl
  */
-export function getAllCompletedTasks(completedPath: string = 'scripts/completed.jsonl'): BeadsTask[] {
+export function getAllCompletedTasks(completedPath: string = 'scripts/completed.jsonl'): CompletedTask[] {
   if (!fs.existsSync(completedPath)) {
     return [];
   }
@@ -98,13 +108,15 @@ export function getAllCompletedTasks(completedPath: string = 'scripts/completed.
   const content = fs.readFileSync(completedPath, 'utf-8');
   const lines = content.trim().split('\n').filter(line => line.trim());
 
-  const tasksMap = new Map<string, BeadsTask>();
+  const tasksMap = new Map<string, CompletedTask>();
 
   for (const line of lines) {
     try {
       const task = JSON.parse(line) as BeadsTask;
-      // Keep the latest version of each task
-      tasksMap.set(task.id, task);
+      // Only include tasks that are actually completed
+      if (task.status === 'closed' && task.closed_at) {
+        tasksMap.set(task.id, task as CompletedTask);
+      }
     } catch (error) {
       // Skip invalid JSON lines
       console.warn(`Warning: Skipping invalid JSON line in ${completedPath}`);
@@ -119,12 +131,12 @@ export function getAllCompletedTasks(completedPath: string = 'scripts/completed.
  * Filter completed tasks by date range
  */
 export function filterTasksByDateRange(
-  tasks: BeadsTask[],
+  tasks: CompletedTask[],
   since?: string,
   until?: string
-): BeadsTask[] {
+): CompletedTask[] {
   return tasks.filter(task => {
-    const closedAt = task.closed_at || task.updated_at;
+    const closedAt = task.closed_at;
     if (!closedAt) return false;
 
     const taskDate = new Date(closedAt);
@@ -154,5 +166,68 @@ export function validateISO8601(timestamp: string): boolean {
 
   const date = new Date(timestamp);
   return !isNaN(date.getTime());
+}
+
+/**
+ * Filter completed tasks by search term (searches title, description, close_reason)
+ */
+export function filterTasksBySearch(
+  tasks: CompletedTask[],
+  searchTerm: string
+): CompletedTask[] {
+  const lowerSearch = searchTerm.toLowerCase();
+  return tasks.filter(task => {
+    return (
+      task.title.toLowerCase().includes(lowerSearch) ||
+      (task.description && task.description.toLowerCase().includes(lowerSearch)) ||
+      (task.close_reason && task.close_reason.toLowerCase().includes(lowerSearch))
+    );
+  });
+}
+
+/**
+ * Filter completed tasks by labels
+ */
+export function filterTasksByLabels(
+  tasks: CompletedTask[],
+  labels: string[]
+): CompletedTask[] {
+  return tasks.filter(task => {
+    if (!task.labels || task.labels.length === 0) return false;
+    return labels.some(label => task.labels!.includes(label));
+  });
+}
+
+/**
+ * Sort completed tasks
+ */
+export function sortTasks(
+  tasks: CompletedTask[],
+  sortBy: 'date' | 'title' | 'priority' = 'date',
+  order: 'asc' | 'desc' = 'desc'
+): CompletedTask[] {
+  const sorted = [...tasks].sort((a, b) => {
+    let comparison = 0;
+
+    switch (sortBy) {
+      case 'date':
+        const dateA = new Date(a.closed_at).getTime();
+        const dateB = new Date(b.closed_at).getTime();
+        comparison = dateA - dateB;
+        break;
+      case 'title':
+        comparison = a.title.localeCompare(b.title);
+        break;
+      case 'priority':
+        const priorityA = a.priority ?? 999;
+        const priorityB = b.priority ?? 999;
+        comparison = priorityA - priorityB;
+        break;
+    }
+
+    return order === 'asc' ? comparison : -comparison;
+  });
+
+  return sorted;
 }
 

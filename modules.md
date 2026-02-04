@@ -233,13 +233,24 @@ augx link coding-standards/powershell
 augx link writing-standards/screenplay
 ```
 
+**File Organization**:
+- Automatically creates `screenplays/` directory in repository root
+- Projects named from OpenSpec spec or Beads epic (with timestamp fallback)
+- All screenplay files organized in project subdirectories
+- Preserved during cleanup operations (tracked in git)
+
 **Configuration** (`.augment/screenplay-config.json`):
 ```json
 {
   "categories": ["aaa-hollywood-films", "tv-series"],
   "universalRules": true,
   "fountainFormat": true,
-  "exportFormats": ["fdx", "pdf"]
+  "exportFormats": ["fdx", "pdf"],
+  "fileOrganization": {
+    "rootDir": "screenplays",
+    "conflictResolution": "append-number",
+    "autoCreateDirectories": true
+  }
 }
 ```
 

@@ -72,19 +72,42 @@ scripts/
 # CLI
 .cli/
 
-# CLI
+# Task Execution Summaries (temporary files)
+*-EXECUTION-SUMMARY.md
+*-TASKS-SUMMARY.md
+*SUMMARY.md
 IMPLEMENTATION_SUMMARY.md
 TASK_COMPLETION_SUMMARY.md
 TASK-EXECUTION-SUMMARY.md
+BD-INSPECT-TASKS-COMPLETION-SUMMARY.md
+CMDHELP-EXECUTION-SUMMARY.md
+CMDHELP-TASKS-SUMMARY.md
+RAHA-TASKS-EXECUTION-SUMMARY.md
+RAHA-TASKS-2.4-2.7-EXECUTION-SUMMARY.md
+
+# Development/Internal Documentation (not for end users)
 test-modules.md
 npm-publish-checklist.md
-close-tasks-simple.ps1
-close-inspect-tasks.ps1
-close-screenplay-tasks.ps1
 publishing.md
 project-status.md
 module-development.md
-CONTRIBUTING.md
-MODULES.md
-BEADS-USAGE.md
+analyze-inspect-tasks.md
+modules.md
+
+# Daemon logs
+daemon.log
+daemon.lock
+
+# RAHA (Repository Analysis HTML Generator) - Work in Progress
+src/
+src/analyzers/
+src/types/
+
+# Development files (internal use only)
+dev/
+
+# User-Generated Content (DO NOT IGNORE)
+# screenplays/ - User-generated screenplay projects (tracked in git)
+# Note: This directory is created by writing-standards/screenplay module
+# and contains creative content that should be preserved and versioned.
 

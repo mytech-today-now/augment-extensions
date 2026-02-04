@@ -150,6 +150,7 @@ When making architectural changes:
 ## Beads Integration
 
 This repository uses **Beads** for task tracking and memory.
+Use 'bd' for task tracking
 
 ### Beads Workflow
 
@@ -176,7 +177,7 @@ When tracking work:
 4. Find ready tasks (status: "open", no blockers)
 5. Update status and add comments as work progresses
 
-**Task States**: `open`, `in-progress`, `blocked`, `closed`
+**Task States**: `open`, `in_progress`, `blocked`, `closed`
 
 **Naming Convention**: All issue IDs MUST use "bd-" prefix. See `openspec/specs/beads/naming-convention.md` for complete specification.
 

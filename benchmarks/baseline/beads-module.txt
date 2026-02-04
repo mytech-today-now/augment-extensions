@@ -251,7 +251,7 @@ Deeper hierarchies become hard to manage.
 Keep status current:
 
 ```
-open → in-progress → closed
+open → in_progress → closed
 ```
 
 ### Use Blocked Status
@@ -358,7 +358,7 @@ Track who is working on what:
   "id": "bd-a1b2",
   "title": "Add authentication",
   "assignee": "agent-1",
-  "status": "in-progress"
+  "status": "in_progress"
 }
 ```
 
@@ -597,7 +597,7 @@ Beads stores issues in `.beads/issues.jsonl` using JSONL (JSON Lines) format. Ea
 
 - **id** (string): Unique hash-based ID, format: `bd-<hash>` or `bd-<hash>.<number>` for hierarchical
 - **title** (string): Short description of the task
-- **status** (string): One of: `"open"`, `"in-progress"`, `"blocked"`, `"closed"`
+- **status** (string): One of: `"open"`, `"in_progress"`, `"blocked"`, `"closed"`
 - **created** (string): ISO 8601 timestamp
 - **updated** (string): ISO 8601 timestamp
 
@@ -642,7 +642,7 @@ bd-a3f8.2      # Another task under epic
 ## Status Values
 
 - **open** - Task is ready to work on (no blockers)
-- **in-progress** - Currently being worked on
+- **in_progress** - Currently being worked on
 - **blocked** - Waiting on dependencies
 - **closed** - Completed or cancelled
 
@@ -760,7 +760,7 @@ Tasks that are related but not blocking:
 
 ```jsonl
 {"id":"bd-a1b2","title":"Task 1","status":"open","created":"2024-01-20T10:00:00Z","updated":"2024-01-20T10:00:00Z"}
-{"id":"bd-a1b2","status":"in-progress","updated":"2024-01-20T11:00:00Z"}
+{"id":"bd-a1b2","status":"in_progress","updated":"2024-01-20T11:00:00Z"}
 {"id":"bd-a1b2","status":"closed","closed":"2024-01-20T12:00:00Z","updated":"2024-01-20T12:00:00Z"}
 ```
 
@@ -843,7 +843,7 @@ echo '{"id":"bd-a1b2","title":"New task","status":"open","created":"2024-01-20T1
 ### Start Work
 
 ```jsonl
-{"id":"bd-a1b2","status":"in-progress","updated":"2024-01-20T11:00:00Z"}
+{"id":"bd-a1b2","status":"in_progress","updated":"2024-01-20T11:00:00Z"}
 ```
 
 ### Add Comment
@@ -923,7 +923,7 @@ Append a JSON line:
 Append a JSON line with the same ID and updated fields:
 
 ```json
-{"id":"bd-<hash>","status":"in-progress","updated":"<ISO-8601>"}
+{"id":"bd-<hash>","status":"in_progress","updated":"<ISO-8601>"}
 ```
 
 ### Closing Tasks
@@ -937,7 +937,7 @@ Append a JSON line with status "closed":
 ## Task States
 
 - **open** - Ready to work on
-- **in-progress** - Currently being worked on
+- **in_progress** - Currently being worked on
 - **blocked** - Waiting on dependencies
 - **closed** - Completed
 
@@ -960,7 +960,7 @@ Tasks are ready when:
 1. Create task by appending to `.beads/issues.jsonl`
 2. Add dependencies with `blocks`/`blocked_by` fields
 3. Find ready tasks (no open blockers)
-4. Update status to "in-progress"
+4. Update status to "in_progress"
 5. Add comments as needed
 6. Close task when complete
 ```
@@ -1066,7 +1066,7 @@ Parse .beads/issues.jsonl and find tasks where:
 Ask your AI:
 
 ```
-Update Beads task bd-a1b2 to status "in-progress"
+Update Beads task bd-a1b2 to status "in_progress"
 Append an update to .beads/issues.jsonl
 ```
 
@@ -1395,7 +1395,7 @@ The AI will:
 bd comment bd-a1b2 "Started implementation, added login endpoint"
 
 # Update status
-bd update bd-a1b2 --status in-progress
+bd update bd-a1b2 --status in_progress
 
 # Add labels
 bd update bd-a1b2 --labels backend,auth
@@ -1406,7 +1406,7 @@ bd update bd-a1b2 --labels backend,auth
 Append update to `.beads/issues.jsonl`:
 
 ```json
-{"id":"bd-a1b2","title":"Implement user authentication","status":"in-progress","priority":0,"comments":[{"text":"Started implementation","timestamp":"2024-01-20T11:00:00Z"}],"updated":"2024-01-20T11:00:00Z"}
+{"id":"bd-a1b2","title":"Implement user authentication","status":"in_progress","priority":0,"comments":[{"text":"Started implementation","timestamp":"2024-01-20T11:00:00Z"}],"updated":"2024-01-20T11:00:00Z"}
 ```
 
 ## Step 6: Close Task

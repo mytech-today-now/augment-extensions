@@ -178,11 +178,19 @@ See [docs/SKILL_DEVELOPMENT.md](./docs/SKILL_DEVELOPMENT.md) for detailed instru
 
 Augment Extensions integrates with [Beads](https://github.com/steveyegge/beads) to track completed tasks in a separate record for easy reference and reporting.
 
-### Completed Task Tracking
+### Initializing Beads
 
-When you run `augx init` in a project with a `.beads` directory, the CLI automatically:
-1. **Creates `scripts/completed.jsonl`** - A separate record of completed tasks
-2. **Enables task tracking** - Track which tasks have been executed and closed
+```bash
+# Initialize Beads task tracking in current project
+augx init beads
+
+# Or initialize as part of full Augment Extensions setup
+augx init
+```
+
+This creates:
+- `.beads/` directory with `issues.jsonl` and `config.json`
+- `scripts/completed.jsonl` for tracking completed tasks
 
 ### Viewing Completed Tasks
 
@@ -195,11 +203,22 @@ augx show completed --since 2026-02-01
 augx show completed --until 2026-02-02T12:00:00Z
 augx show completed --since 2026-02-01 --until 2026-02-02
 
-# Limit number of tasks shown
-augx show completed --limit 10
+# Filter by task attributes
+augx show completed --type task
+augx show completed --priority 1
+augx show completed --assignee kyle@mytech.today
+augx show completed --labels "beads-completed,cli"
 
-# Export as JSON
-augx show completed --json
+# Search tasks
+augx show completed --search "implement feature"
+
+# Sort and limit
+augx show completed --sort date --order desc --limit 10
+
+# Output formats
+augx show completed --json          # JSON output
+augx show completed --verbose       # Detailed output with all fields
+augx show completed --quiet         # Only task IDs (one per line)
 ```
 
 ### Features
@@ -210,9 +229,10 @@ augx show completed --json
   - ○ open (blue)
   - ✖ blocked (red)
 - **BD-Style Formatting**: Familiar Beads CLI format with task ID, title, status, priority, description, dates, and labels
-- **Date Filtering**: Filter tasks by completion date using ISO 8601 timestamps
+- **Advanced Filtering**: Filter by date range, type, priority, assignee, labels, or search terms
+- **Multiple Output Formats**: Standard, verbose, quiet, or JSON output
+- **Sorting**: Sort by date, title, or priority in ascending or descending order
 - **Robust Parsing**: Gracefully handles corrupted JSON Lines data with warnings
-- **JSON Export**: Export completed tasks as JSON for programmatic access
 
 ### For AI Agents
 
@@ -228,6 +248,12 @@ augx show completed --json | grep "bd-xyz"
 
 # Get tasks completed today
 augx show completed --since $(date -I)
+
+# Get all task IDs for scripting
+augx show completed --quiet
+
+# Filter by multiple criteria
+augx show completed --type task --priority 1 --labels cli --verbose
 ```
 
 ## 📖 Command Help Extraction

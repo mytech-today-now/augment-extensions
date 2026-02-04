@@ -34,6 +34,40 @@ augx link writing-standards/screenplay
 2. Create `.augment/screenplay-config.json` with category selection
 3. Reference rule files in your AI prompts
 
+## File Organization
+
+The screenplay module automatically organizes generated files into a structured directory:
+
+```
+repository-root/
+└── screenplays/              # Top-level screenplay directory
+    └── project-name/         # Individual screenplay project
+        ├── screenplay.fountain
+        ├── outline.md
+        ├── beat-sheet.yaml
+        ├── characters/
+        │   ├── protagonist.yaml
+        │   └── supporting-cast.yaml
+        ├── notes/
+        └── drafts/
+```
+
+### Project Naming
+
+Projects are automatically named using:
+1. **OpenSpec Spec Name** (if available) - e.g., `openspec/changes/heist-movie/` → `screenplays/heist-movie/`
+2. **Beads Epic ID** (if available) - e.g., Epic `bd-scr-org` → `screenplays/bd-scr-org/`
+3. **Timestamp Fallback** - e.g., `screenplays/screenplay-2026-02-03/`
+
+### Persistence
+
+The `screenplays/` directory is **preserved during cleanup operations**:
+- ✅ Tracked in git (not ignored)
+- ✅ Preserved during `augx self-remove`
+- ✅ User-generated creative content protected
+
+See `rules/file-organization.md` for complete details.
+
 ## Configuration
 
 Create `.augment/screenplay-config.json`:
@@ -43,7 +77,12 @@ Create `.augment/screenplay-config.json`:
   "categories": ["aaa-hollywood-films"],
   "universalRules": true,
   "fountainFormat": true,
-  "exportFormats": ["fdx", "pdf"]
+  "exportFormats": ["fdx", "pdf"],
+  "fileOrganization": {
+    "rootDir": "screenplays",
+    "conflictResolution": "append-number",
+    "autoCreateDirectories": true
+  }
 }
 ```
 

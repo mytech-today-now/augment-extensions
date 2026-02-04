@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Repository Analysis Report">
+  <title>Repository Analysis Report</title>
+  <style>
+    /* CSS Variables */
+    :root {
+      --color-bg-primary: #ffffff;
+      --color-bg-secondary: #f5f5f5;
+      --color-text-primary: #212121;
+      --color-text-secondary: #757575;
+      --color-border: #e0e0e0;
+      --color-critical: #d32f2f;
+      --color-high: #f57c00;
+      --color-medium: #fbc02d;
+      --color-low: #388e3c;
+      --color-info: #1976d2;
+      --color-score-excellent: #4caf50;
+      --color-score-good: #8bc34a;
+      --color-score-fair: #ffc107;
+      --color-score-poor: #ff9800;
+      --color-score-critical: #f44336;
+      --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      --font-family-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 1.5rem;
+      --spacing-xl: 2rem;
+      --sidebar-width: 250px;
+      --header-height: 60px;
+      --transition-base: 250ms ease;
+    }
+
+    [data-theme="dark"] {
+      --color-bg-primary: #1e1e1e;
+      --color-bg-secondary: #2d2d2d;
+      --color-text-primary: #e0e0e0;
+      --color-text-secondary: #b0b0b0;
+      --color-border: #404040;
+    }
+
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family-base);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-primary);
+      display: grid;
+      grid-template-areas:
+        "header header"
+        "sidebar main"
+        "sidebar footer";
+      grid-template-columns: var(--sidebar-width) 1fr;
+      grid-template-rows: var(--header-height) 1fr auto;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      grid-area: header;
+      background-color: var(--color-bg-secondary);
+      border-bottom: 1px solid var(--color-border);
+      padding: 0 var(--spacing-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header__title {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: var(--spacing-sm) var(--spacing-md);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all var(--transition-base);
+    }
+
+    .theme-toggle:hover {
+      background-color: var(--color-bg-primary);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      grid-area: sidebar;
+      background-color: var(--color-bg-secondary);
+      border-right: 1px solid var(--color-border);
+      padding: var(--spacing-lg);
+      overflow-y: auto;
+    }
+
+    .sidebar__menu {
+      list-style: none;
+    }
+
+    .sidebar__menu li {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .sidebar__menu a {
+      display: block;
+      padding: var(--spacing-sm) var(--spacing-md);
+      color: var(--color-text-primary);
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all var(--transition-base);
+    }
+
+    .sidebar__menu a:hover,
+    .sidebar__menu a.active {
+      background-color: var(--color-bg-primary);
+      color: var(--color-info);
+    }
+
+    /* Main */
+    .main {
+      grid-area: main;
+      padding: var(--spacing-xl);
+      overflow-y: auto;
+      max-width: 1200px;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: var(--spacing-xl);
+      padding: var(--spacing-lg);
+      background-color: var(--color-bg-secondary);
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+    }
+
+    .section h2 {
+      margin-bottom: var(--spacing-lg);
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .section h3 {
+      margin-top: var(--spacing-lg);
+      margin-bottom: var(--spacing-md);
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+
+    /* Score Badge */
+    .score-badge {
+      display: inline-block;
+      padding: var(--spacing-sm) var(--spacing-lg);
+      border-radius: 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .score-badge--excellent { background-color: var(--color-score-excellent); }
+    .score-badge--good { background-color: var(--color-score-good); }
+    .score-badge--fair { background-color: var(--color-score-fair); }
+    .score-badge--poor { background-color: var(--color-score-poor); }
+    .score-badge--critical { background-color: var(--color-score-critical); }
+
+    /* Card */
+    .card {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .card__title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .card__body {
+      color: var(--color-text-secondary);
+    }
+
+    /* Severity Badge */
+    .severity-badge {
+      display: inline-block;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    .severity-badge--critical { background-color: var(--color-critical); }
+    .severity-badge--high { background-color: var(--color-high); }
+    .severity-badge--medium { background-color: var(--color-medium); color: #000; }
+    .severity-badge--low { background-color: var(--color-low); }
+    .severity-badge--info { background-color: var(--color-info); }
+
+    /* Finding */
+    .finding {
+      background-color: var(--color-bg-primary);
+      border-left: 4px solid var(--color-border);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      border-radius: 4px;
+    }
+
+    .finding--critical { border-left-color: var(--color-critical); }
+    .finding--high { border-left-color: var(--color-high); }
+    .finding--medium { border-left-color: var(--color-medium); }
+    .finding--low { border-left-color: var(--color-low); }
+
+    .finding__title {
+      font-weight: 600;
+      margin-bottom: var(--spacing-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .finding__description {
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .finding__evidence {
+      background-color: var(--color-bg-secondary);
+      padding: var(--spacing-sm);
+      border-radius: 4px;
+      font-family: var(--font-family-mono);
+      font-size: 0.875rem;
+      margin-top: var(--spacing-sm);
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .metric {
+      background-color: var(--color-bg-primary);
+      padding: var(--spacing-md);
+      border-radius: 6px;
+      border: 1px solid var(--color-border);
+      text-align: center;
+    }
+
+    .metric__value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-info);
+      display: block;
+    }
+
+    .metric__label {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin-top: var(--spacing-xs);
+    }
+
+    /* Button */
+    .btn {
+      display: inline-block;
+      padding: var(--spacing-sm) var(--spacing-lg);
+      background-color: var(--color-info);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all var(--transition-base);
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn--copy {
+      margin-top: var(--spacing-md);
+    }
+
+    /* Code Block */
+    pre {
+      background-color: var(--color-bg-secondary);
+      padding: var(--spacing-md);
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: var(--font-family-mono);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: var(--font-family-mono);
+    }
+
+    /* Footer */
+    .footer {
+      grid-area: footer;
+      background-color: var(--color-bg-secondary);
+      border-top: 1px solid var(--color-border);
+      padding: var(--spacing-md) var(--spacing-lg);
+      text-align: center;
+      color: var(--color-text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        grid-template-areas:
+          "header"
+          "main"
+          "footer";
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        padding: var(--spacing-md);
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Utility Classes */
+    .mb-0 { margin-bottom: 0; }
+    .mb-sm { margin-bottom: var(--spacing-sm); }
+    .mb-md { margin-bottom: var(--spacing-md); }
+    .mb-lg { margin-bottom: var(--spacing-lg); }
+    .text-muted { color: var(--color-text-secondary); }
+  </style>
+</head>
+<body data-theme="light">
+  <header class="header">
+    <h1 class="header__title">Repository Analysis Report</h1>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌓</button>
+  </header>
+
+  <nav class="sidebar">
+    <ul class="sidebar__menu">
+      <li><a href="#summary" class="active">Executive Summary</a></li>
+      <li><a href="#code-quality">Code Quality</a></li>
+      <li><a href="#documentation">Documentation</a></li>
+      <li><a href="#features">Feature Coverage</a></li>
+      <li><a href="#security">Security & Performance</a></li>
+      <li><a href="#integration">Integration & Extensibility</a></li>
+      <li><a href="#compliance">Open-Source Compliance</a></li>
+      <li><a href="#recommendations">Recommendations</a></li>
+      <li><a href="#prompt">AI Remediation Prompt</a></li>
+    </ul>
+  </nav>
+
+  <main class="main">
+    <!-- Executive Summary Section -->
+    <section id="summary" class="section">
+      <h2>Executive Summary</h2>
+
+      <div class="metrics-grid">
+        <div class="metric">
+          <span class="metric__value" id="overall-score">--</span>
+          <span class="metric__label">Overall Score</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="file-count">--</span>
+          <span class="metric__label">Files Analyzed</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="total-lines">--</span>
+          <span class="metric__label">Total Lines</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="issue-count">--</span>
+          <span class="metric__label">Issues Found</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__header">
+          <h3 class="card__title">Repository Information</h3>
+        </div>
+        <div class="card__body">
+          <p><strong>Name:</strong> <span id="repo-name">--</span></p>
+          <p><strong>Path:</strong> <span id="repo-path">--</span></p>
+          <p><strong>Analysis Date:</strong> <span id="analysis-date">--</span></p>
+          <p><strong>Primary Language:</strong> <span id="primary-language">--</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Quality Section -->
+    <section id="code-quality" class="section">
+      <h2>Code Quality Analysis</h2>
+      <span class="score-badge score-badge--good" id="code-quality-score">--</span>
+
+      <h3>Metrics</h3>
+      <div class="metrics-grid">
+        <div class="metric">
+          <span class="metric__value" id="cq-complex-files">--</span>
+          <span class="metric__label">Complex Files</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="cq-duplicate-blocks">--</span>
+          <span class="metric__label">Duplicate Blocks</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="cq-code-smells">--</span>
+          <span class="metric__label">Code Smells</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="cq-avg-complexity">--</span>
+          <span class="metric__label">Avg Complexity</span>
+        </div>
+      </div>
+
+      <h3>Findings</h3>
+      <div id="code-quality-findings">
+        <!-- Findings will be inserted here -->
+      </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="documentation" class="section">
+      <h2>Documentation Analysis</h2>
+      <span class="score-badge score-badge--fair" id="documentation-score">--</span>
+
+      <h3>Metrics</h3>
+      <div class="metrics-grid">
+        <div class="metric">
+          <span class="metric__value" id="doc-comment-coverage">--</span>
+          <span class="metric__label">Comment Coverage</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="doc-readme-score">--</span>
+          <span class="metric__label">README Score</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="doc-api-score">--</span>
+          <span class="metric__label">API Doc Score</span>
+        </div>
+      </div>
+
+      <h3>Findings</h3>
+      <div id="documentation-findings">
+        <!-- Findings will be inserted here -->
+      </div>
+    </section>
+
+    <!-- Feature Coverage Section -->
+    <section id="features" class="section">
+      <h2>Feature Coverage Analysis</h2>
+      <span class="score-badge score-badge--good" id="features-score">--</span>
+
+      <h3>Metrics</h3>
+      <div class="metrics-grid">
+        <div class="metric">
+          <span class="metric__value" id="fc-todo-count">--</span>
+          <span class="metric__label">TODO Items</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="fc-stub-count">--</span>
+          <span class="metric__label">Stubs</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="fc-test-coverage">--</span>
+          <span class="metric__label">Test Coverage</span>
+        </div>
+      </div>
+
+      <h3>Findings</h3>
+      <div id="features-findings">
+        <!-- Findings will be inserted here -->
+      </div>
+    </section>
+
+    <!-- Security & Performance Section -->
+    <section id="security" class="section">
+      <h2>Security & Performance Analysis</h2>
+      <span class="score-badge score-badge--poor" id="security-score">--</span>
+
+      <h3>Metrics</h3>
+      <div class="metrics-grid">
+        <div class="metric">
+          <span class="metric__value" id="sp-security-issues">--</span>
+          <span class="metric__label">Security Issues</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="sp-performance-issues">--</span>
+          <span class="metric__label">Performance Issues</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="sp-secrets">--</span>
+          <span class="metric__label">Hardcoded Secrets</span>
+        </div>
+      </div>
+
+      <h3>Findings</h3>
+      <div id="security-findings">
+        <!-- Findings will be inserted here -->
+      </div>
+    </section>
+
+    <!-- Integration & Extensibility Section -->
+    <section id="integration" class="section">
+      <h2>Integration & Extensibility Analysis</h2>
+      <span class="score-badge score-badge--excellent" id="integration-score">--</span>
+
+      <h3>Metrics</h3>
+      <div class="metrics-grid">
+        <div class="metric">
+          <span class="metric__value" id="ie-plugin-patterns">--</span>
+          <span class="metric__label">Plugin Patterns</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="ie-api-endpoints">--</span>
+          <span class="metric__label">API Endpoints</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="ie-webhooks">--</span>
+          <span class="metric__label">Webhooks</span>
+        </div>
+      </div>
+
+      <h3>Findings</h3>
+      <div id="integration-findings">
+        <!-- Findings will be inserted here -->
+      </div>
+    </section>
+
+    <!-- Open-Source Compliance Section -->
+    <section id="compliance" class="section">
+      <h2>Open-Source Compliance Analysis</h2>
+      <span class="score-badge score-badge--good" id="compliance-score">--</span>
+
+      <h3>Metrics</h3>
+      <div class="metrics-grid">
+        <div class="metric">
+          <span class="metric__value" id="osc-has-license">--</span>
+          <span class="metric__label">Has License</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="osc-has-contributing">--</span>
+          <span class="metric__label">Has Contributing</span>
+        </div>
+        <div class="metric">
+          <span class="metric__value" id="osc-community-files">--</span>
+          <span class="metric__label">Community Files</span>
+        </div>
+      </div>
+
+      <h3>Findings</h3>
+      <div id="compliance-findings">
+        <!-- Findings will be inserted here -->
+      </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section id="recommendations" class="section">
+      <h2>Recommendations</h2>
+      <div id="recommendations-list">
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">High Priority</h3>
+            <span class="severity-badge severity-badge--critical">Critical</span>
+          </div>
+          <div class="card__body">
+            <p>Address critical security vulnerabilities and hardcoded secrets immediately.</p>
+            <p class="text-muted mb-0">Estimated effort: 2-4 hours</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Medium Priority</h3>
+            <span class="severity-badge severity-badge--high">High</span>
+          </div>
+          <div class="card__body">
+            <p>Improve documentation coverage and add missing community health files.</p>
+            <p class="text-muted mb-0">Estimated effort: 4-8 hours</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__header">
+            <h3 class="card__title">Low Priority</h3>
+            <span class="severity-badge severity-badge--medium">Medium</span>
+          </div>
+          <div class="card__body">
+            <p>Refactor complex functions and reduce code duplication.</p>
+            <p class="text-muted mb-0">Estimated effort: 8-16 hours</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Remediation Prompt Section -->
+    <section id="prompt" class="section">
+      <h2>AI Remediation Prompt</h2>
+      <p class="text-muted mb-md">Copy this prompt to use with AI assistants for automated remediation:</p>
+
+      <pre id="ai-prompt-content"><code># Repository Analysis Remediation
+
+## Critical Issues
+- Fix hardcoded secrets in configuration files
+- Address SQL injection vulnerabilities
+- Implement proper error handling
+
+## High Priority
+- Add missing LICENSE file
+- Create CONTRIBUTING.md
+- Improve README documentation
+
+## Medium Priority
+- Reduce cyclomatic complexity in core modules
+- Add inline documentation
+- Implement test coverage
+
+## Recommendations
+Please address these issues following best practices and maintaining code quality standards.</code></pre>
+
+      <button class="btn btn--copy" onclick="copyPrompt()">📋 Copy to Clipboard</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Generated by RAHA (Repository Analysis HTML Generator) v1.0.0 on <span id="footer-date">--</span></p>
+  </footer>
+
+  <script>
+    // Theme Toggle
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // Smooth Scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          // Update active state
+          document.querySelectorAll('.sidebar__menu a').forEach(link => {
+            link.classList.remove('active');
+          });
+          this.classList.add('active');
+        }
+      });
+    });
+
+    // Copy to Clipboard
+    async function copyPrompt() {
+      const promptText = document.getElementById('ai-prompt-content').textContent;
+      try {
+        await navigator.clipboard.writeText(promptText);
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        btn.style.backgroundColor = 'var(--color-score-excellent)';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.backgroundColor = '';
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+        alert('Failed to copy to clipboard. Please copy manually.');
+      }
+    }
+
+    // Get Score Badge Class
+    function getScoreBadgeClass(score) {
+      if (score >= 90) return 'score-badge--excellent';
+      if (score >= 75) return 'score-badge--good';
+      if (score >= 60) return 'score-badge--fair';
+      if (score >= 40) return 'score-badge--poor';
+      return 'score-badge--critical';
+    }
+
+    // Get Severity Badge Class
+    function getSeverityBadgeClass(severity) {
+      return `severity-badge--${severity}`;
+    }
+
+    // Render Finding
+    function renderFinding(finding) {
+      return `
+        <div class="finding finding--${finding.severity}">
+          <div class="finding__title">
+            <span>${finding.title}</span>
+            <span class="severity-badge ${getSeverityBadgeClass(finding.severity)}">${finding.severity}</span>
+          </div>
+          <div class="finding__description">${finding.description}</div>
+          ${finding.evidence && finding.evidence.length > 0 ? `
+            <div class="finding__evidence">
+              <strong>Evidence:</strong> ${finding.evidence[0].file}${finding.evidence[0].line ? `:${finding.evidence[0].line}` : ''}
+              ${finding.evidence[0].snippet ? `<br><code>${finding.evidence[0].snippet}</code>` : ''}
+            </div>
+          ` : ''}
+          ${finding.recommendation ? `<p class="text-muted mb-0"><strong>Recommendation:</strong> ${finding.recommendation}</p>` : ''}
+        </div>
+      `;
+    }
+
+    // Load Sample Data (for demonstration)
+    function loadSampleData() {
+      // Set current date
+      const now = new Date();
+      document.getElementById('footer-date').textContent = now.toLocaleDateString();
+      document.getElementById('analysis-date').textContent = now.toLocaleString();
+
+      // Repository info
+      document.getElementById('repo-name').textContent = 'augment-extensions';
+      document.getElementById('repo-path').textContent = '/path/to/repository';
+      document.getElementById('primary-language').textContent = 'TypeScript';
+
+      // Overall metrics
+      document.getElementById('overall-score').textContent = '78';
+      document.getElementById('file-count').textContent = '247';
+      document.getElementById('total-lines').textContent = '15,432';
+      document.getElementById('issue-count').textContent = '23';
+
+      // Code Quality
+      const cqScore = 82;
+      const cqBadge = document.getElementById('code-quality-score');
+      cqBadge.textContent = cqScore;
+      cqBadge.className = `score-badge ${getScoreBadgeClass(cqScore)}`;
+      document.getElementById('cq-complex-files').textContent = '5';
+      document.getElementById('cq-duplicate-blocks').textContent = '3';
+      document.getElementById('cq-code-smells').textContent = '12';
+      document.getElementById('cq-avg-complexity').textContent = '4.2';
+
+      // Documentation
+      const docScore = 68;
+      const docBadge = document.getElementById('documentation-score');
+      docBadge.textContent = docScore;
+      docBadge.className = `score-badge ${getScoreBadgeClass(docScore)}`;
+      document.getElementById('doc-comment-coverage').textContent = '45%';
+      document.getElementById('doc-readme-score').textContent = '75';
+      document.getElementById('doc-api-score').textContent = '60';
+
+      // Features
+      const featScore = 85;
+      const featBadge = document.getElementById('features-score');
+      featBadge.textContent = featScore;
+      featBadge.className = `score-badge ${getScoreBadgeClass(featScore)}`;
+      document.getElementById('fc-todo-count').textContent = '8';
+      document.getElementById('fc-stub-count').textContent = '2';
+      document.getElementById('fc-test-coverage').textContent = '72%';
+
+      // Security
+      const secScore = 55;
+      const secBadge = document.getElementById('security-score');
+      secBadge.textContent = secScore;
+      secBadge.className = `score-badge ${getScoreBadgeClass(secScore)}`;
+      document.getElementById('sp-security-issues').textContent = '4';
+      document.getElementById('sp-performance-issues').textContent = '7';
+      document.getElementById('sp-secrets').textContent = '2';
+
+      // Integration
+      const intScore = 92;
+      const intBadge = document.getElementById('integration-score');
+      intBadge.textContent = intScore;
+      intBadge.className = `score-badge ${getScoreBadgeClass(intScore)}`;
+      document.getElementById('ie-plugin-patterns').textContent = '3';
+      document.getElementById('ie-api-endpoints').textContent = '15';
+      document.getElementById('ie-webhooks').textContent = '2';
+
+      // Compliance
+      const compScore = 80;
+      const compBadge = document.getElementById('compliance-score');
+      compBadge.textContent = compScore;
+      compBadge.className = `score-badge ${getScoreBadgeClass(compScore)}`;
+      document.getElementById('osc-has-license').textContent = 'Yes';
+      document.getElementById('osc-has-contributing').textContent = 'Yes';
+      document.getElementById('osc-community-files').textContent = '5';
+
+      // Sample findings
+      const sampleFindings = [
+        {
+          title: 'High Cyclomatic Complexity',
+          description: 'Function has complexity of 15, exceeding threshold of 10',
+          severity: 'medium',
+          evidence: [{ file: 'src/analyzers/code-quality.ts', line: 42, snippet: 'function analyzeComplexity() { ... }' }],
+          recommendation: 'Refactor into smaller functions'
+        },
+        {
+          title: 'Hardcoded API Key',
+          description: 'API key found in source code',
+          severity: 'critical',
+          evidence: [{ file: 'config/settings.ts', line: 15, snippet: 'const API_KEY = "sk-1234..."' }],
+          recommendation: 'Move to environment variables'
+        }
+      ];
+
+      document.getElementById('code-quality-findings').innerHTML = sampleFindings
+        .filter(f => f.severity === 'medium')
+        .map(renderFinding).join('');
+
+      document.getElementById('security-findings').innerHTML = sampleFindings
+        .filter(f => f.severity === 'critical')
+        .map(renderFinding).join('');
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSampleData();
+    });
+  </script>
+</body>
+</html>
+

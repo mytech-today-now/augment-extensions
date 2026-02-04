@@ -127,6 +127,7 @@ export async function selfRemoveCommand(options: SelfRemoveOptions = {}): Promis
     console.log(chalk.green('\n✓ All linked modules successfully removed!'));
     console.log(chalk.gray(`\nRemoval log saved to: ${logPath}`));
     console.log(chalk.cyan('\nNote: .augment/ directory and extensions.json preserved'));
+    console.log(chalk.cyan('Note: User-generated content (screenplays/, etc.) preserved'));
     console.log(chalk.blue('\nTo link modules again:'));
     console.log(chalk.gray('  augx link <module-name>'));
 

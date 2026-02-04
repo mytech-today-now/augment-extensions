@@ -116,7 +116,7 @@ Deeper hierarchies become hard to manage.
 Keep status current:
 
 ```
-open → in-progress → closed
+open → in_progress → closed
 ```
 
 ### Use Blocked Status
@@ -223,7 +223,7 @@ Track who is working on what:
   "id": "bd-a1b2",
   "title": "Add authentication",
   "assignee": "agent-1",
-  "status": "in-progress"
+  "status": "in_progress"
 }
 ```
 

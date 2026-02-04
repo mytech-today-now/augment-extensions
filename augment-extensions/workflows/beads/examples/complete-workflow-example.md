@@ -95,14 +95,14 @@ Only `bd-a3f8.1` is ready because it has no blockers.
 
 ```bash
 # With CLI
-bd update bd-a3f8.1 --status in-progress
+bd update bd-a3f8.1 --status in_progress
 bd comment bd-a3f8.1 "Creating users table with email, password_hash, created_at columns"
 ```
 
 **Without CLI** - Append to `.beads/issues.jsonl`:
 
 ```jsonl
-{"id":"bd-a3f8.1","status":"in-progress","updated":"2024-01-20T11:00:00Z"}
+{"id":"bd-a3f8.1","status":"in_progress","updated":"2024-01-20T11:00:00Z"}
 {"id":"bd-a3f8.1","comments":[{"text":"Creating users table with email, password_hash, created_at columns","timestamp":"2024-01-20T11:00:00Z"}],"updated":"2024-01-20T11:00:00Z"}
 ```
 
@@ -145,7 +145,7 @@ bd comment bd-a3f8.2 "Using bcrypt with cost factor 12"
 bd close bd-a3f8.2
 
 # Work on JWT generation
-bd update bd-a3f8.3 --status in-progress
+bd update bd-a3f8.3 --status in_progress
 bd comment bd-a3f8.3 "Using HS256 algorithm, 24-hour expiry"
 
 # Complete it
@@ -155,10 +155,10 @@ bd close bd-a3f8.3
 **Without CLI** - Append to `.beads/issues.jsonl`:
 
 ```jsonl
-{"id":"bd-a3f8.2","status":"in-progress","updated":"2024-01-20T12:30:00Z"}
+{"id":"bd-a3f8.2","status":"in_progress","updated":"2024-01-20T12:30:00Z"}
 {"id":"bd-a3f8.2","comments":[{"text":"Using bcrypt with cost factor 12","timestamp":"2024-01-20T12:30:00Z"}],"updated":"2024-01-20T12:30:00Z"}
 {"id":"bd-a3f8.2","status":"closed","closed":"2024-01-20T13:00:00Z","updated":"2024-01-20T13:00:00Z"}
-{"id":"bd-a3f8.3","status":"in-progress","updated":"2024-01-20T13:30:00Z"}
+{"id":"bd-a3f8.3","status":"in_progress","updated":"2024-01-20T13:30:00Z"}
 {"id":"bd-a3f8.3","comments":[{"text":"Using HS256 algorithm, 24-hour expiry","timestamp":"2024-01-20T13:30:00Z"}],"updated":"2024-01-20T13:30:00Z"}
 {"id":"bd-a3f8.3","status":"closed","closed":"2024-01-20T14:00:00Z","updated":"2024-01-20T14:00:00Z"}
 ```
@@ -179,7 +179,7 @@ Now `bd-a3f8.4` is ready because both blockers are closed.
 
 ```bash
 # With CLI
-bd update bd-a3f8.4 --status in-progress
+bd update bd-a3f8.4 --status in_progress
 bd comment bd-a3f8.4 "POST /api/auth/login endpoint created, returns JWT on success"
 bd close bd-a3f8.4
 ```
@@ -187,7 +187,7 @@ bd close bd-a3f8.4
 **Without CLI** - Append to `.beads/issues.jsonl`:
 
 ```jsonl
-{"id":"bd-a3f8.4","status":"in-progress","updated":"2024-01-20T14:30:00Z"}
+{"id":"bd-a3f8.4","status":"in_progress","updated":"2024-01-20T14:30:00Z"}
 {"id":"bd-a3f8.4","comments":[{"text":"POST /api/auth/login endpoint created, returns JWT on success","timestamp":"2024-01-20T14:30:00Z"}],"updated":"2024-01-20T14:30:00Z"}
 {"id":"bd-a3f8.4","status":"closed","closed":"2024-01-20T15:00:00Z","updated":"2024-01-20T15:00:00Z"}
 ```
@@ -266,7 +266,7 @@ What Beads tasks are ready to work on?
 ### Documenting Progress
 
 ```
-Update Beads task bd-a3f8.2 to in-progress.
+Update Beads task bd-a3f8.2 to in_progress.
 Add comment: "Using bcrypt with cost factor 12"
 ```
 

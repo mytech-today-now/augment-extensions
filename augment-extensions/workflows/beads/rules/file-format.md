@@ -64,7 +64,7 @@ Beads stores issues in `.beads/issues.jsonl` using JSONL (JSON Lines) format. Ea
 
 - **id** (string): Unique hash-based ID, format: `bd-<hash>` or `bd-<hash>.<number>` for hierarchical
 - **title** (string): Short description of the task
-- **status** (string): One of: `"open"`, `"in-progress"`, `"blocked"`, `"closed"`
+- **status** (string): One of: `"open"`, `"in_progress"`, `"blocked"`, `"closed"`
 - **created** (string): ISO 8601 timestamp
 - **updated** (string): ISO 8601 timestamp
 
@@ -109,7 +109,7 @@ bd-a3f8.2      # Another task under epic
 ## Status Values
 
 - **open** - Task is ready to work on (no blockers)
-- **in-progress** - Currently being worked on
+- **in_progress** - Currently being worked on
 - **blocked** - Waiting on dependencies
 - **closed** - Completed or cancelled
 
@@ -227,7 +227,7 @@ Tasks that are related but not blocking:
 
 ```jsonl
 {"id":"bd-a1b2","title":"Task 1","status":"open","created":"2024-01-20T10:00:00Z","updated":"2024-01-20T10:00:00Z"}
-{"id":"bd-a1b2","status":"in-progress","updated":"2024-01-20T11:00:00Z"}
+{"id":"bd-a1b2","status":"in_progress","updated":"2024-01-20T11:00:00Z"}
 {"id":"bd-a1b2","status":"closed","closed":"2024-01-20T12:00:00Z","updated":"2024-01-20T12:00:00Z"}
 ```
 
@@ -310,7 +310,7 @@ echo '{"id":"bd-a1b2","title":"New task","status":"open","created":"2024-01-20T1
 ### Start Work
 
 ```jsonl
-{"id":"bd-a1b2","status":"in-progress","updated":"2024-01-20T11:00:00Z"}
+{"id":"bd-a1b2","status":"in_progress","updated":"2024-01-20T11:00:00Z"}
 ```
 
 ### Add Comment

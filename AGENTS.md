@@ -157,7 +157,7 @@ Use 'bd' for task tracking
 1. **Create Task**: Append to `.beads/issues.jsonl` with unique hash-based ID
 2. **Add Dependencies**: Use `blocks` and `blocked_by` fields
 3. **Find Ready Tasks**: Tasks with no open blockers
-4. **Work on Task**: Update status to `in-progress`, add comments
+4. **Work on Task**: Update status to `in_progress`, add comments
 5. **Close Task**: Update status to `closed`
 
 ### Beads Files
@@ -246,7 +246,7 @@ const specsForFile = Object.entries(coord.specs)
 
 1. **File issues for remaining work** - Create issues for anything that needs follow-up
 2. **Run quality gates** (if code changed) - Tests, linters, builds
-3. **Update issue status** - Close finished work, update in-progress items
+3. **Update issue status** - Close finished work, update in_progress items
 4. **PUSH TO REMOTE** - This is MANDATORY:
    ```bash
    git pull --rebase

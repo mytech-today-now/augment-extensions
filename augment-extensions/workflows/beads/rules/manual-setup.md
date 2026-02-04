@@ -63,7 +63,7 @@ Append a JSON line:
 Append a JSON line with the same ID and updated fields:
 
 ```json
-{"id":"bd-<hash>","status":"in-progress","updated":"<ISO-8601>"}
+{"id":"bd-<hash>","status":"in_progress","updated":"<ISO-8601>"}
 ```
 
 ### Closing Tasks
@@ -77,7 +77,7 @@ Append a JSON line with status "closed":
 ## Task States
 
 - **open** - Ready to work on
-- **in-progress** - Currently being worked on
+- **in_progress** - Currently being worked on
 - **blocked** - Waiting on dependencies
 - **closed** - Completed
 
@@ -100,7 +100,7 @@ Tasks are ready when:
 1. Create task by appending to `.beads/issues.jsonl`
 2. Add dependencies with `blocks`/`blocked_by` fields
 3. Find ready tasks (no open blockers)
-4. Update status to "in-progress"
+4. Update status to "in_progress"
 5. Add comments as needed
 6. Close task when complete
 ```
@@ -206,7 +206,7 @@ Parse .beads/issues.jsonl and find tasks where:
 Ask your AI:
 
 ```
-Update Beads task bd-a1b2 to status "in-progress"
+Update Beads task bd-a1b2 to status "in_progress"
 Append an update to .beads/issues.jsonl
 ```
 

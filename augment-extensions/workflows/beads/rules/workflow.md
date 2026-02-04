@@ -220,7 +220,7 @@ The AI will:
 bd comment bd-a1b2 "Started implementation, added login endpoint"
 
 # Update status
-bd update bd-a1b2 --status in-progress
+bd update bd-a1b2 --status in_progress
 
 # Add labels
 bd update bd-a1b2 --labels backend,auth
@@ -231,7 +231,7 @@ bd update bd-a1b2 --labels backend,auth
 Append update to `.beads/issues.jsonl`:
 
 ```json
-{"id":"bd-a1b2","title":"Implement user authentication","status":"in-progress","priority":0,"comments":[{"text":"Started implementation","timestamp":"2024-01-20T11:00:00Z"}],"updated":"2024-01-20T11:00:00Z"}
+{"id":"bd-a1b2","title":"Implement user authentication","status":"in_progress","priority":0,"comments":[{"text":"Started implementation","timestamp":"2024-01-20T11:00:00Z"}],"updated":"2024-01-20T11:00:00Z"}
 ```
 
 ## Step 6: Close Task

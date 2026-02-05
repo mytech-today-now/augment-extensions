@@ -395,6 +395,43 @@ augx link domain-rules/security
 augx link domain-rules/seo-sales-marketing
 ```
 
+### Software Architecture Design
+- **Module**: `domain-rules/software-architecture`
+- **Version**: 1.0.0
+- **Character Count**: 508,000
+- **Description**: Comprehensive software architecture design patterns, principles, and best practices covering monolithic, microservices, event-driven, serverless, and industry-specific architectures
+- **Contents**:
+  - **Fundamentals**: Core architectural elements (ISO/IEC 42010), definitions and terminology, architectural views (4+1 model), quality attributes
+  - **Principles**: Modularity, separation of concerns, coupling, cohesion, SOLID principles, DRY, KISS
+  - **Architecture Patterns**:
+    - Monolithic architecture patterns and modular monoliths
+    - Microservices patterns, service discovery, API gateways, distributed systems
+    - Event-driven architecture, pub/sub, CQRS, event sourcing, saga pattern
+    - Serverless patterns, FaaS, stateless functions, cloud-native
+    - Layered architecture, MVC, hexagonal architecture, pipe-and-filter
+  - **Quality Attributes**: Performance, reliability, maintainability, scalability, security
+  - **Security Architecture**: Threat modeling, zero-trust, RBAC, defense in depth (OWASP)
+  - **Scalability & Performance**: Horizontal/vertical scaling, caching strategies, load balancing, database sharding
+  - **Best Practices**:
+    - Tools and methodologies (TOGAF, CI/CD, DDD frameworks)
+    - Modeling and documentation (4+1 views, UML, C4 model, ADRs)
+    - Evaluation and testing (ATAM, chaos engineering, architecture reviews)
+  - **Specialized Architectures**: IoT, AI/ML systems, blockchain, edge computing
+  - **Migration & Challenges**: Strangler Fig Pattern, technical debt management, monolith-to-microservices migration
+  - **Skills Development**: Technical and soft skills for architects
+  - **Examples**:
+    - E-commerce microservices platform
+    - IoT event-driven sensor network
+    - Stock trading event-driven system
+    - Serverless image processing pipeline
+    - Banking layered architecture application
+    - Monolith-to-microservices migration strategy
+
+**Usage**:
+```bash
+augx link domain-rules/software-architecture
+```
+
 ### WordPress Development Standards
 - **Module**: `domain-rules/wordpress`
 - **Version**: 1.0.0
@@ -657,11 +694,11 @@ augx mcp wrap github-mcp search-repos github-search --category retrieval
 
 ## Statistics
 
-- **Total Modules**: 19
+- **Total Modules**: 20
 - **Coding Standards**: 5
 - **Writing Standards**: 1
-- **Domain Rules**: 5
+- **Domain Rules**: 6
 - **Workflows**: 2
 - **Examples**: 4
 - **Total Skills**: 4
-- **Total Character Count**: ~1,938,192
+- **Total Character Count**: ~2,446,192

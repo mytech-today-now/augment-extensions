@@ -147,6 +147,38 @@ When making architectural changes:
 
 ---
 
+## JIRA Integration
+
+This repository integrates JIRA tickets into OpenSpec changes for traceability and context preservation.
+
+### JIRA Workflow
+
+1. **Store JIRA Tickets**: Place JIRA ticket content in `openspec/changes/[change-name]/jira/[TICKET-ID].md`
+2. **Link to Proposal**: Add "Related JIRA" section in proposal.md linking to the JIRA ticket
+3. **Update Coordination**: Track JIRA file in `.augment/coordination.json`
+4. **Cleanup**: Remove temporary JIRA files after migration
+
+### JIRA Directory Structure
+
+```
+openspec/changes/[change-name]/jira/
+├── [TICKET-ID].md          # JIRA ticket content
+└── .gitkeep                # Ensures directory is tracked
+```
+
+### For AI Agents
+
+When working with JIRA tickets:
+1. Create `jira/` directory within the OpenSpec change
+2. Copy JIRA ticket content to `jira/[TICKET-ID].md`
+3. Add "Related JIRA" section to proposal.md
+4. Update coordination manifest with JIRA file tracking
+5. Remove temporary JIRA files after successful migration
+
+**Example**: See `openspec/changes/bash-coding-standards/spec-delta-jira-integration.md` for complete workflow documentation.
+
+---
+
 ## Beads Integration
 
 This repository uses **Beads** for task tracking and memory.
@@ -231,7 +263,7 @@ const specsForFile = Object.entries(coord.specs)
   );
 ```
 
-**Learn More**: See `.augment/rules/coordination-system.md` for detailed documentation.
+**Learn More**: See `.augment-guidelines/system-integration/coordination-system.md` for detailed documentation.
 
 ---
 

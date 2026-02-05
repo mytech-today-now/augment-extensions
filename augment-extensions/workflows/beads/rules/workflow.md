@@ -74,7 +74,7 @@ bd create "Implement authentication" -p 1
 - **Context**: AI agents load relevant rules automatically
 - **Coordination**: Integration with coordination manifest
 
-See `.augment/rules/coordination-system.md` for details.
+See `.augment-guidelines/system-integration/coordination-system.md` for details.
 
 ---
 

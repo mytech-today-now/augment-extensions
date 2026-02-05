@@ -171,7 +171,7 @@ fs.writeFileSync('.augment/coordination.json', JSON.stringify(coord, null, 2));
 ```javascript
 function trackFileChange(filePath, taskId, isNew = false) {
   const coord = JSON.parse(fs.readFileSync('.augment/coordination.json'));
-  
+
   if (!coord.files[filePath]) {
     coord.files[filePath] = {
       createdBy: isNew ? taskId : null,
@@ -180,7 +180,7 @@ function trackFileChange(filePath, taskId, isNew = false) {
       rulesApplied: []
     };
   }
-  
+
   if (isNew) {
     coord.files[filePath].createdBy = taskId;
   } else {
@@ -188,32 +188,32 @@ function trackFileChange(filePath, taskId, isNew = false) {
       coord.files[filePath].modifiedBy.push(taskId);
     }
   }
-  
+
   // Add to task's output files
   if (coord.tasks[taskId]) {
     if (!coord.tasks[taskId].outputFiles.includes(filePath)) {
       coord.tasks[taskId].outputFiles.push(filePath);
     }
   }
-  
+
   // Find governing specs
   const governingSpecs = Object.entries(coord.specs)
-    .filter(([id, spec]) => 
+    .filter(([id, spec]) =>
       spec.affectedFiles.some(pattern => minimatch(filePath, pattern))
     )
     .map(([id]) => id);
-  
+
   coord.files[filePath].governedBy = governingSpecs;
-  
+
   // Find applicable rules
   const applicableRules = Object.entries(coord.rules)
     .filter(([name, rule]) =>
       rule.appliesTo.filePatterns.some(pattern => minimatch(filePath, pattern))
     )
     .map(([name]) => name);
-  
+
   coord.files[filePath].rulesApplied = applicableRules;
-  
+
   coord.lastUpdated = new Date().toISOString();
   fs.writeFileSync('.augment/coordination.json', JSON.stringify(coord, null, 2));
 }
@@ -277,18 +277,18 @@ When creating a new rule:
 
 ### DO
 
-✅ Update coordination manifest when creating specs/tasks  
-✅ Reference specs in Beads tasks using `spec` field  
-✅ Track file changes with task IDs  
-✅ Query coordination manifest before starting work  
-✅ Keep manifest in sync with actual files  
+✅ Update coordination manifest when creating specs/tasks
+✅ Reference specs in Beads tasks using `spec` field
+✅ Track file changes with task IDs
+✅ Query coordination manifest before starting work
+✅ Keep manifest in sync with actual files
 
 ### DON'T
 
-❌ Manually edit coordination manifest without validation  
-❌ Create tasks without linking to specs  
-❌ Modify files without tracking in coordination manifest  
-❌ Ignore coordination manifest when querying context  
+❌ Manually edit coordination manifest without validation
+❌ Create tasks without linking to specs
+❌ Modify files without tracking in coordination manifest
+❌ Ignore coordination manifest when querying context
 
 ---
 

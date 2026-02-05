@@ -1,0 +1,119 @@
+{
+  "name": "software-architecture",
+  "version": "1.0.0",
+  "displayName": "Software Architecture Design",
+  "description": "Comprehensive software architecture design patterns, principles, and best practices covering monolithic, microservices, event-driven, serverless, and industry-specific architectures",
+  "type": "domain-rules",
+  "tags": [
+    "architecture",
+    "design-patterns",
+    "microservices",
+    "monolithic",
+    "event-driven",
+    "serverless",
+    "layered",
+    "security",
+    "scalability",
+    "quality-attributes"
+  ],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 508000,
+    "priority": "high",
+    "category": "domain-rules",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.{ts,js,py,java,cs,go,rb,php}",
+        "**/architecture/**/*",
+        "**/design/**/*",
+        "**/docs/architecture/**/*"
+      ],
+      "projectTypes": [
+        "web-application",
+        "api",
+        "microservices",
+        "serverless",
+        "enterprise",
+        "distributed-systems"
+      ]
+    },
+    "subModules": [
+      {
+        "id": "fundamentals",
+        "name": "Architecture Fundamentals",
+        "description": "Core architectural elements, components, connectors, and configurations",
+        "rules": ["fundamentals.md", "principles.md"]
+      },
+      {
+        "id": "patterns",
+        "name": "Architecture Patterns",
+        "description": "Common architectural patterns and styles",
+        "rules": [
+          "monolithic.md",
+          "microservices.md",
+          "event-driven.md",
+          "serverless.md",
+          "layered.md"
+        ]
+      },
+      {
+        "id": "quality",
+        "name": "Quality Attributes",
+        "description": "Non-functional requirements and quality considerations",
+        "rules": [
+          "quality-attributes.md",
+          "security.md",
+          "scalability.md"
+        ]
+      },
+      {
+        "id": "practices",
+        "name": "Best Practices",
+        "description": "Tools, methodologies, and documentation practices",
+        "rules": [
+          "tools-methodologies.md",
+          "modeling-documentation.md"
+        ]
+      },
+      {
+        "id": "specialized",
+        "name": "Specialized Architectures",
+        "description": "Industry-specific and specialized architectural patterns",
+        "rules": [
+          "industry-architectures.md",
+          "skills-development.md"
+        ]
+      }
+    ]
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link domain-rules/software-architecture",
+      "Or copy rules to project's .augment/ folder"
+    ]
+  },
+  "contents": [
+    "module.json - Module metadata and configuration",
+    "README.md - Module overview and usage guide",
+    "rules/fundamentals.md - Core architectural elements (ISO/IEC 42010)",
+    "rules/principles.md - Modularity, separation of concerns, coupling, cohesion",
+    "rules/monolithic.md - Monolithic architecture patterns",
+    "rules/microservices.md - Microservices patterns, service discovery, API gateways",
+    "rules/event-driven.md - Event-driven architecture, pub/sub, CQRS, event sourcing",
+    "rules/serverless.md - Serverless patterns, FaaS, stateless functions",
+    "rules/layered.md - Layered architecture, MVC, pipe-and-filter",
+    "rules/quality-attributes.md - Performance, reliability, maintainability",
+    "rules/security.md - Threat modeling, zero-trust, RBAC (OWASP)",
+    "rules/scalability.md - Scaling techniques, caching, load balancing",
+    "rules/tools-methodologies.md - TOGAF, CI/CD, DDD frameworks",
+    "rules/modeling-documentation.md - 4+1 views, UML, C4 model",
+    "rules/industry-architectures.md - IoT, AI, blockchain, edge computing",
+    "rules/skills-development.md - Technical and soft skills for architects",
+    "examples/ecommerce-microservices.md - E-commerce platform example",
+    "examples/iot-eventdriven.md - IoT sensor network example",
+    "examples/trading-eventdriven.md - Stock trading system example",
+    "examples/serverless-imageprocessing.md - Image processing pipeline example"
+  ]
+}
+

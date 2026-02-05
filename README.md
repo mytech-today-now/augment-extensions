@@ -622,8 +622,8 @@ Extensions integrate seamlessly:
 ### Core Documentation
 - [AGENTS.md](./AGENTS.md) - AI agent integration guide
 - [MODULES.md](./MODULES.md) - Complete module catalog
-- [Module Development](./.augment/rules/module-development.md) - Creating custom modules
-- [Character Count Management](./.augment/rules/character-count-management.md) - Managing .augment/ limits
+- [Module Development](./.augment-guidelines/development/module-development.md) - Creating custom modules
+- [Character Count Management](./.augment-guidelines/repository-rules/character-count-management.md) - Managing .augment/ limits
 
 ### Workflow Documentation
 - [OpenSpec Workflow](./augment-extensions/workflows/openspec/) - Spec-driven development
@@ -917,7 +917,7 @@ The most comprehensive WordPress module:
 
 We welcome contributions! Here's how to help:
 
-1. **Create New Modules** - Follow [module-development.md](./.augment/rules/module-development.md)
+1. **Create New Modules** - Follow [module-development.md](./.augment-guidelines/development/module-development.md)
 2. **Improve Existing Modules** - Submit PRs with enhancements
 3. **Report Issues** - Use GitHub issues for bugs and feature requests
 4. **Share Examples** - Contribute real-world examples

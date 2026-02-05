@@ -1,7 +1,31 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-02-01T23:23:30.0923302Z",
+  "lastUpdated": "2026-02-04T17:30:00.0000000Z",
   "specs": {
+    "bash-coding-standards": {
+      "path": "openspec/changes/bash-coding-standards/proposal.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-0bqd",
+        "bd-0bqd.2",
+        "bd-0bqd.3",
+        "bd-0bqd.4",
+        "bd-0bqd.5",
+        "bd-0bqd.6",
+        "bd-0bqd.7"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md",
+        "augment-extensions-workflow.md"
+      ],
+      "affectedFiles": [
+        "openspec/changes/bash-coding-standards/**/*",
+        "augment-extensions/coding-standards/bash/**/*",
+        ".augment/coordination.json"
+      ],
+      "dependencies": []
+    },
     "wordpress-plugin-module/core": {
       "path": "openspec/specs/wordpress-plugin-module/wordpress-plugin-development-module.md",
       "status": "active",
@@ -898,6 +922,28 @@
       ],
       "governedBy": [
         "powershell-coding-standards"
+      ],
+      "rulesApplied": [
+        "augment-extensions-workflow.md"
+      ]
+    },
+    "openspec/changes/bash-coding-standards/jira/AUG-9013.md": {
+      "createdBy": "bd-0bqd.3",
+      "modifiedBy": [],
+      "governedBy": [
+        "bash-coding-standards"
+      ],
+      "rulesApplied": [
+        "augment-extensions-workflow.md"
+      ]
+    },
+    "openspec/changes/bash-coding-standards/proposal.md": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-0bqd.4"
+      ],
+      "governedBy": [
+        "bash-coding-standards"
       ],
       "rulesApplied": [
         "augment-extensions-workflow.md"

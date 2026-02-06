@@ -1,0 +1,191 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment-extensions.dev/schemas/adr-config.json",
+  "title": "ADR Configuration Schema",
+  "description": "JSON schema for .adr-config.json configuration file",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration schema version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "default": "1.0.0"
+    },
+    "adrDirectory": {
+      "type": "string",
+      "description": "Directory where ADRs are stored",
+      "default": "docs/adr",
+      "pattern": "^[a-zA-Z0-9/_-]+$"
+    },
+    "defaultTemplate": {
+      "type": "string",
+      "description": "Default ADR template to use",
+      "enum": ["nygard", "madr-simple", "madr-elaborate", "business-case"],
+      "default": "madr-simple"
+    },
+    "numberingScheme": {
+      "type": "string",
+      "description": "ADR numbering scheme",
+      "enum": ["sequential", "date-based", "custom"],
+      "default": "sequential"
+    },
+    "numberingFormat": {
+      "type": "string",
+      "description": "Format for ADR numbers (e.g., '0001', 'YYYY-MM-DD')",
+      "default": "0000"
+    },
+    "filenameFormat": {
+      "type": "string",
+      "description": "Format for ADR filenames",
+      "default": "{number}-{title}.md",
+      "pattern": ".*\\{number\\}.*\\{title\\}.*\\.md$"
+    },
+    "statusValues": {
+      "type": "array",
+      "description": "Allowed status values for ADRs",
+      "items": {
+        "type": "string"
+      },
+      "default": ["draft", "proposed", "approved", "implemented", "maintained", "superseded", "sunset"],
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "requiredMetadata": {
+      "type": "array",
+      "description": "Required metadata fields in ADR frontmatter",
+      "items": {
+        "type": "string"
+      },
+      "default": ["title", "status", "date", "deciders"],
+      "uniqueItems": true
+    },
+    "customMetadata": {
+      "type": "object",
+      "description": "Custom metadata fields and their types",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["string", "number", "boolean", "array", "object"]
+          },
+          "required": {
+            "type": "boolean",
+            "default": false
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": ["type"]
+      }
+    },
+    "integrations": {
+      "type": "object",
+      "description": "Integration settings for external tools",
+      "properties": {
+        "openspec": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "linkToSpecs": {
+              "type": "boolean",
+              "description": "Automatically link ADRs to OpenSpec specs",
+              "default": true
+            },
+            "updateCoordination": {
+              "type": "boolean",
+              "description": "Update coordination manifest when ADRs change",
+              "default": true
+            }
+          }
+        },
+        "beads": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "createTasks": {
+              "type": "boolean",
+              "description": "Create Beads tasks for ADR implementation",
+              "default": false
+            },
+            "linkToIssues": {
+              "type": "boolean",
+              "description": "Link ADRs to related Beads issues",
+              "default": true
+            }
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "description": "Validation rules for ADRs",
+      "properties": {
+        "enforceMetadata": {
+          "type": "boolean",
+          "description": "Enforce required metadata fields",
+          "default": true
+        },
+        "enforceStatus": {
+          "type": "boolean",
+          "description": "Enforce valid status values",
+          "default": true
+        },
+        "maxTitleLength": {
+          "type": "integer",
+          "description": "Maximum length for ADR titles",
+          "minimum": 10,
+          "maximum": 200,
+          "default": 100
+        },
+        "requireContext": {
+          "type": "boolean",
+          "description": "Require Context section in ADR",
+          "default": true
+        },
+        "requireDecision": {
+          "type": "boolean",
+          "description": "Require Decision section in ADR",
+          "default": true
+        },
+        "requireConsequences": {
+          "type": "boolean",
+          "description": "Require Consequences section in ADR",
+          "default": true
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "description": "ADR lifecycle management settings",
+      "properties": {
+        "reviewSchedule": {
+          "type": "string",
+          "description": "Review schedule for ADRs (e.g., 'quarterly', 'annually')",
+          "enum": ["monthly", "quarterly", "biannually", "annually", "none"],
+          "default": "quarterly"
+        },
+        "autoSupersede": {
+          "type": "boolean",
+          "description": "Automatically mark ADRs as superseded when new ADR references them",
+          "default": false
+        },
+        "archiveSuperseded": {
+          "type": "boolean",
+          "description": "Move superseded ADRs to archive directory",
+          "default": false
+        }
+      }
+    }
+  },
+  "required": ["version", "adrDirectory", "defaultTemplate"],
+  "additionalProperties": false
+}
+

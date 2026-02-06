@@ -1,0 +1,78 @@
+{
+  "name": "visual-design",
+  "version": "1.0.0",
+  "displayName": "Visual Design System",
+  "description": "Comprehensive visual design module with vendor-specific design systems (Google Material 3, Microsoft Fluent 2, Amazon Cloudscape) and domain-specific styles (Website, Web-app, Mobile, .NET, Linux, Windows, Motion Picture, AI Prompt Helper, Print Campaigns). Provides design elements, principles, and skills for AI-driven design generation.",
+  "type": "domain-rules",
+  "tags": [
+    "visual-design",
+    "design-systems",
+    "material-design",
+    "fluent-design",
+    "cloudscape",
+    "typography",
+    "color-theory",
+    "layout",
+    "ui-ux"
+  ],
+  "augment": {
+    "inject": "on-demand",
+    "priority": "medium",
+    "contexts": [
+      "design",
+      "ui",
+      "ux",
+      "frontend",
+      "web-development",
+      "visual-identity"
+    ]
+  },
+  "characterCount": 85000,
+  "contents": {
+    "core": [
+      "visual-design-core.ts",
+      "types.ts",
+      "style-selector.ts"
+    ],
+    "vendors": {
+      "web-page-styles": [
+        "google-modern.ts",
+        "microsoft-fluent.ts",
+        "amazon-cloudscape.ts"
+      ]
+    },
+    "domains": {
+      "other": [
+        "website.ts",
+        "web-app.ts",
+        "mobile-application.ts",
+        "dotnet-application.ts",
+        "linux-platform.ts",
+        "windows-platform.ts",
+        "motion-picture.ts",
+        "ai-prompt-helper.ts",
+        "print-campaigns.ts",
+        "os-application.ts"
+      ]
+    },
+    "tests": [
+      "__tests__/"
+    ],
+    "examples": [
+      "examples/"
+    ]
+  },
+  "vendorPriority": [
+    "google",
+    "microsoft",
+    "amazon"
+  ],
+  "installation": {
+    "steps": [
+      "Run: augx link visual-design",
+      "Configure vendor preference in .augment/extensions.json (optional)",
+      "Use: augx show visual-design to view module content"
+    ]
+  }
+}
+

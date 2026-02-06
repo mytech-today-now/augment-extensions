@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [1.3.0] - 2026-02-06
+
+### Added
+
+#### ADR Support Module
+- **Architecture Decision Records (ADR) Workflow Module** - Complete ADR lifecycle management
+  - Automatic decision detection from code changes and conversations
+  - 4 ADR templates: Nygard, MADR Simple, MADR Elaborate, Business Case
+  - Full lifecycle management: draft → proposed → approved → implemented → maintained
+  - OpenSpec and Beads integration for traceability
+  - Validation and conflict detection
+  - Template selection logic based on decision complexity
+  - 8 comprehensive rule files
+  - 4 ready-to-use templates
+  - 3 complete examples with integration workflows
+  - 2 JSON schemas for configuration and metadata
+
+#### Visual Design Module
+- **Visual Design System Module** - Multi-domain visual design support
+  - Support for web pages, motion pictures, print campaigns, and other visual domains
+  - Vendor-agnostic style definitions (Tailwind, Bootstrap, Material-UI, custom CSS)
+  - AI prompt generation for visual design tools
+  - Style comparison and selection utilities
+  - Domain-specific workflows and examples
+  - TypeScript utilities for style management
+  - Comprehensive test coverage
+
+### Changed
+- Updated package version from 1.2.2 to 1.3.0
+- Enhanced module catalog with new workflow and domain modules
+
+
 ## [0.4.0] - 2026-01-31
 
 ### Added

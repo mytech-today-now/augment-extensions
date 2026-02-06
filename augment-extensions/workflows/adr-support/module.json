@@ -1,0 +1,112 @@
+{
+  "name": "adr-support",
+  "version": "1.0.0",
+  "displayName": "ADR Support Module",
+  "description": "Automatic Architecture Decision Record (ADR) management with decision detection, lifecycle tracking, templates, and integration with OpenSpec and Beads workflows",
+  "type": "workflow",
+  "tags": [
+    "adr",
+    "architecture",
+    "decision-records",
+    "documentation",
+    "workflow",
+    "automation",
+    "openspec",
+    "beads",
+    "lifecycle-management"
+  ],
+  "dependencies": {
+    "workflows/openspec": ">=1.0.0",
+    "workflows/beads": ">=1.0.0"
+  },
+  "augment": {
+    "characterCount": 0,
+    "priority": "high",
+    "category": "workflow",
+    "appliesTo": {
+      "filePatterns": [
+        "adr/**/*.md",
+        "openspec/**/*",
+        ".beads/**/*",
+        "**/*.md"
+      ],
+      "languages": ["markdown", "json"],
+      "domains": [
+        "website",
+        "web-app",
+        "os-application",
+        "linux",
+        "windows",
+        "dotnet",
+        "mobile",
+        "ai-prompt-helper",
+        "motion-picture",
+        "print-campaigns"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link workflows/adr-support",
+      "Create adr/ directory in project root",
+      "Copy templates to adr/templates/",
+      "Create .adr-config.json configuration file",
+      "Enable ADR detection and automation features"
+    ]
+  },
+  "features": {
+    "decision_detection": {
+      "enabled": true,
+      "description": "Automatic detection of architectural decisions from code changes and conversations"
+    },
+    "adr_creation": {
+      "enabled": true,
+      "description": "Automated ADR creation with template selection and metadata generation"
+    },
+    "lifecycle_management": {
+      "enabled": true,
+      "description": "Track ADR lifecycle: draft → proposed → approved → implemented → maintained → superseded/sunset"
+    },
+    "validation": {
+      "enabled": true,
+      "description": "Validate ADR completeness, status transitions, and references"
+    },
+    "openspec_integration": {
+      "enabled": true,
+      "description": "Link ADRs to OpenSpec specifications with coordination manifest updates"
+    },
+    "beads_integration": {
+      "enabled": true,
+      "description": "Create and link Beads tasks for ADR implementation"
+    },
+    "conflict_detection": {
+      "enabled": true,
+      "description": "Detect contradictory decisions and suggest resolutions"
+    },
+    "review_scheduling": {
+      "enabled": true,
+      "description": "Schedule and conduct ADR reviews after implementation"
+    }
+  },
+  "contents": [
+    "rules/decision-detection.md - How AI agents detect architectural decisions",
+    "rules/adr-creation.md - ADR creation process and automation",
+    "rules/lifecycle-management.md - ADR lifecycle and status transitions",
+    "rules/template-selection.md - Template selection logic and guidelines",
+    "rules/validation.md - ADR validation and completeness checks",
+    "rules/openspec-integration.md - OpenSpec integration patterns",
+    "rules/beads-integration.md - Beads integration patterns",
+    "rules/conflict-detection.md - Conflict detection and resolution",
+    "templates/nygard.md - Michael Nygard ADR template (default)",
+    "templates/madr-simple.md - MADR Simple template",
+    "templates/madr-elaborate.md - MADR Elaborate template",
+    "templates/business-case.md - Business Case template",
+    "examples/complete-lifecycle-example.md - Full ADR lifecycle example",
+    "examples/superseding-example.md - ADR superseding workflow",
+    "examples/integration-example.md - OpenSpec + Beads integration",
+    "schemas/adr-config.json - ADR configuration schema",
+    "schemas/adr-metadata.json - ADR metadata schema"
+  ]
+}
+

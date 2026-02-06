@@ -1,0 +1,172 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment-extensions.dev/schemas/adr-metadata.json",
+  "title": "ADR Metadata Schema",
+  "description": "JSON schema for ADR frontmatter metadata validation",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the ADR",
+      "minLength": 10,
+      "maxLength": 100
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the ADR",
+      "enum": ["draft", "proposed", "approved", "implemented", "maintained", "superseded", "sunset"]
+    },
+    "date": {
+      "type": "string",
+      "description": "Date of the ADR (ISO 8601 format)",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "deciders": {
+      "type": "array",
+      "description": "List of people who made the decision",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "consulted": {
+      "type": "array",
+      "description": "List of people consulted for the decision",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "informed": {
+      "type": "array",
+      "description": "List of people informed about the decision",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for categorizing the ADR",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "uniqueItems": true
+    },
+    "supersedes": {
+      "type": "array",
+      "description": "List of ADR numbers this ADR supersedes",
+      "items": {
+        "type": "string",
+        "pattern": "^(\\d{4}|\\d{4}-\\d{2}-\\d{2})$"
+      },
+      "uniqueItems": true
+    },
+    "supersededBy": {
+      "type": "string",
+      "description": "ADR number that supersedes this ADR",
+      "pattern": "^(\\d{4}|\\d{4}-\\d{2}-\\d{2})$"
+    },
+    "relatedTo": {
+      "type": "array",
+      "description": "List of related ADR numbers",
+      "items": {
+        "type": "string",
+        "pattern": "^(\\d{4}|\\d{4}-\\d{2}-\\d{2})$"
+      },
+      "uniqueItems": true
+    },
+    "openspecSpecs": {
+      "type": "array",
+      "description": "Related OpenSpec specification files",
+      "items": {
+        "type": "string",
+        "pattern": "^openspec/specs/.*\\.md$"
+      },
+      "uniqueItems": true
+    },
+    "beadsIssues": {
+      "type": "array",
+      "description": "Related Beads issue IDs",
+      "items": {
+        "type": "string",
+        "pattern": "^bd-[a-z0-9]+(\\.\\d+)?$"
+      },
+      "uniqueItems": true
+    },
+    "implementationStatus": {
+      "type": "string",
+      "description": "Implementation status of the decision",
+      "enum": ["not-started", "in-progress", "completed", "blocked", "deferred"]
+    },
+    "reviewDate": {
+      "type": "string",
+      "description": "Next scheduled review date (ISO 8601 format)",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "lastReviewed": {
+      "type": "string",
+      "description": "Date of last review (ISO 8601 format)",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "impact": {
+      "type": "string",
+      "description": "Impact level of the decision",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "scope": {
+      "type": "array",
+      "description": "Scope of the decision (e.g., components, modules affected)",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "stakeholders": {
+      "type": "array",
+      "description": "Stakeholders affected by the decision",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "technicalDebt": {
+      "type": "object",
+      "description": "Technical debt information",
+      "properties": {
+        "exists": {
+          "type": "boolean",
+          "description": "Whether this decision introduces technical debt"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the technical debt"
+        },
+        "mitigationPlan": {
+          "type": "string",
+          "description": "Plan to address the technical debt"
+        },
+        "targetDate": {
+          "type": "string",
+          "description": "Target date to address the debt (ISO 8601 format)",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      },
+      "required": ["exists"]
+    }
+  },
+  "required": ["title", "status", "date", "deciders"],
+  "additionalProperties": true
+}
+

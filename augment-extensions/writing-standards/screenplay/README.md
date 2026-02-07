@@ -20,18 +20,99 @@ Comprehensive screenplay writing and crafting standards for AI-driven content cr
 ✅ **VS Code Integration** - Better Fountain extension support  
 ✅ **Export Tools** - Final Draft (.fdx), PDF, HTML export
 
+## Modular Sub-Features
+
+This module includes three optional sub-features that can be activated independently:
+
+### 🎬 Genres (`./genres`)
+**Character Count**: ~243,000
+**Coverage**: 18+ film genres (Action, Adventure, Comedy, Drama, Horror, Sci-Fi, Fantasy, Romance, Thriller, Mystery, Western, Historical, Biographical, Animation, Documentary, Musical, Noir, Superhero)
+
+Genre-specific rules and guidelines including:
+- Core genre conventions and rules
+- Structure, pacing, and character archetypes
+- Tone, atmosphere, and visual style
+- Common pitfalls and best practices
+- Film examples and techniques
+- Hybrid genre combinations
+
+**Link**: `augx link writing-standards/screenplay/genres`
+
+### 🎭 Themes (`./themes`)
+**Character Count**: TBD
+**Coverage**: 15+ universal themes (Redemption, Love, Revenge, Identity, Power, Survival, Friendship, Betrayal, Growth, Isolation, Justice, Ambition, Fate, Technology, Environment)
+
+Thematic integration rules including:
+- Core theme concepts and integration guidelines
+- Character arc alignment with themes
+- Subtext and symbolic representation
+- Theme layering and primary/secondary balance
+- Film examples demonstrating theme execution
+
+**Link**: `augx link writing-standards/screenplay/themes`
+
+### 📖 Narrative Styles (`./styles`)
+**Character Count**: ~350,000
+**Coverage**: 13+ narrative styles (Linear, Non-Linear, Ensemble, Minimalist, Epic, Satirical, Poetic, Realistic, Surreal, Experimental, Voice-Over Driven, Flashback-Heavy, Dialogue-Centric)
+
+Narrative style rules and techniques including:
+- Structural requirements and pacing guidelines
+- Point-of-view and narrative voice
+- Timeline manipulation techniques
+- Style-specific best practices
+- Film examples and applications
+
+**Link**: `augx link writing-standards/screenplay/styles`
+
+### Feature Selection
+
+Configure which sub-features to activate in `.augment/screenplay-config.json`:
+
+```json
+{
+  "screenplay_enhancements": {
+    "enabled": true,
+    "features": {
+      "genres": {
+        "enabled": true,
+        "selected": ["action", "thriller"],
+        "hybridMode": true
+      },
+      "themes": {
+        "enabled": true,
+        "selected": ["redemption", "revenge"],
+        "primaryTheme": "redemption",
+        "integrationLevel": "moderate"
+      },
+      "styles": {
+        "enabled": true,
+        "selected": ["non-linear"]
+      }
+    }
+  }
+}
+```
+
+See `schemas/feature-selection.json` for complete configuration schema.
+
 ## Installation
 
 ### With CLI (Recommended)
 
 ```bash
+# Link base screenplay module
 augx link writing-standards/screenplay
+
+# Optionally link sub-features
+augx link writing-standards/screenplay/genres
+augx link writing-standards/screenplay/themes
+augx link writing-standards/screenplay/styles
 ```
 
 ### Manual Setup
 
 1. Copy `augment-extensions/writing-standards/screenplay/` to your project
-2. Create `.augment/screenplay-config.json` with category selection
+2. Create `.augment/screenplay-config.json` with category and feature selection
 3. Reference rule files in your AI prompts
 
 ## File Organization

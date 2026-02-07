@@ -224,6 +224,49 @@
         ".augment/coordination.json"
       ],
       "dependencies": []
+    },
+    "improve-test-coverage": {
+      "path": "openspec/changes/improve-test-coverage/proposal.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-improve-test-coverage",
+        "bd-improve-test-coverage.1",
+        "bd-improve-test-coverage.2",
+        "bd-improve-test-coverage.3",
+        "bd-improve-test-coverage.4",
+        "bd-improve-test-coverage.5",
+        "bd-improve-test-coverage.6",
+        "bd-improve-test-coverage.7",
+        "bd-improve-test-coverage.8",
+        "bd-improve-test-coverage.9",
+        "bd-improve-test-coverage.10",
+        "bd-improve-test-coverage.11",
+        "bd-improve-test-coverage.12",
+        "bd-improve-test-coverage.13",
+        "bd-improve-test-coverage.14",
+        "bd-improve-test-coverage.15",
+        "bd-improve-test-coverage.16",
+        "bd-improve-test-coverage.17",
+        "bd-improve-test-coverage.18",
+        "bd-improve-test-coverage.19",
+        "bd-improve-test-coverage.20",
+        "bd-improve-test-coverage.21",
+        "bd-improve-test-coverage.22",
+        "bd-improve-test-coverage.23",
+        "bd-improve-test-coverage.24",
+        "bd-improve-test-coverage.25",
+        "bd-improve-test-coverage.26"
+      ],
+      "relatedRules": [
+        "coordination-system.md"
+      ],
+      "affectedFiles": [
+        "tests/coordination/**/*.test.ts",
+        "tests/cli/**/*.test.ts",
+        "docs/COORDINATION_TESTING.md",
+        ".augment/coordination.json"
+      ],
+      "dependencies": []
     }
   },
   "tasks": {

@@ -8,7 +8,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
 
-const TEST_MODULE_PATH = path.join(__dirname, '../../../test-fixtures/test-module');
+// Use augment-extensions/testing/test-module for integration tests
+const TEST_MODULE_PATH = path.join(__dirname, '../../../../augment-extensions/testing/test-module');
 const CLI_PATH = path.join(__dirname, '../../../dist/cli.js');
 
 describe('Module Inspection Integration Tests', () => {
@@ -57,7 +58,7 @@ describe('Module Inspection Integration Tests', () => {
       const output = execSync(`node ${CLI_PATH} show module test-module`, { encoding: 'utf-8' });
       expect(output).toContain('Test Module');
       expect(output).toContain('1.0.0');
-      expect(output).toContain('testing');
+      expect(output).toContain('examples');
     });
 
     it('should list all files in module', () => {
@@ -81,20 +82,20 @@ describe('Module Inspection Integration Tests', () => {
     it('should output JSON format', () => {
       const output = execSync(`node ${CLI_PATH} show module test-module --json`, { encoding: 'utf-8' });
       const json = JSON.parse(output);
-      expect(json.module).toBe('test-module');
-      expect(json.metadata.version).toBe('1.0.0');
+      expect(json.name).toBe('testing/test-module');
+      expect(json.version).toBe('1.0.0');
     });
 
     it('should output Markdown format', () => {
       const output = execSync(`node ${CLI_PATH} show module test-module --content --format markdown`, { encoding: 'utf-8' });
-      expect(output).toContain('# test-module');
+      expect(output).toContain('# testing/test-module');
       expect(output).toContain('**Module Type:**');
       expect(output).toContain('**Version:**');
     });
 
     it('should output plain text format', () => {
       const output = execSync(`node ${CLI_PATH} show module test-module --content --format text`, { encoding: 'utf-8' });
-      expect(output).toContain('Aggregated Content: test-module');
+      expect(output).toContain('Aggregated Content: testing/test-module');
       expect(output).toMatch(/={60}/);
     });
 

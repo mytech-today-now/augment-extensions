@@ -24,6 +24,26 @@
     "commercials"
   ],
   "dependencies": [],
+  "subFeatures": {
+    "genres": {
+      "path": "./genres",
+      "module": "screenplay-genres",
+      "description": "Genre-specific rules and guidelines for 18+ film genres",
+      "characterCount": 243000
+    },
+    "themes": {
+      "path": "./themes",
+      "module": "screenplay-themes",
+      "description": "Thematic integration rules for 15+ universal themes",
+      "characterCount": 0
+    },
+    "styles": {
+      "path": "./styles",
+      "module": "screenplay-styles",
+      "description": "Narrative style rules for 13+ storytelling approaches",
+      "characterCount": 350000
+    }
+  },
   "augment": {
     "characterCount": 163500,
     "priority": "high",

@@ -61,7 +61,7 @@ Due to command timeouts, the following manual steps are recommended:
 
 1. **Append to completed.jsonl**:
    ```powershell
-   Get-Content .beads\adr-completed-entries.jsonl | Add-Content .beads\completed.jsonl
+   Get-Content .beads\adr-completed-entries.jsonl | Add-Content completed.jsonl
    ```
 
 2. **Update issues.jsonl** (if using bd CLI):

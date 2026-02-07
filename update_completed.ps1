@@ -79,8 +79,8 @@ $entry2 = @{
 } | ConvertTo-Json -Compress -Depth 10
 
 # Append to completed.jsonl
-Add-Content -Path ".beads/completed.jsonl" -Value $entry1
-Add-Content -Path ".beads/completed.jsonl" -Value $entry2
+Add-Content -Path "completed.jsonl" -Value $entry1
+Add-Content -Path "completed.jsonl" -Value $entry2
 
 # Also append to issues.jsonl to close the tasks
 Add-Content -Path ".beads/issues.jsonl" -Value $entry2

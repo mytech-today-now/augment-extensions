@@ -273,6 +273,38 @@ She hits ENTER. Waits.
 FADE OUT.
 ```
 
+## Fountain to HTML Converter (v2.0)
+
+**NEW**: Industry-standard Fountain to HTML converter with preprocessing pipeline
+
+**Features**:
+- ✅ **Preprocessing** - Removes markdown, normalizes whitespace, detects character lists
+- ✅ **Context-Aware Parsing** - Intelligent element detection with lookahead/lookbehind
+- ✅ **Accurate Page Length** - Industry-standard 55 lines/page estimation
+- ✅ **Validation** - Page length, classification, heuristic, and HTML quality checks
+
+**Quick Start**:
+```typescript
+import { preprocessFountain } from './converter/preprocessor';
+import { parseFountain } from './converter/parser';
+import { renderToHTML } from './converter/renderer';
+
+const preprocessed = preprocessFountain(fountainContent);
+const parsed = parseFountain(preprocessed.content, preprocessed.characterLists);
+const result = renderToHTML(parsed.elements, { includeCSS: true });
+
+console.log(`Generated ${result.estimatedPages} pages`);
+```
+
+**Documentation**:
+- [Converter README](./converter/README.md) - Complete API documentation
+- [Migration Guide](./converter/MIGRATION.md) - Upgrade from v1.x to v2.0
+
+**Troubleshooting**:
+- Character lists detected as character names → Fixed in v2.0 preprocessor
+- Page count too high/low → Check CSS line-height (should be 1, not 1.5)
+- Markdown in output → Ensure preprocessor runs before parser
+
 ## Export Formats
 
 ### Final Draft (.fdx)

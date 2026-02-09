@@ -1,0 +1,186 @@
+# Screenplays Project - Augment Ignore File
+# Files and directories that Augment AI should not index or process
+
+# ============================================================================
+# Build & Output Files
+# ============================================================================
+
+# PDF outputs (binary files, not useful for AI context)
+*.pdf
+
+# HTML outputs (generated from Fountain, redundant with source)
+*.html
+
+# Compiled Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+
+# Node modules
+node_modules/
+package-lock.json
+yarn.lock
+
+# ============================================================================
+# Temporary & Cache Files
+# ============================================================================
+
+# General temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+*.log
+
+# Backup files
+*.backup
+*.old
+*-old.*
+*_backup.*
+
+# Cache directories
+.cache/
+*.cache
+
+# ============================================================================
+# Operating System Files
+# ============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+.directory
+
+# ============================================================================
+# Editor & IDE Files
+# ============================================================================
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ============================================================================
+# Version Control & Issue Tracking
+# ============================================================================
+
+# Git files (not needed for AI context)
+.git/
+.gitattributes
+
+# Beads database files (binary, not useful for AI)
+.beads/*.db
+.beads/*.db-*
+.beads/daemon.log
+.beads/daemon.pid
+.beads/daemon.lock
+.beads/bd.sock
+.beads/sync-state.json
+.beads/last-touched
+.beads/.local_version
+.beads/redirect
+.beads/*.base.jsonl
+.beads/*.left.jsonl
+.beads/*.right.jsonl
+.beads/export-state/
+
+# Note: We DO want Augment to see:
+# - .beads/issues.jsonl (task tracking)
+# - .beads/config.yaml (configuration)
+# - .beads/README.md (documentation)
+
+# ============================================================================
+# Project-Specific Exclusions
+# ============================================================================
+
+# Old/deprecated versions
+ai-prompts/**/*.fountain.old
+ai-prompts/**/*.html.old
+
+# Work-in-progress files (not ready for AI context)
+*-WIP.*
+*-DRAFT.*
+*-TODO.*
+
+# Personal notes (not relevant to project)
+*-PERSONAL.*
+*-NOTES-*.md
+
+# Test outputs
+test-output/
+*.test.md
+
+# ============================================================================
+# Large or Binary Files
+# ============================================================================
+
+# Images (if any)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+
+# Videos (if any)
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# Audio (if any)
+*.mp3
+*.wav
+*.aac
+
+# Archives
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+
+# ============================================================================
+# Augment-Specific
+# ============================================================================
+
+# Augment cache (if it creates one)
+.augment/.cache/
+.augment/temp/
+
+# ============================================================================
+# Scripts & Binaries
+# ============================================================================
+
+# Executable binaries (not useful for AI context)
+*.exe
+*.dll
+*.dylib
+*.bin
+
+# Note: We DO want Augment to see:
+# - scripts/*.ps1 (PowerShell scripts are useful)
+# - scripts/*.sh (Bash scripts are useful)

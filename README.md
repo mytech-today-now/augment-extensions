@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 
@@ -20,8 +20,39 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v1.1.0
+## ✨ What's New in v1.4.0
 
+### CLI Expansion - Phase 3 & 4 Complete 🎉
+
+**Phase 3 - Integration Commands:**
+- 📋 **Beads Integration** - Full Beads system management with `augx beads` commands
+  - `augx beads status` - System status and statistics
+  - `augx beads validate` - Validate task structure
+  - `augx beads export/import` - Export/import tasks
+  - `augx beads stats` - Detailed statistics
+  - `augx beads graph` - Dependency graph visualization
+  - `augx beads report` - Generate reports (Markdown, HTML, JSON, CSV)
+- ✅ **Task Management** - AI-friendly task commands with `augx task`
+  - `augx task list/show/create/update/close` - Task CRUD operations
+  - `augx task search` - Search tasks by criteria
+  - `augx task deps` - Manage dependencies
+- 📝 **OpenSpec Integration** - Spec-driven development with `augx spec`
+  - `augx spec list/show/create/validate/archive` - Spec management
+  - `augx spec status` - Spec status tracking
+- 🔄 **Change Management** - Change proposals with `augx change`
+  - `augx change list/show/create/validate/archive` - Change proposal management
+- 📦 **Collection Management** - Module collections with `augx collection`
+  - `augx collection list/show/link/unlink/validate` - Collection operations
+
+**Phase 4 - Quality & Documentation:**
+- 🧪 **Test Runner** - Comprehensive module testing
+- 🔍 **Linter** - AI context quality validation
+- 📚 **Docs Generator** - Automatic API documentation
+- 💡 **Enhanced Help** - Intelligent command suggestions
+
+### Previous Releases
+
+**v1.1.0:**
 - 📋 **Beads Completed Tracking** - Track and display completed Beads tasks with `augx show completed`
 - 🎨 **Color-Coded Status** - Visual indicators for task status (✓ closed, ⚙ in-progress, ○ open, ✖ blocked)
 - 📅 **Date Filtering** - Filter completed tasks by date range with `--since` and `--until` flags
@@ -29,8 +60,6 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - 🛡️ **Robust Parsing** - Graceful handling of corrupted JSON Lines data
 - 🚀 **Auto-Initialization** - `augx init` automatically creates `scripts/completed.jsonl` when `.beads` exists
 - 📊 **JSON Export** - Export completed tasks as JSON with `--json` flag
-
-### Previous Releases
 
 **v0.4.0:**
 - 🧠 **Skills System** - Token-efficient, on-demand skill loading (500-10K tokens vs 50K+ for modules)
@@ -792,6 +821,7 @@ augx diff typescript-standards
 
 ## 🚀 CLI Commands
 
+### Module Management
 ```bash
 # List all available modules
 augx list
@@ -819,6 +849,75 @@ augx update
 
 # Check CLI version
 augx version
+```
+
+### Beads Integration (Phase 3)
+```bash
+# System status and statistics
+augx beads status [--json] [--verbose]
+
+# Validate task structure
+augx beads validate [task-id] [--fix]
+
+# Export/import tasks
+augx beads export <output-file> [--format json|csv]
+augx beads import <input-file>
+
+# Generate statistics
+augx beads stats [--json] [--by-priority|--by-label|--by-owner]
+
+# Dependency graph visualization
+augx beads graph [--format ascii|mermaid|dot|svg] [--output file]
+
+# Generate reports
+augx beads report [--format markdown|html|json|csv] [--output file]
+```
+
+### Task Management (Phase 3)
+```bash
+# Task CRUD operations
+augx task list [--status open|closed] [--priority 0-3]
+augx task show <task-id>
+augx task create <title> [--priority N] [--tags tag1,tag2]
+augx task update <task-id> [--status status] [--priority N]
+augx task close <task-id> [--reason reason]
+
+# Search and filter
+augx task search <query> [--labels label1,label2]
+
+# Dependency management
+augx task deps <task-id> [--add dep-id] [--remove dep-id]
+```
+
+### OpenSpec Integration (Phase 3)
+```bash
+# Spec management
+augx spec list [--status active|draft|archived]
+augx spec show <spec-id>
+augx spec create <name> [--category cat] [--title "Title"]
+augx spec validate <spec-id>
+augx spec archive <spec-id>
+augx spec status [--json]
+```
+
+### Change Management (Phase 3)
+```bash
+# Change proposal management
+augx change list [--status active|archived]
+augx change show <change-name>
+augx change create <name> [--title "Title"] [--jira TICKET-123]
+augx change validate <change-name>
+augx change archive <change-name>
+```
+
+### Collection Management (Phase 3)
+```bash
+# Collection operations
+augx collection list
+augx collection show <collection-name>
+augx collection link <collection-name>
+augx collection unlink <collection-name>
+augx collection validate <collection-name>
 ```
 
 ## 🔧 Integration with AI Agents
@@ -950,7 +1049,7 @@ MIT License - See [LICENSE](./LICENSE) for details.
 
 ---
 
-**Status**: Active Development | **Version**: 0.4.0 | **Maintainer**: @mytech-today-now
+**Status**: Active Development | **Version**: 1.4.0 | **Maintainer**: @mytech-today-now
 
-**Latest Release**: Skills System (Beta) - Token-efficient, on-demand skill loading with 97.2% token reduction. MCP Integration for wrapping external tools as skills.
+**Latest Release**: CLI Expansion Complete (Phase 3 & 4) - Full Beads, OpenSpec, and Collection integration with comprehensive task management, spec-driven development, quality tools, and enhanced documentation generation.
 

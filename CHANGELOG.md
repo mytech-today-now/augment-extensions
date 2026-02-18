@@ -6,6 +6,76 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.4.0] - 2026-02-18
+
+### Added
+
+#### CLI Expansion - Phase 3: Integration Commands
+- **Beads Integration** - Full Beads system management
+  - `augx beads status` - System status and statistics with completion rates
+  - `augx beads validate` - Validate task structure and quality
+  - `augx beads export/import` - Export/import tasks in JSON/CSV formats
+  - `augx beads stats` - Detailed statistics by priority, label, or owner
+  - `augx beads graph` - Dependency graph visualization (ASCII, Mermaid, DOT, SVG)
+  - `augx beads report` - Generate reports in Markdown, HTML, JSON, or CSV
+  - Core utilities: `beads-integration.ts`, `beads-reporter.ts`, `beads-graph.ts`
+
+- **Task Management** - AI-friendly task wrapper commands
+  - `augx task list/show/create/update/close` - Complete task CRUD operations
+  - `augx task search` - Search tasks by query, labels, status, priority
+  - `augx task deps` - Manage task dependencies (add/remove blockers)
+  - Simplified interface for AI agents to manage Beads tasks
+
+- **OpenSpec Integration** - Spec-driven development workflow
+  - `augx spec list/show/create/validate/archive` - Specification management
+  - `augx spec status` - Track specification status across the project
+  - Core utility: `spec-manager.ts` for spec lifecycle management
+
+- **Change Management** - Change proposal workflow
+  - `augx change list/show/create/validate/archive` - Change proposal management
+  - Support for JIRA ticket integration in change proposals
+  - Templates for feature, bugfix, and refactor changes
+  - Core utility: `change-manager.ts` for change lifecycle
+
+- **Collection Management** - Module collection operations
+  - `augx collection list/show/link/unlink/validate` - Collection management
+  - Dependency resolution for bundled modules
+  - Core utility: `collection-manager.ts` for collection handling
+
+#### CLI Expansion - Phase 4: Quality & Documentation
+- **Test Runner** - Comprehensive module testing utility (`test-runner.ts`)
+  - Validate AI context modules with comprehensive checks
+  - Generate test reports with detailed validation results
+
+- **Linter** - AI context quality validation (`linter.ts`)
+  - Rule-based quality checking for modules and content
+  - Comprehensive reporting of quality issues
+
+- **Docs Generator** - Automatic API documentation (`docs-generator.ts`)
+  - Generate documentation from module metadata
+  - Create usage examples and API references
+
+- **Enhanced Help System** - Intelligent command suggestions (`help-system.ts`)
+  - Context-aware help for AI agents
+  - Command discovery and suggestion engine
+
+#### Testing & Documentation
+- Comprehensive integration tests for all Phase 3 commands
+- Integration documentation for Beads and OpenSpec workflows
+- Usage examples and best practices for AI agents
+
+### Changed
+- Updated package version from 1.3.1 to 1.4.0
+- Enhanced README.md with complete CLI expansion documentation
+- Updated CLI command reference with all new commands
+- Improved coordination system for Beads, OpenSpec, and Collection integration
+
+### Performance
+- Optimized task filtering and search operations
+- Efficient dependency graph generation
+- Cached statistics for improved performance
+
+
 ## [1.3.0] - 2026-02-06
 
 ### Added

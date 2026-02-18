@@ -111,3 +111,4 @@ dev/
 # Note: This directory is created by writing-standards/screenplay module
 # and contains creative content that should be preserved and versioned.
 
+.beads/.jsonl.lock

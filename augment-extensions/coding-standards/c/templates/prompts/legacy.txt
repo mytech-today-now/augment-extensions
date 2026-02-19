@@ -1,0 +1,280 @@
+You are assisting with C legacy code maintenance and modernization.
+
+## Context
+- Category: {category}
+- C Standard: {c_standard}
+- Target: Maintaining and upgrading legacy C codebases
+
+## Key Rules for Legacy Maintenance
+
+### 1. Backward Compatibility
+- Maintain API compatibility when possible
+- Use feature test macros for conditional compilation
+- Document breaking changes clearly
+- Provide migration guides
+- Support multiple C standards (C89, C99, C11)
+
+### 2. Incremental Modernization
+- Modernize in small, testable increments
+- Add tests before refactoring
+- Use compatibility layers for new features
+- Keep old and new code paths temporarily
+- Document modernization strategy
+
+### 3. C89 to C11 Migration Patterns
+- Replace implicit int with explicit types
+- Add function prototypes
+- Use stdint.h types instead of platform-specific
+- Replace K&R function definitions with ANSI
+- Add const correctness incrementally
+
+### 4. Compatibility Layers
+- Provide fallbacks for missing C99/C11 features
+- Use preprocessor for conditional compilation
+- Implement polyfills for standard functions
+- Document platform-specific code
+- Test on all target platforms
+
+### 5. Documentation and Testing
+- Document legacy behavior and quirks
+- Add regression tests for existing functionality
+- Document platform dependencies
+- Create migration test suite
+- Maintain changelog of modernization
+
+{#if rules}
+## Active Rules
+{#each rules}
+- {id}: {description}
+{/each}
+{/if}
+
+## Example Pattern: C89 to C11 Migration
+
+```c
+/* BEFORE: C89 style */
+#include <stdio.h>
+
+/* K&R function definition */
+int calculate(x, y)
+    int x;
+    int y;
+{
+    int result;  /* Declaration at start of block */
+    result = x + y;
+    return result;
+}
+
+void process_data(buffer, size)
+    char *buffer;
+    int size;
+{
+    int i;
+    for (i = 0; i < size; i++) {
+        buffer[i] = process_byte(buffer[i]);
+    }
+}
+
+/* AFTER: C11 style */
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
+
+/* ANSI function prototype with explicit types */
+int32_t calculate(int32_t x, int32_t y) {
+    /* Declaration at point of use (C99+) */
+    int32_t result = x + y;
+    return result;
+}
+
+void process_data(uint8_t *buffer, size_t size) {
+    /* Loop variable declared in for statement (C99+) */
+    for (size_t i = 0; i < size; i++) {
+        buffer[i] = process_byte(buffer[i]);
+    }
+}
+```
+
+## Example Pattern: Compatibility Layer
+
+```c
+/* compatibility.h - Provide C99/C11 features for older compilers */
+
+#ifndef COMPATIBILITY_H
+#define COMPATIBILITY_H
+
+/* Feature test macros */
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+    #define HAVE_C99 1
+#endif
+
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
+    #define HAVE_C11 1
+#endif
+
+/* stdint.h types for pre-C99 */
+#ifndef HAVE_C99
+    typedef signed char        int8_t;
+    typedef unsigned char      uint8_t;
+    typedef signed short       int16_t;
+    typedef unsigned short     uint16_t;
+    typedef signed int         int32_t;
+    typedef unsigned int       uint32_t;
+    typedef signed long long   int64_t;
+    typedef unsigned long long uint64_t;
+    typedef unsigned long      size_t;
+#else
+    #include <stdint.h>
+#endif
+
+/* stdbool.h for pre-C99 */
+#ifndef HAVE_C99
+    typedef enum { false = 0, true = 1 } bool;
+#else
+    #include <stdbool.h>
+#endif
+
+/* inline keyword */
+#ifndef HAVE_C99
+    #if defined(__GNUC__)
+        #define inline __inline__
+    #elif defined(_MSC_VER)
+        #define inline __inline
+    #else
+        #define inline
+    #endif
+#endif
+
+/* restrict keyword */
+#ifndef HAVE_C99
+    #if defined(__GNUC__)
+        #define restrict __restrict__
+    #elif defined(_MSC_VER)
+        #define restrict __restrict
+    #else
+        #define restrict
+    #endif
+#endif
+
+/* Static assertions */
+#ifdef HAVE_C11
+    #include <assert.h>
+    #define STATIC_ASSERT(cond, msg) _Static_assert(cond, msg)
+#else
+    #define STATIC_ASSERT(cond, msg) \
+        typedef char static_assertion_##msg[(cond) ? 1 : -1]
+#endif
+
+#endif /* COMPATIBILITY_H */
+```
+
+## Example Pattern: Gradual Refactoring
+
+```c
+/* Step 1: Add new API alongside old API */
+
+/* Legacy API - deprecated but still supported */
+int old_process_data(char *buffer, int size) {
+    /* Old implementation */
+    return legacy_implementation(buffer, size);
+}
+
+/* New API - recommended */
+int process_data_v2(uint8_t *buffer, size_t size) {
+    /* New, improved implementation */
+    if (!buffer || size == 0) {
+        return -1;
+    }
+    
+    for (size_t i = 0; i < size; i++) {
+        buffer[i] = process_byte(buffer[i]);
+    }
+    
+    return 0;
+}
+
+/* Compatibility wrapper */
+#ifndef DISABLE_LEGACY_API
+int process_data(char *buffer, int size) {
+    /* Emit deprecation warning */
+    #ifdef __GNUC__
+        #warning "process_data is deprecated, use process_data_v2"
+    #endif
+    
+    /* Forward to new implementation */
+    if (size < 0) {
+        return -1;
+    }
+    return process_data_v2((uint8_t*)buffer, (size_t)size);
+}
+#endif
+```
+
+## Example Pattern: Platform Abstraction
+
+```c
+/* platform.h - Abstract platform differences */
+
+#ifndef PLATFORM_H
+#define PLATFORM_H
+
+#include "compatibility.h"
+
+/* Platform detection */
+#if defined(_WIN32) || defined(_WIN64)
+    #define PLATFORM_WINDOWS 1
+#elif defined(__linux__)
+    #define PLATFORM_LINUX 1
+#elif defined(__APPLE__)
+    #define PLATFORM_MACOS 1
+#else
+    #define PLATFORM_UNKNOWN 1
+#endif
+
+/* Platform-specific includes */
+#ifdef PLATFORM_WINDOWS
+    #include <windows.h>
+    typedef HANDLE thread_t;
+#else
+    #include <pthread.h>
+    typedef pthread_t thread_t;
+#endif
+
+/* Platform-specific functions */
+static inline int platform_sleep_ms(uint32_t milliseconds) {
+#ifdef PLATFORM_WINDOWS
+    Sleep(milliseconds);
+    return 0;
+#else
+    struct timespec ts;
+    ts.tv_sec = milliseconds / 1000;
+    ts.tv_nsec = (milliseconds % 1000) * 1000000;
+    return nanosleep(&ts, NULL);
+#endif
+}
+
+#endif /* PLATFORM_H */
+```
+
+{#if examples}
+## Additional Examples
+{#each examples}
+
+### {title}
+```c
+{code}
+```
+{/each}
+{/if}
+
+## Common Pitfalls to Avoid
+- Breaking API compatibility without notice
+- Modernizing too much code at once
+- Not testing on all target platforms
+- Removing legacy code paths prematurely
+- Not documenting migration strategy
+- Ignoring platform-specific behavior
+- Assuming C99/C11 features available
+
+Generate legacy C code maintenance following these careful migration standards.
+

@@ -1,0 +1,149 @@
+{
+  "name": "c-standards",
+  "version": "1.0.0",
+  "displayName": "C Coding Standards",
+  "description": "Comprehensive C programming language coding standards for systems programming, embedded systems, kernel development, device drivers, real-time systems, networking, and legacy code maintenance",
+  "type": "coding-standards",
+  "language": "c",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "repository": "https://github.com/mytech-today-now/augment-extensions",
+  "keywords": [
+    "c",
+    "coding-standards",
+    "systems-programming",
+    "embedded",
+    "kernel",
+    "drivers",
+    "real-time",
+    "networking",
+    "legacy"
+  ],
+  "tags": [
+    "c",
+    "systems",
+    "embedded",
+    "kernel",
+    "drivers",
+    "realtime",
+    "networking",
+    "legacy"
+  ],
+  "dependencies": {},
+  "optionalDependencies": {
+    "clang-tidy": ">=14.0.0",
+    "cppcheck": ">=2.0.0",
+    "valgrind": ">=3.18.0"
+  },
+  "augment": {
+    "minVersion": "1.0.0",
+    "characterCount": 0,
+    "priority": "high",
+    "category": "coding-standards",
+    "autoLoad": false,
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.c",
+        "**/*.h"
+      ],
+      "projectTypes": [
+        "systems",
+        "embedded",
+        "kernel",
+        "drivers",
+        "realtime",
+        "networking",
+        "legacy"
+      ]
+    }
+  },
+  "categories": {
+    "systems": {
+      "description": "Systems programming (POSIX, IPC, processes, signals)",
+      "rules": ["categories/systems.md"],
+      "examples": ["examples/systems/"]
+    },
+    "embedded": {
+      "description": "Embedded systems (microcontrollers, ISRs, hardware registers)",
+      "rules": ["categories/embedded.md"],
+      "examples": ["examples/embedded/"]
+    },
+    "kernel": {
+      "description": "Linux kernel development (modules, drivers, subsystems)",
+      "rules": ["categories/kernel.md"],
+      "examples": ["examples/kernel/"]
+    },
+    "drivers": {
+      "description": "Device drivers (character, block, network devices)",
+      "rules": ["categories/drivers.md"],
+      "examples": ["examples/drivers/"]
+    },
+    "realtime": {
+      "description": "Real-time systems (RTOS, scheduling, determinism)",
+      "rules": ["categories/realtime.md"],
+      "examples": ["examples/realtime/"]
+    },
+    "networking": {
+      "description": "Network programming (sockets, protocols, packet processing)",
+      "rules": ["categories/networking.md"],
+      "examples": ["examples/networking/"]
+    },
+    "legacy": {
+      "description": "Legacy code maintenance and modernization",
+      "rules": ["categories/legacy.md"],
+      "examples": ["examples/legacy/"]
+    }
+  },
+  "universalRules": [
+    "universal/naming.md",
+    "universal/memory-safety.md",
+    "universal/error-handling.md",
+    "universal/documentation.md",
+    "universal/header-guards.md",
+    "universal/const-correctness.md"
+  ],
+  "features": {
+    "configuration": true,
+    "ruleRegistry": true,
+    "promptGeneration": true,
+    "staticAnalysis": true,
+    "customRules": true,
+    "hotReload": true
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module using: augx link coding-standards/c",
+      "Or manually copy contents to project's .augment/ folder",
+      "Configure categories in .augment/c-standards.json"
+    ]
+  },
+  "configuration": {
+    "schema": "config/schema.json",
+    "defaults": "config/defaults.json",
+    "examples": [
+      "config/examples/systems.json",
+      "config/examples/embedded.yaml"
+    ]
+  },
+  "contents": [
+    "module.json",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    ".gitignore",
+    "src/",
+    "rules/",
+    "examples/",
+    "templates/",
+    "config/",
+    "tests/",
+    "docs/"
+  ],
+  "links": {
+    "homepage": "https://github.com/mytech-today-now/augment-extensions",
+    "documentation": "https://github.com/mytech-today-now/augment-extensions/tree/main/augment-extensions/coding-standards/c",
+    "issues": "https://github.com/mytech-today-now/augment-extensions/issues"
+  }
+}
+

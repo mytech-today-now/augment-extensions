@@ -1,0 +1,7 @@
+{
+  "name": "test-module",
+  "version": "1.0.0",
+  "displayName": "Test Module",
+  "description": "A test module for integration testing",
+  "type": "testing"
+}

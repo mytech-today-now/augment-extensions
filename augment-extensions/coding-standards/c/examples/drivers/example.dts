@@ -1,0 +1,64 @@
+/**
+ * @file example.dts
+ * @brief Example Device Tree Source for platform driver
+ * 
+ * This file demonstrates device tree bindings for the platform driver.
+ * 
+ * To compile:
+ *   dtc -I dts -O dtb -o example.dtb example.dts
+ * 
+ * To decompile:
+ *   dtc -I dtb -O dts -o example.dts example.dtb
+ */
+
+/dts-v1/;
+
+/ {
+    model = "Example Platform";
+    compatible = "example,platform";
+    #address-cells = <1>;
+    #size-cells = <1>;
+
+    /* Example platform device */
+    example_device@40000000 {
+        compatible = "example,platform-device";
+        reg = <0x40000000 0x1000>;  /* Base address and size */
+        interrupts = <0 32 4>;       /* IRQ number and flags */
+        status = "okay";
+        
+        /* Custom properties */
+        clock-frequency = <50000000>;
+        device-id = <0>;
+    };
+
+    /* Another example device */
+    example_device@40001000 {
+        compatible = "example,platform-device";
+        reg = <0x40001000 0x1000>;
+        interrupts = <0 33 4>;
+        status = "okay";
+        
+        clock-frequency = <50000000>;
+        device-id = <1>;
+    };
+
+    /* DMA controller example */
+    dma_controller@40002000 {
+        compatible = "example,dma-controller";
+        reg = <0x40002000 0x1000>;
+        interrupts = <0 34 4>;
+        #dma-cells = <1>;
+        status = "okay";
+    };
+
+    /* Device using DMA */
+    uart@40003000 {
+        compatible = "example,uart";
+        reg = <0x40003000 0x100>;
+        interrupts = <0 35 4>;
+        dmas = <&dma_controller 0>;
+        dma-names = "tx-rx";
+        status = "okay";
+    };
+};
+

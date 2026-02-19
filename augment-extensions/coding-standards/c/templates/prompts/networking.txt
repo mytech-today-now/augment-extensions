@@ -1,0 +1,259 @@
+You are assisting with C network programming.
+
+## Context
+- Category: {category}
+- C Standard: {c_standard}
+- Target: Network applications using sockets API
+
+## Key Rules for Network Programming
+
+### 1. Socket Programming Best Practices
+- Always check socket() return value for -1
+- Use getaddrinfo() for address resolution (IPv4/IPv6 compatible)
+- Set socket options appropriately (SO_REUSEADDR, etc.)
+- Close sockets in all code paths
+- Handle partial send/recv in loops
+
+### 2. Endianness Handling
+**CRITICAL**: Network byte order is big-endian
+- Use htons() for host-to-network short (16-bit)
+- Use htonl() for host-to-network long (32-bit)
+- Use ntohs() for network-to-host short
+- Use ntohl() for network-to-host long
+- Never assume host byte order
+
+### 3. Protocol Implementation
+- Follow RFC specifications exactly
+- Validate all input from network
+- Implement proper state machines
+- Handle protocol errors gracefully
+- Document protocol version and extensions
+
+### 4. Buffer Management
+- Use fixed-size buffers with bounds checking
+- Handle partial reads/writes
+- Implement timeout mechanisms
+- Prevent buffer overflows
+- Use MSG_PEEK for protocol parsing
+
+### 5. Non-Blocking I/O
+- Use select(), poll(), or epoll() for multiplexing
+- Handle EAGAIN/EWOULDBLOCK properly
+- Set O_NONBLOCK flag correctly
+- Implement proper timeout handling
+- Use edge-triggered or level-triggered appropriately
+
+{#if rules}
+## Active Rules
+{#each rules}
+- {id}: {description}
+{/each}
+{/if}
+
+## Example Pattern: TCP Server with Error Handling
+
+```c
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <stdio.h>
+
+#define PORT 8080
+#define BACKLOG 10
+#define BUFFER_SIZE 1024
+
+int create_tcp_server(void) {
+    int server_fd, opt = 1;
+    struct sockaddr_in address;
+    
+    // Create socket
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_fd < 0) {
+        perror("socket");
+        return -1;
+    }
+    
+    // Set socket options
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR,
+                   &opt, sizeof(opt)) < 0) {
+        perror("setsockopt");
+        close(server_fd);
+        return -1;
+    }
+    
+    // Bind to address
+    memset(&address, 0, sizeof(address));
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons(PORT);  // Host to network byte order
+    
+    if (bind(server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
+        perror("bind");
+        close(server_fd);
+        return -1;
+    }
+    
+    // Listen for connections
+    if (listen(server_fd, BACKLOG) < 0) {
+        perror("listen");
+        close(server_fd);
+        return -1;
+    }
+    
+    return server_fd;
+}
+
+ssize_t send_all(int sockfd, const void *buf, size_t len) {
+    size_t total_sent = 0;
+    ssize_t sent;
+    
+    while (total_sent < len) {
+        sent = send(sockfd, (char*)buf + total_sent,
+                   len - total_sent, 0);
+        
+        if (sent < 0) {
+            if (errno == EINTR) {
+                continue;  // Interrupted, retry
+            }
+            perror("send");
+            return -1;
+        }
+        
+        total_sent += sent;
+    }
+    
+    return total_sent;
+}
+```
+
+## Example Pattern: UDP Multicast
+
+```c
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+
+#define MULTICAST_GROUP "239.0.0.1"
+#define MULTICAST_PORT  5000
+
+int join_multicast_group(void) {
+    int sockfd;
+    struct sockaddr_in addr;
+    struct ip_mreq mreq;
+    
+    // Create UDP socket
+    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sockfd < 0) {
+        perror("socket");
+        return -1;
+    }
+    
+    // Allow multiple sockets to use the same port
+    int reuse = 1;
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR,
+                   &reuse, sizeof(reuse)) < 0) {
+        perror("setsockopt SO_REUSEADDR");
+        close(sockfd);
+        return -1;
+    }
+    
+    // Bind to multicast port
+    memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    addr.sin_port = htons(MULTICAST_PORT);
+    
+    if (bind(sockfd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
+        perror("bind");
+        close(sockfd);
+        return -1;
+    }
+    
+    // Join multicast group
+    mreq.imr_multiaddr.s_addr = inet_addr(MULTICAST_GROUP);
+    mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+    
+    if (setsockopt(sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP,
+                   &mreq, sizeof(mreq)) < 0) {
+        perror("setsockopt IP_ADD_MEMBERSHIP");
+        close(sockfd);
+        return -1;
+    }
+    
+    return sockfd;
+}
+```
+
+## Example Pattern: Protocol Parser with Endianness
+
+```c
+#include <stdint.h>
+#include <arpa/inet.h>
+#include <stdbool.h>
+
+// Network protocol header (big-endian)
+typedef struct __attribute__((packed)) {
+    uint16_t version;
+    uint16_t message_type;
+    uint32_t payload_length;
+    uint32_t sequence_number;
+} protocol_header_t;
+
+bool parse_protocol_header(const uint8_t *buffer, protocol_header_t *header) {
+    if (!buffer || !header) {
+        return false;
+    }
+    
+    // Convert from network byte order to host byte order
+    header->version = ntohs(*(uint16_t*)(buffer + 0));
+    header->message_type = ntohs(*(uint16_t*)(buffer + 2));
+    header->payload_length = ntohl(*(uint32_t*)(buffer + 4));
+    header->sequence_number = ntohl(*(uint32_t*)(buffer + 8));
+    
+    // Validate header
+    if (header->version != 1) {
+        return false;
+    }
+    
+    if (header->payload_length > MAX_PAYLOAD_SIZE) {
+        return false;
+    }
+    
+    return true;
+}
+
+void build_protocol_header(uint8_t *buffer, const protocol_header_t *header) {
+    // Convert from host byte order to network byte order
+    *(uint16_t*)(buffer + 0) = htons(header->version);
+    *(uint16_t*)(buffer + 2) = htons(header->message_type);
+    *(uint32_t*)(buffer + 4) = htonl(header->payload_length);
+    *(uint32_t*)(buffer + 8) = htonl(header->sequence_number);
+}
+```
+
+{#if examples}
+## Additional Examples
+{#each examples}
+
+### {title}
+```c
+{code}
+```
+{/each}
+{/if}
+
+## Common Pitfalls to Avoid
+- Forgetting endianness conversion (htons/ntohs)
+- Not handling partial send/recv
+- Ignoring socket errors
+- Not closing sockets on error paths
+- Buffer overflows from network input
+- Not validating protocol data
+- Blocking indefinitely without timeouts
+
+Generate network C code following these standards.
+

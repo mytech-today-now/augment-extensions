@@ -1,0 +1,25 @@
+c_standards:
+  version: "1.0.0"
+  categories:
+    - embedded
+  c_standard: c99
+  universal_rules:
+    naming: enabled
+    memory_safety: enabled
+    error_handling: enabled
+    documentation: enabled
+    header_guards: enabled
+    const_correctness: enabled
+  category_overrides:
+    embedded:
+      allow_dynamic_allocation: false
+      require_volatile_hardware: true
+      max_stack_depth: 5
+  static_analysis:
+    clang_tidy: true
+    cppcheck: true
+    valgrind: false
+  custom_rules:
+    enabled: false
+    path: ".augment/c-standards/custom-rules/"
+

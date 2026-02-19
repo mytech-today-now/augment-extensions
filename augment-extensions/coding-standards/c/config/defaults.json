@@ -1,0 +1,26 @@
+{
+  "c_standards": {
+    "version": "1.0.0",
+    "categories": ["systems"],
+    "c_standard": "c11",
+    "universal_rules": {
+      "naming": "enabled",
+      "memory_safety": "enabled",
+      "error_handling": "enabled",
+      "documentation": "enabled",
+      "header_guards": "enabled",
+      "const_correctness": "enabled"
+    },
+    "category_overrides": {},
+    "static_analysis": {
+      "clang_tidy": false,
+      "cppcheck": false,
+      "valgrind": false
+    },
+    "custom_rules": {
+      "enabled": false,
+      "path": ".augment/c-standards/custom-rules/"
+    }
+  }
+}
+

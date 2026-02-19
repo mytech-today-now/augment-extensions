@@ -1,0 +1,244 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment-extensions.dev/schemas/c-standards-config.json",
+  "title": "C Coding Standards Configuration",
+  "description": "Configuration schema for C coding standards extension",
+  "type": "object",
+  "required": ["c_standards"],
+  "properties": {
+    "c_standards": {
+      "type": "object",
+      "required": ["version", "categories"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Configuration schema version (semantic versioning)"
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["systems", "embedded", "kernel", "drivers", "realtime", "networking", "legacy"]
+          },
+          "description": "Active C project categories"
+        },
+        "c_standard": {
+          "type": "string",
+          "enum": ["c89", "c90", "c99", "c11", "c17", "c23"],
+          "default": "c11",
+          "description": "Target C language standard"
+        },
+        "universal_rules": {
+          "type": "object",
+          "properties": {
+            "naming": {
+              "type": "string",
+              "enum": ["enabled", "disabled", "warning"],
+              "default": "enabled"
+            },
+            "memory_safety": {
+              "type": "string",
+              "enum": ["enabled", "disabled", "warning"],
+              "default": "enabled"
+            },
+            "error_handling": {
+              "type": "string",
+              "enum": ["enabled", "disabled", "warning"],
+              "default": "enabled"
+            },
+            "documentation": {
+              "type": "string",
+              "enum": ["enabled", "disabled", "warning"],
+              "default": "enabled"
+            },
+            "header_guards": {
+              "type": "string",
+              "enum": ["enabled", "disabled", "warning"],
+              "default": "enabled"
+            },
+            "const_correctness": {
+              "type": "string",
+              "enum": ["enabled", "disabled", "warning"],
+              "default": "enabled"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Universal rules configuration"
+        },
+        "category_overrides": {
+          "type": "object",
+          "properties": {
+            "systems": {
+              "$ref": "#/definitions/systemsOverrides"
+            },
+            "embedded": {
+              "$ref": "#/definitions/embeddedOverrides"
+            },
+            "kernel": {
+              "$ref": "#/definitions/kernelOverrides"
+            },
+            "drivers": {
+              "$ref": "#/definitions/driversOverrides"
+            },
+            "realtime": {
+              "$ref": "#/definitions/realtimeOverrides"
+            },
+            "networking": {
+              "$ref": "#/definitions/networkingOverrides"
+            },
+            "legacy": {
+              "$ref": "#/definitions/legacyOverrides"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Category-specific configuration overrides"
+        },
+        "static_analysis": {
+          "type": "object",
+          "properties": {
+            "clang_tidy": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable clang-tidy integration"
+            },
+            "cppcheck": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable cppcheck integration"
+            },
+            "valgrind": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable valgrind integration"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Static analysis tool integration"
+        },
+        "custom_rules": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable custom user-defined rules"
+            },
+            "path": {
+              "type": "string",
+              "default": ".augment/c-standards/custom-rules/",
+              "description": "Path to custom rules directory"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Custom rules configuration"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "systemsOverrides": {
+      "type": "object",
+      "properties": {
+        "require_posix_compliance": {
+          "type": "boolean",
+          "default": true
+        },
+        "check_system_call_errors": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "embeddedOverrides": {
+      "type": "object",
+      "properties": {
+        "allow_dynamic_allocation": {
+          "type": "boolean",
+          "default": false
+        },
+        "require_volatile_hardware": {
+          "type": "boolean",
+          "default": true
+        },
+        "max_stack_depth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20,
+          "default": 5
+        }
+      }
+    },
+    "kernelOverrides": {
+      "type": "object",
+      "properties": {
+        "require_kernel_style": {
+          "type": "boolean",
+          "default": true
+        },
+        "check_module_license": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "driversOverrides": {
+      "type": "object",
+      "properties": {
+        "require_device_tree": {
+          "type": "boolean",
+          "default": false
+        },
+        "check_interrupt_safety": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "realtimeOverrides": {
+      "type": "object",
+      "properties": {
+        "enforce_determinism": {
+          "type": "boolean",
+          "default": true
+        },
+        "max_execution_time_us": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1000
+        }
+      }
+    },
+    "networkingOverrides": {
+      "type": "object",
+      "properties": {
+        "require_endian_handling": {
+          "type": "boolean",
+          "default": true
+        },
+        "check_buffer_overflow": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "legacyOverrides": {
+      "type": "object",
+      "properties": {
+        "allow_deprecated_functions": {
+          "type": "boolean",
+          "default": true
+        },
+        "suggest_modernization": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    }
+  }
+}
+

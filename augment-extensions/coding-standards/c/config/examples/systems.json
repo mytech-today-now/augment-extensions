@@ -1,0 +1,31 @@
+{
+  "c_standards": {
+    "version": "1.0.0",
+    "categories": ["systems"],
+    "c_standard": "c11",
+    "universal_rules": {
+      "naming": "enabled",
+      "memory_safety": "enabled",
+      "error_handling": "enabled",
+      "documentation": "warning",
+      "header_guards": "enabled",
+      "const_correctness": "warning"
+    },
+    "category_overrides": {
+      "systems": {
+        "require_posix_compliance": true,
+        "check_system_call_errors": true
+      }
+    },
+    "static_analysis": {
+      "clang_tidy": true,
+      "cppcheck": true,
+      "valgrind": true
+    },
+    "custom_rules": {
+      "enabled": false,
+      "path": ".augment/c-standards/custom-rules/"
+    }
+  }
+}
+

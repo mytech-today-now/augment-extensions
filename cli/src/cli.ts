@@ -41,6 +41,7 @@ import {
   mcpDiscoverCommand,
   mcpGenerateCLICommand
 } from './commands/mcp';
+import { codeAnalysisCommand } from './commands/code-analysis';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -480,6 +481,30 @@ mcpCommand
   .command('generate-cli <serverCommand> <outputPath>')
   .description('Generate CLI using mcporter')
   .action(mcpGenerateCLICommand);
+
+// Code Analysis command
+program
+  .command('code-analysis')
+  .alias('analyze')
+  .description('Analyze code for quality, complexity, security, and dependencies')
+  .option('--file <path>', 'Single file to analyze')
+  .option('--dir <path>', 'Directory to analyze (recursive)')
+  .option('--pattern <glob>', 'File pattern (e.g., "src/**/*.ts")')
+  .option('--type <type>', 'Analysis type: complexity, patterns, security, quality, dependencies', 'quality')
+  .option('--severity <level>', 'Minimum severity: low, medium, high, critical', 'low')
+  .option('--format <format>', 'Output format: text, json, markdown', 'text')
+  .option('--fix', 'Auto-fix issues where possible')
+  .action((options) => {
+    codeAnalysisCommand({
+      file: options.file,
+      dir: options.dir,
+      pattern: options.pattern,
+      type: options.type,
+      severity: options.severity,
+      format: options.format,
+      fix: options.fix
+    });
+  });
 
 program.parse(process.argv);
 

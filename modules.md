@@ -161,6 +161,56 @@ augx link coding-standards/typescript
 augx link coding-standards/php
 ```
 
+### Go Coding Standards
+- **Module**: `coding-standards/go`
+- **Version**: 1.0.0
+- **Character Count**: ~270,991
+- **Description**: Comprehensive Go coding standards for professional, maintainable, and idiomatic Go code across web services, microservices, CLI tools, cloud-native applications, distributed systems, DevOps tooling, and API development
+- **Contents**:
+  - Universal rules (naming conventions, error handling, concurrency, testing, code organization, documentation, performance)
+  - Category-specific rules for 7 project types
+  - AI prompt templates for code generation
+  - Production-ready code examples
+  - Configuration schema (.augment/go-config.json)
+  - Static analysis integration (golangci-lint, staticcheck, govet, gosec)
+  - Testing patterns and best practices
+  - **Categories**:
+    - Web Services (HTTP servers, middleware, routing, graceful shutdown)
+    - Microservices (gRPC, service discovery, distributed tracing, metrics)
+    - CLI Tools (Cobra, Viper, cross-platform compatibility)
+    - Cloud-Native (Kubernetes operators, cloud SDKs, 12-factor apps)
+    - Distributed Systems (consensus, event sourcing, CQRS, message queues)
+    - DevOps Tooling (infrastructure automation, CI/CD, monitoring)
+    - API Development (REST, GraphQL, versioning, authentication)
+
+**Usage**:
+```bash
+augx link coding-standards/go
+```
+
+**Configuration** (`.augment/go-config.json`):
+```json
+{
+  "categories": ["web"],
+  "rules": {
+    "enabled": true,
+    "severity": "error"
+  },
+  "staticAnalysis": {
+    "golangci-lint": true,
+    "staticcheck": true,
+    "govet": true,
+    "gosec": true
+  }
+}
+```
+
+**Documentation**:
+- [Module README](coding-standards/go/README.md)
+- [Configuration Guide](coding-standards/go/docs/CONFIGURATION.md)
+- [Category Details](coding-standards/go/docs/CATEGORIES.md)
+- [Troubleshooting](coding-standards/go/docs/TROUBLESHOOTING.md)
+
 ### PowerShell Coding Standards
 - **Module**: `coding-standards/powershell`
 - **Version**: 1.0.0
@@ -694,11 +744,11 @@ augx mcp wrap github-mcp search-repos github-search --category retrieval
 
 ## Statistics
 
-- **Total Modules**: 20
-- **Coding Standards**: 5
+- **Total Modules**: 21
+- **Coding Standards**: 6
 - **Writing Standards**: 1
 - **Domain Rules**: 6
 - **Workflows**: 2
 - **Examples**: 4
 - **Total Skills**: 4
-- **Total Character Count**: ~2,446,192
+- **Total Character Count**: ~2,717,183

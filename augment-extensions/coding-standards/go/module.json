@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Professional Go coding standards for Augment Code AI covering web services, microservices, CLI tools, cloud-native applications, distributed systems, DevOps tooling, and API development",
   "displayName": "Go Coding Standards",
+  "type": "coding-standards",
   "author": "MyTech Today",
   "license": "MIT",
   "repository": {

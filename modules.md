@@ -252,6 +252,52 @@ augx link coding-standards/powershell
 }
 ```
 
+### Bash Coding Standards
+- **Module**: `coding-standards/bash`
+- **Version**: 1.0.0
+- **Character Count**: ~TBD
+- **Description**: Comprehensive Bash coding standards for professional, maintainable, and secure Bash scripts across automation, CI/CD, CLI tools, configuration, data processing, system administration, and cross-platform development
+- **Contents**:
+  - Universal standards (shebang, strict mode, quoting, error handling, logging)
+  - Naming conventions (variables, constants, functions)
+  - Error handling (set -euo pipefail, traps, exit codes)
+  - Security practices (input sanitization, injection prevention, privilege checks)
+  - Performance optimization (subshells, loops, pipes)
+  - Testing guidelines (Bats, shunit2 integration)
+  - Automation scripts (idempotency, dry-run mode, task scheduling)
+  - CI/CD pipelines (environment validation, secret management, debugging)
+  - CLI tools (getopts, help output, exit status)
+  - Configuration files (sourcing, conditional loading, no side effects)
+  - Data processing (stream processing, awk/sed/grep patterns)
+  - System administration (privilege checks, service control, logging)
+  - Cross-platform (OS detection, portable commands, path handling)
+  - Category configuration system
+  - shellcheck integration
+  - Bats testing framework
+
+**Usage**:
+```bash
+augx link coding-standards/bash
+```
+
+**Configuration** (`.augment/bash-config.json`):
+```json
+{
+  "bash_categories": ["automation", "cicd"],
+  "bash_version": "4.0",
+  "strict_mode": true,
+  "static_analysis": {
+    "tool": "shellcheck",
+    "severity": "warning"
+  },
+  "testing": {
+    "framework": "bats",
+    "version": "1.x"
+  },
+  "posix_compliance": false
+}
+```
+
 ## Writing Standards
 
 ### Screenplay Writing Standards

@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema.json",
+  "categories": ["microservices"],
+  "rules": {
+    "enabled": true,
+    "severity": "error",
+    "overrides": {
+      "microservices": {
+        "enabled": true,
+        "severity": "error"
+      }
+    }
+  },
+  "staticAnalysis": {
+    "golangci-lint": true,
+    "staticcheck": true,
+    "govet": true,
+    "gosec": true
+  }
+}
+

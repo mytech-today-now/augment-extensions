@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "categories": ["web"],
+  "rules": {
+    "enabled": true,
+    "severity": "error"
+  },
+  "staticAnalysis": {
+    "golangci-lint": true,
+    "staticcheck": true,
+    "govet": true,
+    "gosec": true
+  }
+}
+

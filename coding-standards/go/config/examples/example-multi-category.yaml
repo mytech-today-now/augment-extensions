@@ -1,0 +1,24 @@
+# Multi-category Go project configuration
+# Combines web services and API development
+
+categories:
+  - web
+  - api
+
+rules:
+  enabled: true
+  severity: error
+  overrides:
+    web:
+      enabled: true
+      severity: error
+    api:
+      enabled: true
+      severity: error
+
+staticAnalysis:
+  golangci-lint: true
+  staticcheck: true
+  govet: true
+  gosec: true
+

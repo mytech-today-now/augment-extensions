@@ -114,6 +114,25 @@
       "rules.severity": "Default severity level (error, warning, info)",
       "staticAnalysis": "Enable/disable static analysis tools"
     }
+  },
+  "metrics": {
+    "characterCount": 270991,
+    "characterCountByCategory": {
+      "core": 12500,
+      "rules": 80000,
+      "templates": 50000,
+      "examples": 60000,
+      "documentation": 30000,
+      "tests": 40000
+    },
+    "files": {
+      "total": 50,
+      "rules": 14,
+      "templates": 7,
+      "examples": 10,
+      "tests": 10,
+      "documentation": 9
+    }
   }
 }
 

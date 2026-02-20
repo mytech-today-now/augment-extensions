@@ -6,6 +6,44 @@ Professional Go coding standards extension for Augment Code AI, providing compre
 
 This extension provides AI-driven guidance for writing idiomatic, production-grade Go code. It covers universal best practices and category-specific patterns for:
 
+## Installation
+
+### Prerequisites
+
+- Go 1.18 or higher
+- Augment Code AI
+- Augment Extensions enabled
+
+### Quick Start
+
+1. **Enable the module** in your Augment Extensions configuration:
+
+```json
+{
+  "modules": {
+    "coding-standards/go": {
+      "enabled": true
+    }
+  }
+}
+```
+
+2. **Configure categories** for your project (`.augment/go-config.json`):
+
+```json
+{
+  "categories": ["web"],
+  "rules": {
+    "enabled": true,
+    "severity": "error"
+  }
+}
+```
+
+3. **Start coding** - Augment AI will now apply Go coding standards automatically!
+
+## Features
+
 - **Web Services** - HTTP servers, middleware, routing, graceful shutdown
 - **Microservices** - gRPC, service discovery, distributed tracing, health checks
 - **CLI Tools** - Command-line applications with cobra, viper, flag handling
@@ -106,9 +144,44 @@ All Go projects benefit from these cross-cutting guidelines:
 
 See `config/schema.json` for the complete configuration schema and `config/examples/` for example configurations.
 
+For detailed configuration options, see [docs/CONFIGURATION.md](docs/CONFIGURATION.md).
+
 ## Examples
 
 The `examples/` directory contains compilable code examples for each category demonstrating best practices.
+
+## Documentation
+
+- **[Configuration Guide](docs/CONFIGURATION.md)** - Complete configuration options
+- **[Category Guide](docs/CATEGORIES.md)** - Detailed category descriptions
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+
+## Testing
+
+Run the test suite:
+
+```bash
+# Unit and integration tests
+npm test
+
+# Validate Go examples
+./tests/validate-examples.sh
+
+# Or on Windows
+.\tests\validate-examples.ps1
+
+# Validate character count
+.\tests\validate-character-count.ps1
+```
+
+## Contributing
+
+Contributions are welcome! Please:
+
+1. Follow the existing code style
+2. Add tests for new features
+3. Update documentation
+4. Ensure all tests pass
 
 ## References
 

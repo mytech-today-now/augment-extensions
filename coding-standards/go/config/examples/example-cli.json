@@ -1,0 +1,15 @@
+{
+  "$schema": "../schema.json",
+  "categories": ["cli"],
+  "rules": {
+    "enabled": true,
+    "severity": "warning"
+  },
+  "staticAnalysis": {
+    "golangci-lint": true,
+    "staticcheck": true,
+    "govet": true,
+    "gosec": false
+  }
+}
+

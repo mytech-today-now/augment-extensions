@@ -1,0 +1,119 @@
+{
+  "name": "go-coding-standards",
+  "version": "1.0.0",
+  "description": "Professional Go coding standards for Augment Code AI covering web services, microservices, CLI tools, cloud-native applications, distributed systems, DevOps tooling, and API development",
+  "displayName": "Go Coding Standards",
+  "author": "MyTech Today",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mytech-today-now/augment-extensions"
+  },
+  "keywords": [
+    "go",
+    "golang",
+    "coding-standards",
+    "best-practices",
+    "style-guide",
+    "web-services",
+    "microservices",
+    "cli",
+    "cloud-native",
+    "distributed-systems",
+    "devops",
+    "api-development"
+  ],
+  "categories": [
+    {
+      "id": "web",
+      "name": "Web Services",
+      "description": "HTTP server development, middleware patterns, request/response handling, routing (net/http, gorilla/mux, chi), graceful shutdown, TLS configuration"
+    },
+    {
+      "id": "microservices",
+      "name": "Microservices",
+      "description": "Service discovery, health checks, circuit breakers, distributed tracing (OpenTelemetry), metrics (Prometheus), gRPC communication, service mesh integration"
+    },
+    {
+      "id": "cli",
+      "name": "CLI Tools",
+      "description": "Command-line parsing (cobra, urfave/cli), flag handling, configuration management (viper), output formatting, exit codes, cross-platform compatibility"
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud-Native Applications",
+      "description": "Containerization (Docker), Kubernetes operators, cloud provider SDKs (AWS, GCP, Azure), 12-factor app principles, environment-based configuration"
+    },
+    {
+      "id": "distributed",
+      "name": "Distributed Systems",
+      "description": "Consensus algorithms, event sourcing, CQRS patterns, message queues (NATS, Kafka, RabbitMQ), distributed locks, eventual consistency"
+    },
+    {
+      "id": "devops",
+      "name": "DevOps Tooling",
+      "description": "Infrastructure automation, CI/CD pipelines, configuration management, monitoring agents, log aggregation, GitOps workflows"
+    },
+    {
+      "id": "api",
+      "name": "API Development",
+      "description": "RESTful API design, GraphQL servers, API versioning, authentication/authorization (JWT, OAuth2), rate limiting, OpenAPI/Swagger documentation"
+    }
+  ],
+  "tags": [
+    "go1.18+",
+    "effective-go",
+    "uber-style-guide",
+    "google-style-guide",
+    "golangci-lint",
+    "staticcheck",
+    "concurrency",
+    "error-handling",
+    "testing",
+    "performance"
+  ],
+  "dependencies": {
+    "augment-extensions": "^1.4.0"
+  },
+  "peerDependencies": {
+    "go": ">=1.18.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "augment": ">=1.0.0"
+  },
+  "compatibility": {
+    "go": {
+      "minimum": "1.18.0",
+      "recommended": "1.21.0",
+      "features": {
+        "generics": "1.18.0",
+        "fuzzing": "1.18.0",
+        "workspace": "1.18.0"
+      }
+    }
+  },
+  "configSchema": "./config/schema.json",
+  "configuration": {
+    "defaults": {
+      "categories": ["web"],
+      "rules": {
+        "enabled": true,
+        "severity": "error"
+      },
+      "staticAnalysis": {
+        "golangci-lint": true,
+        "staticcheck": true,
+        "govet": true,
+        "gosec": true
+      }
+    },
+    "options": {
+      "categories": "Array of category IDs to enable (web, microservices, cli, cloud, distributed, devops, api)",
+      "rules.enabled": "Enable/disable all rules (boolean)",
+      "rules.severity": "Default severity level (error, warning, info)",
+      "staticAnalysis": "Enable/disable static analysis tools"
+    }
+  }
+}
+

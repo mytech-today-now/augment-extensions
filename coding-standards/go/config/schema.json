@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/mytech-today-now/augment-extensions/coding-standards/go/config/schema.json",
+  "title": "Go Coding Standards Configuration",
+  "description": "Configuration schema for Go coding standards extension",
+  "type": "object",
+  "properties": {
+    "categories": {
+      "type": "array",
+      "description": "Array of Go project categories to enable. Each category provides specialized rules and best practices.",
+      "items": {
+        "type": "string",
+        "enum": ["web", "microservices", "cli", "cloud", "distributed", "devops", "api"],
+        "enumDescriptions": {
+          "web": "HTTP server development, middleware patterns, routing, graceful shutdown",
+          "microservices": "gRPC, service discovery, distributed tracing, health checks, metrics",
+          "cli": "Command-line tools with cobra, viper, flag handling, cross-platform support",
+          "cloud": "Kubernetes operators, cloud SDKs, containerization, 12-factor apps",
+          "distributed": "Event sourcing, message queues, consensus algorithms, distributed locks",
+          "devops": "Infrastructure automation, CI/CD, monitoring, log aggregation",
+          "api": "RESTful APIs, GraphQL, authentication, rate limiting, OpenAPI"
+        }
+      },
+      "uniqueItems": true,
+      "minItems": 1,
+      "default": ["web"]
+    },
+    "rules": {
+      "type": "object",
+      "description": "Rule configuration and overrides",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable or disable all rules globally",
+          "default": true
+        },
+        "severity": {
+          "type": "string",
+          "description": "Default severity level for all rules",
+          "enum": ["error", "warning", "info"],
+          "default": "error"
+        },
+        "overrides": {
+          "type": "object",
+          "description": "Category-specific rule overrides",
+          "patternProperties": {
+            "^(web|microservices|cli|cloud|distributed|devops|api)$": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "description": "Enable/disable rules for this category"
+                },
+                "severity": {
+                  "type": "string",
+                  "enum": ["error", "warning", "info"],
+                  "description": "Override severity for this category"
+                },
+                "specific": {
+                  "type": "object",
+                  "description": "Specific rule configurations",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "type": "boolean"
+                      },
+                      "severity": {
+                        "type": "string",
+                        "enum": ["error", "warning", "info"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "staticAnalysis": {
+      "type": "object",
+      "description": "Static analysis tool configuration",
+      "properties": {
+        "golangci-lint": {
+          "type": "boolean",
+          "description": "Enable golangci-lint integration",
+          "default": true
+        },
+        "staticcheck": {
+          "type": "boolean",
+          "description": "Enable staticcheck integration",
+          "default": true
+        },
+        "govet": {
+          "type": "boolean",
+          "description": "Enable go vet integration",
+          "default": true
+        },
+        "gosec": {
+          "type": "boolean",
+          "description": "Enable gosec security scanner",
+          "default": true
+        }
+      }
+    }
+  },
+  "required": ["categories"]
+}
+

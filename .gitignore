@@ -54,9 +54,6 @@ daemon.lock
 # OpenSpec (entire directory - project-specific specs)
 openspec/
 
-# tests (entire directory - project-specific tests)
-tests/
-
 # ai-prompts (entire directory - project-specific tests)
 ai-prompts/
 

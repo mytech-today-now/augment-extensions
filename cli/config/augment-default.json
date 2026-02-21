@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "plugins": {
+    "enabled": true,
+    "directory": ".augment/plugins",
+    "autoLoad": true
+  },
+  "inspection": {
+    "defaultFormat": "text",
+    "cache": true,
+    "cacheTTL": 3600,
+    "maxDepth": 5,
+    "pageSize": 10,
+    "secureMode": false,
+    "syntaxHighlighting": true
+  },
+  "modules": {
+    "searchPaths": ["augment-extensions"],
+    "autoDiscover": true,
+    "linkedModulesFile": ".augment/extensions.json"
+  },
+  "hooks": {
+    "enabled": true,
+    "timeout": 5000
+  },
+  "vscode": {
+    "enableFileLinks": true,
+    "openInPreview": false,
+    "webviewEnabled": true
+  },
+  "ai": {
+    "enablePromptGeneration": true,
+    "enableSummaries": true,
+    "defaultPromptTemplate": "module-summary"
+  }
+}
+

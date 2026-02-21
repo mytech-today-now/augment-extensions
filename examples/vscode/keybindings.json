@@ -1,0 +1,39 @@
+[
+  {
+    "key": "ctrl+alt+m",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Augx: Inspect Module",
+    "when": "!inDebugMode"
+  },
+  {
+    "key": "ctrl+alt+l",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Augx: List Linked Modules",
+    "when": "!inDebugMode"
+  },
+  {
+    "key": "ctrl+alt+s",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Augx: Search Modules",
+    "when": "!inDebugMode"
+  },
+  {
+    "key": "ctrl+alt+a",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Augx: Generate AI Context",
+    "when": "!inDebugMode"
+  },
+  {
+    "key": "ctrl+alt+r",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Augx: Generate AI Prompt (Code Review)",
+    "when": "!inDebugMode"
+  },
+  {
+    "key": "ctrl+alt+c",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Augx: Show Module Content",
+    "when": "!inDebugMode"
+  }
+]
+

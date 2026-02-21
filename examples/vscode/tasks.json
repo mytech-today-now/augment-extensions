@@ -1,0 +1,170 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Augx: List All Modules",
+      "type": "shell",
+      "command": "augx list",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "showReuseMessage": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: List Linked Modules",
+      "type": "shell",
+      "command": "augx list --linked",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Inspect Module",
+      "type": "shell",
+      "command": "augx show module ${input:moduleName}",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Inspect Module (JSON)",
+      "type": "shell",
+      "command": "augx show module ${input:moduleName} --json",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Show Module Content",
+      "type": "shell",
+      "command": "augx show module ${input:moduleName} --content",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Search Modules",
+      "type": "shell",
+      "command": "augx search ${input:searchTerm}",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Generate Module Report (Markdown)",
+      "type": "shell",
+      "command": "augx show module ${input:moduleName} --content --format markdown > docs/${input:moduleName}-report.md",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Generate Module Report (JSON)",
+      "type": "shell",
+      "command": "augx show module ${input:moduleName} --content --format json > docs/${input:moduleName}-report.json",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Generate AI Prompt (Code Review)",
+      "type": "shell",
+      "command": "augx show module ${input:moduleName} --ai-prompt code-review > ai-prompts/${input:moduleName}-review.txt",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Generate AI Summary",
+      "type": "shell",
+      "command": "augx show module ${input:moduleName} --ai-summary > ai-context/${input:moduleName}-summary.md",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Generate AI Context",
+      "type": "shell",
+      "command": "augx show module ${input:moduleName} --ai-context | clip",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Link Module",
+      "type": "shell",
+      "command": "augx link ${input:moduleName}",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Unlink Module",
+      "type": "shell",
+      "command": "augx unlink ${input:moduleName}",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Update Modules",
+      "type": "shell",
+      "command": "augx update",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Augx: Initialize Project",
+      "type": "shell",
+      "command": "augx init",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "moduleName",
+      "type": "promptString",
+      "description": "Module name (e.g., typescript-standards, php-standards)"
+    },
+    {
+      "id": "searchTerm",
+      "type": "promptString",
+      "description": "Search term"
+    }
+  ]
+}
+

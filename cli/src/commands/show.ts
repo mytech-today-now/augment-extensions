@@ -15,6 +15,20 @@ import { readFileStreaming, readFileLineByLine } from '../utils/stream-reader';
 import { Spinner, ProgressBar } from '../utils/progress';
 import { formatClickablePath, getWorkspaceRoot } from '../utils/vscode-links';
 import { openInEditor, openInPreview, isVSCodeAvailable } from '../utils/vscode-editor';
+import {
+  generateCodeReviewPrompt,
+  generateModuleSummaryPrompt,
+  generateOptimizationPrompt,
+  generateRefactoringPrompt,
+  getPromptTemplates
+} from '../utils/ai-prompts';
+import {
+  generateModuleSummary,
+  generateDetailedSummary,
+  generateJSONSummary,
+  generateCompactSummary,
+  generateAIContext
+} from '../utils/ai-summary';
 
 interface ShowOptions {
   json?: boolean;
@@ -45,6 +59,10 @@ interface ShowModuleOptions {
   noCache?: boolean;
   open?: boolean;
   preview?: boolean;
+  aiPrompt?: string;
+  aiSummary?: boolean;
+  aiContext?: boolean;
+  compact?: boolean;
 }
 
 /**
@@ -157,6 +175,22 @@ export async function showModuleCommand(
 
       console.log(chalk.gray('\nUse "augx list" to see all available modules.'));
       process.exit(1);
+    }
+
+    // Handle AI integration options
+    if (options.aiPrompt) {
+      await handleAIPrompt(module, options.aiPrompt);
+      return;
+    }
+
+    if (options.aiSummary) {
+      await handleAISummary(module, options);
+      return;
+    }
+
+    if (options.aiContext) {
+      await handleAIContext(module);
+      return;
     }
 
     // Route to appropriate handler based on options and arguments
@@ -1282,3 +1316,46 @@ async function getAllModules(): Promise<ModuleListItem[]> {
   return modules;
 }
 
+/**
+ * Handle AI prompt generation
+ */
+async function handleAIPrompt(module: Module, promptType: string): Promise<void> {
+  const templates = getPromptTemplates();
+  const template = templates.find(t => t.name === promptType);
+
+  if (!template) {
+    console.error(chalk.red(`Unknown prompt template: ${promptType}`));
+    console.log(chalk.yellow('\nAvailable templates:'));
+    templates.forEach(t => {
+      console.log(chalk.cyan(`  • ${t.name}: ${t.description}`));
+    });
+    process.exit(1);
+  }
+
+  const prompt = template.generate(module);
+  console.log(prompt);
+}
+
+/**
+ * Handle AI summary generation
+ */
+async function handleAISummary(module: Module, options: ShowModuleOptions): Promise<void> {
+  if (options.json) {
+    const summary = generateJSONSummary(module);
+    console.log(summary);
+  } else if (options.compact) {
+    const summary = generateCompactSummary(module);
+    console.log(summary);
+  } else {
+    const summary = generateDetailedSummary(module, options.content);
+    console.log(summary);
+  }
+}
+
+/**
+ * Handle AI context generation
+ */
+async function handleAIContext(module: Module): Promise<void> {
+  const context = generateAIContext(module);
+  console.log(context);
+}

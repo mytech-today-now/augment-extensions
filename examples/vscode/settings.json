@@ -1,0 +1,119 @@
+{
+  "// Augment Extensions VS Code Settings": "",
+  "// Copy these settings to your .vscode/settings.json": "",
+
+  "// Terminal Integration": "",
+  "terminal.integrated.enableFileLinks": true,
+  "terminal.integrated.wordSeparators": " ()[]{}',\"`─''",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+
+  "// File Associations": "",
+  "files.associations": {
+    "*.augment.json": "jsonc",
+    ".augment/extensions.json": "jsonc",
+    ".augment/coordination.json": "jsonc",
+    ".beads/issues.jsonl": "jsonl",
+    ".beads/config.json": "jsonc",
+    "module.json": "jsonc"
+  },
+
+  "// File Exclusions": "",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.beads/cache.db": true
+  },
+
+  "// Search Exclusions": "",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.beads/cache.db": true,
+    "**/package-lock.json": true
+  },
+
+  "// Editor Settings": "",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+
+  "// Markdown Settings": "",
+  "markdown.preview.breaks": true,
+  "markdown.preview.linkify": true,
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    }
+  },
+
+  "// JSON Settings": "",
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": true
+  },
+
+  "// TypeScript Settings": "",
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+
+  "// Git Settings": "",
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+
+  "// Augment Extensions Specific": "",
+  "augment.extensions.autoSync": true,
+  "augment.extensions.cacheEnabled": true,
+  "augment.extensions.cacheTTL": 3600,
+
+  "// Task Runner": "",
+  "task.autoDetect": "on",
+  "task.quickOpen.detail": true,
+  "task.quickOpen.showAll": true,
+
+  "// Breadcrumbs": "",
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.filePath": "on",
+  "breadcrumbs.symbolPath": "on",
+
+  "// Explorer": "",
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.sortOrder": "type",
+
+  "// Workbench": "",
+  "workbench.editor.enablePreview": true,
+  "workbench.editor.enablePreviewFromQuickOpen": true,
+  "workbench.startupEditor": "welcomePage",
+
+  "// Extensions": "",
+  "extensions.autoUpdate": true,
+  "extensions.ignoreRecommendations": false,
+
+  "// Recommended Extensions for Augment": "",
+  "// Install these for best experience:": "",
+  "// - Better Fountain (for screenplay writing)": "",
+  "// - Markdown All in One": "",
+  "// - JSON Tools": "",
+  "// - GitLens": "",
+  "// - Augment Code AI": ""
+}
+

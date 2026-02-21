@@ -1,0 +1,171 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment-extensions.dev/schemas/augment-config.json",
+  "title": "Augment Configuration Schema",
+  "description": "JSON schema for .augment/augment.json configuration file",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration schema version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "default": "1.0.0"
+    },
+    "plugins": {
+      "type": "object",
+      "description": "Plugin system configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable plugin system",
+          "default": true
+        },
+        "directory": {
+          "type": "string",
+          "description": "Plugin directory path",
+          "default": ".augment/plugins"
+        },
+        "autoLoad": {
+          "type": "boolean",
+          "description": "Automatically load plugins on startup",
+          "default": true
+        }
+      }
+    },
+    "inspection": {
+      "type": "object",
+      "description": "Module inspection configuration",
+      "properties": {
+        "defaultFormat": {
+          "type": "string",
+          "description": "Default output format for inspection commands",
+          "enum": ["text", "json", "markdown"],
+          "default": "text"
+        },
+        "cache": {
+          "type": "boolean",
+          "description": "Enable inspection result caching",
+          "default": true
+        },
+        "cacheTTL": {
+          "type": "integer",
+          "description": "Cache time-to-live in seconds",
+          "minimum": 0,
+          "maximum": 86400,
+          "default": 3600
+        },
+        "maxDepth": {
+          "type": "integer",
+          "description": "Maximum recursion depth for nested modules",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 5
+        },
+        "pageSize": {
+          "type": "integer",
+          "description": "Default page size for paginated results",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 10
+        },
+        "secureMode": {
+          "type": "boolean",
+          "description": "Enable secure mode by default (redact sensitive data)",
+          "default": false
+        },
+        "syntaxHighlighting": {
+          "type": "boolean",
+          "description": "Enable syntax highlighting in output",
+          "default": true
+        }
+      }
+    },
+    "modules": {
+      "type": "object",
+      "description": "Module system configuration",
+      "properties": {
+        "searchPaths": {
+          "type": "array",
+          "description": "Paths to search for modules",
+          "items": {
+            "type": "string"
+          },
+          "default": ["augment-extensions"]
+        },
+        "autoDiscover": {
+          "type": "boolean",
+          "description": "Automatically discover modules in search paths",
+          "default": true
+        },
+        "linkedModulesFile": {
+          "type": "string",
+          "description": "Path to linked modules configuration file",
+          "default": ".augment/extensions.json"
+        }
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "description": "Hook system configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable hook system",
+          "default": true
+        },
+        "timeout": {
+          "type": "integer",
+          "description": "Hook execution timeout in milliseconds",
+          "minimum": 100,
+          "maximum": 30000,
+          "default": 5000
+        }
+      }
+    },
+    "vscode": {
+      "type": "object",
+      "description": "VS Code integration settings",
+      "properties": {
+        "enableFileLinks": {
+          "type": "boolean",
+          "description": "Enable clickable file links in terminal output",
+          "default": true
+        },
+        "openInPreview": {
+          "type": "boolean",
+          "description": "Open files in preview pane by default",
+          "default": false
+        },
+        "webviewEnabled": {
+          "type": "boolean",
+          "description": "Enable webview for interactive reports",
+          "default": true
+        }
+      }
+    },
+    "ai": {
+      "type": "object",
+      "description": "AI integration settings",
+      "properties": {
+        "enablePromptGeneration": {
+          "type": "boolean",
+          "description": "Enable AI prompt generation",
+          "default": true
+        },
+        "enableSummaries": {
+          "type": "boolean",
+          "description": "Enable AI-generated summaries",
+          "default": true
+        },
+        "defaultPromptTemplate": {
+          "type": "string",
+          "description": "Default AI prompt template",
+          "enum": ["code-review", "module-summary", "optimization", "refactoring"],
+          "default": "module-summary"
+        }
+      }
+    }
+  },
+  "required": ["version"]
+}
+

@@ -29,6 +29,7 @@ import {
   generateCompactSummary,
   generateAIContext
 } from '../utils/ai-summary';
+import { configLoader } from '../utils/config-loader';
 
 interface ShowOptions {
   json?: boolean;
@@ -144,6 +145,21 @@ export async function showModuleCommand(
   options: ShowModuleOptions
 ): Promise<void> {
   try {
+    // Load configuration and apply defaults
+    const config = configLoader.getConfig();
+    const inspectionConfig = config.inspection || {};
+
+    // Apply configuration defaults if options not explicitly set
+    if (!options.format && inspectionConfig.defaultFormat) {
+      options.format = inspectionConfig.defaultFormat;
+    }
+    if (options.pageSize === undefined && inspectionConfig.pageSize) {
+      options.pageSize = inspectionConfig.pageSize;
+    }
+    if (options.secure === undefined && inspectionConfig.secureMode !== undefined) {
+      options.secure = inspectionConfig.secureMode;
+    }
+
     // Validate module name
     if (!moduleName || moduleName.trim() === '') {
       console.error(chalk.red('Error: Module name is required'));
@@ -153,8 +169,8 @@ export async function showModuleCommand(
       process.exit(1);
     }
 
-    // Disable cache if --no-cache flag is set
-    if (options.noCache) {
+    // Disable cache if --no-cache flag is set or if cache is disabled in config
+    if (options.noCache || !inspectionConfig.cache) {
       moduleInspectionCache.setEnabled(false);
     }
 

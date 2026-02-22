@@ -2,26 +2,30 @@
   "name": "cinematic-styles",
   "version": "1.0.0",
   "displayName": "Cinematic Style Guides",
-  "description": "Film and franchise-specific screenplay style guides capturing the unique voice, structure, and techniques of iconic films and cinematic universes",
+  "description": "Film and franchise-specific screenplay style guides capturing the unique voice, structure, and techniques of iconic filmmakers, franchises, and storytelling methodologies",
   "type": "writing-standards",
   "category": "screenplay",
   "tags": [
     "screenplay",
     "cinematic-style",
     "film-analysis",
+    "director-style",
     "franchise",
     "mcu",
     "thriller",
     "action",
     "ensemble",
-    "character-driven"
+    "character-driven",
+    "auteur",
+    "storytelling",
+    "narrative-theory"
   ],
   "dependencies": {
     "required": [],
     "optional": ["writing-standards/screenplay"]
   },
   "augment": {
-    "characterCount": 150000,
+    "characterCount": 257196,
     "priority": "high",
     "category": "cinematic-styles",
     "appliesTo": {
@@ -39,7 +43,7 @@
     "steps": [
       "Link module: augx link writing-standards/screenplay/cinematic-styles",
       "Configure active style in .augment/screenplay-config.json",
-      "Select specific film/franchise style to apply"
+      "Select specific film/franchise/director style to apply"
     ]
   },
   "configuration": {
@@ -49,15 +53,76 @@
       "selected": []
     }
   },
-  "contents": [
-    "rules/mcu-avengers.md - Marvel Cinematic Universe ensemble superhero style",
-    "rules/blue-ruin.md - Incompetent protagonist thriller style (Jeremy Saulnier)",
-    "examples/style-applications.md - Cinematic style application examples"
-  ],
+  "contents": {
+    "rules": [
+      "blue-ruin.md",
+      "christopher-nolan.md",
+      "coen-brothers.md",
+      "david-lynch.md",
+      "denis-villeneuve.md",
+      "francis-ford-coppola.md",
+      "george-lucas.md",
+      "joseph-campbell.md",
+      "martin-scorsese.md",
+      "mcu-avengers.md",
+      "monty-python.md",
+      "quentin-tarantino.md",
+      "saturday-night-live.md",
+      "stanley-kubrick.md",
+      "star-wars.md",
+      "steven-spielberg.md",
+      "wes-anderson.md"
+    ],
+    "examples": [
+      "style-applications.md"
+    ]
+  },
+  "styleGuides": {
+    "directors": [
+      "christopher-nolan",
+      "coen-brothers",
+      "david-lynch",
+      "denis-villeneuve",
+      "francis-ford-coppola",
+      "george-lucas",
+      "martin-scorsese",
+      "quentin-tarantino",
+      "stanley-kubrick",
+      "steven-spielberg",
+      "wes-anderson"
+    ],
+    "franchises": [
+      "mcu-avengers",
+      "star-wars"
+    ],
+    "films": [
+      "blue-ruin"
+    ],
+    "comedyFormats": [
+      "monty-python",
+      "saturday-night-live"
+    ],
+    "narrativeTheory": [
+      "joseph-campbell"
+    ]
+  },
   "references": {
     "mcu": "Marvel Cinematic Universe (2008-present)",
     "blueRuin": "Blue Ruin (2013) - Jeremy Saulnier",
-    "futureStyles": "Additional film/franchise styles to be added"
+    "nolan": "Christopher Nolan - Cerebral blockbusters",
+    "coen": "Coen Brothers - Dark comedy and regional dialects",
+    "lynch": "David Lynch - Surrealist psychological horror",
+    "villeneuve": "Denis Villeneuve - Atmospheric sci-fi",
+    "coppola": "Francis Ford Coppola - Epic family sagas",
+    "lucas": "George Lucas - Mythic space opera",
+    "campbell": "Joseph Campbell - Hero's Journey narrative theory",
+    "scorsese": "Martin Scorsese - Crime dramas and character studies",
+    "tarantino": "Quentin Tarantino - Dialogue-heavy non-linear narratives",
+    "kubrick": "Stanley Kubrick - Meticulous visual storytelling",
+    "spielberg": "Steven Spielberg - Humanist adventure films",
+    "anderson": "Wes Anderson - Symmetrical whimsical ensembles",
+    "python": "Monty Python - Absurdist British comedy",
+    "snl": "Saturday Night Live - Sketch comedy format"
   }
 }
 

@@ -39,9 +39,28 @@
       {
         "id": "cinematic-styles",
         "name": "Cinematic Style Guides",
-        "description": "Film and franchise-specific style guides (MCU, Blue Ruin, etc.)",
+        "description": "Film, franchise, and director-specific style guides (17 total: 11 auteur directors, 2 franchises, 1 film, 2 comedy formats, 1 narrative theory)",
         "path": "cinematic-styles/",
-        "rules": ["mcu-avengers.md", "blue-ruin.md"]
+        "characterCount": 257196,
+        "rules": [
+          "blue-ruin.md",
+          "christopher-nolan.md",
+          "coen-brothers.md",
+          "david-lynch.md",
+          "denis-villeneuve.md",
+          "francis-ford-coppola.md",
+          "george-lucas.md",
+          "joseph-campbell.md",
+          "martin-scorsese.md",
+          "mcu-avengers.md",
+          "monty-python.md",
+          "quentin-tarantino.md",
+          "saturday-night-live.md",
+          "stanley-kubrick.md",
+          "star-wars.md",
+          "steven-spielberg.md",
+          "wes-anderson.md"
+        ]
       },
       {
         "id": "genres",

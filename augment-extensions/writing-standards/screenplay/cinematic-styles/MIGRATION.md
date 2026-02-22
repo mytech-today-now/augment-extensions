@@ -1,11 +1,16 @@
-# Cinematic Styles Module - Migration Summary
+# Cinematic Styles Module - Migration & Optimization History
 
-**Date**: 2026-02-22  
+**Initial Migration**: 2026-02-22
+**Latest Optimization**: 2026-02-22
 **Version**: 1.0.0
 
 ## Overview
 
-This document summarizes the refactoring of screenplay style guides from `ai-prompts/` into a proper sub-module structure within the screenplay module.
+This document tracks the evolution of the cinematic-styles module from initial migration through optimization for the augment-extensions repository.
+
+## Phase 1: Initial Migration (2026-02-22)
+
+Migration of screenplay style guides from `ai-prompts/` into a proper sub-module structure within the screenplay module.
 
 ## What Was Done
 
@@ -101,20 +106,70 @@ augx show writing-standards/screenplay/cinematic-styles/mcu-avengers
 4. **Discoverable**: Follows established sub-module pattern (like ADR in software-architecture)
 5. **Maintainable**: Each style guide is a standalone file with clear naming
 
+## Phase 2: Repository Optimization (2026-02-22)
+
+Comprehensive refactoring to optimize the module for the augment-extensions repository structure.
+
+### Changes Made
+
+#### 1. File Naming Standardization
+**Fixed naming inconsistencies**:
+- `martin-scorsese` → `martin-scorsese.md` (added missing .md extension)
+- `quentin-tarintino.md` → `quentin-tarantino.md` (fixed typo)
+- `stanley-kubrik.md` → `stanley-kubrick.md` (fixed typo)
+- `cohen-brothers.md` → `coen-brothers.md` (corrected spelling)
+
+#### 2. Module Metadata Enhancement
+**Updated `module.json`**:
+- Accurate character count: 257,196 characters (17 style guides)
+- Complete `contents` object with all rule files listed
+- Enhanced tags: Added "auteur", "storytelling", "narrative-theory"
+- Added `styleGuides` categorization:
+  - 11 Auteur Directors
+  - 2 Franchises
+  - 1 Individual Film
+  - 2 Comedy Formats
+  - 1 Narrative Theory
+- Comprehensive `references` object with all directors/franchises
+
+#### 3. README.md Overhaul
+**Enhanced documentation**:
+- Complete listing of all 17 style guides with descriptions
+- Organized by category (Directors, Franchises, Films, Comedy, Theory)
+- Updated character counts and projections
+- Expanded directory structure visualization
+- Comprehensive references section with filmographies
+
+#### 4. Parent Module Updates
+**Updated `screenplay/module.json`**:
+- Reflected all 17 cinematic style guides in subModules array
+- Added character count to cinematic-styles entry
+- Updated description to reflect full scope
+
+#### 5. Current Module Statistics
+- **Total Style Guides**: 17
+- **Total Characters**: ~257,000
+- **Categories**:
+  - Auteur Directors: 11 (Nolan, Coen Brothers, Lynch, Villeneuve, Coppola, Lucas, Scorsese, Tarantino, Kubrick, Spielberg, Anderson)
+  - Franchises: 2 (MCU, Star Wars)
+  - Individual Films: 1 (Blue Ruin)
+  - Comedy Formats: 2 (Monty Python, SNL)
+  - Narrative Theory: 1 (Joseph Campbell)
+
 ## Future Additions
 
-The following cinematic style guides are planned for future releases:
+The following cinematic style guides may be added in future releases:
 
-- **Christopher Nolan** - Non-linear, cerebral blockbusters
-- **Quentin Tarantino** - Dialogue-heavy, non-linear crime films
-- **Wes Anderson** - Symmetrical, whimsical, ensemble comedies
-- **Denis Villeneuve** - Atmospheric, slow-burn sci-fi
-- **Edgar Wright** - Fast-paced, visual comedy
-- **Coen Brothers** - Dark comedy, regional dialects
-- **Star Wars** - Space opera, hero's journey
-- **Lord of the Rings** - Epic fantasy, ensemble adventure
-- **John Wick** - Stylized action, world-building through visuals
-- **A24 Horror** - Elevated horror, slow-burn dread
+- **Edgar Wright** - Fast-paced visual comedy with kinetic editing
+- **Lord of the Rings** - Epic fantasy ensemble adventure
+- **John Wick** - Stylized action with world-building through visuals
+- **A24 Horror** - Elevated horror with slow-burn dread
+- **Pixar** - Emotional animated storytelling
+- **Studio Ghibli** - Whimsical animated fantasy
+- **James Cameron** - Technological spectacle with environmental themes
+- **Ridley Scott** - Atmospheric sci-fi and historical epics
+- **Paul Thomas Anderson** - Character-driven ensemble dramas
+- **Terrence Malick** - Poetic visual storytelling
 
 ## Cleanup Tasks
 

@@ -1,0 +1,63 @@
+{
+  "name": "cinematic-styles",
+  "version": "1.0.0",
+  "displayName": "Cinematic Style Guides",
+  "description": "Film and franchise-specific screenplay style guides capturing the unique voice, structure, and techniques of iconic films and cinematic universes",
+  "type": "writing-standards",
+  "category": "screenplay",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "film-analysis",
+    "franchise",
+    "mcu",
+    "thriller",
+    "action",
+    "ensemble",
+    "character-driven"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": ["writing-standards/screenplay"]
+  },
+  "augment": {
+    "characterCount": 150000,
+    "priority": "high",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": ["fountain", "markdown"]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles",
+      "Configure active style in .augment/screenplay-config.json",
+      "Select specific film/franchise style to apply"
+    ]
+  },
+  "configuration": {
+    "schema": "../schemas/feature-selection.json",
+    "defaultConfig": {
+      "enabled": true,
+      "selected": []
+    }
+  },
+  "contents": [
+    "rules/mcu-avengers.md - Marvel Cinematic Universe ensemble superhero style",
+    "rules/blue-ruin.md - Incompetent protagonist thriller style (Jeremy Saulnier)",
+    "examples/style-applications.md - Cinematic style application examples"
+  ],
+  "references": {
+    "mcu": "Marvel Cinematic Universe (2008-present)",
+    "blueRuin": "Blue Ruin (2013) - Jeremy Saulnier",
+    "futureStyles": "Additional film/franchise styles to be added"
+  }
+}
+

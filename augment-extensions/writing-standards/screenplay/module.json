@@ -27,7 +27,35 @@
   "augment": {
     "characterCount": 163500,
     "priority": "high",
-    "category": "writing-standards"
+    "category": "writing-standards",
+    "subModules": [
+      {
+        "id": "styles",
+        "name": "Narrative Styles",
+        "description": "Narrative style rules and techniques (linear, non-linear, ensemble, minimalist, etc.)",
+        "path": "styles/",
+        "rules": ["linear.md", "non-linear.md", "ensemble.md", "minimalist.md", "epic.md", "satirical.md", "poetic.md", "realistic.md", "surreal.md", "experimental.md", "voice-over.md", "flashback.md", "dialogue-centric.md"]
+      },
+      {
+        "id": "cinematic-styles",
+        "name": "Cinematic Style Guides",
+        "description": "Film and franchise-specific style guides (MCU, Blue Ruin, etc.)",
+        "path": "cinematic-styles/",
+        "rules": ["mcu-avengers.md", "blue-ruin.md"]
+      },
+      {
+        "id": "genres",
+        "name": "Genre Conventions",
+        "description": "Genre-specific screenplay conventions and techniques",
+        "path": "genres/"
+      },
+      {
+        "id": "themes",
+        "name": "Thematic Integration",
+        "description": "Thematic elements and integration techniques",
+        "path": "themes/"
+      }
+    ]
   },
   "installation": {
     "required": false,

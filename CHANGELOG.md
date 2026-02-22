@@ -6,6 +6,59 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.6.0] - 2026-02-22
+
+### Added
+
+#### Cinematic Styles Sub-Module
+- **New Sub-Module**: `writing-standards/screenplay/cinematic-styles/`
+  - Film and franchise-specific screenplay style guides
+  - Captures unique voice, structure, and techniques of iconic films
+  - Modular activation for selective style application
+
+- **Initial Style Guides**:
+  - `mcu-avengers.md` - Marvel Cinematic Universe ensemble superhero style
+    - 20+ MCU films analyzed (2008-2021)
+    - Character-driven spectacle with heart and humor
+    - Ensemble balance, quippy dialogue, grounded action
+    - ~934 lines of comprehensive guidance
+  - `blue-ruin.md` - Incompetent protagonist thriller style (Jeremy Saulnier)
+    - Authentic incompetence in revenge narratives
+    - Minimal dialogue, visual storytelling
+    - Realistic violence with consequences
+    - ~668 lines of detailed techniques
+
+- **Module Structure**:
+  - `module.json` - Module metadata and configuration
+  - `README.md` - Comprehensive overview and usage instructions
+  - `MIGRATION.md` - Migration summary and verification steps
+  - `rules/` - Film/franchise-specific style guides
+  - `examples/style-applications.md` - Practical application examples
+
+- **Parent Module Updates**:
+  - Added `subModules` array to `screenplay/module.json`
+  - Documents all available sub-modules (styles, cinematic-styles, genres, themes)
+  - Updated `screenplay/README.md` with sub-module documentation
+
+### Changed
+- Refactored `ai-prompts/Avengers-style-guide.md` → `cinematic-styles/rules/mcu-avengers.md`
+- Refactored `ai-prompts/BlueRuin-style-guide.md` → `cinematic-styles/rules/blue-ruin.md`
+- Enhanced screenplay module organization with clear sub-module structure
+- Updated package version from 1.5.2 to 1.6.0
+
+### Documentation
+- Created comprehensive README for cinematic-styles sub-module
+- Added practical examples of applying cinematic styles
+- Documented future additions (Nolan, Tarantino, Anderson, Villeneuve, etc.)
+- Migration guide for verifying the refactoring
+
+### Technical Details
+- Character count: ~150,000 (2 style guides)
+- Follows same pattern as existing `styles/` sub-module
+- Consistent with ADR sub-module architecture pattern
+- Supports selective linking: `augx link writing-standards/screenplay/cinematic-styles`
+
+
 ## [1.4.0] - 2026-02-18
 
 ### Added

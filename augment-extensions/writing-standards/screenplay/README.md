@@ -124,15 +124,68 @@ augment-extensions/writing-standards/screenplay/
 │   ├── beat-sheet.json           # Beat sheet schema
 │   ├── plot-outline.json         # Plot outline schema
 │   └── trope-inventory.json      # Trope inventory schema
-└── examples/                      # Example screenplay files
-    ├── aaa-hollywood-scene.fountain
-    ├── independent-monologue.fountain
-    ├── tv-episode-teaser.fountain
-    ├── news-segment.fountain
-    ├── commercial-30sec.fountain
-    ├── character-profile-example.yaml
-    ├── beat-sheet-example.yaml
-    └── plot-outline-example.yaml
+├── examples/                      # Example screenplay files
+│   ├── aaa-hollywood-scene.fountain
+│   ├── independent-monologue.fountain
+│   ├── tv-episode-teaser.fountain
+│   ├── news-segment.fountain
+│   ├── commercial-30sec.fountain
+│   ├── character-profile-example.yaml
+│   ├── beat-sheet-example.yaml
+│   └── plot-outline-example.yaml
+├── styles/                        # Sub-module: Narrative styles
+│   ├── module.json
+│   ├── README.md
+│   ├── rules/                     # Narrative style techniques
+│   │   ├── linear.md
+│   │   ├── non-linear.md
+│   │   ├── ensemble.md
+│   │   └── ... (13 narrative styles)
+│   └── examples/
+├── cinematic-styles/              # Sub-module: Film/franchise style guides
+│   ├── module.json
+│   ├── README.md
+│   ├── rules/                     # Specific film/franchise styles
+│   │   ├── mcu-avengers.md       # Marvel Cinematic Universe style
+│   │   ├── blue-ruin.md          # Blue Ruin incompetent protagonist style
+│   │   └── ... (more to be added)
+│   └── examples/
+├── genres/                        # Sub-module: Genre conventions
+│   └── ... (to be developed)
+└── themes/                        # Sub-module: Thematic integration
+    └── ... (to be developed)
+```
+
+## Sub-Modules
+
+This module is organized into several sub-modules for selective loading:
+
+### 1. Core Screenplay Standards (Main Module)
+Universal formatting, narrative structures, character development, dialogue, and category-specific rules.
+
+**Link**: `augx link writing-standards/screenplay`
+
+### 2. Narrative Styles
+Narrative style techniques (linear, non-linear, ensemble, minimalist, epic, etc.)
+
+**Link**: `augx link writing-standards/screenplay/styles`
+
+### 3. Cinematic Style Guides (NEW)
+Film and franchise-specific style guides capturing the unique voice and techniques of iconic films.
+
+**Link**: `augx link writing-standards/screenplay/cinematic-styles`
+
+**Available Styles**:
+- **MCU/Avengers** - Ensemble superhero epic with heart and humor
+- **Blue Ruin** - Incompetent protagonist thriller with realistic violence
+
+**Future Additions**: Christopher Nolan, Quentin Tarantino, Wes Anderson, Denis Villeneuve, and more
+
+### 4. Genre Conventions
+Genre-specific screenplay conventions (to be developed)
+
+### 5. Thematic Integration
+Thematic elements and integration techniques (to be developed)
 ```
 
 ## Core Guidelines

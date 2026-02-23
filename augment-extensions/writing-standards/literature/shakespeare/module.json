@@ -1,0 +1,72 @@
+{
+  "name": "shakespeare",
+  "version": "1.0.0",
+  "displayName": "Shakespeare Writing Standards",
+  "description": "Comprehensive guide to Shakespearean writing including poetry (sonnets, iambic pentameter), drama (tragedy, comedy, history), Elizabethan English, rhetoric, character development, and thematic elements",
+  "type": "writing-standards",
+  "category": "literature",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "tags": [
+    "shakespeare",
+    "literature",
+    "poetry",
+    "drama",
+    "sonnets",
+    "iambic-pentameter",
+    "elizabethan-english",
+    "tragedy",
+    "comedy",
+    "rhetoric",
+    "character-development",
+    "themes"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": []
+  },
+  "augment": {
+    "characterCount": 0,
+    "priority": "high",
+    "category": "writing-standards",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.md",
+        "**/literature/**/*",
+        "**/poetry/**/*",
+        "**/drama/**/*"
+      ],
+      "languages": ["markdown", "text"]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module using: augx link writing-standards/literature/shakespeare",
+      "Or manually copy contents to project's .augment/ folder"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "rules/poetry/sonnets.md",
+      "rules/poetry/narrative-poetry.md",
+      "rules/poetry/verse-forms.md",
+      "rules/poetry/iambic-pentameter.md",
+      "rules/drama/tragedy.md",
+      "rules/drama/comedy.md",
+      "rules/drama/history-plays.md",
+      "rules/drama/scene-construction.md",
+      "rules/language/elizabethan-english.md",
+      "rules/language/rhetoric-wordplay.md",
+      "rules/language/vocabulary-guide.md",
+      "rules/character-themes/character-development.md",
+      "rules/character-themes/thematic-elements.md"
+    ],
+    "examples": [
+      "examples/annotated-sonnets/",
+      "examples/scene-examples/",
+      "examples/exercises/"
+    ]
+  }
+}
+

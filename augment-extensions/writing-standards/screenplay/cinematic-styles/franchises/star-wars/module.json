@@ -1,0 +1,17 @@
+{
+  "name": "cinematic-styles-star-wars",
+  "version": "1.0.0",
+  "displayName": "Star Wars Style",
+  "description": "Star Wars mythic space opera with hero's journey",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/franchises",
+  "tags": ["screenplay", "star-wars", "space-opera", "mythic", "adventure"],
+  "augment": {
+    "characterCount": 15000,
+    "priority": "high"
+  },
+  "contents": {
+    "rules": ["star-wars.md"]
+  }
+}
+

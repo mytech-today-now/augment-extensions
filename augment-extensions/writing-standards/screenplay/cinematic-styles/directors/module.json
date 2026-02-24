@@ -1,0 +1,410 @@
+{
+  "name": "cinematic-styles-directors",
+  "version": "1.0.0",
+  "displayName": "Cinematic Styles - Directors",
+  "description": "Film director-specific screenplay style guides capturing the unique voice, structure, and techniques of 60 iconic filmmakers",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "directors",
+    "auteur",
+    "film-analysis",
+    "storytelling"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": [
+      "writing-standards/screenplay"
+    ]
+  },
+  "augment": {
+    "characterCount": 350000,
+    "priority": "high",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": [
+        "fountain",
+        "markdown"
+      ]
+    },
+    "subModules": [
+      {
+        "id": "alfred-hitchcock",
+        "name": "Alfred Hitchcock",
+        "description": "Alfred Hitchcock style guide",
+        "path": "alfred-hitchcock/"
+      },
+      {
+        "id": "ari-aster",
+        "name": "Ari Aster",
+        "description": "Ari Aster style guide",
+        "path": "ari-aster/"
+      },
+      {
+        "id": "brad-bird",
+        "name": "Brad Bird",
+        "description": "Brad Bird style guide",
+        "path": "brad-bird/"
+      },
+      {
+        "id": "brian-de-palma",
+        "name": "Brian De Palma",
+        "description": "Brian De Palma style guide",
+        "path": "brian-de-palma/"
+      },
+      {
+        "id": "buster-keaton",
+        "name": "Buster Keaton",
+        "description": "Buster Keaton style guide",
+        "path": "buster-keaton/"
+      },
+      {
+        "id": "christopher-nolan",
+        "name": "Christopher Nolan",
+        "description": "Christopher Nolan style guide",
+        "path": "christopher-nolan/"
+      },
+      {
+        "id": "clint-eastwood",
+        "name": "Clint Eastwood",
+        "description": "Clint Eastwood style guide",
+        "path": "clint-eastwood/"
+      },
+      {
+        "id": "coen-brothers",
+        "name": "Coen Brothers",
+        "description": "Coen Brothers style guide",
+        "path": "coen-brothers/"
+      },
+      {
+        "id": "darren-aronofsky",
+        "name": "Darren Aronofsky",
+        "description": "Darren Aronofsky style guide",
+        "path": "darren-aronofsky/"
+      },
+      {
+        "id": "david-fincher",
+        "name": "David Fincher",
+        "description": "David Fincher style guide",
+        "path": "david-fincher/"
+      },
+      {
+        "id": "david-lynch",
+        "name": "David Lynch",
+        "description": "David Lynch style guide",
+        "path": "david-lynch/"
+      },
+      {
+        "id": "denis-villeneuve",
+        "name": "Denis Villeneuve",
+        "description": "Denis Villeneuve style guide",
+        "path": "denis-villeneuve/"
+      },
+      {
+        "id": "francis-ford-coppola",
+        "name": "Francis Ford Coppola",
+        "description": "Francis Ford Coppola style guide",
+        "path": "francis-ford-coppola/"
+      },
+      {
+        "id": "gary-marshall",
+        "name": "Gary Marshall",
+        "description": "Gary Marshall style guide",
+        "path": "gary-marshall/"
+      },
+      {
+        "id": "george-a-romero",
+        "name": "George A Romero",
+        "description": "George A Romero style guide",
+        "path": "george-a-romero/"
+      },
+      {
+        "id": "george-lucas",
+        "name": "George Lucas",
+        "description": "George Lucas style guide",
+        "path": "george-lucas/"
+      },
+      {
+        "id": "guillermo-del-toro",
+        "name": "Guillermo Del Toro",
+        "description": "Guillermo Del Toro style guide",
+        "path": "guillermo-del-toro/"
+      },
+      {
+        "id": "gus-van-sant",
+        "name": "Gus Van Sant",
+        "description": "Gus Van Sant style guide",
+        "path": "gus-van-sant/"
+      },
+      {
+        "id": "james-ivory-ismail-merchant",
+        "name": "James Ivory Ismail Merchant",
+        "description": "James Ivory Ismail Merchant style guide",
+        "path": "james-ivory-ismail-merchant/"
+      },
+      {
+        "id": "jim-jarmusch",
+        "name": "Jim Jarmusch",
+        "description": "Jim Jarmusch style guide",
+        "path": "jim-jarmusch/"
+      },
+      {
+        "id": "john-carpenter",
+        "name": "John Carpenter",
+        "description": "John Carpenter style guide",
+        "path": "john-carpenter/"
+      },
+      {
+        "id": "john-ford",
+        "name": "John Ford",
+        "description": "John Ford style guide",
+        "path": "john-ford/"
+      },
+      {
+        "id": "john-huston",
+        "name": "John Huston",
+        "description": "John Huston style guide",
+        "path": "john-huston/"
+      },
+      {
+        "id": "john-landis",
+        "name": "John Landis",
+        "description": "John Landis style guide",
+        "path": "john-landis/"
+      },
+      {
+        "id": "jonathan-demme",
+        "name": "Jonathan Demme",
+        "description": "Jonathan Demme style guide",
+        "path": "jonathan-demme/"
+      },
+      {
+        "id": "joseph-l-mankiewicz",
+        "name": "Joseph L Mankiewicz",
+        "description": "Joseph L Mankiewicz style guide",
+        "path": "joseph-l-mankiewicz/"
+      },
+      {
+        "id": "kathryn-bigelow",
+        "name": "Kathryn Bigelow",
+        "description": "Kathryn Bigelow style guide",
+        "path": "kathryn-bigelow/"
+      },
+      {
+        "id": "kelly-reichardt",
+        "name": "Kelly Reichardt",
+        "description": "Kelly Reichardt style guide",
+        "path": "kelly-reichardt/"
+      },
+      {
+        "id": "kevin-smith",
+        "name": "Kevin Smith",
+        "description": "Kevin Smith style guide",
+        "path": "kevin-smith/"
+      },
+      {
+        "id": "linda-shayne",
+        "name": "Linda Shayne",
+        "description": "Linda Shayne style guide",
+        "path": "linda-shayne/"
+      },
+      {
+        "id": "martin-scorsese",
+        "name": "Martin Scorsese",
+        "description": "Martin Scorsese style guide",
+        "path": "martin-scorsese/"
+      },
+      {
+        "id": "mel-brooks",
+        "name": "Mel Brooks",
+        "description": "Mel Brooks style guide",
+        "path": "mel-brooks/"
+      },
+      {
+        "id": "michael-curtiz",
+        "name": "Michael Curtiz",
+        "description": "Michael Curtiz style guide",
+        "path": "michael-curtiz/"
+      },
+      {
+        "id": "michael-mann",
+        "name": "Michael Mann",
+        "description": "Michael Mann style guide",
+        "path": "michael-mann/"
+      },
+      {
+        "id": "mike-nichols",
+        "name": "Mike Nichols",
+        "description": "Mike Nichols style guide",
+        "path": "mike-nichols/"
+      },
+      {
+        "id": "orson-welles",
+        "name": "Orson Welles",
+        "description": "Orson Welles style guide",
+        "path": "orson-welles/"
+      },
+      {
+        "id": "park-chan-wook",
+        "name": "Park Chan Wook",
+        "description": "Park Chan Wook style guide",
+        "path": "park-chan-wook/"
+      },
+      {
+        "id": "paul-thomas-anderson",
+        "name": "Paul Thomas Anderson",
+        "description": "Paul Thomas Anderson style guide",
+        "path": "paul-thomas-anderson/"
+      },
+      {
+        "id": "penny-marshall",
+        "name": "Penny Marshall",
+        "description": "Penny Marshall style guide",
+        "path": "penny-marshall/"
+      },
+      {
+        "id": "peter-bogdanovich",
+        "name": "Peter Bogdanovich",
+        "description": "Peter Bogdanovich style guide",
+        "path": "peter-bogdanovich/"
+      },
+      {
+        "id": "quentin-tarantino",
+        "name": "Quentin Tarantino",
+        "description": "Quentin Tarantino style guide",
+        "path": "quentin-tarantino/"
+      },
+      {
+        "id": "richard-linklater",
+        "name": "Richard Linklater",
+        "description": "Richard Linklater style guide",
+        "path": "richard-linklater/"
+      },
+      {
+        "id": "rob-reiner",
+        "name": "Rob Reiner",
+        "description": "Rob Reiner style guide",
+        "path": "rob-reiner/"
+      },
+      {
+        "id": "robert-altman",
+        "name": "Robert Altman",
+        "description": "Robert Altman style guide",
+        "path": "robert-altman/"
+      },
+      {
+        "id": "robert-eggers",
+        "name": "Robert Eggers",
+        "description": "Robert Eggers style guide",
+        "path": "robert-eggers/"
+      },
+      {
+        "id": "robert-zemeckis",
+        "name": "Robert Zemeckis",
+        "description": "Robert Zemeckis style guide",
+        "path": "robert-zemeckis/"
+      },
+      {
+        "id": "sam-peckinpah",
+        "name": "Sam Peckinpah",
+        "description": "Sam Peckinpah style guide",
+        "path": "sam-peckinpah/"
+      },
+      {
+        "id": "sidney-lumet",
+        "name": "Sidney Lumet",
+        "description": "Sidney Lumet style guide",
+        "path": "sidney-lumet/"
+      },
+      {
+        "id": "spike-lee",
+        "name": "Spike Lee",
+        "description": "Spike Lee style guide",
+        "path": "spike-lee/"
+      },
+      {
+        "id": "stanley-donen-gene-kelly",
+        "name": "Stanley Donen Gene Kelly",
+        "description": "Stanley Donen Gene Kelly style guide",
+        "path": "stanley-donen-gene-kelly/"
+      },
+      {
+        "id": "stanley-kubrick",
+        "name": "Stanley Kubrick",
+        "description": "Stanley Kubrick style guide",
+        "path": "stanley-kubrick/"
+      },
+      {
+        "id": "steve-martin",
+        "name": "Steve Martin",
+        "description": "Steve Martin style guide",
+        "path": "steve-martin/"
+      },
+      {
+        "id": "steven-spielberg",
+        "name": "Steven Spielberg",
+        "description": "Steven Spielberg style guide",
+        "path": "steven-spielberg/"
+      },
+      {
+        "id": "sydney-pollack",
+        "name": "Sydney Pollack",
+        "description": "Sydney Pollack style guide",
+        "path": "sydney-pollack/"
+      },
+      {
+        "id": "terry-gilliam",
+        "name": "Terry Gilliam",
+        "description": "Terry Gilliam style guide",
+        "path": "terry-gilliam/"
+      },
+      {
+        "id": "tim-burton",
+        "name": "Tim Burton",
+        "description": "Tim Burton style guide",
+        "path": "tim-burton/"
+      },
+      {
+        "id": "tobe-hooper",
+        "name": "Tobe Hooper",
+        "description": "Tobe Hooper style guide",
+        "path": "tobe-hooper/"
+      },
+      {
+        "id": "wes-anderson",
+        "name": "Wes Anderson",
+        "description": "Wes Anderson style guide",
+        "path": "wes-anderson/"
+      },
+      {
+        "id": "william-friedkin",
+        "name": "William Friedkin",
+        "description": "William Friedkin style guide",
+        "path": "william-friedkin/"
+      }
+    ]
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles/directors",
+      "Or link specific director: augx link writing-standards/screenplay/cinematic-styles/directors/christopher-nolan",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  },
+  "configuration": {
+    "schema": "../../schemas/feature-selection.json",
+    "defaultConfig": {
+      "enabled": true,
+      "selected": []
+    }
+  }
+}

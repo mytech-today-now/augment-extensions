@@ -1,0 +1,50 @@
+{
+  "name": "cinematic-styles-directors-joseph-l-mankiewicz",
+  "version": "1.0.0",
+  "displayName": "Joseph L Mankiewicz Style Guide",
+  "description": "Screenplay style guide for Joseph L Mankiewicz",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/directors",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "joseph-l-mankiewicz"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": [
+      "writing-standards/screenplay"
+    ]
+  },
+  "augment": {
+    "characterCount": 5000,
+    "priority": "medium",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": [
+        "fountain",
+        "markdown"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles/directors/joseph-l-mankiewicz",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "joseph-l-mankiewicz.md"
+    ]
+  }
+}

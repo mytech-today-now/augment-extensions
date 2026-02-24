@@ -1,0 +1,27 @@
+{
+  "name": "cinematic-styles-narrative-theory",
+  "version": "1.0.0",
+  "displayName": "Cinematic Styles - Narrative Theory",
+  "description": "Foundational narrative theory and storytelling frameworks",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles",
+  "tags": [
+    "screenplay",
+    "narrative-theory",
+    "hero-journey",
+    "mythology",
+    "structure"
+  ],
+  "augment": {
+    "characterCount": 18000,
+    "priority": "high",
+    "subModules": [
+      {
+        "id": "joseph-campbell",
+        "name": "Joseph Campbell",
+        "description": "Joseph Campbell style guide",
+        "path": "joseph-campbell/"
+      }
+    ]
+  }
+}

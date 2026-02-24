@@ -1,0 +1,50 @@
+{
+  "name": "cinematic-styles-films-blue-ruin",
+  "version": "1.0.0",
+  "displayName": "Blue Ruin Style Guide",
+  "description": "Screenplay style guide for Blue Ruin",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/films",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "film",
+    "indie",
+    "blue-ruin"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": [
+      "writing-standards/screenplay"
+    ]
+  },
+  "augment": {
+    "characterCount": 5000,
+    "priority": "medium",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": [
+        "fountain",
+        "markdown"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles/films/blue-ruin",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "blue-ruin.md"
+    ]
+  }
+}

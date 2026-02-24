@@ -1,0 +1,17 @@
+{
+  "name": "cinematic-styles-john-wick",
+  "version": "1.0.0",
+  "displayName": "John Wick Style",
+  "description": "John Wick stylized action with world-building",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/franchises",
+  "tags": ["screenplay", "john-wick", "action", "stylized", "world-building"],
+  "augment": {
+    "characterCount": 12000,
+    "priority": "high"
+  },
+  "contents": {
+    "rules": ["john-wick.md"]
+  }
+}
+

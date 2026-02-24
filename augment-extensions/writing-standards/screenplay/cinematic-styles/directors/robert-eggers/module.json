@@ -1,0 +1,50 @@
+{
+  "name": "cinematic-styles-directors-robert-eggers",
+  "version": "1.0.0",
+  "displayName": "Robert Eggers Style Guide",
+  "description": "Screenplay style guide for Robert Eggers",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/directors",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "robert-eggers"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": [
+      "writing-standards/screenplay"
+    ]
+  },
+  "augment": {
+    "characterCount": 5000,
+    "priority": "medium",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": [
+        "fountain",
+        "markdown"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles/directors/robert-eggers",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "robert-eggers.md"
+    ]
+  }
+}

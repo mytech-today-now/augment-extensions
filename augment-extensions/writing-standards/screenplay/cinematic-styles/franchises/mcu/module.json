@@ -1,0 +1,29 @@
+{
+  "name": "cinematic-styles-mcu",
+  "version": "1.0.0",
+  "displayName": "MCU/Avengers Style",
+  "description": "Marvel Cinematic Universe ensemble superhero epic with heart and humor",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/franchises",
+  "tags": [
+    "screenplay",
+    "mcu",
+    "marvel",
+    "superhero",
+    "ensemble",
+    "action"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": ["writing-standards/screenplay"]
+  },
+  "augment": {
+    "characterCount": 25000,
+    "priority": "high",
+    "category": "cinematic-styles"
+  },
+  "contents": {
+    "rules": ["mcu-avengers.md"]
+  }
+}
+

@@ -1,0 +1,17 @@
+{
+  "name": "cinematic-styles-lotr",
+  "version": "1.0.0",
+  "displayName": "Lord of the Rings Style",
+  "description": "Lord of the Rings epic fantasy with ensemble cast",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/franchises",
+  "tags": ["screenplay", "lotr", "fantasy", "epic", "ensemble"],
+  "augment": {
+    "characterCount": 15000,
+    "priority": "high"
+  },
+  "contents": {
+    "rules": ["lord-of-the-rings.md"]
+  }
+}
+

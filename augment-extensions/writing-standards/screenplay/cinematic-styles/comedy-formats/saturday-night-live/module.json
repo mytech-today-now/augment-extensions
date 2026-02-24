@@ -1,0 +1,50 @@
+{
+  "name": "cinematic-styles-comedy-formats-saturday-night-live",
+  "version": "1.0.0",
+  "displayName": "Saturday Night Live Style Guide",
+  "description": "Screenplay style guide for Saturday Night Live",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/comedy-formats",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "comedy",
+    "format",
+    "saturday-night-live"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": [
+      "writing-standards/screenplay"
+    ]
+  },
+  "augment": {
+    "characterCount": 5000,
+    "priority": "medium",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": [
+        "fountain",
+        "markdown"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles/comedy-formats/saturday-night-live",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "saturday-night-live.md"
+    ]
+  }
+}

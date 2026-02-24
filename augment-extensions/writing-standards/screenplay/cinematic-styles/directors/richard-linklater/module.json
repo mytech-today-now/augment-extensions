@@ -1,0 +1,50 @@
+{
+  "name": "cinematic-styles-directors-richard-linklater",
+  "version": "1.0.0",
+  "displayName": "Richard Linklater Style Guide",
+  "description": "Screenplay style guide for Richard Linklater",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/directors",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "richard-linklater"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": [
+      "writing-standards/screenplay"
+    ]
+  },
+  "augment": {
+    "characterCount": 5000,
+    "priority": "medium",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": [
+        "fountain",
+        "markdown"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles/directors/richard-linklater",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "richard-linklater.md"
+    ]
+  }
+}

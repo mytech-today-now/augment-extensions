@@ -1,0 +1,17 @@
+{
+  "name": "cinematic-styles-james-bond",
+  "version": "1.0.0",
+  "displayName": "James Bond Style",
+  "description": "James Bond spy thriller with sophistication",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/franchises",
+  "tags": ["screenplay", "james-bond", "spy", "thriller", "action"],
+  "augment": {
+    "characterCount": 15000,
+    "priority": "high"
+  },
+  "contents": {
+    "rules": ["james-bond.md"]
+  }
+}
+

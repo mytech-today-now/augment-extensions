@@ -1,0 +1,50 @@
+{
+  "name": "cinematic-styles-narrative-theory-joseph-campbell",
+  "version": "1.0.0",
+  "displayName": "Joseph Campbell Style Guide",
+  "description": "Screenplay style guide for Joseph Campbell",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/narrative-theory",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "narrative-theory",
+    "framework",
+    "joseph-campbell"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": [
+      "writing-standards/screenplay"
+    ]
+  },
+  "augment": {
+    "characterCount": 5000,
+    "priority": "medium",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": [
+        "fountain",
+        "markdown"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles/narrative-theory/joseph-campbell",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "joseph-campbell.md"
+    ]
+  }
+}

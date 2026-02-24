@@ -1,0 +1,50 @@
+{
+  "name": "cinematic-styles-directors-orson-welles",
+  "version": "1.0.0",
+  "displayName": "Orson Welles Style Guide",
+  "description": "Screenplay style guide for Orson Welles",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/directors",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "orson-welles"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": [
+      "writing-standards/screenplay"
+    ]
+  },
+  "augment": {
+    "characterCount": 5000,
+    "priority": "medium",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": [
+        "fountain",
+        "markdown"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles/directors/orson-welles",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "orson-welles.md"
+    ]
+  }
+}

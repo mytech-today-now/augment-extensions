@@ -1,0 +1,27 @@
+{
+  "name": "cinematic-styles-films",
+  "version": "1.0.0",
+  "displayName": "Cinematic Styles - Individual Films",
+  "description": "Style guides for specific notable films with unique storytelling approaches",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "films",
+    "indie",
+    "thriller"
+  ],
+  "augment": {
+    "characterCount": 15000,
+    "priority": "high",
+    "subModules": [
+      {
+        "id": "blue-ruin",
+        "name": "Blue Ruin",
+        "description": "Blue Ruin style guide",
+        "path": "blue-ruin/"
+      }
+    ]
+  }
+}

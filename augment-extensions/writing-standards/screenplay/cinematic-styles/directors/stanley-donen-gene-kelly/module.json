@@ -1,0 +1,50 @@
+{
+  "name": "cinematic-styles-directors-stanley-donen-gene-kelly",
+  "version": "1.0.0",
+  "displayName": "Stanley Donen Gene Kelly Style Guide",
+  "description": "Screenplay style guide for Stanley Donen Gene Kelly",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/directors",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "stanley-donen-gene-kelly"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": [
+      "writing-standards/screenplay"
+    ]
+  },
+  "augment": {
+    "characterCount": 5000,
+    "priority": "medium",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": [
+        "fountain",
+        "markdown"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link writing-standards/screenplay/cinematic-styles/directors/stanley-donen-gene-kelly",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  },
+  "contents": {
+    "rules": [
+      "stanley-donen-gene-kelly.md"
+    ]
+  }
+}

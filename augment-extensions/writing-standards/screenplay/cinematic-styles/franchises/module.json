@@ -1,0 +1,93 @@
+{
+  "name": "cinematic-styles-franchises",
+  "version": "1.0.0",
+  "displayName": "Cinematic Styles - Franchises",
+  "description": "Film franchise-specific screenplay style guides for major cinematic universes and series",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "franchises",
+    "series",
+    "universe",
+    "storytelling"
+  ],
+  "dependencies": {
+    "required": [],
+    "optional": ["writing-standards/screenplay"]
+  },
+  "augment": {
+    "characterCount": 150000,
+    "priority": "high",
+    "category": "cinematic-styles",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/*.screenplay",
+        "**/screenplay/**/*.md",
+        "**/screenplays/**/*"
+      ],
+      "languages": ["fountain", "markdown"]
+    },
+    "subModules": [
+      {
+        "id": "mcu",
+        "name": "Marvel Cinematic Universe",
+        "description": "MCU/Avengers ensemble superhero style",
+        "path": "mcu/"
+      },
+      {
+        "id": "star-trek",
+        "name": "Star Trek",
+        "description": "Star Trek franchise philosophical sci-fi (7 series)",
+        "path": "star-trek/"
+      },
+      {
+        "id": "star-wars",
+        "name": "Star Wars",
+        "description": "Star Wars mythic space opera",
+        "path": "star-wars/"
+      },
+      {
+        "id": "harry-potter",
+        "name": "Harry Potter",
+        "description": "Harry Potter magical coming-of-age",
+        "path": "harry-potter/"
+      },
+      {
+        "id": "john-wick",
+        "name": "John Wick",
+        "description": "John Wick stylized action",
+        "path": "john-wick/"
+      },
+      {
+        "id": "james-bond",
+        "name": "James Bond",
+        "description": "James Bond spy thriller",
+        "path": "james-bond/"
+      },
+      {
+        "id": "lord-of-the-rings",
+        "name": "Lord of the Rings",
+        "description": "Lord of the Rings epic fantasy",
+        "path": "lord-of-the-rings/"
+      },
+      {
+        "id": "fast-and-furious",
+        "name": "Fast & Furious",
+        "description": "Fast & Furious action franchise",
+        "path": "fast-and-furious/"
+      }
+    ]
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link all franchises: augx link writing-standards/screenplay/cinematic-styles/franchises",
+      "Or link specific franchise: augx link writing-standards/screenplay/cinematic-styles/franchises/mcu",
+      "Configure active style in .augment/screenplay-config.json"
+    ]
+  }
+}
+

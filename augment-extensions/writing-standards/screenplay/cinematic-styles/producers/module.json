@@ -1,0 +1,26 @@
+{
+  "name": "cinematic-styles-producers",
+  "version": "1.0.0",
+  "displayName": "Cinematic Styles - Producers",
+  "description": "Producer team style guides for distinctive production approaches",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles",
+  "tags": [
+    "screenplay",
+    "producers",
+    "production",
+    "blockbuster"
+  ],
+  "augment": {
+    "characterCount": 12000,
+    "priority": "high",
+    "subModules": [
+      {
+        "id": "bruckheimer-and-simpson",
+        "name": "Bruckheimer And Simpson",
+        "description": "Bruckheimer And Simpson style guide",
+        "path": "bruckheimer-and-simpson/"
+      }
+    ]
+  }
+}

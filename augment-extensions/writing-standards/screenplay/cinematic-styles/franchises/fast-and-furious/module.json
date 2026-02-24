@@ -1,0 +1,17 @@
+{
+  "name": "cinematic-styles-fast-furious",
+  "version": "1.0.0",
+  "displayName": "Fast & Furious Style",
+  "description": "Fast & Furious action franchise with family themes",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/franchises",
+  "tags": ["screenplay", "fast-furious", "action", "cars", "family"],
+  "augment": {
+    "characterCount": 12000,
+    "priority": "high"
+  },
+  "contents": {
+    "rules": ["the-fast-and-furious-saga.md"]
+  }
+}
+

@@ -1,0 +1,33 @@
+{
+  "name": "cinematic-styles-comedy-formats",
+  "version": "1.0.0",
+  "displayName": "Cinematic Styles - Comedy Formats",
+  "description": "Comedy format style guides including sketch comedy and absurdist humor",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles",
+  "tags": [
+    "screenplay",
+    "comedy",
+    "sketch",
+    "satire",
+    "absurdist"
+  ],
+  "augment": {
+    "characterCount": 20000,
+    "priority": "high",
+    "subModules": [
+      {
+        "id": "monty-python",
+        "name": "Monty Python",
+        "description": "Monty Python style guide",
+        "path": "monty-python/"
+      },
+      {
+        "id": "saturday-night-live",
+        "name": "Saturday Night Live",
+        "description": "Saturday Night Live style guide",
+        "path": "saturday-night-live/"
+      }
+    ]
+  }
+}

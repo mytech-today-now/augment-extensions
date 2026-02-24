@@ -1,0 +1,17 @@
+{
+  "name": "cinematic-styles-harry-potter",
+  "version": "1.0.0",
+  "displayName": "Harry Potter Style",
+  "description": "Harry Potter magical coming-of-age adventure",
+  "type": "writing-standards",
+  "category": "screenplay/cinematic-styles/franchises",
+  "tags": ["screenplay", "harry-potter", "fantasy", "coming-of-age", "magical"],
+  "augment": {
+    "characterCount": 15000,
+    "priority": "high"
+  },
+  "contents": {
+    "rules": ["harry-potter.md"]
+  }
+}
+

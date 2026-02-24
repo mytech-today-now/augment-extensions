@@ -41,6 +41,10 @@ temp/
 
 # Augment (entire directory - project-specific AI agent rules)
 .augment/
+# Exception: Track MCP documentation and examples
+!.augment/mcp/
+!.augment/mcp/*.md
+!.augment/mcp/servers.json
 
 # Beads (cache and database only - track issues.jsonl and config)
 .beads/beads.db

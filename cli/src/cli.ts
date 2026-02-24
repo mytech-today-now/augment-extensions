@@ -42,6 +42,7 @@ import {
   mcpGenerateCLICommand
 } from './commands/mcp';
 import { codeAnalysisCommand } from './commands/code-analysis';
+import { generateShotListCommand } from './commands/generate-shot-list';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -503,6 +504,27 @@ program
       severity: options.severity,
       format: options.format,
       fix: options.fix
+    });
+  });
+
+// Generate Shot List command
+program
+  .command('generate-shot-list')
+  .description('Generate AI-optimized shot lists from screenplays')
+  .requiredOption('--path <file>', 'Path to screenplay file')
+  .option('--format <format>', 'Output format: md, json, jsonl, csv, txt, html', 'md')
+  .option('--output <filename>', 'Custom output filename')
+  .option('--max-characters <number>', 'Maximum characters per shot description', '4000')
+  .option('--max-shot-length <seconds>', 'Maximum shot duration in seconds', '12')
+  .option('--logging', 'Enable comprehensive error logging to JSONL file')
+  .action((options) => {
+    generateShotListCommand({
+      path: options.path,
+      format: options.format,
+      output: options.output,
+      maxCharacters: parseInt(options.maxCharacters, 10),
+      maxShotLength: parseInt(options.maxShotLength, 10),
+      logging: options.logging
     });
   });
 

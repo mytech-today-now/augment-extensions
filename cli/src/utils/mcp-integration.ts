@@ -161,9 +161,35 @@ export function executeMCPCommand(
       }
 
       try {
-        // Parse JSON-RPC response
-        const response = JSON.parse(stdout);
-        resolve(response);
+        // Parse JSON-RPC response - handle multiple lines
+        const lines = stdout.trim().split('\n');
+        let response: any = null;
+
+        // Try to find the JSON-RPC response
+        for (const line of lines) {
+          try {
+            const parsed = JSON.parse(line);
+            if (parsed.jsonrpc === '2.0' && parsed.id === 1) {
+              response = parsed;
+              break;
+            }
+          } catch {
+            // Skip non-JSON lines
+          }
+        }
+
+        if (!response) {
+          reject(new Error(`No valid JSON-RPC response found\nStdout: ${stdout}`));
+          return;
+        }
+
+        // Check for JSON-RPC error
+        if (response.error) {
+          reject(new Error(`MCP error: ${response.error.message || JSON.stringify(response.error)}`));
+          return;
+        }
+
+        resolve(response.result || response);
       } catch (error) {
         reject(new Error(`Failed to parse MCP response: ${error}\nStdout: ${stdout}`));
       }
@@ -254,19 +280,97 @@ The actual tool execution is handled by the MCP integration layer.
 /**
  * Discover available MCP tools from a server
  *
- * Note: This is a simplified version. Full implementation would require
- * proper MCP protocol negotiation and tool discovery.
+ * Connects to the MCP server and retrieves the list of available tools.
  */
 export async function discoverMCPTools(serverName: string, repoRoot?: string): Promise<MCPTool[]> {
-  // Placeholder implementation
-  // In a full implementation, this would:
-  // 1. Connect to the MCP server
-  // 2. Send a tools/list request
-  // 3. Parse the response
-  // 4. Return the list of available tools
+  return new Promise((resolve, reject) => {
+    const configs = loadMCPConfigs(repoRoot);
+    const config = configs.find(c => c.name === serverName);
 
-  console.warn('MCP tool discovery not yet fully implemented');
-  return [];
+    if (!config) {
+      reject(new Error(`MCP server not found: ${serverName}`));
+      return;
+    }
+
+    if (config.transport !== 'stdio') {
+      reject(new Error(`Only stdio transport is currently supported for discovery`));
+      return;
+    }
+
+    // Spawn the MCP server process
+    const child = spawn(config.command, config.args || [], {
+      stdio: ['pipe', 'pipe', 'pipe'],
+      env: { ...process.env, ...config.env }
+    });
+
+    let stdout = '';
+    let stderr = '';
+
+    child.stdout?.on('data', (data) => {
+      stdout += data.toString();
+    });
+
+    child.stderr?.on('data', (data) => {
+      stderr += data.toString();
+    });
+
+    child.on('error', (error) => {
+      reject(new Error(`Failed to spawn MCP server: ${error.message}`));
+    });
+
+    child.on('exit', (code) => {
+      if (code !== 0) {
+        reject(new Error(`MCP server exited with code ${code}\nStderr: ${stderr}`));
+        return;
+      }
+
+      try {
+        // Parse JSON-RPC response
+        const lines = stdout.trim().split('\n');
+        let response: any = null;
+
+        // Try to find the JSON-RPC response
+        for (const line of lines) {
+          try {
+            const parsed = JSON.parse(line);
+            if (parsed.result && parsed.result.tools) {
+              response = parsed;
+              break;
+            }
+          } catch {
+            // Skip non-JSON lines
+          }
+        }
+
+        if (!response || !response.result || !response.result.tools) {
+          // If no tools found in response, return empty array
+          resolve([]);
+          return;
+        }
+
+        const tools: MCPTool[] = response.result.tools.map((tool: any) => ({
+          name: tool.name,
+          description: tool.description || '',
+          inputSchema: tool.inputSchema || {}
+        }));
+
+        resolve(tools);
+      } catch (error) {
+        reject(new Error(`Failed to parse MCP response: ${error}\nStdout: ${stdout}`));
+      }
+    });
+
+    // Send JSON-RPC request for tools/list
+    const request = {
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'tools/list',
+      params: {}
+    };
+
+    child.stdin?.write(JSON.stringify(request) + '\n');
+    child.stdin?.end();
+  });
 }
 
 /**

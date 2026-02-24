@@ -267,6 +267,82 @@ const specsForFile = Object.entries(coord.specs)
 
 ---
 
+## MCP Integration (Model Context Protocol)
+
+This repository integrates **Model Context Protocol (MCP)** servers to enable real-time data access for AI agents.
+
+### Beads MCP Server
+
+The **beads-mcp** server provides real-time access to Beads tasks, enabling AI agents to:
+- Query tasks, dependencies, and status
+- Incorporate task context into prompts
+- Automate task orchestration and code generation
+- Link code changes to task resolution
+
+### Configuration
+
+MCP servers are configured in two locations:
+
+1. **VS Code Integration**: `.vscode/mcp.json`
+   - Automatically loaded by VS Code and Augment Code
+   - Enables AI agents to query Beads in real-time
+   - Configures context budget and priorities
+
+2. **CLI Integration**: `.augment/mcp/servers.json`
+   - Used by `augx mcp` commands
+   - Enables manual MCP server management
+
+### For AI Agents
+
+When MCP is enabled, AI agents automatically:
+1. Connect to configured MCP servers on startup
+2. Query relevant data based on current context
+3. Include MCP data in prompts (within context budget)
+4. Suggest actions based on MCP data
+
+**Example queries**:
+- "Show me all open tasks for Phase 2"
+- "What tasks are blocking bd-shot-list-2.3?"
+- "Generate code for task bd-shot-list-2.4"
+- "What's the status of the AI Shot List Generator?"
+
+### Installation
+
+Install the beads-mcp server:
+
+```bash
+pip install beads-mcp
+# or
+pipx install beads-mcp
+```
+
+Verify installation:
+
+```bash
+python -m beads_mcp --version
+```
+
+### Usage
+
+The MCP server runs automatically when Augment Code starts. No manual intervention needed.
+
+**Manual testing**:
+
+```bash
+# List MCP servers
+augx mcp list
+
+# Execute MCP tool
+augx mcp exec beads tasks/list
+
+# Discover available tools
+augx mcp discover beads
+```
+
+**Learn More**: See `.vscode/MCP_SETUP.md` for detailed configuration and troubleshooting.
+
+---
+
 **Note**: This is a meta-repository for extending Augment Code AI. The actual project-specific `.augment/` folder remains in individual projects.
 
 

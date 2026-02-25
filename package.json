@@ -60,6 +60,21 @@
     "url": "https://github.com/mytech-today-now/augment-extensions/issues"
   },
   "homepage": "https://github.com/mytech-today-now/augment-extensions#readme",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/mytech-today-now"
+    },
+    {
+      "type": "patreon",
+      "url": "https://patreon.com/mytech_today"
+    },
+    {
+      "type": "ko_fi",
+      "url": "https://ko-fi.com/mytech_today"
+    },
+    "https://www.buymeacoffee.com/mytech_today"
+  ],
   "engines": {
     "node": ">=16.0.0"
   },
@@ -74,6 +89,7 @@
     "archiver": "^7.0.1",
     "chalk": "^5.3.0",
     "commander": "^11.0.0",
+    "csv-stringify": "^6.6.0",
     "gray-matter": "^4.0.3",
     "highlight.js": "^11.11.1",
     "inquirer": "^9.2.0",
@@ -83,6 +99,7 @@
     "semver": "^7.5.0",
     "tar": "^7.5.9",
     "unzipper": "^0.12.3",
+    "uuid": "^13.0.0",
     "yaml": "^2.3.0"
   },
   "devDependencies": {
@@ -94,6 +111,7 @@
     "@types/semver": "^7.5.0",
     "@types/tar": "^6.1.13",
     "@types/unzipper": "^0.10.11",
+    "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitest/coverage-v8": "^4.0.18",

@@ -3,6 +3,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { displayHelp } from './generate-shot-list/help-text';
 import { ExitCode, exitWithCode } from './generate-shot-list/exit-codes';
+import { createParserAuto } from './generate-shot-list/parser';
+import { createGenerator } from './generate-shot-list/generator';
+import { createFormatter } from './generate-shot-list/formatter';
+import { createLogger } from './generate-shot-list/logger';
+import type { OutputFormat } from './generate-shot-list/formatter/types';
 
 interface GenerateShotListOptions {
   path?: string;
@@ -84,12 +89,147 @@ export async function generateShotListCommand(options: GenerateShotListOptions):
     console.log(chalk.gray(`Max characters: ${maxCharacters}`));
     console.log(chalk.gray(`Max shot length: ${maxShotLength}s\n`));
 
-    // TODO: Implement actual shot list generation
-    // For now, just show a placeholder message
-    console.log(chalk.yellow('⚠️  Shot list generation not yet implemented'));
-    console.log(chalk.gray('This feature is currently under development.\n'));
+    // Initialize logger if requested
+    let logger;
+    if (logging) {
+      logger = await createLogger();
+      await logger.logInfo('Shot list generation started', {
+        inputFile: options.path,
+        format,
+        maxCharacters,
+        maxShotLength
+      });
+    }
 
-    exitWithCode(ExitCode.SUCCESS);
+    try {
+      // Step 1: Read input file
+      console.log(chalk.gray('📖 Reading screenplay file...'));
+      const content = fs.readFileSync(options.path, 'utf-8');
+
+      // Step 2: Parse screenplay
+      console.log(chalk.gray('🔍 Parsing screenplay...'));
+      const parser = createParserAuto(options.path, content);
+      const screenplay = parser.parse(content);
+      console.log(chalk.green(`✓ Parsed ${screenplay.scenes.length} scenes`));
+
+      if (logging && logger) {
+        await logger.logInfo('Screenplay parsed successfully', {
+          sceneCount: screenplay.scenes.length,
+          format: screenplay.metadata.format,
+          totalLines: screenplay.metadata.totalLines
+        });
+      }
+
+      // Step 3: Generate shot list
+      console.log(chalk.gray('🎬 Generating shots...'));
+      const generator = createGenerator();
+      const shotList = generator.generate(screenplay.scenes, {
+        maxCharacters,
+        maxShotLength,
+        warningThreshold: 90, // 90% threshold for warnings
+        includeContext: true,
+        includeMetadata: true
+      });
+      console.log(chalk.green(`✓ Generated ${shotList.totalShots} shots`));
+      console.log(chalk.gray(`   Total duration: ${Math.floor(shotList.totalDuration / 60)}m ${Math.floor(shotList.totalDuration % 60)}s`));
+      console.log(chalk.gray(`   Total characters: ${shotList.totalCharacters}`));
+
+      if (logging && logger) {
+        const inputStats = fs.statSync(options.path);
+        await logger.logSuccess(
+          'Shot list generated successfully',
+          {
+            shotCount: shotList.totalShots,
+            duration: shotList.totalDuration,
+            characterCount: shotList.totalCharacters,
+            processingTime: 0, // TODO: Track actual processing time
+            warningCount: shotList.warnings.length,
+            inputFileSize: inputStats.size,
+            outputFileSize: 0 // Will be updated when file is written
+          },
+          options.path,
+          options.output || 'console',
+          format
+        );
+      }
+
+      // Display warnings if any
+      if (shotList.warnings.length > 0) {
+        console.log(chalk.yellow(`\n⚠️  ${shotList.warnings.length} warning(s):`));
+        for (const warning of shotList.warnings.slice(0, 5)) {
+          console.log(chalk.yellow(`   - Shot ${warning.shotNumber}: ${warning.message}`));
+        }
+        if (shotList.warnings.length > 5) {
+          console.log(chalk.gray(`   ... and ${shotList.warnings.length - 5} more`));
+        }
+        console.log();
+      }
+
+      // Step 4: Format output
+      console.log(chalk.gray('📝 Formatting output...'));
+      const formatter = createFormatter(format as OutputFormat);
+      const output = formatter.format(shotList);
+
+      // Step 5: Write output
+      if (options.output) {
+        fs.writeFileSync(options.output, output, 'utf-8');
+        console.log(chalk.green(`✓ Shot list saved to: ${options.output}\n`));
+
+        if (logging && logger) {
+          const inputStats = fs.statSync(options.path);
+          const outputStats = fs.statSync(options.output);
+          await logger.logSuccess(
+            'Output file written',
+            {
+              shotCount: shotList.totalShots,
+              duration: shotList.totalDuration,
+              characterCount: shotList.totalCharacters,
+              processingTime: 0,
+              warningCount: shotList.warnings.length,
+              inputFileSize: inputStats.size,
+              outputFileSize: outputStats.size
+            },
+            options.path,
+            options.output,
+            format
+          );
+        }
+      } else {
+        // Print to console
+        console.log(chalk.blue('\n📋 Shot List:\n'));
+        console.log(output);
+        console.log();
+      }
+
+      console.log(chalk.green('✅ Shot list generation complete!\n'));
+      exitWithCode(ExitCode.SUCCESS);
+
+    } catch (parseError: any) {
+      console.error(chalk.red(`\n❌ Error during generation: ${parseError.message}\n`));
+
+      if (logging && logger) {
+        // Create error definition from the caught error
+        const errorDef = {
+          code: 'GE001',
+          name: 'Generation Error',
+          description: parseError.message,
+          severity: 'error' as const,
+          exitCode: ExitCode.GENERAL_ERROR,
+          recovery: 'Check input file and try again',
+          message: () => parseError.message,
+          fix: () => 'Verify the screenplay file is valid and try again',
+          autoFixable: false,
+          relatedDocs: []
+        };
+
+        await logger.logError(errorDef, {
+          inputFile: options.path,
+          stage: 'generation'
+        }, parseError.stack);
+      }
+
+      exitWithCode(ExitCode.GENERAL_ERROR);
+    }
 
   } catch (error) {
     console.error(chalk.red('Error generating shot list:'), error);

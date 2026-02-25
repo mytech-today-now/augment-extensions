@@ -547,15 +547,120 @@ augx link api-design-rules
 
 ### 3. Version Management
 
+**New in v2.0.0**: Comprehensive module versioning system with semantic versioning, version selection, and compatibility checking.
+
+#### Quick Start
+
 ```bash
-# Update all linked modules
+# List modules with available versions
+augx list --versions
+
+# Use specific module version
+augx use coding-standards/typescript --version 2.0.0
+
+# Pin version for stability (saves to .augment/extensions.json)
+augx use coding-standards/typescript --version 2.0.0 --pin
+
+# Upgrade module to latest version
+augx upgrade coding-standards/typescript
+
+# Show detailed version information
+augx version-info coding-standards/typescript
+```
+
+#### Version Selection Strategies
+
+**Latest Version (Default)**:
+```bash
+# Always use latest version
+augx use coding-standards/typescript
+```
+
+**Specific Version**:
+```bash
+# Use exact version
+augx use coding-standards/typescript --version 2.0.0
+```
+
+**Version Pinning** (Recommended for Production):
+```bash
+# Pin to specific version (prevents automatic updates)
+augx use coding-standards/typescript --version 2.0.0 --pin
+
+# Verify pinned versions
+cat .augment/extensions.json
+```
+
+#### Upgrade Workflow
+
+```bash
+# Check for available updates
+augx list --versions
+
+# Upgrade specific module (with compatibility checks)
+augx upgrade coding-standards/typescript
+
+# Upgrade with breaking change warnings
+augx upgrade coding-standards/typescript --dry-run
+
+# Force upgrade (skip compatibility checks)
+augx upgrade coding-standards/typescript --force
+```
+
+#### GUI Version Selection
+
+Launch the modern TUI for interactive version selection:
+
+```bash
+augx gui
+```
+
+**Features**:
+- 🌲 **Tree Navigator** - Browse modules by category with arrow keys
+- 📦 **Version Selector** - View and select available versions
+- 🔍 **Search & Filter** - Find modules by name, tag, or category
+- 📄 **Preview Pane** - View module details, metadata, and version history
+- ⌨️ **Keyboard Shortcuts**:
+  - `↑/↓` - Navigate modules
+  - `←/→` - Collapse/expand categories
+  - `Enter` - Select module/version
+  - `P` - Pin/unpin version
+  - `C` - Filter by category
+  - `T` - Filter by tag
+  - `/` - Search
+  - `?` - Show help
+  - `Q` - Quit
+
+#### Version Compatibility
+
+All modules include compatibility metadata:
+
+```bash
+# Check compatibility requirements
+augx version-info coding-standards/typescript
+
+# Example output:
+# Version: 2.0.0
+# Compatibility:
+#   - Augment: 1.0.0+
+#   - Node.js: 18.0.0+
+#   - TypeScript: 5.0.0+
+```
+
+#### Migration from v1.x
+
+See **[Migration Guide](./docs/MIGRATION_V2.md)** for detailed migration instructions.
+
+**Quick migration**:
+```bash
+# Update CLI to v2.0.0
+npm install -g augx@2.0.0
+
+# Update all modules
 augx update
 
-# Update specific module
-augx update typescript-standards
-
-# Pin to specific version
-augx pin typescript-standards@1.2.0
+# Or pin to v1.x for stability
+augx use coding-standards/typescript --version 1.0.0 --pin
 ```
 
 ## 📖 Available Modules
@@ -571,8 +676,12 @@ augx pin typescript-standards@1.2.0
 - **[JavaScript Standards](./augment-extensions/coding-standards/js/)** (v1.0.0, ~101K chars)
   - ES6+ features, async patterns, DOM manipulation, error handling, tooling
 
-- **[TypeScript Standards](./augment-extensions/coding-standards/typescript/)** (v1.0.0, ~6K chars)
-  - Naming conventions, type safety, best practices
+- **[TypeScript Standards](./augment-extensions/coding-standards/typescript/)** (v2.0.0, ~25K chars) ✨ UPDATED
+  - Modern TypeScript 5.x features (const type parameters, satisfies, inferred type predicates)
+  - Advanced type patterns (discriminated unions, branded types, template literal types)
+  - Monorepo patterns (Turborepo, Nx), tooling (flat ESLint, Biome, tsup, Vitest)
+  - Architecture patterns (DDD, clean architecture, hexagonal), error handling (Neverthrow, Effect-TS)
+  - Security & performance best practices, comprehensive testing strategies
 
 - **[Python Standards](./augment-extensions/coding-standards/python/)** (v1.1.0, ~116K chars)
   - Type hints (PEP 484, 585, 604), async patterns, testing, documentation

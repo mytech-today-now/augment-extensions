@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "name": "screenplay-themes",
+  "displayName": "Screenplay Themes",
+  "description": "Thematic integration rules and guidelines for screenplay writing across 15+ universal themes",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "themes",
+    "storytelling",
+    "character-development",
+    "subtext"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 0,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "ambition.md",
+      "betrayal.md",
+      "environment.md",
+      "fate.md",
+      "friendship.md",
+      "growth.md",
+      "identity.md",
+      "isolation.md",
+      "justice.md",
+      "love.md",
+      "power.md",
+      "redemption.md",
+      "revenge.md",
+      "survival.md",
+      "technology.md"
+    ],
+    "examples": [
+      "common-mistakes-and-fixes.md",
+      "complete-scene-example.md",
+      "individual-theme-examples.md",
+      "multi-theme-weaving.md",
+      "theme-application-guide.md",
+      "theme-integration-across-acts.md"
+    ]
+  }
+}

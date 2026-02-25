@@ -1,0 +1,60 @@
+{
+  "version": "1.0.0",
+  "name": "shakespeare",
+  "displayName": "Shakespeare Writing Standards",
+  "description": "Comprehensive guide to Shakespearean writing including poetry (sonnets, iambic pentameter), drama (tragedy, comedy, history), Elizabethan English, rhetoric, character development, and thematic elements",
+  "type": "writing-standards",
+  "tags": [
+    "shakespeare",
+    "literature",
+    "poetry",
+    "drama",
+    "sonnets",
+    "iambic-pentameter",
+    "elizabethan-english",
+    "tragedy",
+    "comedy",
+    "rhetoric",
+    "character-development",
+    "themes"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 419662,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "character-themes/character-development.md",
+      "character-themes/thematic-elements.md",
+      "drama/comedy.md",
+      "drama/history-plays.md",
+      "drama/scene-construction.md",
+      "drama/tragedy.md",
+      "language/elizabethan-english.md",
+      "language/rhetoric-wordplay.md",
+      "language/vocabulary-guide.md",
+      "poetry/iambic-pentameter.md",
+      "poetry/narrative-poetry.md",
+      "poetry/sonnets.md",
+      "poetry/verse-forms.md"
+    ],
+    "examples": [
+      "annotated-sonnets/sonnet-130.md",
+      "annotated-sonnets/sonnet-18.md",
+      "annotated-sonnets/sonnet-73.md",
+      "exercises/character-worksheet.md",
+      "exercises/iambic-pentameter-practice.md",
+      "exercises/sonnet-writing-exercise.md",
+      "exercises/theme-analysis-template.md",
+      "exercises/verse-analysis-exercise.md",
+      "scene-examples/hamlet-to-be-or-not-to-be.md",
+      "scene-examples/king-lear-storm-scene.md",
+      "scene-examples/macbeth-tomorrow-and-tomorrow.md",
+      "scene-examples/much-ado-benedick-eavesdropping.md",
+      "scene-examples/romeo-juliet-balcony.md",
+      "scene-examples/twelfth-night-malvolio-letter.md"
+    ]
+  }
+}

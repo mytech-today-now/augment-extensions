@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "name": "design-patterns",
+  "displayName": "Design Patterns Examples",
+  "description": "Common design patterns with TypeScript/JavaScript implementations and use cases",
+  "type": "examples",
+  "tags": [
+    "design-patterns",
+    "typescript",
+    "javascript",
+    "oop",
+    "architecture",
+    "examples"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 42000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": [
+      "behavioral-patterns.md",
+      "creational-patterns.md",
+      "structural-patterns.md"
+    ]
+  }
+}

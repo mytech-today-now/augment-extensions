@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-mcu",
+  "displayName": "MCU/Avengers Style",
+  "description": "Marvel Cinematic Universe ensemble superhero epic with heart and humor",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "mcu",
+    "marvel",
+    "superhero",
+    "ensemble",
+    "action"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 25000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "mcu-avengers.md",
+    "examples": []
+  }
+}

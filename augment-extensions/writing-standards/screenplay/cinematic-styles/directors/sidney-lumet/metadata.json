@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-sidney-lumet",
+  "displayName": "Sidney Lumet Style Guide",
+  "description": "Screenplay style guide for Sidney Lumet",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "sidney-lumet"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "sidney-lumet.md",
+    "examples": []
+  }
+}

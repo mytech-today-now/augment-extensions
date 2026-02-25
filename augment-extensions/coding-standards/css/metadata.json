@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "name": "css-standards",
+  "displayName": "CSS Standards",
+  "description": "Comprehensive CSS coding standards for modern web development with styling, layouts, responsiveness, and preprocessors (Sass, Less)",
+  "type": "coding-standards",
+  "language": "css",
+  "tags": [
+    "css",
+    "web",
+    "frontend",
+    "styling",
+    "responsive",
+    "sass",
+    "less"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 30556,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "css-modern-features.md",
+      "css-standards.md"
+    ],
+    "examples": null
+  }
+}

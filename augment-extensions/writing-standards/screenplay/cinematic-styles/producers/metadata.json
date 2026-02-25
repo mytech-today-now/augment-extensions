@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-producers",
+  "displayName": "Cinematic Styles - Producers",
+  "description": "Producer team style guides for distinctive production approaches",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "producers",
+    "production",
+    "blockbuster"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 12000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": []
+  }
+}

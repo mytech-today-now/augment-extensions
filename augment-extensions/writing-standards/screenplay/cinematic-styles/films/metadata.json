@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-films",
+  "displayName": "Cinematic Styles - Individual Films",
+  "description": "Style guides for specific notable films with unique storytelling approaches",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "films",
+    "indie",
+    "thriller"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 15000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": null,
+    "examples": []
+  }
+}

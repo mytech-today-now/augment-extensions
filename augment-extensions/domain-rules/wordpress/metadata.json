@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "name": "wordpress-development",
+  "displayName": "WordPress Development Standards",
+  "description": "Comprehensive WordPress development guidelines including themes, plugins, blocks, and best practices",
+  "type": "domain-rules",
+  "tags": [
+    "wordpress",
+    "php",
+    "cms",
+    "gutenberg",
+    "woocommerce",
+    "theme-development",
+    "plugin-development",
+    "blocks",
+    "rest-api",
+    "security",
+    "performance"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 0,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "coding-standards.md",
+      "directory-structure.md",
+      "file-patterns.md",
+      "gutenberg-blocks.md",
+      "performance.md",
+      "plugin-development.md",
+      "project-detection.md",
+      "rest-api.md",
+      "security.md",
+      "theme-development.md",
+      "woocommerce.md"
+    ],
+    "examples": []
+  }
+}

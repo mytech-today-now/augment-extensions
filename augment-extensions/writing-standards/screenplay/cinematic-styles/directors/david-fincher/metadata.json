@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-david-fincher",
+  "displayName": "David Fincher Style Guide",
+  "description": "Screenplay style guide for David Fincher",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "david-fincher"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "david-fincher.md",
+    "examples": []
+  }
+}

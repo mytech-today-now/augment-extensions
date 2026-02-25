@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "name": "screenplay",
+  "displayName": "Screenplay Writing Standards",
+  "description": "Comprehensive screenplay writing and crafting standards for AI-driven content creation across AAA Hollywood films, independent films, TV series, web content, news broadcasts, commercials, streaming content, and live TV productions",
+  "type": "writing-standards",
+  "language": "screenplay",
+  "tags": [
+    "screenplay",
+    "writing",
+    "film",
+    "tv",
+    "narrative",
+    "dialogue",
+    "formatting",
+    "fountain",
+    "final-draft",
+    "ampas",
+    "hollywood",
+    "independent",
+    "streaming",
+    "web-content",
+    "news",
+    "commercials"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 163500,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "aaa-hollywood-films.md",
+      "ai-integration-testing.md",
+      "character-development.md",
+      "commercials.md",
+      "dialogue-writing.md",
+      "diversity-inclusion.md",
+      "examples-guide.md",
+      "file-organization.md",
+      "formatting-validation.md",
+      "fountain-format.md",
+      "independent-films.md",
+      "live-tv-productions.md",
+      "narrative-structures.md",
+      "news-broadcasts.md",
+      "pacing-timing.md",
+      "quality-review-checklist.md",
+      "quick-reference.md",
+      "screen-continuity.md",
+      "streaming-content.md",
+      "trope-management.md",
+      "tv-series.md",
+      "universal-formatting.md",
+      "vscode-integration.md",
+      "web-content.md"
+    ],
+    "examples": [
+      "beat-sheet-example.yaml",
+      "character-profile-example.yaml",
+      "plot-outline-example.yaml"
+    ]
+  }
+}

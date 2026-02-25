@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-george-a-romero",
+  "displayName": "George A Romero Style Guide",
+  "description": "Screenplay style guide for George A Romero",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "george-a-romero"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "george-a-romero.md",
+    "examples": []
+  }
+}

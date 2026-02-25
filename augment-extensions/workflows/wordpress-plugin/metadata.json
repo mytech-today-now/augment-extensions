@@ -1,0 +1,41 @@
+{
+  "version": "1.2.0",
+  "name": "wordpress-plugin-workflow",
+  "displayName": "WordPress Plugin Development Workflow",
+  "description": "Complete workflows for WordPress plugin development including scaffolding, development, testing, and WordPress.org submission processes. Optimized for AI-assisted development with OpenSpec and Beads integration.",
+  "type": "workflow",
+  "tags": [
+    "wordpress",
+    "plugin-development",
+    "scaffolding",
+    "testing",
+    "submission",
+    "wordpress-org",
+    "development-workflow",
+    "best-practices",
+    "ai-assisted"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 81564,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "best-practices.md",
+      "development-workflow.md",
+      "submission-workflow.md",
+      "testing-workflow.md"
+    ],
+    "examples": [
+      "complete-plugin-example.md",
+      "custom-post-type-example.md",
+      "feature-addition-workflow.md",
+      "plugin-creation-workflow.md",
+      "secure-form-handler-example.md",
+      "security-audit-workflow.md",
+      "wordpress-org-submission-workflow.md"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-martin-scorsese",
+  "displayName": "Martin Scorsese Style Guide",
+  "description": "Screenplay style guide for Martin Scorsese",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "martin-scorsese"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "martin-scorsese.md",
+    "examples": []
+  }
+}

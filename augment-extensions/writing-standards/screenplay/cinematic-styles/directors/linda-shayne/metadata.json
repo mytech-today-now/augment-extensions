@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-linda-shayne",
+  "displayName": "Linda Shayne Style Guide",
+  "description": "Screenplay style guide for Linda Shayne",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "linda-shayne"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "linda-shayne.md",
+    "examples": []
+  }
+}

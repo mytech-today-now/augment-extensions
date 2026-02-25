@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors",
+  "displayName": "Cinematic Styles - Directors",
+  "description": "Film director-specific screenplay style guides capturing the unique voice, structure, and techniques of 60 iconic filmmakers",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "directors",
+    "auteur",
+    "film-analysis",
+    "storytelling"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 350000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": []
+  }
+}

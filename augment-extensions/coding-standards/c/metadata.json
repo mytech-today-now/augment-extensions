@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "name": "c-standards",
+  "displayName": "C Coding Standards",
+  "description": "Comprehensive C programming language coding standards for systems programming, embedded systems, kernel development, device drivers, real-time systems, networking, and legacy code maintenance",
+  "type": "coding-standards",
+  "language": "c",
+  "tags": [
+    "c",
+    "systems",
+    "embedded",
+    "kernel",
+    "drivers",
+    "realtime",
+    "networking",
+    "legacy"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 0,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "categories/drivers.md",
+      "categories/embedded.md",
+      "categories/kernel.md",
+      "categories/legacy.md",
+      "categories/networking.md",
+      "categories/realtime.md",
+      "categories/systems.md",
+      "universal/const-correctness.md",
+      "universal/documentation.md",
+      "universal/error-handling.md",
+      "universal/header-guards.md",
+      "universal/memory-safety.md",
+      "universal/naming.md"
+    ],
+    "examples": [
+      "drivers/README.md",
+      "embedded/README.md",
+      "kernel/README.md",
+      "legacy/README.md",
+      "networking/README.md",
+      "realtime/README.md",
+      "systems/README.md"
+    ]
+  }
+}

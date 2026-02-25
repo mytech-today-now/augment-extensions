@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-comedy-formats",
+  "displayName": "Cinematic Styles - Comedy Formats",
+  "description": "Comedy format style guides including sketch comedy and absurdist humor",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "comedy",
+    "sketch",
+    "satire",
+    "absurdist"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 20000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": []
+  }
+}

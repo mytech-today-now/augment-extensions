@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-comedy-formats-monty-python",
+  "displayName": "Monty Python Style Guide",
+  "description": "Screenplay style guide for Monty Python",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "comedy",
+    "format",
+    "monty-python"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "monty-python.md",
+    "examples": []
+  }
+}

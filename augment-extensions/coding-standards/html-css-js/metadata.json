@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "name": "html-css-js-standards",
+  "displayName": "HTML/CSS/JavaScript Standards",
+  "description": "Comprehensive HTML/CSS/JavaScript coding standards for modern web development with semantic HTML, modern CSS features, and ES6+ JavaScript",
+  "type": "coding-standards",
+  "language": "html-css-js",
+  "tags": [
+    "html",
+    "css",
+    "javascript",
+    "web",
+    "frontend",
+    "accessibility",
+    "performance"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 165097,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "async-patterns.md",
+      "css-modern-features.md",
+      "css-standards.md",
+      "dom-manipulation.md",
+      "html-standards.md",
+      "javascript-standards.md",
+      "performance.md",
+      "tooling.md"
+    ],
+    "examples": [
+      "async-examples.js",
+      "dom-examples.js",
+      "javascript-examples.js"
+    ]
+  }
+}

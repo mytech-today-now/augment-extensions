@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "name": "beads-workflow",
+  "displayName": "Beads Workflow",
+  "description": "Distributed, git-backed graph issue tracker for AI agents. Provides persistent, structured memory for coding agents with dependency tracking.",
+  "type": "workflows",
+  "tags": null,
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 39912,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "best-practices.md",
+      "file-format.md",
+      "manual-setup.md",
+      "workflow.md"
+    ],
+    "examples": "complete-workflow-example.md"
+  }
+}

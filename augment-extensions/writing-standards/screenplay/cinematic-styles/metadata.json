@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles",
+  "displayName": "Cinematic Style Guides",
+  "description": "Film and franchise-specific screenplay style guides capturing the unique voice, structure, and techniques of iconic filmmakers, franchises, and storytelling methodologies",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "film-analysis",
+    "director-style",
+    "franchise",
+    "mcu",
+    "thriller",
+    "action",
+    "ensemble",
+    "character-driven",
+    "auteur",
+    "storytelling",
+    "narrative-theory"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 257196,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "blue-ruin.md",
+      "christopher-nolan.md",
+      "coen-brothers.md",
+      "david-lynch.md",
+      "denis-villeneuve.md",
+      "francis-ford-coppola.md",
+      "george-lucas.md",
+      "joseph-campbell.md",
+      "martin-scorsese.md",
+      "mcu-avengers.md",
+      "monty-python.md",
+      "quentin-tarantino.md",
+      "saturday-night-live.md",
+      "stanley-kubrick.md",
+      "star-wars.md",
+      "steven-spielberg.md",
+      "wes-anderson.md"
+    ],
+    "examples": "style-applications.md"
+  }
+}

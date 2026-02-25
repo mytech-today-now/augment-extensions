@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "name": "security",
+  "displayName": "Security Guidelines",
+  "description": "Comprehensive security guidelines including OWASP best practices, authentication, encryption, and secure coding",
+  "type": "domain-rules",
+  "tags": [
+    "security",
+    "owasp",
+    "authentication",
+    "encryption",
+    "xss",
+    "csrf",
+    "sql-injection"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 38000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "authentication-security.md",
+      "encryption.md",
+      "input-validation.md",
+      "owasp-top-10.md",
+      "secure-coding.md",
+      "web-security.md"
+    ],
+    "examples": []
+  }
+}

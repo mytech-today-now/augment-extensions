@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "name": "software-architecture",
+  "displayName": "Software Architecture Design",
+  "description": "Comprehensive software architecture design patterns, principles, and best practices covering monolithic, microservices, event-driven, serverless, and industry-specific architectures",
+  "type": "domain-rules",
+  "tags": [
+    "architecture",
+    "design-patterns",
+    "microservices",
+    "monolithic",
+    "event-driven",
+    "serverless",
+    "layered",
+    "security",
+    "scalability",
+    "quality-attributes"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 508000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "challenges-solutions.md",
+      "definitions-terminology.md",
+      "design-principles.md",
+      "evaluation-testing.md",
+      "event-driven-architecture.md",
+      "fundamentals.md",
+      "industry-architectures.md",
+      "layered-architecture.md",
+      "microservices-architecture.md",
+      "modeling-documentation.md",
+      "monolithic-architecture.md",
+      "principles.md",
+      "quality-attributes.md",
+      "scalability-performance.md",
+      "security-architecture.md",
+      "serverless-architecture.md",
+      "skills-development.md",
+      "tools-methodologies.md"
+    ],
+    "examples": [
+      "banking-layered.md",
+      "ecommerce-microservices.md",
+      "iot-eventdriven.md",
+      "monolith-to-microservices-migration.md",
+      "serverless-imageprocessing.md",
+      "trading-eventdriven.md"
+    ]
+  }
+}

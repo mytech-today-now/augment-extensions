@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-franchises",
+  "displayName": "Cinematic Styles - Franchises",
+  "description": "Film franchise-specific screenplay style guides for major cinematic universes and series",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "franchises",
+    "series",
+    "universe",
+    "storytelling"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 150000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": []
+  }
+}

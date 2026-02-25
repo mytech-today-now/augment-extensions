@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-james-ivory-ismail-merchant",
+  "displayName": "James Ivory Ismail Merchant Style Guide",
+  "description": "Screenplay style guide for James Ivory Ismail Merchant",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "james-ivory-ismail-merchant"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "james-ivory-ismail-merchant.md",
+    "examples": []
+  }
+}

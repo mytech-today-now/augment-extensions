@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "name": "powershell-standards",
+  "displayName": "PowerShell Coding Standards",
+  "description": "Comprehensive PowerShell coding standards for professional, maintainable, and secure PowerShell code across automation, modules, DSC, cloud orchestration, administrative tools, cross-platform scripts, and legacy migrations.",
+  "type": "coding-standards",
+  "tags": null,
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 162000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "administrative-tools.md",
+      "automation-scripts.md",
+      "cloud-orchestration.md",
+      "configuration-schema.md",
+      "cross-platform-scripts.md",
+      "dsc-configurations.md",
+      "error-handling.md",
+      "legacy-migrations.md",
+      "modules-functions.md",
+      "naming-conventions.md",
+      "performance-optimization.md",
+      "security-practices.md",
+      "testing-guidelines.md",
+      "universal-standards.md"
+    ],
+    "examples": null
+  }
+}

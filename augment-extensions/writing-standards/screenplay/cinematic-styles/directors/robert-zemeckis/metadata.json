@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-robert-zemeckis",
+  "displayName": "Robert Zemeckis Style Guide",
+  "description": "Screenplay style guide for Robert Zemeckis",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "robert-zemeckis"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "robert-zemeckis.md",
+    "examples": []
+  }
+}

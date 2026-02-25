@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-joseph-l-mankiewicz",
+  "displayName": "Joseph L Mankiewicz Style Guide",
+  "description": "Screenplay style guide for Joseph L Mankiewicz",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "joseph-l-mankiewicz"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "joseph-l-mankiewicz.md",
+    "examples": []
+  }
+}

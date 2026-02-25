@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-kelly-reichardt",
+  "displayName": "Kelly Reichardt Style Guide",
+  "description": "Screenplay style guide for Kelly Reichardt",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "kelly-reichardt"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "kelly-reichardt.md",
+    "examples": []
+  }
+}

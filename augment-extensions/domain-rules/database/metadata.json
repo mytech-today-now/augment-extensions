@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "name": "database",
+  "displayName": "Database Design Guidelines",
+  "description": "Comprehensive database design guidelines including schema design, normalization, indexing, and best practices",
+  "type": "domain-rules",
+  "tags": [
+    "database",
+    "schema",
+    "normalization",
+    "indexing",
+    "sql",
+    "nosql",
+    "best-practices"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 449449,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "flat-databases.md",
+      "nosql-databases.md",
+      "nosql-document-stores.md",
+      "nosql-graph-databases.md",
+      "nosql-key-value-stores.md",
+      "performance-optimization.md",
+      "relational-databases.md",
+      "relational-indexing.md",
+      "relational-query-optimization.md",
+      "relational-schema-design.md",
+      "relational-transactions.md",
+      "security-standards.md",
+      "universal-best-practices.md",
+      "vector-databases.md",
+      "vector-embeddings.md",
+      "vector-indexing.md"
+    ],
+    "examples": [
+      "flat-database-example.md",
+      "hybrid-database-example.md",
+      "nosql-document-example.md",
+      "nosql-graph-example.md",
+      "relational-schema-example.md",
+      "vector-database-example.md"
+    ]
+  }
+}

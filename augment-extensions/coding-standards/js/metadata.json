@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "name": "js-standards",
+  "displayName": "JavaScript Standards",
+  "description": "Comprehensive JavaScript coding standards for modern web development with ES6+, DOM manipulation, async patterns, and framework integration",
+  "type": "coding-standards",
+  "language": "javascript",
+  "tags": [
+    "javascript",
+    "js",
+    "web",
+    "frontend",
+    "es6",
+    "async",
+    "dom"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 101818,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "async-patterns.md",
+      "dom-manipulation.md",
+      "javascript-standards.md",
+      "performance.md",
+      "tooling.md"
+    ],
+    "examples": [
+      "async-examples.js",
+      "dom-examples.js",
+      "javascript-examples.js"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "name": "bash-standards",
+  "displayName": "Bash Coding Standards",
+  "description": "Comprehensive Bash coding standards for professional, maintainable, and secure Bash scripts across automation, CI/CD, CLI tools, configuration, data processing, system administration, and cross-platform development.",
+  "type": "coding-standards",
+  "tags": null,
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 0,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "naming-conventions.md",
+      "universal-standards.md"
+    ],
+    "examples": []
+  }
+}

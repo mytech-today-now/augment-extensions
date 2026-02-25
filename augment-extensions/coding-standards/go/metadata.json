@@ -1,0 +1,57 @@
+{
+  "version": "1.0.0",
+  "name": "go-coding-standards",
+  "displayName": "Go Coding Standards",
+  "description": "Professional Go coding standards for Augment Code AI covering web services, microservices, CLI tools, cloud-native applications, distributed systems, DevOps tooling, and API development",
+  "type": "coding-standards",
+  "tags": [
+    "go1.18+",
+    "effective-go",
+    "uber-style-guide",
+    "google-style-guide",
+    "golangci-lint",
+    "staticcheck",
+    "concurrency",
+    "error-handling",
+    "testing",
+    "performance"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 0,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "categories/api-development/api-versioning.md",
+      "categories/api-development/rate-limiting.md",
+      "categories/api-development/rest-api-design.md",
+      "categories/cloud-native/cloud-config.md",
+      "categories/cloud-native/health-checks.md",
+      "categories/cloud-native/kubernetes.md",
+      "categories/devops-tooling/automation.md",
+      "categories/devops-tooling/ci-cd-integration.md",
+      "categories/devops-tooling/infrastructure-as-code.md",
+      "categories/distributed-systems/caching.md",
+      "categories/distributed-systems/consensus.md",
+      "categories/distributed-systems/event-sourcing.md",
+      "cli/command-parsing.md",
+      "cli/configuration.md",
+      "cli/cross-platform.md",
+      "microservices/distributed-tracing.md",
+      "microservices/grpc.md",
+      "microservices/metrics.md",
+      "microservices/service-discovery.md",
+      "universal/code-organization.md",
+      "universal/documentation.md",
+      "universal/performance.md",
+      "universal/testing.md",
+      "web/graceful-shutdown.md",
+      "web/http-handlers.md",
+      "web/middleware.md",
+      "web/routing.md"
+    ],
+    "examples": null
+  }
+}

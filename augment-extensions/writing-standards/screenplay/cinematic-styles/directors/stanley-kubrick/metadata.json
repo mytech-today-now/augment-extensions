@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-directors-stanley-kubrick",
+  "displayName": "Stanley Kubrick Style Guide",
+  "description": "Screenplay style guide for Stanley Kubrick",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "cinematic-style",
+    "director",
+    "auteur",
+    "stanley-kubrick"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 5000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "stanley-kubrick.md",
+    "examples": []
+  }
+}

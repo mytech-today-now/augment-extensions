@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "name": "cinematic-styles-star-trek",
+  "displayName": "Star Trek Franchise",
+  "description": "Star Trek philosophical sci-fi exploring humanity through space exploration (7 series)",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "star-trek",
+    "sci-fi",
+    "philosophical",
+    "ensemble",
+    "episodic"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 50000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "star-trek-deep-space-nine.md",
+      "star-trek-enterprise.md",
+      "star-trek-strange-new-world.md",
+      "star-trek-the-next-generation.md",
+      "star-trek-tos.md",
+      "star-trek-voyager.md",
+      "star-trek.md"
+    ],
+    "examples": []
+  }
+}

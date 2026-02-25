@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "name": "screenplay-styles",
+  "displayName": "Screenplay Narrative Styles",
+  "description": "Narrative style rules and techniques for screenplay writing across 13+ storytelling approaches",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "narrative-style",
+    "storytelling",
+    "structure",
+    "pacing"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 350000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "dialogue-centric.md",
+      "ensemble.md",
+      "epic.md",
+      "experimental.md",
+      "flashback.md",
+      "linear.md",
+      "minimalist.md",
+      "non-linear.md",
+      "poetic.md",
+      "realistic.md",
+      "satirical.md",
+      "surreal.md",
+      "voice-over.md"
+    ],
+    "examples": "style-applications.md"
+  }
+}

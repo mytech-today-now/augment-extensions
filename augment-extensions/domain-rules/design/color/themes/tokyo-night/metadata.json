@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "name": "tokyo-night",
+  "displayName": "Tokyo Night Theme",
+  "description": "Dark theme inspired by Tokyo's neon-lit nights",
+  "type": "domain-rules",
+  "tags": null,
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 0,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": []
+  }
+}

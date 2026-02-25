@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "name": "screenplay-genres",
+  "displayName": "Screenplay Genres",
+  "description": "Genre-specific rules and guidelines for screenplay writing across 18+ film genres",
+  "type": "writing-standards",
+  "tags": [
+    "screenplay",
+    "genres",
+    "film",
+    "writing",
+    "storytelling"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 243000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "action.md",
+      "adventure.md",
+      "animation.md",
+      "biographical.md",
+      "comedy.md",
+      "documentary.md",
+      "drama.md",
+      "fantasy.md",
+      "historical.md",
+      "horror.md",
+      "musical.md",
+      "mystery.md",
+      "noir.md",
+      "romance.md",
+      "sci-fi.md",
+      "superhero.md",
+      "thriller.md",
+      "western.md"
+    ],
+    "examples": null
+  }
+}

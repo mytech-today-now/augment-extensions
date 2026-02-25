@@ -6,6 +6,206 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.0.0] - 2026-02-25
+
+### 🚨 Breaking Changes
+
+#### Module Versioning System
+- **All modules now require VERSION files** - Modules without VERSION files are treated as v1.0.0
+- **New metadata.json format** - All modules must include compatibility information
+- **Config schema updated** - `.augment/extensions.json` now includes `pinnedVersions` field
+- **Module structure changes** - All modules now include VERSION, CHANGELOG.md, and metadata.json
+
+#### TypeScript Module v2.0.0
+- **Expanded from ~6K to ~25K characters** - 4× content increase with modern TypeScript 5.x features
+- **New rule files** - 9 comprehensive rule files (modern-features, type-patterns, monorepo, tooling, security-performance, testing, architecture, error-handling)
+- **Breaking content changes** - Updated best practices may conflict with v1.x guidance
+
+### Added
+
+#### Module Versioning System
+- **VERSION files** - Semantic versioning (MAJOR.MINOR.PATCH) for all modules
+- **CHANGELOG.md** - Version history and change documentation for all modules
+- **metadata.json** - Compatibility metadata (Augment version, Node.js version, TypeScript version, etc.)
+- **Version generation script** - `scripts/generate-module-metadata.js` for automated VERSION/CHANGELOG/metadata generation
+- **Validation script** - `cli/src/utils/validate-versioning.ts` for versioning metadata validation
+
+#### Core Version Management
+- **VersionManager class** - `cli/src/core/version-manager.ts`
+  - Version loading from VERSION and metadata.json files
+  - Version comparison and validation
+  - Caching with TTL support
+  - Deprecation detection
+- **VersionResolver class** - `cli/src/core/version-resolver.ts`
+  - Latest version resolution
+  - Specific version resolution
+  - Version range resolution (e.g., `^1.0.0`, `~2.1.0`)
+  - Automatic strategy detection
+- **CompatibilityChecker class** - `cli/src/core/compatibility-checker.ts`
+  - Node.js version validation
+  - TypeScript version validation
+  - Deprecation warnings
+  - Breaking change detection
+- **Enhanced ModuleLoader** - `cli/src/core/module-loader.ts`
+  - Version parameter support
+  - Metadata reading from VERSION and metadata.json
+  - Module-level caching with version keys
+  - Integration with VersionManager and VersionResolver
+
+#### CLI Commands
+- **`augx use <module> [--version <version>] [--pin]`** - Select and load specific module version
+  - Version selection with automatic resolution
+  - `--pin` flag to persist version in config
+  - `--json` output for programmatic use
+  - Available version display on error
+- **`augx list --versions`** - Show available versions for all modules
+  - Enhanced list command with version display
+  - Current version indicator
+  - Linked module highlighting
+- **`augx upgrade <module> [--force] [--dry-run] [--json]`** - Upgrade module to latest version
+  - Version comparison and compatibility checking
+  - Breaking change warnings
+  - `--dry-run` for preview
+  - `--force` to skip compatibility checks
+  - Config update for pinned modules
+- **`augx version-info <module> [--version <version>] [--json] [--no-changelog] [--no-compatibility]`** - Show detailed version information
+  - Metadata display (author, license, repository, dependencies)
+  - Available versions list
+  - Compatibility information
+  - CHANGELOG display
+  - Flexible output options
+
+#### GUI/TUI Enhancements
+- **Modern TUI framework** - Migrated to Ink (React for CLIs)
+  - Dark/light theme support
+  - Responsive layout
+  - State management (navigation and selection)
+- **TreeNavigator component** - `cli/src/gui/components/tree-navigator.tsx`
+  - Arrow key navigation (↑/↓/←/→)
+  - Collapse/expand functionality
+  - Category grouping
+  - Depth indentation with visual indicators
+- **VersionSelector component** - `cli/src/gui/components/version-selector.tsx`
+  - Version list display
+  - Current version indicator
+  - Pin/unpin functionality (P key)
+  - Detailed version information on focus
+- **SearchFilter component** - `cli/src/gui/components/search-filter.tsx`
+  - Real-time search
+  - Category filtering (C key)
+  - Tag filtering (T key)
+  - Multi-select filters with visual indicators
+- **PreviewPane component** - `cli/src/gui/components/preview-pane.tsx`
+  - Module description display
+  - Metadata display (author, license, repository, size, lastUpdated)
+  - Version history (up to 3 versions with changes)
+  - Dependency information
+- **StatusBar component** - `cli/src/gui/components/status-bar.tsx`
+  - Current module/version display with color coding
+  - Total/linked modules count
+  - Loading state indicator
+  - Error message display
+  - Context-aware help hints
+- **MainLayout** - `cli/src/gui/layouts/main-layout.tsx`
+  - Three-panel responsive layout (tree 30%, version+search 25%, preview flexible)
+  - Comprehensive keyboard shortcuts (Tab, Shift+Tab, Q, Ctrl+C, ?, Ctrl+R)
+  - Linked modules count calculation
+  - Loading/error state management
+
+#### TypeScript Module v2.0.0
+- **Modern TypeScript Features** - `rules/modern-features.md` (872 lines)
+  - Const type parameters
+  - Inferred type predicates
+  - `satisfies` operator
+  - Variance annotations (`in`, `out`)
+  - Template literal types
+  - Declaration merging patterns
+- **Advanced Type Patterns** - `rules/type-patterns.md` (1095 lines)
+  - Discriminated unions with exhaustive type guards
+  - Branded types and nominal typing
+  - Type-level programming basics
+  - Recursive conditional types
+  - Mapped types and key remapping
+- **Monorepo Patterns** - `rules/monorepo.md` (745 lines)
+  - Turborepo configuration
+  - Nx workspace setup
+  - Shared tsconfig patterns
+  - Package dependencies and versioning
+- **Modern Tooling** - `rules/tooling.md` (1068 lines)
+  - Flat ESLint config (eslint.config.js)
+  - Biome as prettier+eslint replacement
+  - tsup/vite library mode
+  - Vitest + MSW for testing
+- **Security & Performance** - `rules/security-performance.md` (848 lines)
+  - Secure headers in Next.js
+  - Type-safe runtime validation (Zod)
+  - Memoization patterns
+  - Bundle analysis and tree-shaking
+- **Testing Strategies** - `rules/testing.md` (872 lines)
+  - Unit/integration/e2e patterns
+  - Snapshot vs assertion testing
+  - Property-based testing (fast-check)
+  - MSW for API mocking
+- **Architecture Patterns** - `rules/architecture.md` (1095 lines)
+  - Folder-by-convention vs by-feature
+  - Dependency inversion
+  - Domain-driven design (entities, value objects, aggregates)
+  - Layered/clean/hexagonal architecture
+- **Error Handling** - `rules/error-handling.md` (1173 lines)
+  - Neverthrow patterns with ResultAsync
+  - Effect-TS introduction
+  - Traditional try/catch with custom error classes
+  - React error boundary patterns
+
+#### Configuration System
+- **Version pinning support** - `cli/src/utils/config-system.ts`
+  - `pinnedVersions` field in AugmentConfig interface
+  - Helper methods: `pinModuleVersion`, `unpinModuleVersion`, `getPinnedVersion`, `isModulePinned`, `getPinnedModules`
+  - Schema and default config updates
+  - Migration support for old configs
+
+#### Documentation
+- **Migration Guide** - `docs/MIGRATION_V2.md`
+  - Breaking changes list
+  - Step-by-step migration instructions
+  - Common migration scenarios
+  - FAQ section
+  - Troubleshooting guide
+- **Updated README** - Enhanced with versioning system documentation
+  - Version selection strategies
+  - Upgrade workflow
+  - GUI version selection guide
+  - Version compatibility information
+  - Migration quick start
+
+### Changed
+
+- **Module structure** - All modules now include VERSION, CHANGELOG.md, and metadata.json
+- **CLI help system** - Updated with version command documentation and examples
+- **GUI interface** - Complete redesign with modern TUI framework and version selection
+- **Config schema** - Added `pinnedVersions` field to `.augment/extensions.json`
+- **TypeScript module** - Expanded from ~6K to ~25K characters with 9 rule files
+
+### Fixed
+
+- **Module loading** - Improved caching and version resolution
+- **Compatibility checking** - Enhanced validation for Node.js and TypeScript versions
+- **GUI navigation** - Better keyboard shortcuts and state management
+
+### Deprecated
+
+- None (all v1.x commands still work for backward compatibility)
+
+### Removed
+
+- None (all v1.x functionality preserved)
+
+### Security
+
+- **Enhanced TypeScript security guidance** - Secure headers, type-safe validation, OWASP best practices
+
+---
+
 ## [1.6.0] - 2026-02-22
 
 ### Added

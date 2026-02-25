@@ -11,6 +11,7 @@ import { showCompletedCommand } from './commands/showCompleted';
 import { linkCommand } from './commands/link';
 import { updateCommand } from './commands/update';
 import { searchCommand } from './commands/search';
+import { useCommand } from './commands/use';
 import { coordSpecsCommand, coordTasksCommand, coordRulesCommand, coordFileCommand } from './commands/coord';
 import { syncBeadsCommand, syncOpenSpecCommand, syncAllCommand, syncWatchCommand } from './commands/sync';
 import { migrateExistingData } from './utils/migrate';
@@ -143,6 +144,7 @@ program
   .description('List available or linked extension modules')
   .option('--linked', 'Show only linked modules')
   .option('--json', 'Output as JSON')
+  .option('--versions', 'Show available versions for each module')
   .action(listCommand);
 
 // Generic show command (register FIRST as the default)
@@ -196,6 +198,14 @@ program
       showCommand(moduleName, options);
     }
   });
+
+program
+  .command('use <module>')
+  .description('Select and load a specific module version')
+  .option('--version <version>', 'Specific version to use (default: latest)')
+  .option('--pin', 'Pin the version to project config')
+  .option('--json', 'Output as JSON')
+  .action(useCommand);
 
 program
   .command('link <module>')

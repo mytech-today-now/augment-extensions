@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-1.6.1-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 
@@ -20,9 +20,32 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v1.4.0
+## ✨ What's New in v1.6.1
 
-### CLI Expansion - Phase 3 & 4 Complete 🎉
+### Content Updates & Task Completion 📝
+
+**Shakespeare Module Enhancements:**
+- ✅ **Comedy Scene Examples** - Added 2 comprehensive scene examples:
+  - Much Ado About Nothing Act 2 Scene 3 (Benedick eavesdropping) - 497 lines
+  - Twelfth Night Act 2 Scene 5 (Malvolio letter scene) - 654 lines
+  - Full text, comic techniques, character analysis, thematic elements, performance notes
+- 📢 **Module Announcement** - Created comprehensive ANNOUNCEMENT.md (177 lines)
+  - Release overview, features, installation, quick start examples
+  - Module stats: 419,662 characters, 33 files, 10,000+ lines
+
+**Shot List Generator:**
+- 🎬 **Plain Text Parser** - Implemented comprehensive PlainTextParser (252 lines)
+  - Heuristic-based scene detection (INT/EXT patterns)
+  - Character name detection, dialogue parsing, transition handling
+  - Complete metadata extraction and validation
+
+**Task Tracking:**
+- ✅ **Completed Tasks** - Closed 3 Beads tasks with comprehensive documentation
+- 📊 **Updated Tracking** - Synchronized .beads/issues.jsonl and completed.jsonl
+
+### Previous Releases
+
+**v1.4.0 - CLI Expansion - Phase 3 & 4 Complete 🎉**
 
 **Phase 3 - Integration Commands:**
 - 📋 **Beads Integration** - Full Beads system management with `augx beads` commands

@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "name": "api-design",
+  "displayName": "API Design Guidelines",
+  "description": "Comprehensive API design guidelines including REST, GraphQL, versioning, and best practices",
+  "type": "domain-rules",
+  "tags": [
+    "api",
+    "rest",
+    "graphql",
+    "versioning",
+    "http",
+    "best-practices"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 35000,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "authentication.md",
+      "documentation.md",
+      "error-handling.md",
+      "graphql-api.md",
+      "rest-api.md",
+      "versioning.md"
+    ],
+    "examples": []
+  }
+}

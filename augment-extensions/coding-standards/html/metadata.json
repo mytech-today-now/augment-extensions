@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "name": "html-standards",
+  "displayName": "HTML Standards",
+  "description": "Comprehensive HTML coding standards for modern web development with semantic HTML, accessibility guidelines, and HTML5 features",
+  "type": "coding-standards",
+  "language": "html",
+  "tags": [
+    "html",
+    "web",
+    "frontend",
+    "accessibility",
+    "semantic-html"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 32477,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": "html-standards.md",
+    "examples": null
+  }
+}

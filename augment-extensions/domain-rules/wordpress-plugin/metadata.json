@@ -1,0 +1,70 @@
+{
+  "version": "1.1.0",
+  "name": "wordpress-plugin",
+  "displayName": "WordPress Plugin Development",
+  "description": "Comprehensive WordPress plugin development guidelines covering plugin structure, architecture patterns, admin interfaces, frontend functionality, Gutenberg blocks, REST API, AJAX, database management, security, performance, WooCommerce integration, testing patterns, and WordPress.org submission.",
+  "type": "domain-rules",
+  "tags": [
+    "wordpress",
+    "php",
+    "plugin-development",
+    "gutenberg",
+    "blocks",
+    "rest-api",
+    "ajax",
+    "security",
+    "performance",
+    "woocommerce",
+    "database",
+    "cron",
+    "i18n",
+    "wordpress-org",
+    "testing",
+    "phpunit"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 344186,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "activation-hooks.md",
+      "admin-interface.md",
+      "ajax-handlers.md",
+      "asset-management.md",
+      "context-providers.md",
+      "cron-jobs.md",
+      "database-management.md",
+      "documentation-standards.md",
+      "frontend-functionality.md",
+      "gutenberg-blocks.md",
+      "internationalization.md",
+      "migration.md",
+      "performance-optimization.md",
+      "plugin-architecture.md",
+      "plugin-structure.md",
+      "rest-api.md",
+      "scaffolding-workflow.md",
+      "security-best-practices.md",
+      "testing-patterns.md",
+      "testing.md",
+      "vscode-integration.md",
+      "woocommerce-integration.md",
+      "wordpress-org-submission.md"
+    ],
+    "examples": [
+      "ajax-plugin.md",
+      "custom-post-type-plugin.md",
+      "gutenberg-block-plugin.md",
+      "gutenberg-block.md",
+      "mvc-plugin.md",
+      "object-oriented-plugin.md",
+      "rest-endpoint.md",
+      "settings-page-plugin.md",
+      "simple-procedural-plugin.md",
+      "singleton-plugin.md"
+    ]
+  }
+}

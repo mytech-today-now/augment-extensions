@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "name": "gutenberg-block-plugin",
+  "displayName": "Gutenberg Block Plugin Examples",
+  "description": "Complete Gutenberg block plugin examples with block.json, React components, InspectorControls, RichText, MediaUpload, and build process",
+  "type": "examples",
+  "tags": [
+    "wordpress",
+    "gutenberg",
+    "blocks",
+    "react",
+    "javascript",
+    "php",
+    "examples"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 15889,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": "testimonial-block.md"
+  }
+}

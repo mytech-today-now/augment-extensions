@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "name": "php-standards",
+  "displayName": "PHP Coding Standards",
+  "description": "Comprehensive PHP coding standards following PSR standards and modern PHP best practices across various project types including web applications, APIs, CLI tools, CMS integrations, e-commerce systems, and legacy migrations.",
+  "type": "coding-standards",
+  "tags": null,
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 186539,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "api-development.md",
+      "category-configuration.md",
+      "cli-tools.md",
+      "cms-integration.md",
+      "code-quality.md",
+      "documentation.md",
+      "ecommerce.md",
+      "error-handling.md",
+      "legacy-migration.md",
+      "naming-conventions.md",
+      "performance.md",
+      "psr-standards.md",
+      "security.md",
+      "testing.md",
+      "type-declarations.md",
+      "web-applications.md"
+    ],
+    "examples": null
+  }
+}

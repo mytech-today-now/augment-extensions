@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "name": "visual-design",
+  "displayName": "Visual Design System",
+  "description": "Comprehensive visual design module with vendor-specific design systems (Google Material 3, Microsoft Fluent 2, Amazon Cloudscape) and domain-specific styles (Website, Web-app, Mobile, .NET, Linux, Windows, Motion Picture, AI Prompt Helper, Print Campaigns). Provides design elements, principles, and skills for AI-driven design generation.",
+  "type": "domain-rules",
+  "tags": [
+    "visual-design",
+    "design-systems",
+    "material-design",
+    "fluent-design",
+    "cloudscape",
+    "typography",
+    "color-theory",
+    "layout",
+    "ui-ux"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 0,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": [
+      "ai-prompt-generation.md",
+      "basic-usage.md",
+      "domain-workflows.md",
+      "README.md",
+      "vendor-comparison.md"
+    ]
+  }
+}

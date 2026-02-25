@@ -1,0 +1,38 @@
+{
+  "version": "1.1.0",
+  "name": "python-standards",
+  "displayName": "Python Coding Standards",
+  "description": "Comprehensive Python coding standards including naming conventions, type hints (PEP 484, 585, 604), and error handling",
+  "type": "coding-standards",
+  "tags": [
+    "python",
+    "pep8",
+    "pep484",
+    "pep585",
+    "pep604",
+    "type-hints",
+    "error-handling",
+    "best-practices",
+    "mypy"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 116868,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "async-patterns.md",
+      "best-practices.md",
+      "code-organization.md",
+      "documentation.md",
+      "error-handling.md",
+      "naming-conventions.md",
+      "testing.md",
+      "tooling.md",
+      "type-hints.md"
+    ],
+    "examples": null
+  }
+}

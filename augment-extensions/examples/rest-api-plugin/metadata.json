@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "name": "rest-api-plugin",
+  "displayName": "REST API Plugin Examples",
+  "description": "Complete REST API plugin examples with custom endpoints (GET, POST, PUT, DELETE), authentication, validation, error handling, and JavaScript client examples",
+  "type": "examples",
+  "tags": [
+    "wordpress",
+    "rest-api",
+    "api",
+    "endpoints",
+    "authentication",
+    "php",
+    "javascript",
+    "examples"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 40367,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": "task-manager-api.md"
+  }
+}

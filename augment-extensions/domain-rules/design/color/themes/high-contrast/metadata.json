@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "name": "high-contrast",
+  "displayName": "High Contrast Theme",
+  "description": "Accessibility-focused theme with maximum contrast for better readability",
+  "type": "domain-rules",
+  "tags": null,
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 0,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [],
+    "examples": []
+  }
+}

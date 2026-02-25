@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "name": "mcp",
+  "displayName": "Model Context Protocol (MCP) Guidelines",
+  "description": "Comprehensive guidelines for designing and implementing Model Context Protocol systems including token-based, state-based, vector-based, hybrid, graph-augmented, and compressed MCP",
+  "type": "domain-rules",
+  "tags": [
+    "mcp",
+    "context-management",
+    "rag",
+    "state-management",
+    "llm",
+    "ai-agents"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 219130,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "compressed-mcp.md",
+      "configuration.md",
+      "graph-augmented-mcp.md",
+      "hybrid-mcp.md",
+      "state-based-mcp.md",
+      "testing-validation.md",
+      "token-based-mcp.md",
+      "universal-rules.md",
+      "vector-based-mcp.md"
+    ],
+    "examples": [
+      "compressed-example.md",
+      "graph-augmented-example.md",
+      "hybrid-example.md",
+      "state-based-example.md",
+      "token-based-example.md",
+      "vector-based-example.md"
+    ]
+  }
+}

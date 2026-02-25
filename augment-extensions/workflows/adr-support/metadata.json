@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "name": "adr-support",
+  "displayName": "ADR Support Module",
+  "description": "Automatic Architecture Decision Record (ADR) management with decision detection, lifecycle tracking, templates, and integration with OpenSpec and Beads workflows",
+  "type": "workflow",
+  "tags": [
+    "adr",
+    "architecture",
+    "decision-records",
+    "documentation",
+    "workflow",
+    "automation",
+    "openspec",
+    "beads",
+    "lifecycle-management"
+  ],
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 0,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "adr-creation.md",
+      "beads-integration.md",
+      "conflict-detection.md",
+      "decision-detection.md",
+      "lifecycle-management.md",
+      "openspec-integration.md",
+      "template-selection.md",
+      "validation-rules.md"
+    ],
+    "examples": [
+      "complete-lifecycle-example.md",
+      "integration-example.md",
+      "superseding-example.md"
+    ]
+  }
+}

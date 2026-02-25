@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "name": "seo-sales-marketing",
+  "displayName": "SEO, Sales, and Marketing Content Standards",
+  "description": "Comprehensive marketing and sales content standards for AI-driven content creation",
+  "type": "domain-rules",
+  "tags": null,
+  "compatibility": {
+    "augmentMinVersion": "1.0.0",
+    "nodeMinVersion": "18.0.0"
+  },
+  "characterCount": 288256,
+  "lastUpdated": "2026-02-25",
+  "files": {
+    "rules": [
+      "affiliate-influencer-marketing.md",
+      "asset-management.md",
+      "brand-consistency.md",
+      "content-marketing.md",
+      "conversion-optimization.md",
+      "direct-sales.md",
+      "email-marketing.md",
+      "legal-compliance.md",
+      "ppc-advertising.md",
+      "seo-optimization.md",
+      "social-media-marketing.md",
+      "universal-marketing.md"
+    ],
+    "examples": [
+      "brand-kit-example.yaml",
+      "campaign-brief-example.yaml",
+      "content-calendar-example.yaml",
+      "email-newsletter-example.md",
+      "landing-page-example.md",
+      "ppc-ad-copy-example.md",
+      "seo-blog-post-example.md",
+      "social-media-campaign-example.md"
+    ]
+  }
+}

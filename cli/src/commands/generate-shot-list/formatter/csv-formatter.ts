@@ -76,7 +76,7 @@ export class CSVFormatter extends BaseFormatter {
       shotType: shot.metadata.shotType,
       cameraMovement: shot.metadata.cameraMovement,
       framing: shot.metadata.framing,
-      technicalNotes: this.formatTechnicalNotes(shot.metadata.technicalNotes),
+      technicalNotes: this.formatTechnicalNotes(shot.metadata.technicalNotes || []),
       duration: shot.duration,
       durationFormatted: this.formatTime(shot.duration),
       characterCount: shot.characterCount,

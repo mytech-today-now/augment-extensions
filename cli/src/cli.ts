@@ -12,6 +12,8 @@ import { linkCommand } from './commands/link';
 import { updateCommand } from './commands/update';
 import { searchCommand } from './commands/search';
 import { useCommand } from './commands/use';
+import { upgradeCommand } from './commands/upgrade';
+import { versionInfoCommand } from './commands/version-info';
 import { coordSpecsCommand, coordTasksCommand, coordRulesCommand, coordFileCommand } from './commands/coord';
 import { syncBeadsCommand, syncOpenSpecCommand, syncAllCommand, syncWatchCommand } from './commands/sync';
 import { migrateExistingData } from './utils/migrate';
@@ -206,6 +208,22 @@ program
   .option('--pin', 'Pin the version to project config')
   .option('--json', 'Output as JSON')
   .action(useCommand);
+
+program
+  .command('upgrade <module>')
+  .description('Upgrade module to latest version')
+  .option('--force', 'Force upgrade even with compatibility errors')
+  .option('--dry-run', 'Show what would be upgraded without making changes')
+  .option('--json', 'Output as JSON')
+  .action(upgradeCommand);
+
+program
+  .command('version-info <module>')
+  .description('Show detailed version information')
+  .option('--json', 'Output as JSON')
+  .option('--no-changelog', 'Skip changelog display')
+  .option('--no-compatibility', 'Skip compatibility check')
+  .action(versionInfoCommand);
 
 program
   .command('link <module>')

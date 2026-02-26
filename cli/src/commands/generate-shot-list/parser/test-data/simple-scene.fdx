@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FinalDraft DocumentType="Script" Template="No" Version="5">
+  <Content>
+    <Paragraph Type="Scene Heading">
+      <Text>INT. COFFEE SHOP - DAY</Text>
+    </Paragraph>
+    <Paragraph Type="Action">
+      <Text>SARAH, 30s, enters carrying a laptop. She scans the room.</Text>
+    </Paragraph>
+    <Paragraph Type="Character">
+      <Text>SARAH</Text>
+    </Paragraph>
+    <Paragraph Type="Parenthetical">
+      <Text>(to barista)</Text>
+    </Paragraph>
+    <Paragraph Type="Dialogue">
+      <Text>Large coffee, please.</Text>
+    </Paragraph>
+    <Paragraph Type="Action">
+      <Text>The BARISTA nods and starts making the drink.</Text>
+    </Paragraph>
+    <Paragraph Type="Scene Heading">
+      <Text>EXT. STREET - NIGHT</Text>
+    </Paragraph>
+    <Paragraph Type="Action">
+      <Text>JOHN walks alone, hands in pockets.</Text>
+    </Paragraph>
+  </Content>
+</FinalDraft>
+

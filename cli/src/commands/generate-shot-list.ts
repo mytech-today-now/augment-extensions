@@ -159,7 +159,7 @@ export async function generateShotListCommand(options: GenerateShotListOptions):
       // Step 2: Parse screenplay
       console.log(chalk.gray('🔍 Parsing screenplay...'));
       const parser = createParserAuto(options.path, content);
-      const screenplay = parser.parse(content);
+      const screenplay = await Promise.resolve(parser.parse(content));
       console.log(chalk.green(`✓ Parsed ${screenplay.scenes.length} scenes`));
 
       if (logging && logger) {

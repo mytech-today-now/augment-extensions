@@ -15,6 +15,11 @@ export interface ModuleMetadata {
     characterCount?: number;
     priority?: 'high' | 'medium' | 'low';
     category?: string;
+    subModules?: Array<{
+      name: string;
+      path: string;
+      version?: string;
+    }>;
   };
   installation?: 'required' | 'optional';
   dependencies?: string[];

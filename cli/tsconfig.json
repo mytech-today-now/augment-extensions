@@ -25,7 +25,8 @@
     "**/*.test.ts",
     "src/parsers/php-parser.ts",
     "src/webview/inspection-webview-provider.ts",
-    "src/__test_template-engine.ts"
+    "src/__test_template-engine.ts",
+    "src/__test_health-checker.ts"
   ]
 }
 

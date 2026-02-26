@@ -1,0 +1,127 @@
+
+> @mytechtoday/augment-extensions@2.0.0 test:vitest
+> vitest run tests/unit/modules/submodule-discovery.test.ts
+
+ DEPRECATED  `test.poolOptions` was removed in Vitest 4. All previous `poolOptions` are now top-level options. Please, refer to the migration guide: https://vitest.dev/guide/migration#pool-rework
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mG:/_kyle/temp_documents/GitHub/augx/augment-extensions[39m
+
+[90mstdout[2m | tests/unit/modules/submodule-discovery.test.ts[2m > [22m[2mSubmodule Discovery[2m > [22m[2mSubmodule Hierarchy[2m > [22m[2mshould maintain correct parent-child relationships
+[22m[39mTotal modules: 127, Submodules: 96
+Missing parent for submodule: domain-rules/design/color/themes/catppuccin-latte
+  Expected parent: domain-rules/design/color/themes
+  Available modules: [
+  [32m'writing-standards/screenplay/cinematic-styles/comedy-formats'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/comedy-formats/monty-python'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/comedy-formats/saturday-night-live'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/alfred-hitchcock'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/ari-aster'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/brad-bird'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/brian-de-palma'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/buster-keaton'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/christopher-nolan'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/clint-eastwood'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/coen-brothers'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/darren-aronofsky'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/david-fincher'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/david-lynch'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/denis-villeneuve'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/francis-ford-coppola'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/gary-marshall'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/george-a-romero'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/george-lucas'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/guillermo-del-toro'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/gus-van-sant'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/james-ivory-ismail-merchant'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/jim-jarmusch'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/john-carpenter'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/john-ford'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/john-huston'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/john-landis'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/jonathan-demme'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/joseph-l-mankiewicz'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/kathryn-bigelow'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/kelly-reichardt'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/kevin-smith'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/linda-shayne'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/martin-scorsese'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/mel-brooks'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/michael-curtiz'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/michael-mann'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/mike-nichols'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/orson-welles'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/park-chan-wook'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/paul-thomas-anderson'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/penny-marshall'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/peter-bogdanovich'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/quentin-tarantino'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/richard-linklater'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/rob-reiner'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/robert-altman'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/robert-eggers'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/robert-zemeckis'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/sam-peckinpah'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/sidney-lumet'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/spike-lee'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/stanley-donen-gene-kelly'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/stanley-kubrick'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/steve-martin'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/steven-spielberg'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/sydney-pollack'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/terry-gilliam'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/tim-burton'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/tobe-hooper'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/wes-anderson'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/directors/william-friedkin'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/films/blue-ruin'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/films'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/franchises/fast-and-furious'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/franchises/harry-potter'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/franchises/james-bond'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/franchises/john-wick'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/franchises/lord-of-the-rings'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/franchises/mcu'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/franchises'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/franchises/star-trek'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/franchises/star-wars'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/narrative-theory/joseph-campbell'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/narrative-theory'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/producers/bruckheimer-and-simpson'[39m,
+  [32m'writing-standards/screenplay/cinematic-styles/producers'[39m,
+  [32m'writing-standards/screenplay/genres'[39m,
+  [32m'writing-standards/screenplay'[39m,
+  [32m'writing-standards/screenplay/styles'[39m,
+  [32m'writing-standards/screenplay/themes'[39m
+]
+
+ [31mΓ¥»[39m tests/unit/modules/submodule-discovery.test.ts [2m([22m[2m7 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 179[2mms[22m[39m
+       [32mΓ£ô[39m should detect screenplay cinematic-styles as a submodule[32m 5[2mms[22m[39m
+       [32mΓ£ô[39m should detect cinematic-styles as a submodule with parent reference[32m 2[2mms[22m[39m
+       [32mΓ£ô[39m should detect all screenplay submodules[32m 1[2mms[22m[39m
+       [32mΓ£ô[39m should discover both parent and submodules[32m 43[2mms[22m[39m
+       [32mΓ£ô[39m should include submodules in total module count[32m 41[2mms[22m[39m
+       [32mΓ£ô[39m should not mark top-level modules as submodules[32m 38[2mms[22m[39m
+[31m       [31m├ù[31m should maintain correct parent-child relationships[39m[32m 48[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 1 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  tests/unit/modules/submodule-discovery.test.ts > Submodule Discovery > Submodule Hierarchy > should maintain correct parent-child relationships
+AssertionError: expected undefined to be defined
+ Γ¥» tests/unit/modules/submodule-discovery.test.ts:149:24
+    147|         }
+    148| 
+    149|         expect(parent).toBeDefined();
+       |                        ^
+    150| 
+    151|         // Parent should list this submodule
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m6 passed[39m[22m[90m (7)[39m
+[2m   Start at [22m 19:37:41
+[2m   Duration [22m 432ms[2m (transform 71ms, setup 41ms, import 49ms, tests 179ms, environment 0ms)[22m
+

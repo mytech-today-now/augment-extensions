@@ -1,0 +1,71 @@
+
+> @mytechtoday/augment-extensions@2.0.0 test:vitest
+> vitest run tests/integration/cli/command-execution.test.ts
+
+ DEPRECATED  `test.poolOptions` was removed in Vitest 4. All previous `poolOptions` are now top-level options. Please, refer to the migration guide: https://vitest.dev/guide/migration#pool-rework
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mG:/_kyle/temp_documents/GitHub/augx/augment-extensions[39m
+
+[90mstdout[2m | tests/integration/cli/command-execution.test.ts[2m > [22m[2mCLI Command Execution[2m > [22m[2mCommand Chaining[2m > [22m[2mshould handle command dependencies
+[22m[39mShow command failed:
+Exit code: [33m1[39m
+stdout: 
+Use "augx list" to see all available modules.
+
+stderr: Module not found: coding-standards/chain-module
+
+
+ [31mΓ¥»[39m tests/integration/cli/command-execution.test.ts [2m([22m[2m25 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 19456[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should execute help command successfully [33m 758[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should execute version command successfully [33m 739[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle unknown command gracefully [33m 734[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should capture stdout from successful command [33m 733[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should capture stderr from failed command [33m 713[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle empty output [33m 748[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should return 0 for successful command [33m 737[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should return non-zero for failed command [33m 709[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should return non-zero for invalid arguments [33m 703[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should execute multiple commands sequentially [33m 1496[2mms[22m[39m
+[31m       [31m├ù[31m should handle command dependencies[39m[33m 1538[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle parallel command execution [33m 865[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should provide clear error for missing arguments [33m 734[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should provide clear error for invalid module [33m 759[2mms[22m[39m
+       [32mΓ£ô[39m should provide clear error for invalid project path[32m 2[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should provide help text for unknown command [33m 723[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should produce valid JSON with --json flag [33m 751[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle empty JSON output [33m 761[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should format JSON output correctly [33m 766[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should complete commands within reasonable time [33m 751[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle long-running commands [33m 748[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should respect NODE_ENV variable [33m 760[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle missing environment variables [33m 745[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should execute commands in correct working directory [33m 743[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle relative paths [33m 739[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 1 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  tests/integration/cli/command-execution.test.ts > CLI Command Execution > Command Chaining > should handle command dependencies
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ Γ¥» tests/integration/cli/command-execution.test.ts:214:35
+    212|       }
+    213| 
+    214|       expect(showResult.exitCode).toBe(0);
+       |                                   ^
+    215|     });
+    216| 
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m24 passed[39m[22m[90m (25)[39m
+[2m   Start at [22m 19:40:02
+[2m   Duration [22m 19.66s[2m (transform 56ms, setup 41ms, import 32ms, tests 19.46s, environment 0ms)[22m
+

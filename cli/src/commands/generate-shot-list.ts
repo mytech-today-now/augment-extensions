@@ -7,7 +7,9 @@ import { createParserAuto } from './generate-shot-list/parser';
 import { createGenerator } from './generate-shot-list/generator';
 import { createFormatter } from './generate-shot-list/formatter';
 import { createLogger } from './generate-shot-list/logger';
+import { createStyleSystem } from './generate-shot-list/style';
 import type { OutputFormat } from './generate-shot-list/formatter/types';
+import type { MergedStyleGuidelines } from './generate-shot-list/style/types';
 
 interface GenerateShotListOptions {
   path?: string;
@@ -16,6 +18,7 @@ interface GenerateShotListOptions {
   maxCharacters?: number;
   maxShotLength?: number;
   logging?: boolean;
+  style?: string | string[];  // Can be single string or array of strings
   help?: boolean;
   h?: boolean;
 }
@@ -99,6 +102,53 @@ export async function generateShotListCommand(options: GenerateShotListOptions):
         maxCharacters,
         maxShotLength
       });
+    }
+
+    // Load cinematic styles if requested
+    let styleGuidelines: MergedStyleGuidelines | null = null;
+    if (options.style) {
+      const stylePaths = Array.isArray(options.style) ? options.style : [options.style];
+      console.log(chalk.gray(`🎨 Loading cinematic styles...`));
+
+      const styleSystem = createStyleSystem();
+
+      // Validate all style paths
+      for (const stylePath of stylePaths) {
+        const isValid = await styleSystem.validateStylePath(stylePath);
+        if (!isValid) {
+          console.error(chalk.red(`Error: Invalid style module path: ${stylePath}`));
+          console.log(chalk.gray('Expected format: writing-standards/screenplay/cinematic-styles/[category]/[style-name]'));
+          console.log(chalk.gray('Categories: directors, franchises, films, comedy-formats'));
+          exitWithCode(ExitCode.INVALID_ARGUMENTS);
+        }
+      }
+
+      // Load and merge styles
+      try {
+        styleGuidelines = await styleSystem.loadStyles(stylePaths);
+        if (styleGuidelines) {
+          console.log(chalk.green(`✓ Loaded styles: ${styleSystem.formatStylesForDisplay(styleGuidelines)}`));
+
+          if (logging && logger) {
+            await logger.logInfo('Cinematic styles loaded', {
+              styles: styleGuidelines.appliedStyles,
+              conflicts: styleGuidelines.conflicts.length
+            });
+
+            // Log conflicts if any
+            for (const conflict of styleGuidelines.conflicts) {
+              await logger.logWarning('STYLE_CONFLICT', `Style conflict resolved: ${conflict.guideline}`, {
+                styles: conflict.styles,
+                resolution: conflict.resolution,
+                resolvedBy: conflict.resolvedBy
+              });
+            }
+          }
+        }
+      } catch (error) {
+        console.error(chalk.red(`Error loading styles: ${error}`));
+        exitWithCode(ExitCode.GENERAL_ERROR);
+      }
     }
 
     try {

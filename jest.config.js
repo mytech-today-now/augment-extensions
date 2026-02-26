@@ -4,6 +4,9 @@ module.exports = {
   roots: ['<rootDir>/cli/src', '<rootDir>/augment-extensions', '<rootDir>/__tests__'],
   testMatch: ['**/__tests__/**/*.test.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  moduleNameMapper: {
+    '^uuid$': '<rootDir>/__mocks__/uuid.js'  // Mock uuid module
+  },
   collectCoverageFrom: [
     'cli/src/**/*.ts',
     'augment-extensions/**/*.ts',

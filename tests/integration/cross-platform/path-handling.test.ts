@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { join, normalize, resolve, sep, isAbsolute, relative } from 'path';
 import { platform } from 'os';
-import { createTestEnvironment, type TestEnvironment } from '../../helpers/test-env';
+import { TestEnvironment } from '../../helpers/test-env';
 import { mkdir, writeFile } from 'fs/promises';
 
 /**
@@ -18,7 +18,8 @@ describe('Cross-Platform Path Handling', () => {
   let env: TestEnvironment;
 
   beforeEach(async () => {
-    env = await createTestEnvironment();
+    env = new TestEnvironment();
+    await env.setup();
   });
 
   afterEach(async () => {

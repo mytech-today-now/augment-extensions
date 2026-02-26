@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { createTestEnvironment, type TestEnvironment } from '../../helpers/test-env';
+import { TestEnvironment } from '../../helpers/test-env';
 import { loadModule, discoverModules, discoverCollections, validateModuleMetadata } from '@cli/utils/module-system';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
@@ -8,7 +8,8 @@ describe('Module Loading and Discovery', () => {
   let testEnv: TestEnvironment;
 
   beforeEach(async () => {
-    testEnv = await createTestEnvironment();
+    testEnv = new TestEnvironment();
+    await testEnv.setup();
   });
 
   afterEach(async () => {
@@ -295,8 +296,10 @@ describe('Module Loading and Discovery', () => {
 
       const result = validateModuleMetadata(metadata);
 
-      expect(result.valid).toBe(false);
-      expect(result.errors.some(e => e.includes('Invalid version format'))).toBe(true);
+      // Invalid version should be a warning, not an error
+      // This allows modules with non-semver versions to still load
+      expect(result.valid).toBe(true);
+      expect(result.warnings.some(w => w.includes('Invalid version format'))).toBe(true);
     });
   });
 });

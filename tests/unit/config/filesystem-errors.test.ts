@@ -7,13 +7,12 @@ import { validateModuleStructure, loadModule } from '../../../cli/src/utils/modu
 
 describe('File System Error Tests', () => {
   let testEnv: TestEnvironment;
-  let moduleFactory: ModuleFactory;
   let testModulePath: string;
 
   beforeEach(async () => {
     testEnv = new TestEnvironment();
     await testEnv.setup();
-    moduleFactory = new ModuleFactory();
+    // ModuleFactory is a static class, use ModuleFactory.create() instead
     testModulePath = path.join(testEnv.tempDir, 'test-module');
     await fs.mkdir(testModulePath, { recursive: true });
   });
@@ -24,7 +23,7 @@ describe('File System Error Tests', () => {
 
   describe('Permission Errors', () => {
     it('should handle read permission errors gracefully', async () => {
-      const validMetadata = moduleFactory.createValidModule();
+      const validMetadata = ModuleFactory.createValidModule();
       const moduleJsonPath = path.join(testModulePath, 'module.json');
       await fs.writeFile(moduleJsonPath, JSON.stringify(validMetadata, null, 2));
 
@@ -61,7 +60,7 @@ describe('File System Error Tests', () => {
     });
 
     it('should handle missing README.md file', async () => {
-      const validMetadata = moduleFactory.createValidModule();
+      const validMetadata = ModuleFactory.createValidModule();
       const moduleJsonPath = path.join(testModulePath, 'module.json');
       await fs.writeFile(moduleJsonPath, JSON.stringify(validMetadata, null, 2));
 
@@ -72,7 +71,7 @@ describe('File System Error Tests', () => {
     });
 
     it('should handle missing rules directory', async () => {
-      const validMetadata = moduleFactory.createValidModule();
+      const validMetadata = ModuleFactory.createValidModule();
       const moduleJsonPath = path.join(testModulePath, 'module.json');
       await fs.writeFile(moduleJsonPath, JSON.stringify(validMetadata, null, 2));
       await fs.writeFile(path.join(testModulePath, 'README.md'), '# Test');
@@ -154,7 +153,7 @@ describe('File System Error Tests', () => {
   describe('Disk Space Errors', () => {
     it('should handle large file writes gracefully', async () => {
       // Create a very large metadata object
-      const validMetadata = moduleFactory.createValidModule();
+      const validMetadata = ModuleFactory.createValidModule();
       validMetadata.tags = Array(100000).fill('tag');
       const moduleJsonPath = path.join(testModulePath, 'module.json');
 
@@ -170,7 +169,7 @@ describe('File System Error Tests', () => {
 
   describe('Concurrent Access', () => {
     it('should handle concurrent reads safely', async () => {
-      const validMetadata = moduleFactory.createValidModule();
+      const validMetadata = ModuleFactory.createValidModule();
       const moduleJsonPath = path.join(testModulePath, 'module.json');
       await fs.writeFile(moduleJsonPath, JSON.stringify(validMetadata, null, 2));
 
@@ -193,7 +192,7 @@ describe('File System Error Tests', () => {
 
       // Perform multiple concurrent writes
       const writes = Array(5).fill(null).map((_, i) => {
-        const metadata = moduleFactory.createValidModule();
+        const metadata = ModuleFactory.createValidModule();
         metadata.name = `module-${i}`;
         return fs.writeFile(moduleJsonPath, JSON.stringify(metadata, null, 2));
       });
@@ -208,7 +207,7 @@ describe('File System Error Tests', () => {
     });
 
     it('should handle read during write', async () => {
-      const validMetadata = moduleFactory.createValidModule();
+      const validMetadata = ModuleFactory.createValidModule();
       const moduleJsonPath = path.join(testModulePath, 'module.json');
       await fs.writeFile(moduleJsonPath, JSON.stringify(validMetadata, null, 2));
 
@@ -237,7 +236,7 @@ describe('File System Error Tests', () => {
           const modulePath = path.join(testEnv.tempDir, `module-${i}`);
           await fs.mkdir(modulePath, { recursive: true });
 
-          const validMetadata = moduleFactory.createValidModule();
+          const validMetadata = ModuleFactory.createValidModule();
           validMetadata.name = `module-${i}`;
           await fs.writeFile(
             path.join(modulePath, 'module.json'),
@@ -281,7 +280,7 @@ describe('File System Error Tests', () => {
       expect(firstAttempt).not.toBeNull();
 
       // Create the file
-      const validMetadata = moduleFactory.createValidModule();
+      const validMetadata = ModuleFactory.createValidModule();
       await fs.writeFile(moduleJsonPath, JSON.stringify(validMetadata, null, 2));
 
       // Second attempt succeeds
@@ -315,7 +314,7 @@ describe('File System Error Tests', () => {
       expect(result.errors.some(e => e.includes('Invalid JSON'))).toBe(true);
 
       // Recover by writing valid JSON
-      const validMetadata = moduleFactory.createValidModule();
+      const validMetadata = ModuleFactory.createValidModule();
       await fs.writeFile(moduleJsonPath, JSON.stringify(validMetadata, null, 2));
 
       const recoveredResult = validateModuleStructure(testModulePath);

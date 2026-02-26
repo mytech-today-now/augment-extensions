@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { ModuleFactory, CollectionFactory, ProjectFactory } from '@tests/helpers/factories';
-import { createTestEnvironment, type TestEnvironment } from '@tests/helpers/test-env';
+import { ModuleFactory, CollectionFactory, ProjectFactory, TestEnvironment } from '@tests/helpers/factories';
 
 describe('Test Factories', () => {
   describe('ModuleFactory', () => {
@@ -121,7 +120,8 @@ describe('Test Factories', () => {
     let testEnv: TestEnvironment;
 
     beforeEach(async () => {
-      testEnv = await createTestEnvironment();
+      testEnv = new TestEnvironment();
+    await testEnv.setup();
     });
 
     afterEach(async () => {

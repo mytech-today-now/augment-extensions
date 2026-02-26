@@ -1,5 +1,8 @@
 import type { ModuleMetadata } from '@cli/utils/module-system';
-import type { TestEnvironment, TestProject, TestModule, TestCollection } from './test-env';
+import type { ITestEnvironment, TestProject, TestModule, TestCollection } from './test-env';
+
+// Re-export TestEnvironment class for tests
+export { TestEnvironment } from './test-env';
 
 /**
  * Factory for creating test modules
@@ -80,6 +83,14 @@ export class ModuleFactory {
       }
     });
   }
+
+  /**
+   * Create a valid module (alias for create)
+   * @deprecated Use create() instead
+   */
+  static createValidModule(overrides?: Partial<ModuleMetadata>): ModuleMetadata {
+    return this.create(overrides);
+  }
 }
 
 /**
@@ -146,7 +157,7 @@ export class ProjectFactory {
    * Create a test project
    */
   static async create(
-    testEnv: TestEnvironment,
+    testEnv: ITestEnvironment,
     options?: { name?: string; version?: string }
   ): Promise<TestProject> {
     return await testEnv.createProject(options);
@@ -156,13 +167,16 @@ export class ProjectFactory {
    * Create a project with linked modules
    */
   static async withLinkedModules(
-    testEnv: TestEnvironment,
+    testEnv: ITestEnvironment,
     moduleNames: string[]
   ): Promise<TestProject> {
     const project = await testEnv.createProject();
-    
-    // Note: Actual linking would require implementing the link logic
-    // For now, this creates the project structure
+
+    // Link the modules
+    for (const moduleName of moduleNames) {
+      await testEnv.linkModule(project.path, moduleName);
+    }
+
     return project;
   }
 
@@ -170,7 +184,7 @@ export class ProjectFactory {
    * Create multiple projects
    */
   static async createMany(
-    testEnv: TestEnvironment,
+    testEnv: ITestEnvironment,
     count: number
   ): Promise<TestProject[]> {
     const projects: TestProject[] = [];

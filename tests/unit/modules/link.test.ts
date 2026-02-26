@@ -2,12 +2,12 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { join } from 'path';
 import { readFile, writeFile, mkdir, rm } from 'fs/promises';
 import { existsSync } from 'fs';
-import { createTestEnvironment, TestEnvironment } from '../../helpers/test-env';
+import { TestEnvironment } from '../../helpers/test-env';
 import { ModuleFactory } from '../../helpers/factories';
 
 /**
  * Module Linking Tests
- * 
+ *
  * Tests for module linking operations including:
  * - Single module linking
  * - Multiple module linking
@@ -18,11 +18,10 @@ import { ModuleFactory } from '../../helpers/factories';
 
 describe('Module Linking Tests', () => {
   let testEnv: TestEnvironment;
-  let moduleFactory: ModuleFactory;
-
   beforeEach(async () => {
-    testEnv = await createTestEnvironment();
-    moduleFactory = new ModuleFactory();
+    testEnv = new TestEnvironment();
+    await testEnv.setup();
+    // ModuleFactory is a static class, use ModuleFactory.create() instead
   });
 
   afterEach(async () => {
@@ -33,7 +32,7 @@ describe('Module Linking Tests', () => {
     it('should link a single module to project', async () => {
       // Create test project and module
       const project = await testEnv.createProject();
-      const module = await testEnv.createModule({ 
+      const module = await testEnv.createModule({
         name: 'test-module',
         type: 'coding-standards'
       });
@@ -42,18 +41,8 @@ describe('Module Linking Tests', () => {
       const configBefore = JSON.parse(await readFile(project.configPath, 'utf-8'));
       expect(configBefore.modules).toEqual([]);
 
-      // Link module
-      const linkedModules = [...configBefore.modules, {
-        name: module.fullName,
-        version: module.metadata.version,
-        type: module.metadata.type,
-        description: module.metadata.description
-      }];
-
-      await writeFile(project.configPath, JSON.stringify({
-        ...configBefore,
-        modules: linkedModules
-      }, null, 2));
+      // Link module using helper
+      await testEnv.linkModule(project.path, module.fullName, module.metadata);
 
       // Verify module is linked
       const isLinked = await testEnv.isModuleLinked(module.fullName);

@@ -1,0 +1,453 @@
+
+> @mytechtoday/augment-extensions@2.0.0 test:vitest
+> vitest run
+
+ DEPRECATED  `test.poolOptions` was removed in Vitest 4. All previous `poolOptions` are now top-level options. Please, refer to the migration guide: https://vitest.dev/guide/migration#pool-rework
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mG:/_kyle/temp_documents/GitHub/augx/augment-extensions[39m
+
+ [31mΓ¥»[39m tests/unit/gui/navigation-state.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/gui/selection-state.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/documentation-validator.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/inspection-handlers.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/install-rules.integration.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/install-rules.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/extractCommandHelp.integration.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/inspection-cache.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/module-loading.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/extractCommandHelp.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/module-discovery.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/skill-system.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m tests/unit/utils/semver.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m tests/unit/collections/query.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 216[2mms[22m[39m
+ [32mΓ£ô[39m tests/integration/workflows/collection-lifecycle.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 225[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/helpers/test-env.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 168[2mms[22m[39m
+ [32mΓ£ô[39m tests/integration/cross-platform/path-handling.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 257[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/utils/validate-versioning.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 111[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/sample.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/helpers/factories.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 81[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/helpers/matchers.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 85[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/core/version-manager.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 97[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/core/version-resolver.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 105[2mms[22m[39m
+ [32mΓ£ô[39m tests/integration/workflows/module-lifecycle.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 310[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/modules/update.test.ts [2m([22m[2m20 tests[22m[2m)[22m[33m 315[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/collections/delete.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 271[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/config/filesystem-errors.test.ts [2m([22m[2m21 tests[22m[2m)[22m[33m 316[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/config/validation.test.ts [2m([22m[2m32 tests[22m[2m)[22m[33m 318[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/collections/create.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 234[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/collections/modify.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 273[2mms[22m[39m
+ [32mΓ£ô[39m tests/integration/cross-platform/platform-specific.test.ts [2m([22m[2m31 tests[22m[2m)[22m[33m 370[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/modules/link.test.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 379[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/modules/show.test.ts [2m([22m[2m22 tests[22m[2m)[22m[33m 406[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/modules/list.test.ts [2m([22m[2m21 tests[22m[2m)[22m[33m 418[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/modules/unlink.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 412[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/modules/module-loading.test.ts [2m([22m[2m19 tests[22m[2m)[22m[33m 426[2mms[22m[39m
+ [32mΓ£ô[39m tests/integration/workflows/dependency-resolution.test.ts [2m([22m[2m17 tests[22m[2m)[22m[33m 540[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/modules/search.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 595[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/modules/submodule-discovery.test.ts [2m([22m[2m7 tests[22m[2m)[22m[33m 511[2mms[22m[39m
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mModule Unlinking[2m > [22m[2mshould unlink a single module
+[22m[39mUnlinking module: coding-standards/test-module
+Γ£ô Successfully unlinked: coding-standards/test-module
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mModule Unlinking[2m > [22m[2mshould unlink multiple modules independently
+[22m[39mUnlinking module: domain-rules/module-2
+Γ£ô Successfully unlinked: domain-rules/module-2
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mModule Unlinking[2m > [22m[2mshould handle unlinking non-existent module gracefully
+[22m[39mUnlinking module: non-existent-module
+Module not linked: non-existent-module
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mModule Unlinking[2m > [22m[2mshould warn about dependencies when unlinking
+[22m[39mUnlinking module: coding-standards/dependency
+
+stderr | tests/integration/workflows/unlink-self-remove.test.ts > Unlink and Self-Remove Integration Tests > Module Unlinking > should warn about dependencies when unlinking
+
+Cannot unlink coding-standards/dependency. The following modules depend on it:
+
+  - coding-standards/main
+
+Use --force to unlink anyway (may break dependent modules)
+Error: process.exit unexpectedly called with "1"
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mModule Unlinking[2m > [22m[2mshould force unlink module with dependencies
+[22m[39mUnlinking module: coding-standards/dependency
+Γ£ô Successfully unlinked: coding-standards/dependency
+
+ΓÜá Warning: The following modules may be affected:
+  - coding-standards/main
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mCollection Unlinking[2m > [22m[2mshould unlink all modules in a collection
+[22m[39mUnlinking module: collections/html-css-js
+
+Unlinking collection: HTML/CSS/JS Frontend Collection
+
+This will unlink 3 module(s):
+
+  - coding-standards/html
+  - coding-standards/css
+  - coding-standards/js
+  Γ£ô Unlinked: coding-standards/html
+  Γ£ô Unlinked: coding-standards/css
+  Γ£ô Unlinked: coding-standards/js
+
+Γ£ô Successfully unlinked collection (3 modules removed)
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mCollection Unlinking[2m > [22m[2mshould handle partial collection unlinking
+[22m[39mUnlinking module: collections/test-collection
+
+Unlinking collection: Test Collection
+
+This will unlink 2 module(s):
+
+  - coding-standards/module-1
+  - coding-standards/module-2
+  Γ£ô Unlinked: coding-standards/module-1
+  - Skipped (not linked): coding-standards/module-2
+
+Γ£ô Successfully unlinked collection (1 modules removed)
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mSelf-Remove (Dry Run)[2m > [22m[2mshould preview removal without making changes
+[22m[39m
+ΓÜá∩╕Å  Augment Extensions Self-Removal
+
+Dry-run mode: The following would be removed:
+
+  - All linked modules from extensions.json:
+    ΓÇó coding-standards/module-1 (v1.0.0)
+    ΓÇó domain-rules/module-2 (v1.0.0)
+  - VS Code extensions.json entries (if any)
+
+Total: 2 module(s)
+
+Note: .augment/ directory and extensions.json file will be preserved
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mSelf-Remove (Dry Run)[2m > [22m[2mshould show correct count in dry-run
+[22m[39m
+ΓÜá∩╕Å  Augment Extensions Self-Removal
+
+Dry-run mode: The following would be removed:
+
+  - All linked modules from extensions.json:
+    ΓÇó coding-standards/module-1 (v1.0.0)
+    ΓÇó domain-rules/module-2 (v1.0.0)
+    ΓÇó workflows/module-3 (v1.0.0)
+  - VS Code extensions.json entries (if any)
+
+Total: 3 module(s)
+
+Note: .augment/ directory and extensions.json file will be preserved
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mSelf-Remove (Actual Removal)[2m > [22m[2mshould remove all linked modules
+[22m[39m
+ΓÜá∩╕Å  Augment Extensions Self-Removal
+
+The following will be removed:
+
+  - All linked modules (2 modules):
+    ΓÇó coding-standards/module-1 (v1.0.0)
+    ΓÇó domain-rules/module-2 (v1.0.0)
+  - VS Code extensions.json entries (if any)
+
+Note: .augment/ directory and extensions.json file will be preserved
+
+Removing linked modules...
+
+Γ£ô Removed 2 linked module(s) from extensions.json
+
+Γ£ô All linked modules successfully removed!
+
+Removal log saved to: C:\Users\kyle\AppData\Local\Temp\augment-test-WdZgyK\test-project\.augment-removal.log
+
+Note: .augment/ directory and extensions.json preserved
+Note: User-generated content (screenplays/, etc.) preserved
+
+To link modules again:
+  augx link <module-name>
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mSelf-Remove (Actual Removal)[2m > [22m[2mshould preserve .augment directory and extensions.json
+[22m[39m
+ΓÜá∩╕Å  Augment Extensions Self-Removal
+
+The following will be removed:
+
+  - All linked modules (1 modules):
+    ΓÇó coding-standards/test-module (v1.0.0)
+  - VS Code extensions.json entries (if any)
+
+Note: .augment/ directory and extensions.json file will be preserved
+
+Removing linked modules...
+
+Γ£ô Removed 1 linked module(s) from extensions.json
+
+Γ£ô All linked modules successfully removed!
+
+Removal log saved to: C:\Users\kyle\AppData\Local\Temp\augment-test-1tVKKp\test-project\.augment-removal.log
+
+Note: .augment/ directory and extensions.json preserved
+Note: User-generated content (screenplays/, etc.) preserved
+
+To link modules again:
+  augx link <module-name>
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mSelf-Remove (Actual Removal)[2m > [22m[2mshould create removal log
+[22m[39m
+ΓÜá∩╕Å  Augment Extensions Self-Removal
+
+The following will be removed:
+
+  - All linked modules (1 modules):
+    ΓÇó coding-standards/test-module (v1.0.0)
+  - VS Code extensions.json entries (if any)
+
+Note: .augment/ directory and extensions.json file will be preserved
+
+Removing linked modules...
+
+Γ£ô Removed 1 linked module(s) from extensions.json
+
+Γ£ô All linked modules successfully removed!
+
+Removal log saved to: C:\Users\kyle\AppData\Local\Temp\augment-test-Sisueo\test-project\.augment-removal.log
+
+Note: .augment/ directory and extensions.json preserved
+Note: User-generated content (screenplays/, etc.) preserved
+
+To link modules again:
+  augx link <module-name>
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mSelf-Remove (Actual Removal)[2m > [22m[2mshould handle empty project gracefully
+[22m[39m
+ΓÜá∩╕Å  Augment Extensions Self-Removal
+
+The following will be removed:
+
+  - All linked modules (0 modules):
+  - VS Code extensions.json entries (if any)
+
+Note: .augment/ directory and extensions.json file will be preserved
+
+Removing linked modules...
+
+Γ£ô Removed 0 linked module(s) from extensions.json
+
+Γ£ô All linked modules successfully removed!
+
+Removal log saved to: C:\Users\kyle\AppData\Local\Temp\augment-test-a8y6L4\test-project\.augment-removal.log
+
+Note: .augment/ directory and extensions.json preserved
+Note: User-generated content (screenplays/, etc.) preserved
+
+To link modules again:
+  augx link <module-name>
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mSelf-Remove (Actual Removal)[2m > [22m[2mshould handle project without extensions.json
+[22m[39m
+ΓÜá∩╕Å  Augment Extensions Self-Removal
+
+Augment Extensions not found in this project.
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mDependency Checking[2m > [22m[2mshould check dependencies before unlinking
+[22m[39mUnlinking module: coding-standards/base
+
+stderr | tests/integration/workflows/unlink-self-remove.test.ts > Unlink and Self-Remove Integration Tests > Dependency Checking > should check dependencies before unlinking
+
+Cannot unlink coding-standards/base. The following modules depend on it:
+
+  - coding-standards/extension
+
+Use --force to unlink anyway (may break dependent modules)
+Error: process.exit unexpectedly called with "1"
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mDependency Checking[2m > [22m[2mshould allow unlinking dependent module first
+[22m[39mUnlinking module: coding-standards/extension
+Γ£ô Successfully unlinked: coding-standards/extension
+
+[90mstdout[2m | tests/integration/workflows/unlink-self-remove.test.ts[2m > [22m[2mUnlink and Self-Remove Integration Tests[2m > [22m[2mDependency Checking[2m > [22m[2mshould allow unlinking dependent module first
+[22m[39mUnlinking module: coding-standards/base
+Γ£ô Successfully unlinked: coding-standards/base
+
+ [32mΓ£ô[39m tests/integration/workflows/unlink-self-remove.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 187[2mms[22m[39m
+ [32mΓ£ô[39m tests/unit/core/compatibility-checker.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 1441[2mms[22m[39m
+ [32mΓ£ô[39m tests/integration/cli/command-execution.test.ts [2m([22m[2m25 tests[22m[2m)[22m[33m 20116[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should execute help command successfully [33m 1236[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should execute version command successfully [33m 762[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle unknown command gracefully [33m 739[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should capture stdout from successful command [33m 857[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should capture stderr from failed command [33m 752[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle empty output [33m 764[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should return 0 for successful command [33m 765[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should return non-zero for failed command [33m 715[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should return non-zero for invalid arguments [33m 708[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should execute multiple commands sequentially [33m 1495[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle command dependencies [33m 1512[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle parallel command execution [33m 831[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should provide clear error for missing arguments [33m 751[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should provide clear error for invalid module [33m 747[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should provide help text for unknown command [33m 709[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should produce valid JSON with --json flag [33m 749[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle empty JSON output [33m 751[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should format JSON output correctly [33m 748[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should complete commands within reasonable time [33m 767[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle long-running commands [33m 766[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should respect NODE_ENV variable [33m 745[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle missing environment variables [33m 757[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should execute commands in correct working directory [33m 742[2mms[22m[39m
+       [33m[2mΓ£ô[22m[39m should handle relative paths [33m 742[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Suites 13 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  tests/unit/gui/navigation-state.test.ts [ tests/unit/gui/navigation-state.test.ts ]
+Error: Cannot find package '@testing-library/react' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/gui/navigation-state.test.ts'
+ Γ¥» tests/unit/gui/navigation-state.test.ts:2:1
+      1| import { describe, it, expect, beforeEach, afterEach, vi } from 'vitesΓÇª
+      2| import { renderHook, act } from '@testing-library/react';
+       | ^
+      3| import {
+      4|   useNavigationState,
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/13]ΓÄ»
+
+ FAIL  tests/unit/gui/selection-state.test.ts [ tests/unit/gui/selection-state.test.ts ]
+Error: Cannot find package '@testing-library/react' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/gui/selection-state.test.ts'
+ Γ¥» tests/unit/gui/selection-state.test.ts:2:1
+      1| import { describe, it, expect, beforeEach, afterEach, vi } from 'vitesΓÇª
+      2| import { renderHook, act } from '@testing-library/react';
+       | ^
+      3| import {
+      4|   useSelectionState,
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/13]ΓÄ»
+
+ FAIL  tests/unit/utils/documentation-validator.test.ts [ tests/unit/utils/documentation-validator.test.ts ]
+Error: Cannot find module '../documentation-validator' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/documentation-validator.test.ts'
+ Γ¥» tests/unit/utils/documentation-validator.test.ts:7:1
+      5| import * as fs from 'fs';
+      6| import * as path from 'path';
+      7| import { validateReadmeStructure, validateModuleDocumentation } from 'ΓÇª
+       | ^
+      8| import { Module } from '../module-system';
+      9| 
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/13]ΓÄ»
+
+ FAIL  tests/unit/utils/extractCommandHelp.integration.test.ts [ tests/unit/utils/extractCommandHelp.integration.test.ts ]
+Error: Cannot find module '../extractCommandHelp' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/extractCommandHelp.integration.test.ts'
+ Γ¥» tests/unit/utils/extractCommandHelp.integration.test.ts:9:1
+      7| import * as path from 'path';
+      8| import * as os from 'os';
+      9| import { extractCommandHelp, extractAllHelp, detectTools } from '../exΓÇª
+       | ^
+     10| 
+     11| describe('extractCommandHelp integration tests', () => {
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[4/13]ΓÄ»
+
+ FAIL  tests/unit/utils/extractCommandHelp.test.ts [ tests/unit/utils/extractCommandHelp.test.ts ]
+Error: Cannot find module '../extractCommandHelp' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/extractCommandHelp.test.ts'
+ Γ¥» tests/unit/utils/extractCommandHelp.test.ts:7:1
+      5| import * as fs from 'fs';
+      6| import * as path from 'path';
+      7| import {
+       | ^
+      8|   detectTools,
+      9|   executeHelp,
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[5/13]ΓÄ»
+
+ FAIL  tests/unit/utils/inspection-cache.test.ts [ tests/unit/utils/inspection-cache.test.ts ]
+Error: Cannot find module '../inspection-cache' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/inspection-cache.test.ts'
+ Γ¥» tests/unit/utils/inspection-cache.test.ts:7:1
+      5| 
+      6| import { describe, it, expect, beforeEach, afterEach, vi } from 'vitesΓÇª
+      7| import { InspectionCache } from '../inspection-cache';
+       | ^
+      8| import * as fs from 'fs';
+      9| import * as path from 'path';
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[6/13]ΓÄ»
+
+ FAIL  tests/unit/utils/inspection-handlers.test.ts [ tests/unit/utils/inspection-handlers.test.ts ]
+Error: Cannot find module '../inspection-handlers' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/inspection-handlers.test.ts'
+ Γ¥» tests/unit/utils/inspection-handlers.test.ts:7:1
+      5| 
+      6| import { describe, it, expect, beforeEach } from 'vitest';
+      7| import {
+       | ^
+      8|   BaseInspectionHandler,
+      9|   DefaultInspectionHandler,
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[7/13]ΓÄ»
+
+ FAIL  tests/unit/utils/install-rules.integration.test.ts [ tests/unit/utils/install-rules.integration.test.ts ]
+Error: Cannot find module '../install-rules' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/install-rules.integration.test.ts'
+ Γ¥» tests/unit/utils/install-rules.integration.test.ts:10:1
+      8| import * as path from 'path';
+      9| import * as os from 'os';
+     10| import { installCharacterCountRule } from '../install-rules';
+       | ^
+     11| 
+     12| // Mock chalk to avoid ESM issues
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[8/13]ΓÄ»
+
+ FAIL  tests/unit/utils/install-rules.test.ts [ tests/unit/utils/install-rules.test.ts ]
+Error: Cannot find module '../install-rules' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/install-rules.test.ts'
+ Γ¥» tests/unit/utils/install-rules.test.ts:8:1
+      6| import * as fsSync from 'fs';
+      7| import * as path from 'path';
+      8| import { installCharacterCountRule, InstallRulesError } from '../instaΓÇª
+       | ^
+      9| 
+     10| // Mock fs modules
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[9/13]ΓÄ»
+
+ FAIL  tests/unit/utils/module-discovery.test.ts [ tests/unit/utils/module-discovery.test.ts ]
+Error: Do not import `@jest/globals` outside of the Jest test environment
+ Γ¥» Object.<anonymous> node_modules/@jest/globals/build/index.js:12:7
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[10/13]ΓÄ»
+
+ FAIL  tests/unit/utils/module-loading.test.ts [ tests/unit/utils/module-loading.test.ts ]
+Error: Cannot find module '../module-system' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/module-loading.test.ts'
+ Γ¥» tests/unit/utils/module-loading.test.ts:8:1
+      6| import * as fs from 'fs';
+      7| import * as path from 'path';
+      8| import { loadModule, discoverModules, discoverCollections } from '../mΓÇª
+       | ^
+      9| 
+     10| // Mock fs module
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[11/13]ΓÄ»
+
+ FAIL  tests/unit/utils/semver.test.ts [ tests/unit/utils/semver.test.ts ]
+Error: Cannot find module '../module-system' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/semver.test.ts'
+ Γ¥» tests/unit/utils/semver.test.ts:5:1
+      3|  */
+      4| 
+      5| import {
+       | ^
+      6|   isValidSemanticVersion,
+      7|   parseSemanticVersion,
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[12/13]ΓÄ»
+
+ FAIL  tests/unit/utils/skill-system.test.ts [ tests/unit/utils/skill-system.test.ts ]
+Error: Cannot find module '../skill-system' imported from 'G:/_kyle/temp_documents/GitHub/augx/augment-extensions/tests/unit/utils/skill-system.test.ts'
+ Γ¥» tests/unit/utils/skill-system.test.ts:8:1
+      6| import * as fs from 'fs';
+      7| import * as path from 'path';
+      8| import {
+       | ^
+      9|   parseSkill,
+     10|   validateSkillMetadata,
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[13/13]ΓÄ»
+
+
+[2m Test Files [22m [1m[31m13 failed[39m[22m[2m | [22m[1m[32m29 passed[39m[22m[90m (42)[39m
+[2m      Tests [22m [1m[32m513 passed[39m[22m[90m (513)[39m
+[2m   Start at [22m 19:46:02
+[2m   Duration [22m 20.82s[2m (transform 5.04s, setup 2.53s, import 5.14s, tests 29.19s, environment 12ms)[22m
+

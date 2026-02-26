@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { createTestEnvironment, TestEnvironment } from '../../helpers/test-env';
+import { TestEnvironment } from '../../helpers/test-env';
 
 /**
  * Module Search Tests
@@ -17,7 +17,8 @@ describe('Module Search Tests', () => {
   let testEnv: TestEnvironment;
 
   beforeEach(async () => {
-    testEnv = await createTestEnvironment();
+    testEnv = new TestEnvironment();
+    await testEnv.setup();
   });
 
   afterEach(async () => {

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { join } from 'path';
 import { readFile, writeFile } from 'fs/promises';
 import { existsSync } from 'fs';
-import { createTestEnvironment, TestEnvironment } from '../../helpers/test-env';
+import { TestEnvironment } from '../../helpers/test-env';
 
 /**
  * Multi-Module Dependency Tests
@@ -19,7 +19,8 @@ describe('Multi-Module Dependency Resolution', () => {
   let testEnv: TestEnvironment;
 
   beforeEach(async () => {
-    testEnv = await createTestEnvironment();
+    testEnv = new TestEnvironment();
+    await testEnv.setup();
   });
 
   afterEach(async () => {

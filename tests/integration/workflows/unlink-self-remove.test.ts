@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { createTestEnvironment, type TestEnvironment } from '../../helpers/test-env';
+import { TestEnvironment } from '../../helpers/test-env';
 import { unlinkCommand } from '@cli/commands/unlink';
 import { selfRemoveCommand } from '@cli/commands/self-remove';
-import { readFile, writeFile, mkdir } from 'fs/promises';
+import { readFile, writeFile, mkdir, rm } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join } from 'path';
 
@@ -11,7 +11,8 @@ describe('Unlink and Self-Remove Integration Tests', () => {
   let originalCwd: string;
 
   beforeEach(async () => {
-    testEnv = await createTestEnvironment();
+    testEnv = new TestEnvironment();
+    await testEnv.setup();
     originalCwd = process.cwd();
   });
 
@@ -238,8 +239,9 @@ describe('Unlink and Self-Remove Integration Tests', () => {
       const module1 = await testEnv.createModule({ name: 'module-1', type: 'coding-standards' });
       const module2 = await testEnv.createModule({ name: 'module-2', type: 'coding-standards' });
 
-      // Create collection
-      const collectionPath = join(testEnv.tempDir, 'collections', 'test-collection');
+      // Create collection in the global augment-extensions directory
+      const collectionsDir = join(process.cwd(), 'augment-extensions', 'collections');
+      const collectionPath = join(collectionsDir, 'test-collection');
       await mkdir(collectionPath, { recursive: true });
 
       const collectionMetadata = {
@@ -271,12 +273,17 @@ describe('Unlink and Self-Remove Integration Tests', () => {
 
       process.chdir(project.path);
 
-      // Unlink collection (should only unlink module1)
-      await unlinkCommand('collections/test-collection');
+      try {
+        // Unlink collection (should only unlink module1)
+        await unlinkCommand('collections/test-collection');
 
-      // Verify only module1 is unlinked
-      expect(await testEnv.isModuleLinked(module1.fullName)).toBe(false);
-      expect(await testEnv.isModuleLinked(module2.fullName)).toBe(false);
+        // Verify only module1 is unlinked
+        expect(await testEnv.isModuleLinked(module1.fullName)).toBe(false);
+        expect(await testEnv.isModuleLinked(module2.fullName)).toBe(false);
+      } finally {
+        // Clean up the test collection
+        await rm(collectionPath, { recursive: true, force: true });
+      }
     });
   });
 

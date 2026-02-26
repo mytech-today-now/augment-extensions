@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { platform, type, arch, homedir, tmpdir } from 'os';
 import { join } from 'path';
-import { createTestEnvironment, type TestEnvironment } from '../../helpers/test-env';
+import { TestEnvironment } from '../../helpers/test-env';
 import { chmod, access, constants, writeFile } from 'fs/promises';
 import { execSync } from 'child_process';
 
@@ -19,7 +19,8 @@ describe('Platform-Specific Behavior', () => {
   let env: TestEnvironment;
 
   beforeEach(async () => {
-    env = await createTestEnvironment();
+    env = new TestEnvironment();
+    await env.setup();
   });
 
   afterEach(async () => {

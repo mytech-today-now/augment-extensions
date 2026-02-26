@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { toBeValidModule, toHaveLinkedModule, toHaveCollection } from '@tests/helpers/matchers';
 import { ModuleFactory, CollectionFactory } from '@tests/helpers/factories';
-import { createTestEnvironment, type TestEnvironment } from '@tests/helpers/test-env';
+import { TestEnvironment } from '@tests/helpers/test-env';
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
 
@@ -50,7 +50,8 @@ describe('Custom Matchers', () => {
     let testEnv: TestEnvironment;
 
     beforeEach(async () => {
-      testEnv = await createTestEnvironment();
+      testEnv = new TestEnvironment();
+    await testEnv.setup();
     });
 
     afterEach(async () => {
@@ -111,7 +112,8 @@ describe('Custom Matchers', () => {
     let testEnv: TestEnvironment;
 
     beforeEach(async () => {
-      testEnv = await createTestEnvironment();
+      testEnv = new TestEnvironment();
+    await testEnv.setup();
     });
 
     afterEach(async () => {

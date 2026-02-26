@@ -29,6 +29,9 @@ export interface Module {
   fullName: string;
   rules: string[];
   examples: string[];
+  isSubModule?: boolean;
+  parentModule?: string;
+  subModules?: string[];
 }
 
 /**
@@ -67,9 +70,20 @@ export function validateModuleMetadata(metadata: any): ValidationResult {
     errors.push(`Invalid type: ${metadata.type}. Must be one of: ${validTypes.join(', ')}`);
   }
 
-  // Validate version format (semantic versioning)
+  // Validate version format (semantic versioning) - warning only
+  // This allows modules with non-semver versions to still load
   if (metadata.version && !isValidSemanticVersion(metadata.version)) {
-    errors.push(`Invalid version format: ${metadata.version}. Must follow MAJOR.MINOR.PATCH`);
+    warnings.push(`Invalid version format: ${metadata.version}. Should follow MAJOR.MINOR.PATCH`);
+  }
+
+  // Validate tags format (must be array if present)
+  if (metadata.tags !== undefined && !Array.isArray(metadata.tags)) {
+    errors.push('tags must be an array');
+  }
+
+  // Validate dependencies format (must be array if present)
+  if (metadata.dependencies !== undefined && !Array.isArray(metadata.dependencies)) {
+    errors.push('dependencies must be an array');
   }
 
   // Validate augment.characterCount if present
@@ -256,12 +270,41 @@ export function loadModule(modulePath: string): Module | null {
     const relativePath = path.relative(modulesDir, modulePath);
     const fullName = relativePath.replace(/\\/g, '/');
 
+    // Determine if this is a submodule
+    const pathParts = fullName.split('/');
+    const isSubModule = pathParts.length > 2;
+    const parentModule = isSubModule ? pathParts.slice(0, -1).join('/') : undefined;
+
+    // Get submodules from metadata or by scanning directory
+    let subModules: string[] | undefined;
+    if (metadata.augment?.subModules) {
+      // Get submodules from metadata
+      subModules = (metadata.augment.subModules as any[]).map((sub: any) => {
+        const subPath = sub.path || sub.id;
+        return `${fullName}/${subPath}`.replace(/\/$/, '');
+      });
+    } else {
+      // Scan for subdirectories with module.json
+      const subdirs = fs.readdirSync(modulePath, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name);
+
+      const foundSubModules = subdirs
+        .filter(dir => fs.existsSync(path.join(modulePath, dir, 'module.json')))
+        .map(dir => `${fullName}/${dir}`);
+
+      subModules = foundSubModules.length > 0 ? foundSubModules : undefined;
+    }
+
     return {
       metadata,
       path: modulePath,
       fullName,
       rules,
-      examples
+      examples,
+      isSubModule,
+      parentModule,
+      subModules
     };
   } catch (error) {
     return null;

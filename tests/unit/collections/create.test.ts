@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { join } from 'path';
 import { readFile, writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
-import { createTestEnvironment, TestEnvironment } from '../../helpers/test-env';
+import { TestEnvironment } from '../../helpers/test-env';
 import { CollectionFactory } from '../../helpers/factories';
 
 /**
@@ -20,7 +20,8 @@ describe('Collection Creation Tests', () => {
   let testEnv: TestEnvironment;
 
   beforeEach(async () => {
-    testEnv = await createTestEnvironment();
+    testEnv = new TestEnvironment();
+    await testEnv.setup();
   });
 
   afterEach(async () => {

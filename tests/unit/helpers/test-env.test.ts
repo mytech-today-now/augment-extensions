@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { createTestEnvironment, type TestEnvironment } from '@tests/helpers/test-env';
+import { TestEnvironment } from '@tests/helpers/test-env';
 import { existsSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
@@ -8,7 +8,8 @@ describe('Test Environment', () => {
   let testEnv: TestEnvironment;
 
   beforeEach(async () => {
-    testEnv = await createTestEnvironment();
+    testEnv = new TestEnvironment();
+    await testEnv.setup();
   });
 
   afterEach(async () => {

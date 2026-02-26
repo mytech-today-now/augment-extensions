@@ -61,7 +61,7 @@ describe('Parser Fuzzing Tests', () => {
       }
 
       // Should handle most random input gracefully
-      expect(crashes).toBeLessThan(10);
+      expect(crashes).toBeLessThan(5);
     });
 
     it('should not crash on random Markdown-like input', () => {
@@ -70,7 +70,7 @@ describe('Parser Fuzzing Tests', () => {
 
       for (let i = 0; i < 100; i++) {
         const randomInput = '#'.repeat(Math.floor(Math.random() * 6) + 1) + ' ' + randomString(100);
-        
+
         try {
           parser.parse(randomInput);
         } catch (error) {
@@ -78,7 +78,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(10);
+      expect(crashes).toBeLessThan(5);
     });
   });
 
@@ -98,7 +98,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(5);
+      expect(crashes).toBeLessThan(3);
     });
 
     it('should handle random emoji sequences', () => {
@@ -108,7 +108,7 @@ describe('Parser Fuzzing Tests', () => {
 
       for (let i = 0; i < 50; i++) {
         const randomInput = randomString(200, emojis + ' \n');
-        
+
         try {
           parser.parse(randomInput);
         } catch (error) {
@@ -116,7 +116,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(5);
+      expect(crashes).toBeLessThan(3);
     });
   });
 
@@ -136,7 +136,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(10);
+      expect(crashes).toBeLessThan(5);
     });
 
     it('should handle random null bytes', () => {
@@ -145,7 +145,7 @@ describe('Parser Fuzzing Tests', () => {
 
       for (let i = 0; i < 50; i++) {
         const randomInput = randomString(100) + '\x00' + randomString(100);
-        
+
         try {
           parser.parse(randomInput);
         } catch (error) {
@@ -153,7 +153,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(10);
+      expect(crashes).toBeLessThan(5);
     });
   });
 
@@ -166,7 +166,7 @@ describe('Parser Fuzzing Tests', () => {
       for (let i = 0; i < 50; i++) {
         const sceneCount = Math.floor(Math.random() * 100) + 1;
         const randomScreenplayContent = randomScreenplay(sceneCount);
-        
+
         try {
           const screenplay = parser.parse(randomScreenplayContent);
           totalScenes += screenplay.scenes.length;
@@ -175,7 +175,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(5);
+      expect(crashes).toBeLessThan(3);
       expect(totalScenes).toBeGreaterThan(0);
     });
 
@@ -204,7 +204,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(10);
+      expect(crashes).toBeLessThan(5);
     });
   });
 
@@ -251,7 +251,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(25);
+      expect(crashes).toBeLessThan(10);
     });
   });
 
@@ -276,7 +276,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(20); // Adjusted threshold - some line ending combos may cause issues
+      expect(crashes).toBeLessThan(16); // Line endings are tricky - ~30% crash rate acceptable
     });
   });
 
@@ -302,7 +302,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(20); // Adjusted threshold - some whitespace combos may cause issues
+      expect(crashes).toBeLessThan(15); // Whitespace combos are tricky - ~30% crash rate acceptable
     });
 
     it('should handle random indentation levels', () => {
@@ -324,7 +324,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(5);
+      expect(crashes).toBeLessThan(3);
     });
   });
 
@@ -344,7 +344,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(10);
+      expect(crashes).toBeLessThan(5);
     });
 
     it('should handle random line lengths', () => {
@@ -366,7 +366,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(5);
+      expect(crashes).toBeLessThan(3);
     });
   });
 
@@ -394,7 +394,7 @@ describe('Parser Fuzzing Tests', () => {
         }
       }
 
-      expect(crashes).toBeLessThan(20);
+      expect(crashes).toBeLessThan(10);
     });
   });
 });

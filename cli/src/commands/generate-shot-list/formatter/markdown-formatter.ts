@@ -101,10 +101,8 @@ export class MarkdownFormatter extends BaseFormatter {
       // Requirement 5: Visual Style Property
       parts.push(`| Visual Style | ${shot.metadata.visualStyle || 'Reality'} |`);
 
-      // Requirement 6: Simplified character count display with chalk colors
-      const charCountColor = this.getCharacterCountColor(shot.characterCount, maxChars);
-      const coloredCharCount = charCountColor(shot.characterCount.toString());
-      parts.push(`| C: | ${coloredCharCount} / ${maxChars} |`);
+      // Requirement 6: Simplified character count display (no colors in file output)
+      parts.push(`| C: | ${shot.characterCount} / ${maxChars} |`);
 
       if (shot.metadata.technicalNotes && shot.metadata.technicalNotes.length > 0) {
         parts.push(`| Technical Notes | ${shot.metadata.technicalNotes.join(', ')} |`);

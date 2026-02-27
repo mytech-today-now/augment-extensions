@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-2.3.1-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-2.3.2-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 [![CI](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml/badge.svg)](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml)
@@ -23,31 +23,42 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v2.3.1
+## ✨ What's New in v2.3.2
 
-### Shot List Generator - Quality Improvements 🎬✨
+### Shot List Generator - Structured Key-Value Pairs 🎬✨
 
-**Critical Quality Fixes:**
-Three major improvements to shot list output quality for high-end video generation:
+**Breaking Change: Granular Data Structure**
+Shot descriptions are now decomposed into specific, structured fields for better AI consumption:
 
-1. ✅ **Duration Formatting Bug Fixed** - Eliminated floating-point artifacts
-   - Before: `2.000000004s` or `0:7.4`
-   - After: `2s` or `0:07` (clean MM:SS format)
-   - Added `Math.round()` to all duration calculations
+**New Structured Fields:**
+- ✅ **set** - Location and time of day (e.g., "Interior space - USS ENTERPRISE - ENGINE ROOM - DAY")
+- ✅ **description** - Visual/environmental description (1000+ chars of spatial, lighting, atmospheric detail)
+- ✅ **actions** - Character actions extracted from screenplay action lines
+- ✅ **dialogue** - Dialogue text in MPAA screenplay format
+- ✅ **blocking** - Character positions and movements
+- ✅ **sfx** - Sound effects extracted from action lines
+- ✅ **techDetails** - Technical camera/shot details (shot type, movement, framing, visual style)
 
-2. ✅ **ANSI Color Code Removal** - Clean file output
-   - Before: `[32m713[39m / 4000` (terminal colors in files)
-   - After: `713 / 4000` (clean text)
-   - Removed Chalk color wrapping from Markdown/JSON/JSONL output
+**Character Breakdown:**
+Each character now has individual key-value pairs:
+- **Name:** Character name
+- **Position:** Where they are in the frame
+- **Appearance:** Physical description
+- **Wardrobe:** Clothing details
+- **Emotion:** Emotional state
+- **Action:** What they're doing
 
-3. ✅ **Massively Enhanced Description Verbosity** - 10x increase for generative AI
-   - Before: Average 375 characters per shot
-   - After: Average **3,571 characters** per shot (3000-4000 target range)
-   - Total output: **124,983 characters** (was 13,122)
-   - Enhanced context descriptions (1000+ chars): Spatial composition, lighting design, atmospheric quality
-   - Enhanced character descriptions (500-800 chars each): Physical appearance, wardrobe details, emotional state, body language
-   - Improved Character Bible extraction: Captures multiple sentences for verbose descriptions
-   - Production-ready for high-end video generation AI (Runway, Pika, Sora, etc.)
+**Output Formats:**
+- **Markdown:** Bolded headers for each field (e.g., `**Set:**`, `**Actions:**`)
+- **JSON:** Nested object structure with all fields
+- **JSONL:** Same structure as JSON, one shot per line
+
+**Benefits:**
+- More granular data for AI video generation (Runway, Sora, Pika, etc.)
+- Easier to parse and consume programmatically
+- Better separation of concerns
+- Supports targeted prompting for different AI models
+- Each field can be used independently or combined
 
 **Impact:**
 - 🎯 **Perfect for Generative AI** - Extremely detailed descriptions provide sufficient context for video generation models

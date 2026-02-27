@@ -147,11 +147,18 @@ export class ShotListGenerator implements Generator {
         this.applyStyleToMetadata(metadata, this.styleGuidelines);
       }
 
-      // Build description
-      const description = this.buildDescription(segment.elements, sceneContext, characters);
-
-      // Extract dialogue from segment
+      // Build structured description components
+      const set = this.buildSetDescription(sceneContext);
+      const description = this.buildVisualDescription(sceneContext);
+      const actions = this.buildActions(segment.elements);
       const dialogue = this.extractDialogue(segment.elements);
+      const blocking = this.buildBlocking(characters);
+      const sfx = this.buildSFX(segment.elements);
+      const techDetails = this.buildTechDetails(metadata);
+
+      // Calculate total character count from all components
+      const totalCharacterCount = set.length + description.length + actions.length +
+                                   dialogue.length + blocking.length + sfx.length + techDetails.length;
 
       // Check if shot exceeds max duration (Requirement 2)
       if (segment.estimatedDuration > config.maxShotLength) {
@@ -173,11 +180,16 @@ export class ShotListGenerator implements Generator {
           heading: scene.heading,
           context: sceneContext,
           characters,
+          set,
           description,
+          actions,
           dialogue,
+          blocking,
+          sfx,
+          techDetails,
           metadata,
           duration: segment.estimatedDuration,
-          characterCount: description.length,
+          characterCount: totalCharacterCount,
           warnings: []
         });
         currentShotNumber++;
@@ -226,11 +238,18 @@ export class ShotListGenerator implements Generator {
         this.applyStyleToMetadata(metadata, this.styleGuidelines);
       }
 
-      // Build description
-      const description = this.buildDescription(subShotElements, sceneContext, characters);
-
-      // Extract dialogue for this sub-shot
+      // Build structured description components
+      const set = this.buildSetDescription(sceneContext);
+      const description = this.buildVisualDescription(sceneContext);
+      const actions = this.buildActions(subShotElements);
       const dialogue = this.extractDialogue(subShotElements);
+      const blocking = this.buildBlocking(characters);
+      const sfx = this.buildSFX(subShotElements);
+      const techDetails = this.buildTechDetails(metadata);
+
+      // Calculate total character count from all components
+      const totalCharacterCount = set.length + description.length + actions.length +
+                                   dialogue.length + blocking.length + sfx.length + techDetails.length;
 
       // Estimate duration for this sub-shot
       const duration = this.estimateSubShotDuration(subShotElements);
@@ -241,11 +260,16 @@ export class ShotListGenerator implements Generator {
         heading: scene.heading,
         context: sceneContext,
         characters,
+        set,
         description,
+        actions,
         dialogue,
+        blocking,
+        sfx,
+        techDetails,
         metadata,
         duration,
-        characterCount: description.length,
+        characterCount: totalCharacterCount,
         warnings: []
       });
     }
@@ -330,35 +354,120 @@ export class ShotListGenerator implements Generator {
   }
 
   /**
-   * Build shot description from elements, context, and characters
-   * Requirement 7: Include "No dialogue in this shot" when applicable
-   * Requirement 9: Include character blocking/positioning details
+   * Build set description from context
    */
-  private buildDescription(
-    elements: import('../parser/types').SceneElement[],
-    context: SceneContext,
-    characters: CharacterState[]
-  ): string {
-    const parts: string[] = [];
+  private buildSetDescription(context: SceneContext): string {
+    return `${context.set} - ${context.timeOfDay}`;
+  }
 
-    // Add verbose context description
-    const contextDesc = this.buildVerboseContext(context);
-    parts.push(contextDesc);
+  /**
+   * Build visual/environmental description from context
+   * Target: Extremely detailed set/environment description (1000+ characters)
+   */
+  private buildVisualDescription(context: SceneContext): string {
+    return this.buildVerboseContext(context);
+  }
 
-    // Add verbose character descriptions (Requirement 9 & 10)
-    if (characters.length > 0) {
-      const characterDescs = characters.map(c => this.buildVerboseCharacterDescription(c));
-      parts.push(...characterDescs);
+  /**
+   * Build character actions from scene elements
+   */
+  private buildActions(elements: import('../parser/types').SceneElement[]): string {
+    const actionElements = elements.filter(el => el.type === 'action');
+
+    if (actionElements.length === 0) {
+      return 'No specific actions in this shot';
     }
 
-    // Add action and dialogue with expanded detail
-    const content = elements.map(el => el.text).join(' ');
-    parts.push(content);
+    // Extract action descriptions, filtering out sound effects
+    const actions = actionElements
+      .map(el => el.text)
+      .filter(text => !this.isSoundEffect(text))
+      .join('. ');
 
-    // Requirement 7: Add "No dialogue in this shot" if no dialogue present
-    const hasDialogue = elements.some(el => el.type === 'dialogue');
-    if (!hasDialogue) {
-      parts.push('No dialogue in this shot');
+    return actions || 'No specific actions in this shot';
+  }
+
+  /**
+   * Build character blocking (positions and movements)
+   */
+  private buildBlocking(characters: CharacterState[]): string {
+    if (characters.length === 0) {
+      return 'No characters in this shot';
+    }
+
+    const blockingParts = characters.map(char => {
+      const parts: string[] = [];
+
+      // Position
+      if (char.position && char.position !== 'in scene') {
+        parts.push(`${char.name} is ${char.position}`);
+      }
+
+      // Movement/action
+      if (char.action) {
+        parts.push(`${char.name} ${char.action}`);
+      }
+
+      return parts.join('; ');
+    }).filter(p => p.length > 0);
+
+    return blockingParts.length > 0
+      ? blockingParts.join('. ')
+      : 'Characters maintain their positions';
+  }
+
+  /**
+   * Build sound effects from scene elements
+   */
+  private buildSFX(elements: import('../parser/types').SceneElement[]): string {
+    const actionElements = elements.filter(el => el.type === 'action');
+
+    // Extract sound effects from action lines
+    const sfxElements = actionElements
+      .map(el => el.text)
+      .filter(text => this.isSoundEffect(text));
+
+    if (sfxElements.length === 0) {
+      return 'No sound effects specified';
+    }
+
+    return sfxElements.join('. ');
+  }
+
+  /**
+   * Check if text describes a sound effect
+   */
+  private isSoundEffect(text: string): boolean {
+    const sfxKeywords = [
+      'sound', 'noise', 'hear', 'echo', 'rumble', 'crash', 'bang',
+      'whisper', 'shout', 'scream', 'music', 'song', 'melody',
+      'beep', 'buzz', 'hum', 'ring', 'chime', 'alarm'
+    ];
+
+    const lowerText = text.toLowerCase();
+    return sfxKeywords.some(keyword => lowerText.includes(keyword));
+  }
+
+  /**
+   * Build technical details from metadata
+   */
+  private buildTechDetails(metadata: ShotMetadata): string {
+    const parts: string[] = [];
+
+    // Camera details
+    parts.push(`Shot Type: ${metadata.shotType}`);
+    parts.push(`Camera Movement: ${metadata.cameraMovement}`);
+    parts.push(`Framing: ${metadata.framing}`);
+    parts.push(`Visual Style: ${metadata.visualStyle}`);
+
+    // Cinematic style if available
+    if (metadata.cinematicStyle) {
+      parts.push(`Cinematic Style: ${metadata.cinematicStyle}`);
+    }
+
+    // Technical notes if available
+    if (metadata.technicalNotes && metadata.technicalNotes.length > 0) {
+      parts.push(`Notes: ${metadata.technicalNotes.join(', ')}`);
     }
 
     return parts.join('. ');

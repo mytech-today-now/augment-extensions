@@ -62,8 +62,13 @@ export class JSONLFormatter extends BaseFormatter {
         emotion: char.emotion || null,
         action: char.action || null
       })),
+      set: shot.set,
       description: shot.description,
+      actions: shot.actions,
       dialogue: shot.dialogue,  // Requirement 8 & 12: Mandatory dialogue property
+      blocking: shot.blocking,
+      sfx: shot.sfx,
+      techDetails: shot.techDetails,
       metadata: {
         shotType: shot.metadata.shotType,
         cameraMovement: shot.metadata.cameraMovement,

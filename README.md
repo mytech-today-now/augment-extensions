@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-2.3.5-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-2.3.6-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 [![CI](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml/badge.svg)](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml)
@@ -23,27 +23,49 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v2.3.5
+## ✨ What's New in v2.3.6
 
-### Shot List Generator - Recursive Sub-Shot Splitting 🎬✨
+### Shot List Generator - Dialogue Text Splitting 🎬✨
+
+**Dialogue Text Splitting:**
+The generator can now split long dialogue blocks into multiple shots when a single dialogue element exceeds the maximum duration limit:
+
+**Features:**
+- ✅ **Sentence-Based Splitting** - Splits dialogue at sentence boundaries (periods, exclamation marks, question marks)
+- ✅ **Word-Based Fallback** - If a single sentence is too long, splits by word count
+- ✅ **Preserves Character Context** - Each split dialogue maintains the character name and parenthetical (on first chunk only)
+- ✅ **Recursive Integration** - Works seamlessly with the recursive sub-shot splitting system
+- ✅ **Duration-Aware** - Calculates optimal split points based on the 0.4 seconds per word estimate
+
+**Technical Implementation:**
+- **Smart Chunking:** Uses regex to identify sentence boundaries and groups sentences into chunks
+- **Max Words Calculation:** `maxWords = floor(maxDuration / 0.4)` ensures chunks stay within duration limits
+- **Element Preservation:** Maintains `line`, `column`, `text`, and `dialogue` properties from original element
+- **Dot Notation:** Split dialogue shots use the same numbering system as other sub-shots (e.g., "18a.1", "18a.2")
+
+**Example:**
+A 30-second dialogue block (75 words) with `maxShotLength: 12s` will be split into:
+- Shot 18a.1: First 30 words (~12s)
+- Shot 18a.2: Next 30 words (~12s)
+- Shot 18a.3: Final 15 words (~6s)
+
+**Impact:**
+- 🎯 **No More Unbreakable Shots** - All shots can now be split to fit within duration limits
+- 🎨 **Natural Breaks** - Sentence-based splitting creates natural pauses in dialogue
+- ✅ **Complete Coverage** - Handles edge cases like single long sentences or monologues
+
+## Previous Release: v2.3.5
+
+### Shot List Generator - Recursive Sub-Shot Splitting
 
 **Recursive Duration Enforcement:**
-The generator now recursively splits sub-shots that exceed the maximum duration limit, ensuring all shots stay within the 12-second constraint:
+The generator recursively splits sub-shots that exceed the maximum duration limit, ensuring all shots stay within the 12-second constraint:
 
 **Recursive Splitting:**
 - ✅ **Nested Sub-Shot Splitting** - Sub-shots that exceed `maxShotLength` are automatically split further
 - ✅ **Dot Notation for Nested Shots** - Uses clear numbering: "5a.1", "5a.2" instead of "5aa", "5ab"
 - ✅ **Unlimited Recursion Depth** - Continues splitting until all shots are under the duration limit (e.g., "5a.1.1", "5a.1.2")
-- ✅ **Proper Warning System** - Shots that can't be split further (single dialogue element) show clear error messages
-
-**Technical Improvements:**
-- **Type-Safe Numbering:** `baseShotNumber` accepts both `number` and `string` for recursive calls
-- **Break Reason Tracking:** Nested segments properly track why they were split
-- **Warning Objects:** Replaced string warnings with proper `Warning` type objects
-
-**Limitations:**
-- Shots consisting of a single long dialogue element cannot be split further (would require dialogue text splitting)
-- These shots are flagged with clear error messages indicating they exceed the duration limit
+- ✅ **Proper Warning System** - Shots that can't be split further show clear error messages
 
 ## Previous Release: v2.3.4
 

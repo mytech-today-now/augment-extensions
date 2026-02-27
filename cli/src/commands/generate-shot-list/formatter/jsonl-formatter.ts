@@ -32,6 +32,7 @@ export class JSONLFormatter extends BaseFormatter {
 
   /**
    * Format individual shot for JSONL
+   * Requirement 12: Include all fields from Shot interface
    */
   private formatShot(shot: Shot, options?: FormatterOptions): any {
     const includeWarnings = options?.includeWarnings !== false;
@@ -56,14 +57,19 @@ export class JSONLFormatter extends BaseFormatter {
         name: char.name,
         position: char.position,
         appearance: char.appearance,
+        wardrobe: char.wardrobe || null,              // Requirement 10: Rich character descriptions
+        physicalAppearance: char.physicalAppearance || null,  // Requirement 10: Rich character descriptions
         emotion: char.emotion || null,
         action: char.action || null
       })),
       description: shot.description,
+      dialogue: shot.dialogue,  // Requirement 8 & 12: Mandatory dialogue property
       metadata: {
         shotType: shot.metadata.shotType,
         cameraMovement: shot.metadata.cameraMovement,
         framing: shot.metadata.framing,
+        visualStyle: shot.metadata.visualStyle,        // Requirement 5 & 12: Visual style property
+        cinematicStyle: shot.metadata.cinematicStyle || null,  // Requirement 12: Cinematic style
         technicalNotes: shot.metadata.technicalNotes || []
       },
       duration: {

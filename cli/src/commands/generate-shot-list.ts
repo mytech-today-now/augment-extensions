@@ -221,34 +221,37 @@ export async function generateShotListCommand(options: GenerateShotListOptions):
       const output = formatter.format(shotList);
 
       // Step 5: Write output
-      if (options.output) {
-        fs.writeFileSync(options.output, output, 'utf-8');
-        console.log(chalk.green(`✓ Shot list saved to: ${options.output}\n`));
+      // Determine output path (Requirement 1: Default Output Behavior)
+      let outputPath = options.output;
+      if (!outputPath) {
+        // Generate default output filename: <input-filename>-ai-shot-list.<extension>
+        const inputBasename = path.basename(options.path, path.extname(options.path));
+        const outputExtension = formatter.getExtension();
+        outputPath = path.join(path.dirname(options.path), `${inputBasename}-ai-shot-list.${outputExtension}`);
+      }
 
-        if (logging && logger) {
-          const inputStats = fs.statSync(options.path);
-          const outputStats = fs.statSync(options.output);
-          await logger.logSuccess(
-            'Output file written',
-            {
-              shotCount: shotList.totalShots,
-              duration: shotList.totalDuration,
-              characterCount: shotList.totalCharacters,
-              processingTime: 0,
-              warningCount: shotList.warnings.length,
-              inputFileSize: inputStats.size,
-              outputFileSize: outputStats.size
-            },
-            options.path,
-            options.output,
-            format
-          );
-        }
-      } else {
-        // Print to console
-        console.log(chalk.blue('\n📋 Shot List:\n'));
-        console.log(output);
-        console.log();
+      // Write output file
+      fs.writeFileSync(outputPath, output, 'utf-8');
+      console.log(chalk.green(`✓ Shot list saved to: ${outputPath}\n`));
+
+      if (logging && logger) {
+        const inputStats = fs.statSync(options.path);
+        const outputStats = fs.statSync(outputPath);
+        await logger.logSuccess(
+          'Output file written',
+          {
+            shotCount: shotList.totalShots,
+            duration: shotList.totalDuration,
+            characterCount: shotList.totalCharacters,
+            processingTime: 0,
+            warningCount: shotList.warnings.length,
+            inputFileSize: inputStats.size,
+            outputFileSize: outputStats.size
+          },
+          options.path,
+          outputPath,
+          format
+        );
       }
 
       console.log(chalk.green('✅ Shot list generation complete!\n'));

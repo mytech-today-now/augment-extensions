@@ -257,36 +257,83 @@ export class ShotListGenerator implements Generator {
       // Estimate duration for this sub-shot
       const duration = this.estimateSubShotDuration(subShotElements);
 
-      // Check if this sub-shot still exceeds max duration - if so, split recursively
-      if (duration > config.maxShotLength && subShotElements.length > 1) {
-        // Create a segment for recursive splitting
-        const nestedSegment: import('./scene-segmenter').SceneSegment = {
-          elements: subShotElements,
-          estimatedDuration: duration,
-          breakReason: 'duration'
-        };
+      // Check if this sub-shot still exceeds max duration
+      if (duration > config.maxShotLength) {
+        // If we have multiple elements, split recursively
+        if (subShotElements.length > 1) {
+          // Create a segment for recursive splitting
+          const nestedSegment: import('./scene-segmenter').SceneSegment = {
+            elements: subShotElements,
+            estimatedDuration: duration,
+            breakReason: 'duration'
+          };
 
-        // Recursively split this sub-shot
-        const nestedSubShots = this.splitIntoSubShots(
-          nestedSegment,
-          subShotNumber,
-          scene,
-          sceneContext,
-          config
-        );
+          // Recursively split this sub-shot
+          const nestedSubShots = this.splitIntoSubShots(
+            nestedSegment,
+            subShotNumber,
+            scene,
+            sceneContext,
+            config
+          );
 
-        subShots.push(...nestedSubShots);
-      } else {
-        // This sub-shot is within limits, add it
-        const warnings: import('./types').Warning[] = [];
-        if (duration > config.maxShotLength) {
+          subShots.push(...nestedSubShots);
+        }
+        // If we have a single dialogue element, split the dialogue text
+        else if (subShotElements.length === 1 && subShotElements[0].type === 'dialogue') {
+          const dialogueElement = subShotElements[0] as import('../parser/types').DialogueElement;
+          const splitDialogueElements = this.splitDialogueText(dialogueElement, config.maxShotLength);
+
+          // Create a segment with the split dialogue elements
+          const dialogueSegment: import('./scene-segmenter').SceneSegment = {
+            elements: splitDialogueElements,
+            estimatedDuration: this.estimateSubShotDuration(splitDialogueElements),
+            breakReason: 'duration'
+          };
+
+          // Recursively split the dialogue-based segment
+          const dialogueSubShots = this.splitIntoSubShots(
+            dialogueSegment,
+            subShotNumber,
+            scene,
+            sceneContext,
+            config
+          );
+
+          subShots.push(...dialogueSubShots);
+        }
+        // Single non-dialogue element that can't be split further
+        else {
+          const warnings: import('./types').Warning[] = [];
           warnings.push({
             type: 'duration-limit-error',
-            message: `Shot ${subShotNumber} exceeds duration limit (${duration}s/${config.maxShotLength}s)`,
+            message: `Shot ${subShotNumber} exceeds duration limit (${duration}s/${config.maxShotLength}s) and cannot be split further`,
             shotNumber: subShotNumber,
             severity: 'error'
           });
+
+          subShots.push({
+            number: subShotNumber,
+            sceneNumber: scene.number,
+            heading: scene.heading,
+            context: sceneContext,
+            characters,
+            set,
+            description,
+            actions,
+            dialogue,
+            blocking,
+            sfx,
+            techDetails,
+            metadata,
+            duration,
+            characterCount: totalCharacterCount,
+            warnings
+          });
         }
+      } else {
+        // This sub-shot is within limits, add it
+        const warnings: import('./types').Warning[] = [];
 
         subShots.push({
           number: subShotNumber,
@@ -344,6 +391,68 @@ export class ShotListGenerator implements Generator {
     }
 
     return Math.round(duration);
+  }
+
+  /**
+   * Split a dialogue element's speech into multiple smaller dialogue elements
+   * based on sentence boundaries and target duration
+   */
+  private splitDialogueText(
+    dialogueElement: import('../parser/types').DialogueElement,
+    maxDuration: number
+  ): import('../parser/types').DialogueElement[] {
+    const DIALOGUE_WORD_DURATION = 0.4; // seconds per word
+    const maxWords = Math.floor(maxDuration / DIALOGUE_WORD_DURATION);
+
+    const speech = dialogueElement.dialogue.speech;
+    const sentences = speech.match(/[^.!?]+[.!?]+/g) || [speech];
+
+    const chunks: string[] = [];
+    let currentChunk = '';
+    let currentWordCount = 0;
+
+    for (const sentence of sentences) {
+      const sentenceWords = sentence.trim().split(/\s+/).length;
+
+      // If adding this sentence would exceed max words, start a new chunk
+      if (currentWordCount + sentenceWords > maxWords && currentChunk.length > 0) {
+        chunks.push(currentChunk.trim());
+        currentChunk = sentence;
+        currentWordCount = sentenceWords;
+      } else {
+        currentChunk += (currentChunk.length > 0 ? ' ' : '') + sentence;
+        currentWordCount += sentenceWords;
+      }
+    }
+
+    // Add the last chunk
+    if (currentChunk.trim().length > 0) {
+      chunks.push(currentChunk.trim());
+    }
+
+    // If we couldn't split by sentences (single long sentence), split by words
+    if (chunks.length === 1 && currentWordCount > maxWords) {
+      const words = speech.split(/\s+/);
+      chunks.length = 0; // Clear the array
+
+      for (let i = 0; i < words.length; i += maxWords) {
+        const chunkWords = words.slice(i, i + maxWords);
+        chunks.push(chunkWords.join(' '));
+      }
+    }
+
+    // Create new dialogue elements for each chunk
+    return chunks.map((chunk, index) => ({
+      type: 'dialogue' as const,
+      text: chunk,
+      line: dialogueElement.line,
+      column: dialogueElement.column,
+      dialogue: {
+        character: dialogueElement.dialogue.character,
+        parenthetical: index === 0 ? dialogueElement.dialogue.parenthetical : undefined,
+        speech: chunk
+      }
+    }));
   }
 
   /**

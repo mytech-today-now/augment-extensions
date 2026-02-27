@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { discoverModules, discoverCollections } from '../utils/module-system';
 import { linkCommand } from './link';
+import { unlinkCommand } from './unlink';
 
 interface GuiOptions {
   json?: boolean;
@@ -112,6 +113,7 @@ async function linkModulesInteractive(modules: any[], linkedModules: string[]): 
   }));
 
   console.log(chalk.gray('Tip: Use Ctrl+A to select all, Ctrl+D to deselect all\n'));
+  console.log(chalk.gray('Tip: Uncheck modules to unlink them\n'));
 
   const { selectedModules } = await inquirer.prompt([
     {
@@ -128,22 +130,42 @@ async function linkModulesInteractive(modules: any[], linkedModules: string[]): 
     }
   ]);
 
-  if (selectedModules.length === 0) {
-    console.log(chalk.yellow('No modules selected.'));
-    return;
-  }
+  // Determine which modules to unlink (were linked but now unchecked)
+  const modulesToUnlink = linkedModules.filter(m => !selectedModules.includes(m));
 
-  console.log(chalk.blue(`\nLinking ${selectedModules.length} module(s)...\n`));
+  // Determine which modules to link (selected but not yet linked)
+  const modulesToLink = selectedModules.filter((m: string) => !linkedModules.includes(m));
 
-  for (const moduleName of selectedModules) {
-    if (!linkedModules.includes(moduleName)) {
-      await linkCommand(moduleName, {});
-    } else {
-      console.log(chalk.gray(`Skipping already linked module: ${moduleName}`));
+  // Handle unlinking first
+  if (modulesToUnlink.length > 0) {
+    console.log(chalk.blue(`\nUnlinking ${modulesToUnlink.length} module(s)...\n`));
+
+    for (const moduleName of modulesToUnlink) {
+      await unlinkCommand(moduleName, { force: true });
     }
   }
 
-  console.log(chalk.green('\n✓ Module linking complete!'));
+  // Handle linking
+  if (modulesToLink.length > 0) {
+    console.log(chalk.blue(`\nLinking ${modulesToLink.length} module(s)...\n`));
+
+    for (const moduleName of modulesToLink) {
+      await linkCommand(moduleName, {});
+    }
+  }
+
+  // Summary
+  if (modulesToUnlink.length === 0 && modulesToLink.length === 0) {
+    console.log(chalk.gray('\nNo changes made.'));
+  } else {
+    console.log(chalk.green('\n✓ Module management complete!'));
+    if (modulesToUnlink.length > 0) {
+      console.log(chalk.gray(`  Unlinked: ${modulesToUnlink.length} module(s)`));
+    }
+    if (modulesToLink.length > 0) {
+      console.log(chalk.gray(`  Linked: ${modulesToLink.length} module(s)`));
+    }
+  }
 }
 
 async function linkCollectionInteractive(collections: any[], linkedModules: string[]): Promise<void> {

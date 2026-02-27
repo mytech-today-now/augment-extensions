@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-2.3.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-2.3.1-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 [![CI](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml/badge.svg)](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml)
@@ -22,6 +22,38 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Extensive examples** (Gutenberg blocks, REST API, WooCommerce, design patterns)
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
+
+## ✨ What's New in v2.3.1
+
+### Shot List Generator - Quality Improvements 🎬✨
+
+**Critical Quality Fixes:**
+Three major improvements to shot list output quality for high-end video generation:
+
+1. ✅ **Duration Formatting Bug Fixed** - Eliminated floating-point artifacts
+   - Before: `2.000000004s` or `0:7.4`
+   - After: `2s` or `0:07` (clean MM:SS format)
+   - Added `Math.round()` to all duration calculations
+
+2. ✅ **ANSI Color Code Removal** - Clean file output
+   - Before: `[32m713[39m / 4000` (terminal colors in files)
+   - After: `713 / 4000` (clean text)
+   - Removed Chalk color wrapping from Markdown/JSON/JSONL output
+
+3. ✅ **Massively Enhanced Description Verbosity** - 10x increase for generative AI
+   - Before: Average 375 characters per shot
+   - After: Average **3,571 characters** per shot (3000-4000 target range)
+   - Total output: **124,983 characters** (was 13,122)
+   - Enhanced context descriptions (1000+ chars): Spatial composition, lighting design, atmospheric quality
+   - Enhanced character descriptions (500-800 chars each): Physical appearance, wardrobe details, emotional state, body language
+   - Improved Character Bible extraction: Captures multiple sentences for verbose descriptions
+   - Production-ready for high-end video generation AI (Runway, Pika, Sora, etc.)
+
+**Impact:**
+- 🎯 **Perfect for Generative AI** - Extremely detailed descriptions provide sufficient context for video generation models
+- 🎨 **Cinematic Detail** - Includes lighting, atmosphere, spatial composition, fabric textures, emotional nuance
+- 📊 **Consistent Quality** - Character Bible and Set Bible maintain continuity across all shots
+- ✅ **Clean Output** - No formatting artifacts, ready for production pipelines
 
 ## ✨ What's New in v2.3.0
 

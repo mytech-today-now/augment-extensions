@@ -357,7 +357,7 @@ export class ShotListGenerator implements Generator {
    * Build set description from context
    */
   private buildSetDescription(context: SceneContext): string {
-    return `${context.set} - ${context.timeOfDay}`;
+    return context.set;
   }
 
   /**
@@ -476,33 +476,44 @@ export class ShotListGenerator implements Generator {
   /**
    * Build verbose context description for generative AI
    * Target: Extremely detailed set/environment description (1000+ characters)
+   * PRIORITY: Extract concrete details from screenplay, avoid generic filler
    */
   private buildVerboseContext(context: SceneContext): string {
     const parts: string[] = [];
 
-    // Detailed set description with spatial awareness
-    parts.push(`The scene unfolds within ${context.set}, a meticulously crafted environment that serves as the visual foundation for this moment in the narrative`);
-    parts.push(`The spatial composition of this location has been carefully considered, with every element contributing to the overall cinematic aesthetic and storytelling purpose`);
-
-    // Time and lighting details with technical specificity
-    parts.push(`The temporal setting is ${context.timeOfDay}, establishing the chronological context for the action`);
-    parts.push(`Lighting design employs ${context.lighting}, which not only illuminates the subjects but also sculpts the three-dimensional space, creates depth through shadow and highlight, and establishes the emotional tone through color temperature and intensity`);
-    parts.push(`The interplay of light and shadow across surfaces, textures, and characters creates a dynamic visual field that guides the viewer's eye and emphasizes key narrative elements`);
-
-    // Atmosphere expansion with sensory detail
-    if (context.atmosphere) {
-      parts.push(`The prevailing atmosphere is unmistakably ${context.atmosphere}, a quality that permeates every visual element within the frame`);
-      parts.push(`This atmospheric quality manifests through subtle environmental cues, character behavior, color palette choices, and the overall energy of the composition`);
+    // Start with the actual set description from the screenplay
+    // This should contain the concrete visual details
+    if (context.description && context.description.length > 50) {
+      // Use the actual screenplay description as the foundation
+      parts.push(context.description);
+    } else {
+      // Fallback: Build from available context
+      parts.push(`${context.set} fills the frame`);
     }
 
-    // Weather details with environmental impact
+    // Add lighting details if specific
+    if (context.lighting && !context.lighting.includes('natural') && !context.lighting.includes('standard')) {
+      parts.push(`Lighting: ${context.lighting}`);
+    }
+
+    // Add atmosphere if specific
+    if (context.atmosphere && context.atmosphere !== 'neutral') {
+      parts.push(`Atmosphere: ${context.atmosphere}`);
+    }
+
+    // Add weather if present
     if (context.weather) {
-      parts.push(`Environmental weather conditions present ${context.weather}, which adds tangible atmospheric texture and visual interest to the scene`);
-      parts.push(`These weather elements interact with the lighting, affect the visibility and clarity of distant elements, and contribute moisture, movement, or other dynamic qualities to the air itself`);
+      parts.push(`Weather: ${context.weather}`);
     }
 
-    // Additional environmental detail
-    parts.push(`The overall visual presentation balances practical realism with cinematic enhancement, ensuring that every element serves both aesthetic and narrative functions`);
+    // Only pad if we're significantly under target (1000 chars)
+    const currentLength = parts.join('. ').length;
+    if (currentLength < 800 && context.description) {
+      // Add more detail about the setting from time of day
+      if (context.timeOfDay && context.timeOfDay !== 'DAY') {
+        parts.push(`The ${context.timeOfDay.toLowerCase()} setting affects the lighting and mood`);
+      }
+    }
 
     return parts.join('. ');
   }
@@ -510,48 +521,42 @@ export class ShotListGenerator implements Generator {
   /**
    * Build verbose character description for generative AI
    * Target: 500-800 characters per character with complete visual detail
+   * PRIORITY: Use actual screenplay details, avoid generic filler
    */
   private buildVerboseCharacterDescription(character: CharacterState): string {
     const parts: string[] = [];
 
-    // Character introduction with spatial positioning
-    const position = character.position && character.position !== 'in scene'
-      ? character.position
-      : 'positioned within the frame, occupying their designated space in the composition';
-    parts.push(`${character.name} is ${position}, their placement carefully considered for both narrative clarity and visual balance`);
+    // Start with character name
+    parts.push(character.name);
 
-    // Physical appearance - extremely verbose
-    if (character.physicalAppearance) {
-      parts.push(`Their physical appearance is characterized by ${character.physicalAppearance}, which fundamentally defines their visual presence and establishes their identity within the shot`);
-      parts.push(`These physical characteristics contribute to the viewer's immediate understanding of the character, providing visual cues about age, health, lifestyle, and personality through observable details of face, body, and bearing`);
-    } else {
-      parts.push(`They possess an average build with unremarkable physical characteristics, medium height approximately 5'8" to 5'10", proportionate features that blend naturally into the scene without drawing undue attention`);
-      parts.push(`Their facial features are symmetrical and conventional, with no distinguishing marks, scars, or unusual characteristics that would make them stand out in a crowd, presenting as an everyday person one might encounter in any ordinary setting`);
+    // Add physical appearance if available (from screenplay)
+    if (character.physicalAppearance && character.physicalAppearance.length > 0) {
+      parts.push(character.physicalAppearance);
     }
 
-    // Wardrobe - extremely verbose with fabric and style details
-    if (character.wardrobe) {
-      parts.push(`They are dressed in ${character.wardrobe}, garments that contribute significantly to their character presentation and the overall visual aesthetic of the frame`);
-      parts.push(`The clothing choices reflect character background, current circumstances, and narrative context, with fabric textures, colors, and styling all working together to communicate information about the character's social status, profession, personality, and current emotional or physical state`);
-    } else {
-      parts.push(`They wear casual, contemporary attire appropriate for the setting, consisting of neutral-toned everyday clothing in earth tones or muted colors - perhaps a simple cotton shirt or blouse, comfortable pants or jeans, and practical footwear suitable for the environment`);
-      parts.push(`The wardrobe selections are deliberately unremarkable, chosen to blend with the environment rather than stand out, suggesting a character who values comfort and practicality over fashion or self-expression, with fabrics that appear well-worn but well-maintained`);
+    // Add wardrobe if available (from screenplay)
+    if (character.wardrobe && character.wardrobe.length > 0) {
+      parts.push(character.wardrobe);
     }
 
-    // Emotional state and body language
-    if (character.emotion) {
-      parts.push(`Their emotional state distinctly conveys ${character.emotion}, manifesting through subtle facial expressions including micro-expressions around the eyes and mouth, body language such as posture and gesture, and overall energy that radiates from their presence`);
-      parts.push(`This emotional quality colors every aspect of their performance, influencing how they move, speak, and interact with their environment and other characters, creating a cohesive emotional through-line that supports the narrative`);
-    } else {
-      parts.push(`Their emotional state appears neutral and composed, maintaining a calm, centered presence without strong emotional displays, suggesting either emotional control, professional demeanor, or a moment of quiet contemplation between more dramatic beats`);
+    // Add position if specific
+    if (character.position && character.position !== 'in scene') {
+      parts.push(`Position: ${character.position}`);
     }
 
-    // Action and movement
-    if (character.action) {
-      parts.push(`Currently engaged in ${character.action}, their movement and behavior actively drive the narrative forward, creating visual interest and advancing the plot through physical choices`);
-      parts.push(`These actions are performed with intention and specificity, each gesture and movement motivated by character objectives and emotional state, contributing to the overall kinetic energy of the scene`);
-    } else {
-      parts.push(`They maintain a state of active stillness, present and engaged with their surroundings while not performing any specific action, their attention focused on other elements within the scene or on internal thoughts and reactions`);
+    // Add emotion if specific
+    if (character.emotion && character.emotion !== 'neutral') {
+      parts.push(`Emotion: ${character.emotion}`);
+    }
+
+    // Add action if specific
+    if (character.action && character.action.length > 5) {
+      parts.push(character.action);
+    }
+
+    // If we have no details, return just the name
+    if (parts.length === 1) {
+      return character.name;
     }
 
     return parts.join('. ');

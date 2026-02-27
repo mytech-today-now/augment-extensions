@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-2.3.3-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-2.3.4-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 [![CI](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml/badge.svg)](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml)
@@ -23,29 +23,30 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v2.3.3
+## ✨ What's New in v2.3.4
 
-### Shot List Generator - Mandatory Template Enforcement 🎬✨
+### Shot List Generator - Enhanced Content Extraction 🎬✨
 
-**Strict Template Compliance:**
-Every shot now strictly adheres to a mandatory template with all required keys, ensuring consistent output for AI video generation:
+**Specific Details from Screenplay:**
+The generator now extracts and prioritizes actual screenplay text for character and set descriptions, eliminating generic "filler" content:
 
-**Mandatory Keys (Always Present):**
-- ✅ **Scene** - Scene heading with metadata table
-- ✅ **Set** - Location and time of day
-- ✅ **Description** - Visual/environmental description (1000+ chars)
-- ✅ **[Character Name(s)]** - Individual section for each character in the shot
-- ✅ **Actions** - Character actions
-- ✅ **Dialogue** - Dialogue text or "No dialogue in this shot"
-- ✅ **Blocking** - Character positions/movements
-- ✅ **SFX** - Sound effects or "No sound effects specified"
-- ✅ **Technical Details** - Camera/shot details
+**Character Extraction Improvements:**
+- ✅ **Multi-Pass Character Extraction** - Three-pass system to capture character details:
+  - Pass 1: Collect all character names from dialogue
+  - Pass 2: Extract character introductions from action lines (e.g., `WIZARD CLIF HIGH (mid-70s, magnificent long white beard...)`)
+  - Pass 3: Build character states with partial name matching to link descriptions to dialogue names
+- ✅ **Physical Appearance & Wardrobe** - Characters now show their full appearance and wardrobe in every shot
+- ✅ **Character Bible** - Maintains consistent character descriptions across all shots
 
-**Key Improvements:**
-- **Default Values:** All keys have values even if empty (e.g., "No dialogue in this shot")
-- **Multiple Characters:** Each character gets their own `**[Character Name]:**` section
-- **Consistent Schema:** Predictable structure for downstream AI processing (Runway, Sora, Pika)
-- **No Missing Keys:** Template guarantees all required fields are present
+**Set Description Improvements:**
+- ✅ **Fixed Scene Heading Parser** - Correctly parses multi-part locations (e.g., `INT. USS ENTERPRISE - ENGINE ROOM - DAY`)
+- ✅ **No Duplicate Locations** - Fixed bug that duplicated location/time in set descriptions
+- ✅ **Reduced Character Count** - ~8,000 character reduction by eliminating duplicates
+
+**Quality Improvements:**
+- **Specific Details:** Extracts actual visual details from screenplay action lines
+- **No Generic Filler:** Prioritizes screenplay text over generic descriptions
+- **High-End AI Video Ready:** Optimized for Runway, Sora, Pika with concrete visual details
 
 **Output Formats:**
 - **Markdown:** Bolded headers for each field (e.g., `**Set:**`, `**Actions:**`)

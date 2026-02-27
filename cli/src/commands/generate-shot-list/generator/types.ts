@@ -69,6 +69,7 @@ export interface CharacterState {
  */
 export interface SceneContext {
   set: string;
+  description?: string;  // Actual description text from screenplay
   lighting: string;
   timeOfDay: string;
   atmosphere?: string;

@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-1.6.1-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-2.3.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 [![CI](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml/badge.svg)](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml)
@@ -14,17 +14,44 @@ Augment Extensions is a modular repository system that extends Augment Code AI's
 
 Augment Code AI limits the `.augment/` folder to ~49,400 characters. This repository provides:
 
-- **1.7M+ characters** of comprehensive guidelines across 20+ modules
+- **2.3M+ characters** of comprehensive guidelines across 22+ modules
 - **Coding standards** for 8 languages/frameworks (HTML, CSS, JS, TypeScript, Python, React, PHP)
 - **Domain-specific rules** (WordPress, API design, security, databases, MCP)
+- **Writing standards** (Screenplay with 17 cinematic styles, Shakespeare)
 - **Workflow integrations** (OpenSpec, Beads)
 - **Extensive examples** (Gutenberg blocks, REST API, WooCommerce, design patterns)
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v1.6.1
+## ✨ What's New in v2.3.0
 
-### Content Updates & Task Completion 📝
+### Shot List Generator Refactor - Production Ready 🎬
+
+**Major Refactor Complete (AUGX-SHOT-GEN-001):**
+All 12 requirements implemented for production-ready shot list generation:
+
+1. ✅ **Default Output Behavior** - Auto-generates `<input>-ai-shot-list.<ext>` when `--output` not provided
+2. ✅ **Intelligent Shot Splitting** - Automatically splits shots exceeding max duration into sub-shots (3a, 3b, 3c)
+3. ✅ **Duration Formatting** - Clean MM:SS format for all durations (no decimals)
+4. ✅ **Terminal Feedback Severity** - Color-coded warnings (red errors, yellow warnings)
+5. ✅ **Visual Style Property** - Reality/Animation/CGI/Hybrid classification per shot
+6. ✅ **Simplified Character Count** - Clean `C: #### / 4000` format with color indicators
+7. ✅ **No-Dialogue Shots** - Explicit "No dialogue in this shot" in descriptions
+8. ✅ **Mandatory Dialogue Property** - MPAA-style screenplay format or "No dialogue in this shot"
+9. ✅ **Character Blocking Continuity** - Tracks positions/wardrobe/appearance across shots
+10. ✅ **Rich Character Descriptions** - Character Bible with complete wardrobe/appearance/props/emotion
+11. ✅ **Rich Set Descriptions** - Set Bible with environment/lighting/atmosphere/weather/timeOfDay
+12. ✅ **JSON/JSONL Format Corrections** - Valid JSON with all fields, JSONL one shot per line
+
+**Key Features:**
+- 🎭 **Character Bible System** - Maintains consistent character descriptions across all shots
+- 🎬 **Set Bible System** - Maintains consistent set/location descriptions across all shots
+- 📐 **Blocking Continuity** - Tracks character positions and spatial relationships
+- 🎨 **Visual Style Detection** - Automatically determines Reality/Animation/CGI/Hybrid
+- 📊 **Production-Ready Output** - Suitable for downstream video generation AI
+- ✅ **Validated JSON/JSONL** - Properly structured output for automated processing
+
+### Previous Updates (v1.6.1)
 
 **Shakespeare Module Enhancements:**
 - ✅ **Comedy Scene Examples** - Added 2 comprehensive scene examples:
@@ -459,7 +486,7 @@ See [.augment/mcp/README.md](./.augment/mcp/README.md) for detailed MCP integrat
 
 ```
 augment-extensions/
-├── augment-extensions/              # Extension modules (1.7M+ characters)
+├── augment-extensions/              # Extension modules (2.3M+ characters)
 │   ├── coding-standards/           # Language/framework standards (8 modules)
 │   │   ├── html/                   # HTML standards (32K chars)
 │   │   ├── css/                    # CSS standards (30K chars)
@@ -478,6 +505,21 @@ augment-extensions/
 │   │   ├── security/               # OWASP security guidelines (38K chars)
 │   │   ├── wordpress/              # WordPress development (general)
 │   │   └── wordpress-plugin/       # WordPress plugin development (344K chars)
+│   ├── writing-standards/          # Writing standards (2 modules, 583K chars) ✨ NEW
+│   │   ├── screenplay/             # Screenplay writing (163.5K chars)
+│   │   │   ├── cinematic-styles/   # 17 cinematic style guides (257K chars)
+│   │   │   │   ├── directors/      # 11 auteur directors (Nolan, Tarantino, Lynch, etc.)
+│   │   │   │   ├── franchises/     # Star Wars, MCU/Avengers
+│   │   │   │   ├── films/          # Blue Ruin (indie filmmaking)
+│   │   │   │   ├── comedy-formats/ # Monty Python, Saturday Night Live
+│   │   │   │   └── narrative-theory/ # Joseph Campbell (Hero's Journey)
+│   │   │   ├── genres/             # Genre conventions
+│   │   │   ├── styles/             # Narrative styles (linear, non-linear, etc.)
+│   │   │   └── themes/             # Thematic integration
+│   │   └── literature/             # Literature writing standards
+│   │       └── shakespeare/        # Shakespeare writing (419.7K chars)
+│   │           ├── rules/          # Poetry, drama, language, character & themes
+│   │           └── examples/       # Annotated sonnets, scene examples, exercises
 │   ├── workflows/                  # Workflow integrations (2 modules)
 │   │   ├── openspec/               # Spec-driven development (32K chars)
 │   │   └── beads/                  # Git-backed issue tracking (39K chars)
@@ -752,12 +794,41 @@ augx use coding-standards/typescript --version 1.0.0 --pin
 - **[WooCommerce Extension](./augment-extensions/examples/woocommerce-extension/)** (v1.0.0, ~24K chars)
   - Product customizer with custom fields, checkout customization
 
+### Writing Standards (2 modules, ~583K chars)
+
+- **[Screenplay Writing Standards](./augment-extensions/writing-standards/screenplay/)** (v1.0.0, ~163.5K chars)
+  - **Industry-Standard Formatting** - AMPAS Nicholl Fellowship formatting standards
+  - **Narrative Frameworks** - Syd Field, Blake Snyder, Joseph Campbell structures
+  - **8 Screenplay Categories** - Hollywood, indie, TV, web, news, commercials, streaming, live TV
+  - **Character Development** - Programmatic character arcs, traits, motivations
+  - **Dialogue Mastery** - Natural speech, subtext, character voice
+  - **Screen Continuity** - Visual consistency rules (180-degree rule, match cuts)
+  - **Fountain Format** - Industry-standard plain-text screenplay markup
+  - **Cinematic Styles** (257K chars) - 17 comprehensive style guides:
+    - **11 Auteur Directors** - Christopher Nolan, Quentin Tarantino, Coen Brothers, David Lynch, Denis Villeneuve, Martin Scorsese, Steven Spielberg, Stanley Kubrick, Wes Anderson, Francis Ford Coppola, George Lucas
+    - **2 Franchises** - Star Wars, MCU/Avengers
+    - **1 Film** - Blue Ruin (indie filmmaking)
+    - **2 Comedy Formats** - Monty Python, Saturday Night Live
+    - **1 Narrative Theory** - Joseph Campbell (Hero's Journey)
+  - **VS Code Integration** - Better Fountain extension support
+  - **Export Tools** - Final Draft (.fdx), PDF, HTML export
+
+- **[Shakespeare Writing Standards](./augment-extensions/writing-standards/literature/shakespeare/)** (v1.0.0, ~419.7K chars)
+  - **Poetry** - Sonnets, narrative poetry, verse forms, iambic pentameter
+  - **Drama** - Tragedy, comedy, history plays, scene construction
+  - **Language** - Elizabethan English, rhetoric & wordplay, vocabulary guide
+  - **Character & Themes** - Character development, thematic elements
+  - **Annotated Examples** - Sonnets, scene examples, exercises
+  - **Comedy Scene Examples** - Much Ado About Nothing Act 2 Scene 3 (497 lines), Twelfth Night Act 2 Scene 5 (654 lines)
+  - **Comprehensive Coverage** - 33 files, 10,000+ lines, complete guide to Shakespearean writing
+
 ### Statistics
 
-- **Total Modules**: 20 (8 coding standards, 6 domain rules, 2 workflows, 4 examples)
-- **Total Character Count**: ~1,774,692 (1.7M+ characters)
+- **Total Modules**: 22 (8 coding standards, 6 domain rules, 2 workflows, 4 examples, 2 writing standards)
+- **Total Character Count**: ~2,357,692 (2.3M+ characters)
 - **Languages Covered**: HTML, CSS, JavaScript, TypeScript, Python, React, PHP
 - **Domains Covered**: APIs, Databases, MCP, Security, WordPress
+- **Writing Formats**: Screenplay (Fountain), Shakespearean Literature
 
 See [MODULES.md](./MODULES.md) for detailed module documentation.
 
@@ -930,6 +1001,43 @@ augx link domain-rules/security
 augx link workflows/openspec
 ```
 
+### Example 6: Screenplay Writing with Cinematic Styles
+
+```bash
+# Link screenplay writing standards
+augx link writing-standards/screenplay
+
+# Generate shot list with cinematic style
+augx generate-shot-list --path my-screenplay.fountain --style christopher-nolan
+
+# Generate shot list with multiple styles (priority-based merging)
+augx generate-shot-list --path my-screenplay.fountain \
+  --style christopher-nolan \
+  --style denis-villeneuve
+
+# View available cinematic styles
+augx show writing-standards/screenplay
+
+# Search for specific director styles
+augx search "quentin tarantino"
+augx search "wes anderson"
+```
+
+### Example 7: Shakespearean Writing
+
+```bash
+# Link Shakespeare writing standards
+augx link writing-standards/literature/shakespeare
+
+# View Shakespeare module content
+augx show shakespeare
+
+# Search for specific topics
+augx search "iambic pentameter"
+augx search "comedy techniques"
+augx search "sonnets"
+```
+
 ## 🔄 Update Propagation
 
 When module maintainers release updates:
@@ -1085,11 +1193,12 @@ augx search "REST API"
 
 ### Comprehensive Coverage
 
-- **1.7M+ characters** of guidelines across 20+ modules
+- **2.3M+ characters** of guidelines across 22+ modules
 - **8 programming languages/frameworks** - HTML, CSS, JavaScript, TypeScript, Python, React, PHP
 - **6 domain-specific areas** - APIs, Databases, MCP, Security, WordPress
 - **2 workflow systems** - OpenSpec (spec-driven development), Beads (issue tracking)
 - **4 example modules** - Design patterns, Gutenberg blocks, REST API, WooCommerce
+- **2 writing standards** - Screenplay (with 17 cinematic styles), Shakespeare
 
 ### Model Context Protocol (MCP) - 219K chars ✨ NEW
 
@@ -1171,8 +1280,9 @@ MIT License - See [LICENSE](./LICENSE) for details.
 | **Domain Rules** | 6 | ~1,085,000 | APIs, Databases, MCP, Security, WordPress |
 | **Workflows** | 2 | ~71,000 | OpenSpec, Beads |
 | **Examples** | 4 | ~122,000 | Design Patterns, Gutenberg, REST API, WooCommerce |
+| **Writing Standards** | 2 | ~583,000 | Screenplay (Cinematic Styles), Shakespeare |
 | **Collections** | 1 | ~164,000 | HTML/CSS/JS Bundle |
-| **TOTAL** | **20** | **~1,774,000** | **1.7M+ characters** |
+| **TOTAL** | **22** | **~2,357,000** | **2.3M+ characters** |
 
 ## 🔗 Links
 
@@ -1183,7 +1293,7 @@ MIT License - See [LICENSE](./LICENSE) for details.
 
 ---
 
-**Status**: Active Development | **Version**: 1.4.0 | **Maintainer**: @mytech-today-now
+**Status**: Active Development | **Version**: 2.3.0 | **Maintainer**: @mytech-today-now
 
-**Latest Release**: CLI Expansion Complete (Phase 3 & 4) - Full Beads, OpenSpec, and Collection integration with comprehensive task management, spec-driven development, quality tools, and enhanced documentation generation.
+**Latest Release**: Shot List Generator Refactor Complete (AUGX-SHOT-GEN-001) - Production-ready shot list generation with Character/Set Bibles, intelligent shot splitting, blocking continuity, visual style detection, and validated JSON/JSONL output for downstream video generation AI.
 

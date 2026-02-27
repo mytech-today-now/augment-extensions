@@ -290,6 +290,7 @@ export class ShotListGenerator implements Generator {
   /**
    * Extract dialogue from scene elements
    * Requirement 7 & 8: Handle "No dialogue" and mandatory dialogue population
+   * Format dialogue in MPAA-style screenplay format
    */
   private extractDialogue(elements: import('../parser/types').SceneElement[]): string {
     const dialogueElements = elements.filter(
@@ -297,13 +298,24 @@ export class ShotListGenerator implements Generator {
     );
 
     if (dialogueElements.length === 0) {
-      return 'No dialogue in this shot'; // Requirement 7
+      return 'No dialogue in this shot'; // Requirement 7 & 8
     }
 
-    // Combine all dialogue with character names
-    return dialogueElements
-      .map(el => `${el.dialogue.character}: ${el.dialogue.speech}`)
-      .join(' ');
+    // Format dialogue in MPAA-style screenplay format (Requirement 8)
+    // Character name in ALL CAPS, parenthetical if present, then dialogue
+    const formattedDialogue = dialogueElements
+      .map(el => {
+        const characterName = el.dialogue.character.name.toUpperCase();
+        const parenthetical = el.dialogue.parenthetical
+          ? `\n${el.dialogue.parenthetical}`
+          : '';
+        const speech = el.dialogue.speech;
+
+        return `${characterName}${parenthetical}\n${speech}`;
+      })
+      .join('\n\n');
+
+    return formattedDialogue;
   }
 
   /**
@@ -319,6 +331,8 @@ export class ShotListGenerator implements Generator {
 
   /**
    * Build shot description from elements, context, and characters
+   * Requirement 7: Include "No dialogue in this shot" when applicable
+   * Requirement 9: Include character blocking/positioning details
    */
   private buildDescription(
     elements: import('../parser/types').SceneElement[],
@@ -336,12 +350,28 @@ export class ShotListGenerator implements Generator {
       parts.push(`Weather: ${context.weather}`);
     }
 
-    // Add characters
+    // Add characters with blocking/positioning (Requirement 9)
     if (characters.length > 0) {
       const characterDesc = characters.map(c => {
         let desc = c.name;
+
+        // Add position/blocking information
+        if (c.position && c.position !== 'in scene') {
+          desc += ` (${c.position})`;
+        }
+
+        // Add wardrobe if available
+        if (c.wardrobe) {
+          desc += ` wearing ${c.wardrobe}`;
+        }
+
+        // Add physical appearance if available
+        if (c.physicalAppearance) {
+          desc += ` - ${c.physicalAppearance}`;
+        }
+
         if (c.emotion) {
-          desc += ` (${c.emotion})`;
+          desc += ` - ${c.emotion}`;
         }
         if (c.action) {
           desc += ` - ${c.action}`;
@@ -354,6 +384,12 @@ export class ShotListGenerator implements Generator {
     // Add action and dialogue
     const content = elements.map(el => el.text).join(' ');
     parts.push(content);
+
+    // Requirement 7: Add "No dialogue in this shot" if no dialogue present
+    const hasDialogue = elements.some(el => el.type === 'dialogue');
+    if (!hasDialogue) {
+      parts.push('No dialogue in this shot');
+    }
 
     return parts.join('. ');
   }

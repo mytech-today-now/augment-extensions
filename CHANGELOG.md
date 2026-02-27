@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased]
+
+### Fixed
+- **GUI Module Unlinking** - Fixed critical bug where `augx gui` did not properly unlink modules when unchecked
+  - GUI now correctly detects and unlinks modules that are unchecked in the interactive module selector
+  - Prevents `augx update` from re-linking modules that were intentionally unlinked via GUI
+  - Added user feedback showing count of linked and unlinked modules
+  - Added tip message: "Tip: Uncheck modules to unlink them"
+
 ## [2.0.0] - 2026-02-25
 
 ### 🚨 Breaking Changes

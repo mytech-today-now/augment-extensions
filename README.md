@@ -23,36 +23,52 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v2.3.6
+## ✨ What's New in v2.3.7
 
-### Shot List Generator - Dialogue Text Splitting 🎬✨
+### Shot List Generator - Accurate Character Count 📊✨
 
-**Dialogue Text Splitting:**
-The generator can now split long dialogue blocks into multiple shots when a single dialogue element exceeds the maximum duration limit:
+**Character Count Fix:**
+The character count (`C: #### / 4000`) now accurately reflects the **total character count of all rendered markdown content** between shot headers, including all formatting, labels, and tables.
 
-**Features:**
-- ✅ **Sentence-Based Splitting** - Splits dialogue at sentence boundaries (periods, exclamation marks, question marks)
-- ✅ **Word-Based Fallback** - If a single sentence is too long, splits by word count
-- ✅ **Preserves Character Context** - Each split dialogue maintains the character name and parenthetical (on first chunk only)
-- ✅ **Recursive Integration** - Works seamlessly with the recursive sub-shot splitting system
-- ✅ **Duration-Aware** - Calculates optimal split points based on the 0.4 seconds per word estimate
+**What Changed:**
+- ✅ **Accurate Counting** - Character count now includes all text between `### Shot #` headers
+- ✅ **Includes Formatting** - Counts markdown syntax, table formatting, bold labels, etc.
+- ✅ **Includes Labels** - Counts field labels like `**Set:**`, `**Actions:**`, `**Dialogue:**`
+- ✅ **Includes Tables** - Counts the entire metadata table with all its formatting
+- ✅ **Includes Character Names** - Counts character state labels like `**CAPTAIN:**`
 
 **Technical Implementation:**
-- **Smart Chunking:** Uses regex to identify sentence boundaries and groups sentences into chunks
-- **Max Words Calculation:** `maxWords = floor(maxDuration / 0.4)` ensures chunks stay within duration limits
-- **Element Preservation:** Maintains `line`, `column`, `text`, and `dialogue` properties from original element
-- **Dot Notation:** Split dialogue shots use the same numbering system as other sub-shots (e.g., "18a.1", "18a.2")
+- **Formatter-Based Calculation:** Character count is now calculated by the `MarkdownFormatter` after rendering
+- **Accurate Representation:** The `C:` value matches the actual length of the formatted shot content
+- **Self-Referential Handling:** Uses placeholder for the `C:` line itself to avoid circular dependency
 
 **Example:**
-A 30-second dialogue block (75 words) with `maxShotLength: 12s` will be split into:
-- Shot 18a.1: First 30 words (~12s)
-- Shot 18a.2: Next 30 words (~12s)
-- Shot 18a.3: Final 15 words (~6s)
+For Shot 1 with `C: | 1509 / 4000 |`, the 1509 characters include:
+- `**Scene:**` label and newlines
+- Entire metadata table (`| Property | Value |`, `|----------|-------|`, all rows)
+- All field labels (`**Set:**`, `**Description:**`, `**Actions:**`, etc.)
+- All content values
+- All character state labels (`**CAPTAIN:**`, etc.)
+- All newlines and spacing
 
 **Impact:**
-- 🎯 **No More Unbreakable Shots** - All shots can now be split to fit within duration limits
-- 🎨 **Natural Breaks** - Sentence-based splitting creates natural pauses in dialogue
-- ✅ **Complete Coverage** - Handles edge cases like single long sentences or monologues
+- 🎯 **Accurate Limits** - Character count now correctly represents the actual shot size
+- 📊 **Better Planning** - Users can accurately gauge how much content fits in a shot
+- ✅ **Consistent Metrics** - Character count matches what AI models will actually process
+
+## Previous Release: v2.3.6
+
+### Shot List Generator - Dialogue Text Splitting
+
+**Dialogue Text Splitting:**
+The generator can now split long dialogue blocks into multiple shots by breaking text at sentence boundaries or word limits:
+
+- ✅ **Sentence-Based Splitting** - Splits dialogue at sentence boundaries (periods, exclamation marks, question marks)
+- ✅ **Word-Based Fallback** - If a single sentence is too long, splits by word count
+- ✅ **Preserves Character Context** - Each split dialogue maintains character name and parenthetical
+- ✅ **Recursive Integration** - Works seamlessly with the recursive sub-shot splitting system
+- ✅ **Duration-Aware** - Calculates optimal split points based on 0.4 seconds per word estimate
+- ✅ **Dot Notation** - Split dialogue shots use the same numbering system (e.g., "18a.1", "18a.2")
 
 ## Previous Release: v2.3.5
 

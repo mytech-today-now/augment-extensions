@@ -202,10 +202,11 @@ export class ShotListGenerator implements Generator {
   /**
    * Split a long shot into intelligent sub-shots
    * Requirement 2: Intelligent Shot Splitting for Long Durations
+   * Recursively splits sub-shots that still exceed maxShotLength
    */
   private splitIntoSubShots(
     segment: import('./scene-segmenter').SceneSegment,
-    baseShotNumber: number,
+    baseShotNumber: number | string,
     scene: Scene,
     sceneContext: SceneContext,
     config: GeneratorConfig
@@ -224,8 +225,10 @@ export class ShotListGenerator implements Generator {
       const endIdx = Math.min((i + 1) * elementsPerSubShot, elements.length);
       const subShotElements = elements.slice(startIdx, endIdx);
 
-      // Build sub-shot number (e.g., "3a", "3b", "3c")
-      const subShotNumber = `${baseShotNumber}${String.fromCharCode(97 + i)}`; // 97 = 'a'
+      // Build sub-shot number (e.g., "3a", "3b", "3c" or "3a.1", "3a.2")
+      const subShotNumber = typeof baseShotNumber === 'string'
+        ? `${baseShotNumber}.${i + 1}` // Nested: "3a.1", "3a.2" or "3a.1.1", "3a.1.2"
+        : `${baseShotNumber}${String.fromCharCode(97 + i)}`; // First level: "3a", "3b"
 
       // Build character states for this sub-shot
       const characters = this.contextBuilder.buildCharacterStates(subShotElements, sceneContext);
@@ -254,24 +257,56 @@ export class ShotListGenerator implements Generator {
       // Estimate duration for this sub-shot
       const duration = this.estimateSubShotDuration(subShotElements);
 
-      subShots.push({
-        number: subShotNumber,
-        sceneNumber: scene.number,
-        heading: scene.heading,
-        context: sceneContext,
-        characters,
-        set,
-        description,
-        actions,
-        dialogue,
-        blocking,
-        sfx,
-        techDetails,
-        metadata,
-        duration,
-        characterCount: totalCharacterCount,
-        warnings: []
-      });
+      // Check if this sub-shot still exceeds max duration - if so, split recursively
+      if (duration > config.maxShotLength && subShotElements.length > 1) {
+        // Create a segment for recursive splitting
+        const nestedSegment: import('./scene-segmenter').SceneSegment = {
+          elements: subShotElements,
+          estimatedDuration: duration,
+          breakReason: 'duration'
+        };
+
+        // Recursively split this sub-shot
+        const nestedSubShots = this.splitIntoSubShots(
+          nestedSegment,
+          subShotNumber,
+          scene,
+          sceneContext,
+          config
+        );
+
+        subShots.push(...nestedSubShots);
+      } else {
+        // This sub-shot is within limits, add it
+        const warnings: import('./types').Warning[] = [];
+        if (duration > config.maxShotLength) {
+          warnings.push({
+            type: 'duration-limit-error',
+            message: `Shot ${subShotNumber} exceeds duration limit (${duration}s/${config.maxShotLength}s)`,
+            shotNumber: subShotNumber,
+            severity: 'error'
+          });
+        }
+
+        subShots.push({
+          number: subShotNumber,
+          sceneNumber: scene.number,
+          heading: scene.heading,
+          context: sceneContext,
+          characters,
+          set,
+          description,
+          actions,
+          dialogue,
+          blocking,
+          sfx,
+          techDetails,
+          metadata,
+          duration,
+          characterCount: totalCharacterCount,
+          warnings
+        });
+      }
     }
 
     return subShots;

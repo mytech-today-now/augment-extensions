@@ -118,8 +118,16 @@ export interface Shot {
   heading: SceneHeading;
   context: SceneContext;
   characters: CharacterState[];
-  description: string;
+
+  // Structured description components
+  set: string;              // Set/location description
+  description: string;      // Visual/environmental description only
+  actions: string;          // Character actions
   dialogue: string;         // Dialogue in this shot or "No dialogue in this shot"
+  blocking: string;         // Character positions and movements
+  sfx: string;              // Sound effects
+  techDetails: string;      // Technical notes and camera details
+
   metadata: ShotMetadata;
   duration: number; // in seconds
   characterCount: number;

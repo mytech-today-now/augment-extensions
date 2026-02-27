@@ -111,36 +111,56 @@ export class MarkdownFormatter extends BaseFormatter {
       parts.push('');
     }
 
-    // Context
-    parts.push('**Context:**');
-    parts.push(`- Set: ${shot.context.set}`);
-    parts.push(`- Time: ${shot.context.timeOfDay}`);
-    parts.push(`- Lighting: ${shot.context.lighting}`);
-    if (shot.context.atmosphere) {
-      parts.push(`- Atmosphere: ${shot.context.atmosphere}`);
-    }
-    if (shot.context.weather) {
-      parts.push(`- Weather: ${shot.context.weather}`);
-    }
+    // Set
+    parts.push('**Set:**');
+    parts.push(shot.set);
     parts.push('');
 
-    // Characters
-    if (shot.characters.length > 0) {
-      parts.push('**Characters:**');
-      for (const char of shot.characters) {
-        let charLine = `- ${char.name}`;
-        if (char.position) charLine += ` (${char.position})`;
-        if (char.emotion) charLine += ` - ${char.emotion}`;
-        if (char.action) charLine += ` - ${char.action}`;
-        parts.push(charLine);
-      }
-      parts.push('');
-    }
-
-    // Description
+    // Visual Description
     parts.push('**Description:**');
-    parts.push('');
     parts.push(shot.description);
+    parts.push('');
+
+    // Characters (individual entries)
+    if (shot.characters.length > 0) {
+      for (const char of shot.characters) {
+        parts.push(`**${char.name}:**`);
+        const charParts: string[] = [];
+
+        if (char.position) charParts.push(`Position: ${char.position}`);
+        if (char.physicalAppearance) charParts.push(`Appearance: ${char.physicalAppearance}`);
+        if (char.wardrobe) charParts.push(`Wardrobe: ${char.wardrobe}`);
+        if (char.emotion) charParts.push(`Emotion: ${char.emotion}`);
+        if (char.action) charParts.push(`Action: ${char.action}`);
+
+        parts.push(charParts.join('. '));
+        parts.push('');
+      }
+    }
+
+    // Actions
+    parts.push('**Actions:**');
+    parts.push(shot.actions);
+    parts.push('');
+
+    // Dialogue
+    parts.push('**Dialogue:**');
+    parts.push(shot.dialogue);
+    parts.push('');
+
+    // Blocking
+    parts.push('**Blocking:**');
+    parts.push(shot.blocking);
+    parts.push('');
+
+    // SFX
+    parts.push('**SFX:**');
+    parts.push(shot.sfx);
+    parts.push('');
+
+    // Technical Details
+    parts.push('**Technical Details:**');
+    parts.push(shot.techDetails);
 
     // Shot warnings
     if (options?.includeWarnings && shot.warnings.length > 0) {

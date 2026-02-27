@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI - Beyond the 49,400 character limit.**
 
-[![Version](https://img.shields.io/badge/version-2.3.2-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-2.3.3-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 [![CI](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml/badge.svg)](https://github.com/mytech-today-now/augment-extensions/actions/workflows/ci.yml)
@@ -23,30 +23,29 @@ Augment Code AI limits the `.augment/` folder to ~49,400 characters. This reposi
 - **Versioned updates** that propagate to consuming projects
 - **Project-agnostic modules** that work across different codebases
 
-## ✨ What's New in v2.3.2
+## ✨ What's New in v2.3.3
 
-### Shot List Generator - Structured Key-Value Pairs 🎬✨
+### Shot List Generator - Mandatory Template Enforcement 🎬✨
 
-**Breaking Change: Granular Data Structure**
-Shot descriptions are now decomposed into specific, structured fields for better AI consumption:
+**Strict Template Compliance:**
+Every shot now strictly adheres to a mandatory template with all required keys, ensuring consistent output for AI video generation:
 
-**New Structured Fields:**
-- ✅ **set** - Location and time of day (e.g., "Interior space - USS ENTERPRISE - ENGINE ROOM - DAY")
-- ✅ **description** - Visual/environmental description (1000+ chars of spatial, lighting, atmospheric detail)
-- ✅ **actions** - Character actions extracted from screenplay action lines
-- ✅ **dialogue** - Dialogue text in MPAA screenplay format
-- ✅ **blocking** - Character positions and movements
-- ✅ **sfx** - Sound effects extracted from action lines
-- ✅ **techDetails** - Technical camera/shot details (shot type, movement, framing, visual style)
+**Mandatory Keys (Always Present):**
+- ✅ **Scene** - Scene heading with metadata table
+- ✅ **Set** - Location and time of day
+- ✅ **Description** - Visual/environmental description (1000+ chars)
+- ✅ **[Character Name(s)]** - Individual section for each character in the shot
+- ✅ **Actions** - Character actions
+- ✅ **Dialogue** - Dialogue text or "No dialogue in this shot"
+- ✅ **Blocking** - Character positions/movements
+- ✅ **SFX** - Sound effects or "No sound effects specified"
+- ✅ **Technical Details** - Camera/shot details
 
-**Character Breakdown:**
-Each character now has individual key-value pairs:
-- **Name:** Character name
-- **Position:** Where they are in the frame
-- **Appearance:** Physical description
-- **Wardrobe:** Clothing details
-- **Emotion:** Emotional state
-- **Action:** What they're doing
+**Key Improvements:**
+- **Default Values:** All keys have values even if empty (e.g., "No dialogue in this shot")
+- **Multiple Characters:** Each character gets their own `**[Character Name]:**` section
+- **Consistent Schema:** Predictable structure for downstream AI processing (Runway, Sora, Pika)
+- **No Missing Keys:** Template guarantees all required fields are present
 
 **Output Formats:**
 - **Markdown:** Bolded headers for each field (e.g., `**Set:**`, `**Actions:**`)

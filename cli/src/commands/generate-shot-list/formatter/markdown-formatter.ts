@@ -78,15 +78,13 @@ export class MarkdownFormatter extends BaseFormatter {
    */
   private formatShot(shot: Shot, maxChars: number, options?: FormatterOptions): string {
     const parts: string[] = [];
-    const charPercentage = Math.round((shot.characterCount / maxChars) * 100);
-    const charStatus = this.getCharacterStatus(charPercentage);
 
     // Shot heading
     parts.push(`### Shot ${shot.number}`);
     parts.push('');
 
     // Scene heading
-    parts.push(`**Scene:** ${shot.heading.raw}`);
+    parts.push(`**Scene:**`);
     parts.push('');
 
     // Metadata table
@@ -94,35 +92,27 @@ export class MarkdownFormatter extends BaseFormatter {
       parts.push('| Property | Value |');
       parts.push('|----------|-------|');
       parts.push(`| Duration | ${this.formatTime(shot.duration)} |`);
-      parts.push(`| Shot Type | ${shot.metadata.shotType} |`);
-      parts.push(`| Camera Movement | ${shot.metadata.cameraMovement} |`);
-      parts.push(`| Framing | ${shot.metadata.framing} |`);
-
-      // Requirement 5: Visual Style Property
+      parts.push(`| Shot Type | ${shot.metadata.shotType || 'medium'} |`);
+      parts.push(`| Camera Movement | ${shot.metadata.cameraMovement || 'static'} |`);
+      parts.push(`| Framing | ${shot.metadata.framing || 'medium'} |`);
       parts.push(`| Visual Style | ${shot.metadata.visualStyle || 'Reality'} |`);
-
-      // Requirement 6: Simplified character count display (no colors in file output)
       parts.push(`| C: | ${shot.characterCount} / ${maxChars} |`);
-
-      if (shot.metadata.technicalNotes && shot.metadata.technicalNotes.length > 0) {
-        parts.push(`| Technical Notes | ${shot.metadata.technicalNotes.join(', ')} |`);
-      }
 
       parts.push('');
     }
 
-    // Set
+    // Set - always has value
     parts.push('**Set:**');
-    parts.push(shot.set);
+    parts.push(shot.set || 'No set description provided');
     parts.push('');
 
-    // Visual Description
+    // Visual Description - always has value
     parts.push('**Description:**');
-    parts.push(shot.description);
+    parts.push(shot.description || 'No description provided');
     parts.push('');
 
-    // Characters (individual entries)
-    if (shot.characters.length > 0) {
+    // Characters - individual sections for each character
+    if (shot.characters && shot.characters.length > 0) {
       for (const char of shot.characters) {
         parts.push(`**${char.name}:**`);
         const charParts: string[] = [];
@@ -133,34 +123,39 @@ export class MarkdownFormatter extends BaseFormatter {
         if (char.emotion) charParts.push(`Emotion: ${char.emotion}`);
         if (char.action) charParts.push(`Action: ${char.action}`);
 
-        parts.push(charParts.join('. '));
+        parts.push(charParts.length > 0 ? charParts.join('. ') : 'No character details provided');
         parts.push('');
       }
+    } else {
+      // If no characters, still include a placeholder
+      parts.push('**Characters:**');
+      parts.push('No characters specified in this shot');
+      parts.push('');
     }
 
-    // Actions
+    // Actions - always has value
     parts.push('**Actions:**');
-    parts.push(shot.actions);
+    parts.push(shot.actions || 'No actions specified');
     parts.push('');
 
-    // Dialogue
+    // Dialogue - always has value
     parts.push('**Dialogue:**');
-    parts.push(shot.dialogue);
+    parts.push(shot.dialogue || 'No dialogue in this shot');
     parts.push('');
 
-    // Blocking
+    // Blocking - always has value
     parts.push('**Blocking:**');
-    parts.push(shot.blocking);
+    parts.push(shot.blocking || 'No blocking specified');
     parts.push('');
 
-    // SFX
+    // SFX - always has value
     parts.push('**SFX:**');
-    parts.push(shot.sfx);
+    parts.push(shot.sfx || 'No sound effects specified');
     parts.push('');
 
-    // Technical Details
+    // Technical Details - always has value
     parts.push('**Technical Details:**');
-    parts.push(shot.techDetails);
+    parts.push(shot.techDetails || 'No technical details specified');
 
     // Shot warnings
     if (options?.includeWarnings && shot.warnings.length > 0) {

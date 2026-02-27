@@ -83,6 +83,9 @@ export class MarkdownFormatter extends BaseFormatter {
     parts.push(`### Shot ${shot.number}`);
     parts.push('');
 
+    // Calculate actual character count of formatted content (excluding shot header)
+    const actualCharCount = this.calculateShotCharacterCount(shot, options);
+
     // Scene heading
     parts.push(`**Scene:**`);
     parts.push('');
@@ -96,7 +99,7 @@ export class MarkdownFormatter extends BaseFormatter {
       parts.push(`| Camera Movement | ${shot.metadata.cameraMovement || 'static'} |`);
       parts.push(`| Framing | ${shot.metadata.framing || 'medium'} |`);
       parts.push(`| Visual Style | ${shot.metadata.visualStyle || 'Reality'} |`);
-      parts.push(`| C: | ${shot.characterCount} / ${maxChars} |`);
+      parts.push(`| C: | ${actualCharCount} / ${maxChars} |`);
 
       parts.push('');
     }
@@ -177,6 +180,101 @@ export class MarkdownFormatter extends BaseFormatter {
     if (percentage >= 100) return '🔴';
     if (percentage >= 90) return '🟡';
     return '🟢';
+  }
+
+  /**
+   * Calculate the actual character count of a formatted shot
+   * This includes all text between shot headers: labels, values, tables, formatting, etc.
+   */
+  private calculateShotCharacterCount(shot: Shot, options?: FormatterOptions): number {
+    const parts: string[] = [];
+
+    // Scene heading
+    parts.push(`**Scene:**`);
+    parts.push('');
+
+    // Metadata table
+    if (options?.includeMetadata !== false) {
+      parts.push('| Property | Value |');
+      parts.push('|----------|-------|');
+      parts.push(`| Duration | ${this.formatTime(shot.duration)} |`);
+      parts.push(`| Shot Type | ${shot.metadata.shotType || 'medium'} |`);
+      parts.push(`| Camera Movement | ${shot.metadata.cameraMovement || 'static'} |`);
+      parts.push(`| Framing | ${shot.metadata.framing || 'medium'} |`);
+      parts.push(`| Visual Style | ${shot.metadata.visualStyle || 'Reality'} |`);
+      // Note: We use a placeholder for C: line since it's self-referential
+      parts.push(`| C: | 0000 / 4000 |`);
+      parts.push('');
+    }
+
+    // Set - always has value
+    parts.push('**Set:**');
+    parts.push(shot.set || 'No set description provided');
+    parts.push('');
+
+    // Visual Description - always has value
+    parts.push('**Description:**');
+    parts.push(shot.description || 'No description provided');
+    parts.push('');
+
+    // Characters - individual sections for each character
+    if (shot.characters && shot.characters.length > 0) {
+      for (const char of shot.characters) {
+        parts.push(`**${char.name}:**`);
+        const charParts: string[] = [];
+
+        if (char.position) charParts.push(`Position: ${char.position}`);
+        if (char.physicalAppearance) charParts.push(`Appearance: ${char.physicalAppearance}`);
+        if (char.wardrobe) charParts.push(`Wardrobe: ${char.wardrobe}`);
+        if (char.emotion) charParts.push(`Emotion: ${char.emotion}`);
+        if (char.action) charParts.push(`Action: ${char.action}`);
+
+        parts.push(charParts.length > 0 ? charParts.join('. ') : 'No character details provided');
+        parts.push('');
+      }
+    } else {
+      // If no characters, still include a placeholder
+      parts.push('**Characters:**');
+      parts.push('No characters specified in this shot');
+      parts.push('');
+    }
+
+    // Actions - always has value
+    parts.push('**Actions:**');
+    parts.push(shot.actions || 'No actions specified');
+    parts.push('');
+
+    // Dialogue - always has value
+    parts.push('**Dialogue:**');
+    parts.push(shot.dialogue || 'No dialogue in this shot');
+    parts.push('');
+
+    // Blocking - always has value
+    parts.push('**Blocking:**');
+    parts.push(shot.blocking || 'No blocking specified');
+    parts.push('');
+
+    // SFX - always has value
+    parts.push('**SFX:**');
+    parts.push(shot.sfx || 'No sound effects specified');
+    parts.push('');
+
+    // Technical Details - always has value
+    parts.push('**Technical Details:**');
+    parts.push(shot.techDetails || 'No technical details specified');
+
+    // Shot warnings (if included)
+    if (options?.includeWarnings && shot.warnings.length > 0) {
+      parts.push('');
+      parts.push('**Warnings:**');
+      for (const warning of shot.warnings) {
+        const icon = warning.severity === 'error' ? '❌' : '⚠️';
+        parts.push(`${icon} ${warning.message}`);
+      }
+    }
+
+    // Join all parts with newlines and return the total character count
+    return parts.join('\n').length;
   }
 
   /**

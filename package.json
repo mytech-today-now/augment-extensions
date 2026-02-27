@@ -1,6 +1,6 @@
 {
   "name": "@mytechtoday/augment-extensions",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "description": "CLI tool for managing Augment Code AI extension modules",
   "main": "cli/dist/index.js",
   "bin": {

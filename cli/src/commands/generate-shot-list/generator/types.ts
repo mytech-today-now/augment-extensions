@@ -104,7 +104,7 @@ export type WarningType =
 export interface Warning {
   type: WarningType;
   message: string;
-  shotNumber: number;
+  shotNumber: number | string; // Support sub-shot numbers like "3a"
   severity: 'warning' | 'error';
   suggestion?: string;
 }

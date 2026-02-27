@@ -5,7 +5,8 @@ module.exports = {
   testMatch: ['**/__tests__/**/*.test.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    '^uuid$': '<rootDir>/__mocks__/uuid.js'  // Mock uuid module
+    '^uuid$': '<rootDir>/__mocks__/uuid.js',  // Mock uuid module
+    '^chalk$': '<rootDir>/__mocks__/chalk.js'  // Mock chalk module for ESM compatibility
   },
   collectCoverageFrom: [
     'cli/src/**/*.ts',

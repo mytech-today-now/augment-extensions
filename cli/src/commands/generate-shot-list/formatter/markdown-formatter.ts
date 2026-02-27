@@ -4,6 +4,7 @@
  * Generates Markdown output with structured shot list, headings, metadata tables
  */
 
+import chalk from 'chalk';
 import { BaseFormatter } from './base-formatter';
 import { ShotList, Shot } from '../generator/types';
 import { FormatterOptions } from './types';
@@ -96,13 +97,19 @@ export class MarkdownFormatter extends BaseFormatter {
       parts.push(`| Shot Type | ${shot.metadata.shotType} |`);
       parts.push(`| Camera Movement | ${shot.metadata.cameraMovement} |`);
       parts.push(`| Framing | ${shot.metadata.framing} |`);
-      // Requirement 6: Simplified character count display
-      parts.push(`| Characters | ${shot.characterCount}/${maxChars} (${charPercentage}%) ${charStatus} |`);
-      
+
+      // Requirement 5: Visual Style Property
+      parts.push(`| Visual Style | ${shot.metadata.visualStyle || 'Reality'} |`);
+
+      // Requirement 6: Simplified character count display with chalk colors
+      const charCountColor = this.getCharacterCountColor(shot.characterCount, maxChars);
+      const coloredCharCount = charCountColor(shot.characterCount.toString());
+      parts.push(`| C: | ${coloredCharCount} / ${maxChars} |`);
+
       if (shot.metadata.technicalNotes && shot.metadata.technicalNotes.length > 0) {
         parts.push(`| Technical Notes | ${shot.metadata.technicalNotes.join(', ')} |`);
       }
-      
+
       parts.push('');
     }
 
@@ -157,6 +164,38 @@ export class MarkdownFormatter extends BaseFormatter {
     if (percentage >= 100) return '🔴';
     if (percentage >= 90) return '🟡';
     return '🟢';
+  }
+
+  /**
+   * Get character count color function (Requirement 6)
+   * - Green if under 4000 characters
+   * - Yellow if between 4000 and 5000 characters
+   * - Red if over 5000 characters
+   */
+  private getCharacterCountColor(charCount: number, maxChars: number): typeof chalk.green {
+    if (charCount > 5000) {
+      return chalk.red;
+    } else if (charCount >= 4000) {
+      return chalk.yellow;
+    } else {
+      return chalk.green;
+    }
+  }
+
+  /**
+   * Get duration severity color (Requirement 4)
+   * - Red for shots exceeding max duration (error)
+   * - Yellow for shots approaching max duration (warning)
+   * - Green for shots within acceptable range
+   */
+  private getDurationSeverityColor(duration: number, maxDuration: number): typeof chalk.green {
+    if (duration > maxDuration) {
+      return chalk.red;  // Error: exceeds max
+    } else if (duration >= maxDuration * 0.9) {
+      return chalk.yellow;  // Warning: approaching limit
+    } else {
+      return chalk.green;  // OK
+    }
   }
 
   /**

@@ -203,11 +203,22 @@ export async function generateShotListCommand(options: GenerateShotListOptions):
         );
       }
 
-      // Display warnings if any
+      // Display warnings if any (Requirement 4: Terminal Feedback Severity)
       if (shotList.warnings.length > 0) {
-        console.log(chalk.yellow(`\n⚠️  ${shotList.warnings.length} warning(s):`));
+        const errorCount = shotList.warnings.filter(w => w.severity === 'error').length;
+        const warningCount = shotList.warnings.filter(w => w.severity === 'warning').length;
+
+        if (errorCount > 0) {
+          console.log(chalk.red(`\n❌ ${errorCount} error(s):`));
+        }
+        if (warningCount > 0) {
+          console.log(chalk.yellow(`\n⚠️  ${warningCount} warning(s):`));
+        }
+
         for (const warning of shotList.warnings.slice(0, 5)) {
-          console.log(chalk.yellow(`   - Shot ${warning.shotNumber}: ${warning.message}`));
+          const color = warning.severity === 'error' ? chalk.red : chalk.yellow;
+          const icon = warning.severity === 'error' ? '❌' : '⚠️';
+          console.log(color(`   ${icon} Shot ${warning.shotNumber}: ${warning.message}`));
         }
         if (shotList.warnings.length > 5) {
           console.log(chalk.gray(`   ... and ${shotList.warnings.length - 5} more`));

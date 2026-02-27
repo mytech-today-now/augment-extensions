@@ -1,0 +1,342 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://augment.dev/schemas/shot-list/shot-list.json",
+  "title": "Shot List",
+  "description": "JSON schema for AI-optimized shot lists generated from screenplays",
+  "type": "object",
+  "required": ["metadata", "summary", "shots"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["generatedAt", "sourceFormat", "maxCharacters", "maxShotLength"],
+      "properties": {
+        "title": {
+          "type": ["string", "null"],
+          "description": "Screenplay title"
+        },
+        "author": {
+          "type": ["string", "null"],
+          "description": "Screenplay author"
+        },
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of generation"
+        },
+        "sourceFormat": {
+          "type": "string",
+          "enum": ["fountain", "markdown", "plaintext"],
+          "description": "Source screenplay format"
+        },
+        "maxCharacters": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum characters per shot"
+        },
+        "maxShotLength": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum shot length in seconds"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["totalShots", "totalDuration", "totalCharacters"],
+      "properties": {
+        "totalShots": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of shots"
+        },
+        "totalDuration": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total duration in seconds"
+        },
+        "totalDurationFormatted": {
+          "type": "string",
+          "pattern": "^([0-9]+h )?([0-9]+m )?[0-9]+s$",
+          "description": "Total duration in human-readable format (e.g., '8s', '1m 30s', '2h 15m 30s')"
+        },
+        "totalCharacters": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total character count across all shots"
+        },
+        "averageShotLength": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Average shot length in seconds"
+        },
+        "averageCharacters": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Average character count per shot"
+        },
+        "maxCharacters": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum character count in any single shot"
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/warning"
+      }
+    },
+    "shots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/shot"
+      }
+    }
+  },
+  "definitions": {
+    "shot": {
+      "type": "object",
+      "required": ["number", "sceneNumber", "heading", "context", "characters", "description", "dialogue", "metadata", "duration", "characterCount", "warnings"],
+      "properties": {
+        "number": {
+          "oneOf": [
+            { "type": "integer", "minimum": 1 },
+            { "type": "string", "pattern": "^[0-9]+[a-z]$" }
+          ],
+          "description": "Shot number (integer or sub-shot like '3a')"
+        },
+        "sceneNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Scene number"
+        },
+        "heading": {
+          "$ref": "#/definitions/sceneHeading"
+        },
+        "context": {
+          "$ref": "#/definitions/sceneContext"
+        },
+        "characters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/characterState"
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "Shot description"
+        },
+        "dialogue": {
+          "type": "string",
+          "description": "Dialogue in MPAA format or 'No dialogue in this shot'"
+        },
+        "metadata": {
+          "$ref": "#/definitions/shotMetadata"
+        },
+        "duration": {
+          "$ref": "#/definitions/duration"
+        },
+        "characterCount": {
+          "$ref": "#/definitions/characterCount"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/warning"
+          }
+        }
+      }
+    },
+    "sceneHeading": {
+      "type": "object",
+      "required": ["raw", "intExt", "location", "timeOfDay"],
+      "properties": {
+        "raw": {
+          "type": "string",
+          "description": "Raw scene heading text"
+        },
+        "intExt": {
+          "type": "string",
+          "enum": ["INT", "EXT", "INT/EXT"],
+          "description": "Interior or exterior"
+        },
+        "location": {
+          "type": "string",
+          "description": "Scene location"
+        },
+        "timeOfDay": {
+          "type": "string",
+          "description": "Time of day"
+        }
+      }
+    },
+    "sceneContext": {
+      "type": "object",
+      "required": ["set", "lighting", "timeOfDay"],
+      "properties": {
+        "set": {
+          "type": "string",
+          "description": "Set description"
+        },
+        "lighting": {
+          "type": "string",
+          "description": "Lighting description"
+        },
+        "timeOfDay": {
+          "type": "string",
+          "description": "Time of day"
+        },
+        "atmosphere": {
+          "type": ["string", "null"],
+          "description": "Atmosphere description"
+        },
+        "weather": {
+          "type": ["string", "null"],
+          "description": "Weather description"
+        }
+      }
+    },
+    "characterState": {
+      "type": "object",
+      "required": ["name", "position", "appearance"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Character name"
+        },
+        "position": {
+          "type": "string",
+          "description": "Character position/blocking"
+        },
+        "appearance": {
+          "type": "string",
+          "description": "Character appearance"
+        },
+        "wardrobe": {
+          "type": ["string", "null"],
+          "description": "Full wardrobe description"
+        },
+        "physicalAppearance": {
+          "type": ["string", "null"],
+          "description": "Physical appearance details"
+        },
+        "emotion": {
+          "type": ["string", "null"],
+          "description": "Emotional state"
+        },
+        "action": {
+          "type": ["string", "null"],
+          "description": "Current action"
+        }
+      }
+    },
+    "shotMetadata": {
+      "type": "object",
+      "required": ["shotType", "cameraMovement", "framing", "visualStyle"],
+      "properties": {
+        "shotType": {
+          "type": "string",
+          "enum": ["establishing", "wide", "medium", "close-up", "extreme-close-up", "over-the-shoulder", "point-of-view", "insert", "cutaway"],
+          "description": "Shot type classification"
+        },
+        "cameraMovement": {
+          "type": "string",
+          "enum": ["static", "pan", "tilt", "dolly", "track", "crane", "handheld", "steadicam", "zoom"],
+          "description": "Camera movement type"
+        },
+        "framing": {
+          "type": "string",
+          "enum": ["wide", "medium", "close-up", "extreme-close-up", "full-shot", "medium-shot", "medium-close-up"],
+          "description": "Camera framing"
+        },
+        "visualStyle": {
+          "type": "string",
+          "enum": ["Reality", "Animation", "CGI", "Hybrid"],
+          "description": "Visual style classification"
+        },
+        "cinematicStyle": {
+          "type": ["string", "null"],
+          "description": "Cinematic style name(s)"
+        },
+        "technicalNotes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Technical notes"
+        }
+      }
+    },
+    "duration": {
+      "type": "object",
+      "required": ["seconds", "formatted"],
+      "properties": {
+        "seconds": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration in seconds"
+        },
+        "formatted": {
+          "type": "string",
+          "pattern": "^[0-9]+:[0-5][0-9]$",
+          "description": "Duration in MM:SS format"
+        }
+      }
+    },
+    "characterCount": {
+      "type": "object",
+      "required": ["count", "limit", "percentage"],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Character count"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Character limit"
+        },
+        "percentage": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percentage of limit used"
+        }
+      }
+    },
+    "warning": {
+      "type": "object",
+      "required": ["type", "message", "shotNumber", "severity"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["character-limit-warning", "character-limit-error", "duration-limit-warning", "duration-limit-error", "missing-context", "ambiguous-action"],
+          "description": "Warning type"
+        },
+        "message": {
+          "type": "string",
+          "description": "Warning message"
+        },
+        "shotNumber": {
+          "oneOf": [
+            { "type": "integer", "minimum": 1 },
+            { "type": "string", "pattern": "^[0-9]+[a-z]?$" }
+          ],
+          "description": "Shot number"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["warning", "error"],
+          "description": "Severity level"
+        },
+        "suggestion": {
+          "type": ["string", "null"],
+          "description": "Suggested fix"
+        }
+      }
+    }
+  }
+}
+

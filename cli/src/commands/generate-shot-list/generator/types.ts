@@ -91,13 +91,16 @@ export interface ShotMetadata {
 /**
  * Warning types
  */
-export type WarningType = 
+export type WarningType =
   | 'character-limit-warning'
   | 'character-limit-error'
   | 'duration-limit-warning'
   | 'duration-limit-error'
   | 'missing-context'
-  | 'ambiguous-action';
+  | 'ambiguous-action'
+  | 'description-action-conflict'
+  | 'description-character-inconsistency'
+  | 'field-duplication';
 
 /**
  * Warning for shot list validation
@@ -164,6 +167,7 @@ export interface GeneratorConfig {
   includeContext: boolean;
   includeMetadata: boolean;
   cinematicStyle?: string;  // Formatted cinematic style name(s) for display
+  muteSfx?: boolean;  // Remove all MUSIC and SOUND EFFECT content from output
 }
 
 /**
@@ -173,8 +177,8 @@ export interface Generator {
   /**
    * Generate shot list from parsed screenplay
    */
-  generate(scenes: Scene[], config: GeneratorConfig): ShotList;
-  
+  generate(scenes: Scene[], config: GeneratorConfig): Promise<ShotList>;
+
   /**
    * Validate shot list against limits
    */

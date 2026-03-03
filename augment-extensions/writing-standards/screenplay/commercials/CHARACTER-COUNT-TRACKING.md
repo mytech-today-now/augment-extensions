@@ -91,9 +91,9 @@ This document tracks character counts for the Commercial Writing Standards modul
 
 ## Validation Script
 
-### PowerShell Script
+### TypeScript Script
 
-See `scripts/validate-character-count.ps1` for the validation script.
+See `scripts/validate-character-count.ts` for the validation script.
 
 **Validation Logic:**
 - Checks each content file individually (not total)
@@ -105,18 +105,21 @@ See `scripts/validate-character-count.ps1` for the validation script.
 ### Usage
 
 ```bash
-# Run validation
-pwsh scripts/validate-character-count.ps1
+# Run validation (from repository root)
+npm run validate:commercials
 
 # Verbose output with file breakdown
-pwsh scripts/validate-character-count.ps1 -Verbose
+npm run validate:commercials:verbose
 
 # JSON output for CI/CD
-pwsh scripts/validate-character-count.ps1 -Json
+npm run validate:commercials:json
+
+# Direct execution with tsx
+npx tsx augment-extensions/writing-standards/screenplay/commercials/scripts/validate-character-count.ts --verbose
 
 # In CI/CD pipeline
-pwsh scripts/validate-character-count.ps1
-if ($LASTEXITCODE -ne 0) { exit 1 }
+npm run validate:commercials
+# Exit code will be 0 for pass, 1 for fail
 ```
 
 ---
@@ -124,7 +127,7 @@ if ($LASTEXITCODE -ne 0) { exit 1 }
 ## Current Status
 
 **Last Measured:** 2026-03-03
-**Validation:** Run `pwsh scripts/validate-character-count.ps1`
+**Validation:** Run `npm run validate:commercials`
 **Status:** 🟡 In Progress
 
 ### Progress Checklist

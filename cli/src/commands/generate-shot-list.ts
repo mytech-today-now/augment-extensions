@@ -19,6 +19,7 @@ interface GenerateShotListOptions {
   maxShotLength?: number;
   logging?: boolean;
   style?: string | string[];  // Can be single string or array of strings
+  muteSfx?: boolean;  // Remove all MUSIC and SOUND EFFECT content from output
   help?: boolean;
   h?: boolean;
 }
@@ -110,7 +111,9 @@ export async function generateShotListCommand(options: GenerateShotListOptions):
       const stylePaths = Array.isArray(options.style) ? options.style : [options.style];
       console.log(chalk.gray(`🎨 Loading cinematic styles...`));
 
-      const styleSystem = createStyleSystem();
+      // Extensions root is the augment-extensions directory in the parent of the CLI
+      const extensionsRoot = path.join(__dirname, '../../../augment-extensions');
+      const styleSystem = createStyleSystem(extensionsRoot);
 
       // Validate all style paths
       for (const stylePath of stylePaths) {
@@ -172,13 +175,14 @@ export async function generateShotListCommand(options: GenerateShotListOptions):
 
       // Step 3: Generate shot list
       console.log(chalk.gray('🎬 Generating shots...'));
-      const generator = createGenerator();
-      const shotList = generator.generate(screenplay.scenes, {
+      const generator = createGenerator(styleGuidelines);
+      const shotList = await generator.generate(screenplay.scenes, {
         maxCharacters,
         maxShotLength,
         warningThreshold: 90, // 90% threshold for warnings
         includeContext: true,
-        includeMetadata: true
+        includeMetadata: true,
+        muteSfx: options.muteSfx || false
       });
       console.log(chalk.green(`✓ Generated ${shotList.totalShots} shots`));
       console.log(chalk.gray(`   Total duration: ${Math.floor(shotList.totalDuration / 60)}m ${Math.floor(shotList.totalDuration % 60)}s`));

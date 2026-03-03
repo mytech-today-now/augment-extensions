@@ -20,6 +20,7 @@ import { SceneSegmenter, SegmentationConfig } from './scene-segmenter';
 import { ContextBuilder, ContextBuilderConfig } from './context-builder';
 import { MetadataExtractor, MetadataExtractorConfig } from './metadata-extractor';
 import { MergedStyleGuidelines } from '../style/types';
+import { AIBlockingExtractor, CharacterBlockingPosition, BlockingExtractionResult } from './ai-blocking-extractor';
 
 /**
  * Default generator implementation
@@ -29,9 +30,14 @@ export class ShotListGenerator implements Generator {
   private segmenter: SceneSegmenter;
   private contextBuilder: ContextBuilder;
   private metadataExtractor: MetadataExtractor;
+  private blockingExtractor: AIBlockingExtractor;
   private styleGuidelines: MergedStyleGuidelines | null = null;
+  private characterBlockingCache: Map<string, CharacterBlockingPosition> = new Map();
 
   constructor(styleGuidelines?: MergedStyleGuidelines | null) {
+    // Store style guidelines first
+    this.styleGuidelines = styleGuidelines || null;
+
     // Initialize modules with default configurations
     this.segmenter = new SceneSegmenter({
       maxShotLength: 30, // 30 seconds max
@@ -39,10 +45,12 @@ export class ShotListGenerator implements Generator {
       minShotLength: 5 // 5 seconds minimum
     });
 
+    // Pass style guidelines to ContextBuilder so it can filter appropriately
     this.contextBuilder = new ContextBuilder({
       includeAtmosphere: true,
       includeWeather: true,
-      trackCharacterEmotions: true
+      trackCharacterEmotions: true,
+      styleGuidelines: this.styleGuidelines
     });
 
     this.metadataExtractor = new MetadataExtractor({
@@ -50,13 +58,19 @@ export class ShotListGenerator implements Generator {
       inferFromContext: true
     });
 
-    this.styleGuidelines = styleGuidelines || null;
+    this.blockingExtractor = new AIBlockingExtractor(undefined, this.styleGuidelines);
   }
 
   /**
    * Generate shot list from parsed screenplay
    */
-  generate(scenes: Scene[], config: GeneratorConfig): ShotList {
+  async generate(scenes: Scene[], config: GeneratorConfig): Promise<ShotList> {
+    // CRITICAL: Reset all state at the start of each screenplay generation
+    // This prevents Character Bible contamination between different screenplays
+    this.contextBuilder.reset();
+    this.characterBlockingCache.clear();
+    this.blockingExtractor.clearCache(); // Clear character description cache
+
     const shots: Shot[] = [];
     let shotNumber = 1;
     const warnings: Warning[] = [];
@@ -65,7 +79,7 @@ export class ShotListGenerator implements Generator {
     for (const scene of scenes) {
       // TODO: Implement scene segmentation (bd-shot-list-3.2)
       // For now, create one shot per scene as placeholder
-      const sceneShots = this.segmentScene(scene, shotNumber, config);
+      const sceneShots = await this.segmentScene(scene, shotNumber, config);
       shots.push(...sceneShots);
       shotNumber += sceneShots.length;
     }
@@ -121,7 +135,7 @@ export class ShotListGenerator implements Generator {
    * Implemented: bd-shot-list-3.2
    * Enhanced: bd-2b68 (Requirement 2: Intelligent Shot Splitting)
    */
-  private segmentScene(scene: Scene, startShotNumber: number, config: GeneratorConfig): Shot[] {
+  private async segmentScene(scene: Scene, startShotNumber: number, config: GeneratorConfig): Promise<Shot[]> {
     // Build scene-level context once
     const sceneContext = this.contextBuilder.buildSceneContext(scene);
 
@@ -137,7 +151,7 @@ export class ShotListGenerator implements Generator {
       const isFirstShot = i === 0;
 
       // Build character states for this segment
-      const characters = this.contextBuilder.buildCharacterStates(segment.elements, sceneContext);
+      const characters = await this.contextBuilder.buildCharacterStates(segment.elements, sceneContext);
 
       // Extract metadata for this segment
       const metadata = this.metadataExtractor.extract(segment.elements, isFirstShot);
@@ -147,13 +161,25 @@ export class ShotListGenerator implements Generator {
         this.applyStyleToMetadata(metadata, this.styleGuidelines);
       }
 
+      // Extract blocking using AI
+      const blockingData = await this.extractBlockingWithAI(segment.elements, characters);
+
+      // Apply AI-generated character descriptions to character states
+      this.applyCharacterDescriptions(characters, blockingData.characterDescriptions);
+
       // Build structured description components
       const set = this.buildSetDescription(sceneContext);
-      const description = this.buildVisualDescription(sceneContext);
-      const actions = this.buildActions(segment.elements);
+      const description = blockingData.setDescription || this.buildVisualDescription(sceneContext);
+      const actions = blockingData.characterActions.length > 0
+        ? blockingData.characterActions.join('. ')
+        : 'No specific actions in this shot';
       const dialogue = this.extractDialogue(segment.elements);
-      const blocking = this.buildBlocking(characters);
-      const sfx = this.buildSFX(segment.elements);
+      const blocking = this.buildBlockingFromAI(blockingData.characterPositions, characters);
+      const sfx = config.muteSfx
+        ? 'No sound effects specified'
+        : (blockingData.soundEffects.length > 0
+          ? blockingData.soundEffects.join('. ')
+          : 'No sound effects specified');
       const techDetails = this.buildTechDetails(metadata);
 
       // Calculate total character count from all components
@@ -163,7 +189,7 @@ export class ShotListGenerator implements Generator {
       // Check if shot exceeds max duration (Requirement 2)
       if (segment.estimatedDuration > config.maxShotLength) {
         // Split into sub-shots
-        const subShots = this.splitIntoSubShots(
+        const subShots = await this.splitIntoSubShots(
           segment,
           currentShotNumber,
           scene,
@@ -204,13 +230,13 @@ export class ShotListGenerator implements Generator {
    * Requirement 2: Intelligent Shot Splitting for Long Durations
    * Recursively splits sub-shots that still exceed maxShotLength
    */
-  private splitIntoSubShots(
+  private async splitIntoSubShots(
     segment: import('./scene-segmenter').SceneSegment,
     baseShotNumber: number | string,
     scene: Scene,
     sceneContext: SceneContext,
     config: GeneratorConfig
-  ): Shot[] {
+  ): Promise<Shot[]> {
     const subShots: Shot[] = [];
     const elements = segment.elements;
     const targetDuration = config.maxShotLength;
@@ -231,7 +257,7 @@ export class ShotListGenerator implements Generator {
         : `${baseShotNumber}${String.fromCharCode(97 + i)}`; // First level: "3a", "3b"
 
       // Build character states for this sub-shot
-      const characters = this.contextBuilder.buildCharacterStates(subShotElements, sceneContext);
+      const characters = await this.contextBuilder.buildCharacterStates(subShotElements, sceneContext);
 
       // Extract metadata for this sub-shot
       const metadata = this.metadataExtractor.extract(subShotElements, i === 0);
@@ -241,13 +267,25 @@ export class ShotListGenerator implements Generator {
         this.applyStyleToMetadata(metadata, this.styleGuidelines);
       }
 
+      // Extract blocking using AI
+      const blockingData = await this.extractBlockingWithAI(subShotElements, characters);
+
+      // Apply AI-generated character descriptions to character states
+      this.applyCharacterDescriptions(characters, blockingData.characterDescriptions);
+
       // Build structured description components
       const set = this.buildSetDescription(sceneContext);
-      const description = this.buildVisualDescription(sceneContext);
-      const actions = this.buildActions(subShotElements);
+      const description = blockingData.setDescription || this.buildVisualDescription(sceneContext);
+      const actions = blockingData.characterActions.length > 0
+        ? blockingData.characterActions.join('. ')
+        : 'No specific actions in this shot';
       const dialogue = this.extractDialogue(subShotElements);
-      const blocking = this.buildBlocking(characters);
-      const sfx = this.buildSFX(subShotElements);
+      const blocking = this.buildBlockingFromAI(blockingData.characterPositions, characters);
+      const sfx = config.muteSfx
+        ? 'No sound effects specified'
+        : (blockingData.soundEffects.length > 0
+          ? blockingData.soundEffects.join('. ')
+          : 'No sound effects specified');
       const techDetails = this.buildTechDetails(metadata);
 
       // Calculate total character count from all components
@@ -269,7 +307,7 @@ export class ShotListGenerator implements Generator {
           };
 
           // Recursively split this sub-shot
-          const nestedSubShots = this.splitIntoSubShots(
+          const nestedSubShots = await this.splitIntoSubShots(
             nestedSegment,
             subShotNumber,
             scene,
@@ -292,7 +330,7 @@ export class ShotListGenerator implements Generator {
           };
 
           // Recursively split the dialogue-based segment
-          const dialogueSubShots = this.splitIntoSubShots(
+          const dialogueSubShots = await this.splitIntoSubShots(
             dialogueSegment,
             subShotNumber,
             scene,
@@ -514,25 +552,96 @@ export class ShotListGenerator implements Generator {
 
   /**
    * Build character actions from scene elements
+   * Includes both explicit actions and inferred actions from dialogue
    */
   private buildActions(elements: import('../parser/types').SceneElement[]): string {
-    const actionElements = elements.filter(el => el.type === 'action');
+    const actionList: string[] = [];
 
-    if (actionElements.length === 0) {
+    // Extract explicit action descriptions
+    // Include ALL actions (character entrances, movements, and general actions)
+    // Only filter out pure sound effects
+    const actionElements = elements.filter(el => el.type === 'action');
+    const explicitActions = actionElements
+      .map(el => el.text)
+      .filter(text => {
+        // Keep the action if it's NOT a pure sound effect
+        // Character entrances should always be included
+        return !this.isSoundEffect(text) || this.isCharacterEntrance(text);
+      });
+
+    actionList.push(...explicitActions);
+
+    // Infer actions from dialogue (e.g., spell-casting, shouting, etc.)
+    const dialogueElements = elements.filter(
+      (el): el is import('../parser/types').DialogueElement => el.type === 'dialogue'
+    );
+
+    for (const dialogueEl of dialogueElements) {
+      const inferredAction = this.inferActionFromDialogue(dialogueEl);
+      if (inferredAction) {
+        actionList.push(inferredAction);
+      }
+    }
+
+    if (actionList.length === 0) {
       return 'No specific actions in this shot';
     }
 
-    // Extract action descriptions, filtering out sound effects
-    const actions = actionElements
-      .map(el => el.text)
-      .filter(text => !this.isSoundEffect(text))
-      .join('. ');
+    return actionList.join('. ');
+  }
 
-    return actions || 'No specific actions in this shot';
+  /**
+   * Infer character actions from dialogue content
+   * Examples:
+   * - Spell incantations -> "waves staff and casts spell"
+   * - Shouting -> "shouts"
+   * - Whispering -> "whispers"
+   */
+  private inferActionFromDialogue(dialogueEl: import('../parser/types').DialogueElement): string | null {
+    const characterName = dialogueEl.dialogue.character.name;
+    const speech = dialogueEl.dialogue.speech;
+    const parenthetical = dialogueEl.dialogue.parenthetical?.toLowerCase() || '';
+
+    // Detect spell incantations - ONLY specific magical phrases
+    // Removed overly broad Latin-like pattern that matched treaty names
+    const spellPatterns = [
+      /\b(Expecto|Lumos|Accio|Wingardium|Expelliarmus|Avada)/i, // Harry Potter spells
+      /\b(Abracadabra|Alakazam|Hocus Pocus|Presto)/i, // Classic magic words
+    ];
+
+    const isSpell = spellPatterns.some(pattern => pattern.test(speech));
+
+    if (isSpell) {
+      // Check if character has a staff/wand in their props
+      // For now, assume wizards have staffs/wands
+      return `${characterName} waves staff and casts spell`;
+    }
+
+    // Detect shouting (ALL CAPS or exclamation marks)
+    if (speech === speech.toUpperCase() && speech.length > 10) {
+      return `${characterName} shouts`;
+    }
+
+    // Detect whispering from parenthetical
+    if (parenthetical.includes('whisper')) {
+      return `${characterName} whispers`;
+    }
+
+    // Detect other emotional delivery
+    if (parenthetical.includes('angry') || parenthetical.includes('furious')) {
+      return `${characterName} speaks angrily`;
+    }
+
+    if (parenthetical.includes('sad') || parenthetical.includes('crying')) {
+      return `${characterName} speaks sadly`;
+    }
+
+    return null;
   }
 
   /**
    * Build character blocking (positions and movements)
+   * DEPRECATED: Use buildBlockingFromAI() instead
    */
   private buildBlocking(characters: CharacterState[]): string {
     if (characters.length === 0) {
@@ -561,21 +670,172 @@ export class ShotListGenerator implements Generator {
   }
 
   /**
+   * Extract blocking using AI-powered spatial inference
+   */
+  private async extractBlockingWithAI(
+    elements: import('../parser/types').SceneElement[],
+    characters: CharacterState[]
+  ): Promise<BlockingExtractionResult> {
+    // Extract action lines
+    const actionLines = elements
+      .filter(el => el.type === 'action')
+      .map(el => el.text);
+
+    if (actionLines.length === 0) {
+      return {
+        characterPositions: [],
+        characterDescriptions: [],
+        setDescription: '',
+        characterActions: [],
+        soundEffects: []
+      };
+    }
+
+    // Get character names
+    const characterNames = characters.map(c => c.name);
+
+    // Call AI blocking extractor
+    console.log(`Extracting blocking with AI for ${characterNames.length} characters...`);
+    const result = await this.blockingExtractor.extractBlocking(
+      actionLines,
+      characterNames,
+      this.characterBlockingCache
+    );
+
+    // Update cache with new positions
+    for (const pos of result.characterPositions) {
+      this.characterBlockingCache.set(pos.character, pos);
+    }
+
+    return result;
+  }
+
+  /**
+   * Build blocking description from AI-extracted positions
+   */
+  private buildBlockingFromAI(
+    positions: CharacterBlockingPosition[],
+    characters: CharacterState[]
+  ): string {
+    if (positions.length === 0) {
+      // Fallback to cached positions
+      const cachedBlocking: string[] = [];
+      for (const char of characters) {
+        const cached = this.characterBlockingCache.get(char.name);
+        if (cached) {
+          cachedBlocking.push(this.formatBlockingPosition(cached));
+        }
+      }
+      return cachedBlocking.length > 0
+        ? cachedBlocking.join('\n')
+        : 'Characters maintain their positions';
+    }
+
+    return positions.map(pos => this.formatBlockingPosition(pos)).join('\n');
+  }
+
+  /**
+   * Format a single character blocking position
+   */
+  private formatBlockingPosition(pos: CharacterBlockingPosition): string {
+    const parts: string[] = [pos.character + ':'];
+
+    if (pos.action) {
+      parts.push(pos.action);
+    }
+
+    if (pos.position) {
+      parts.push(pos.position);
+    }
+
+    if (pos.stagePosition) {
+      parts.push(`(${pos.stagePosition})`);
+    }
+
+    if (pos.relativePosition) {
+      parts.push(`[${pos.relativePosition}]`);
+    }
+
+    return parts.join(' ');
+  }
+
+  /**
+   * Apply AI-generated character descriptions to character states
+   */
+  private applyCharacterDescriptions(
+    characters: CharacterState[],
+    descriptions: import('./ai-blocking-extractor').CharacterDescription[]
+  ): void {
+    for (const desc of descriptions) {
+      const char = characters.find(c => c.name === desc.character);
+      if (char) {
+        if (desc.physicalAppearance) {
+          char.physicalAppearance = desc.physicalAppearance;
+        }
+        if (desc.wardrobe) {
+          char.wardrobe = desc.wardrobe;
+        }
+        if (desc.emotion) {
+          char.emotion = desc.emotion;
+        }
+      }
+    }
+  }
+
+  /**
    * Build sound effects from scene elements
+   * Filters out character entrances/exits which should be in Actions, not SFX
    */
   private buildSFX(elements: import('../parser/types').SceneElement[]): string {
-    const actionElements = elements.filter(el => el.type === 'action');
+    const sfxList: string[] = [];
+
+    // Check dialogue for intercom references
+    const dialogueElements = elements.filter(el => el.type === 'dialogue') as import('../parser/types').DialogueElement[];
+    for (const dialogueEl of dialogueElements) {
+      const parenthetical = dialogueEl.dialogue.parenthetical?.toLowerCase() || '';
+      if (parenthetical.includes('intercom') || parenthetical.includes('over intercom')) {
+        sfxList.push('Intercom buzz/chirp');
+      }
+    }
 
     // Extract sound effects from action lines
-    const sfxElements = actionElements
+    const actionElements = elements.filter(el => el.type === 'action');
+    const actionSfx = actionElements
       .map(el => el.text)
-      .filter(text => this.isSoundEffect(text));
+      .filter(text => this.isSoundEffect(text) && !this.isCharacterEntrance(text));
 
-    if (sfxElements.length === 0) {
+    sfxList.push(...actionSfx);
+
+    if (sfxList.length === 0) {
       return 'No sound effects specified';
     }
 
-    return sfxElements.join('. ');
+    return sfxList.join('. ');
+  }
+
+  /**
+   * Check if text describes a character entrance or exit
+   * These should be in Actions, not SFX
+   */
+  private isCharacterEntrance(text: string): boolean {
+    const entranceKeywords = [
+      'enters', 'enter', 'entering',
+      'exits', 'exit', 'exiting',
+      'arrives', 'arrive', 'arriving',
+      'leaves', 'leave', 'leaving',
+      'walks in', 'walks out',
+      'comes in', 'goes out'
+    ];
+
+    const lowerText = text.toLowerCase();
+
+    // Check if text contains character introduction pattern: "NAME (description) enters"
+    const hasCharacterIntro = /[A-Z][A-Z\s]+\s*\([^)]+\)/.test(text);
+
+    // Check for entrance keywords
+    const hasEntranceKeyword = entranceKeywords.some(keyword => lowerText.includes(keyword));
+
+    return hasCharacterIntro || hasEntranceKeyword;
   }
 
   /**
@@ -621,6 +881,8 @@ export class ShotListGenerator implements Generator {
    * Build verbose context description for generative AI
    * Target: Extremely detailed set/environment description (1000+ characters)
    * PRIORITY: Extract concrete details from screenplay, avoid generic filler
+   * STYLE-AWARE: Apply style-specific visual characteristics
+   * QUALITY: Environment only - no character actions
    */
   private buildVerboseContext(context: SceneContext): string {
     const parts: string[] = [];
@@ -628,11 +890,25 @@ export class ShotListGenerator implements Generator {
     // Start with the actual set description from the screenplay
     // This should contain the concrete visual details
     if (context.description && context.description.length > 50) {
-      // Use the actual screenplay description as the foundation
-      parts.push(context.description);
+      // Clean the description to remove character actions
+      const environmentOnly = this.extractEnvironmentDescription(context.description);
+      if (environmentOnly) {
+        parts.push(environmentOnly);
+      } else {
+        // Fallback if cleaning removed everything
+        parts.push(`${context.set} fills the frame`);
+      }
     } else {
       // Fallback: Build from available context
       parts.push(`${context.set} fills the frame`);
+    }
+
+    // Apply style-specific visual characteristics
+    if (this.styleGuidelines) {
+      const styleEnhancements = this.getStyleVisualCharacteristics(context);
+      if (styleEnhancements) {
+        parts.push(styleEnhancements);
+      }
     }
 
     // Add lighting details if specific
@@ -645,7 +921,7 @@ export class ShotListGenerator implements Generator {
       parts.push(`Atmosphere: ${context.atmosphere}`);
     }
 
-    // Add weather if present
+    // Add weather if present (already filtered by ContextBuilder for space settings)
     if (context.weather) {
       parts.push(`Weather: ${context.weather}`);
     }
@@ -660,6 +936,137 @@ export class ShotListGenerator implements Generator {
     }
 
     return parts.join('. ');
+  }
+
+  /**
+   * Extract environment description only, removing character actions
+   * Keeps: Set details, props, lighting, atmosphere
+   * Removes: Character introductions, character actions
+   */
+  private extractEnvironmentDescription(description: string): string {
+    // First, remove character introductions with parenthetical descriptions
+    // Example: "WIZARD CLIF HIGH (mid-70s, magnificent long white beard...) stands at..."
+    // This removes the entire character introduction clause
+    let cleaned = description.replace(/[A-Z][A-Z\s]+\([^)]+\)\s+[^.]*\./g, '');
+
+    // Split into sentences to process individually
+    const sentences = cleaned.split(/\.\s+/);
+    const cleanedSentences: string[] = [];
+
+    for (let sentence of sentences) {
+      // Skip if this is primarily a character action sentence
+      // Check if sentence starts with or contains character action patterns
+      if (this.isCharacterActionSentence(sentence)) {
+        continue;
+      }
+
+      // Trim and check if anything meaningful remains
+      sentence = sentence.trim();
+
+      // Keep sentences that have substantial content
+      if (sentence.length > 15) {
+        cleanedSentences.push(sentence);
+      }
+    }
+
+    return cleanedSentences.join('. ').trim();
+  }
+
+  /**
+   * Check if a sentence is primarily about character actions
+   * Returns true only if the sentence describes what a character is DOING
+   * Returns false if it's describing the environment, even if it contains action-like verbs
+   */
+  private isCharacterActionSentence(sentence: string): boolean {
+    const lowerSentence = sentence.toLowerCase();
+
+    // Check if sentence contains character name patterns (ALL CAPS words or known character names)
+    const hasCharacterName = /\b[A-Z]{2,}(?:\s+[A-Z]{2,})*\b/.test(sentence);
+
+    // Character action patterns: "CHARACTER + ACTION VERB"
+    // Example: "WIZARD stands at the center", "Clif pauses", "HEIDI enters"
+    const characterActionPatterns = [
+      /\b(stands?|stood|standing)\s+(at|in|near|by)/i,
+      /\b(sits?|sat|sitting)\s+(at|in|on|down)/i,
+      /\b(walks?|walked|walking)\s+(to|toward|into|through)/i,
+      /\b(enters?|entered|entering)\b/i,
+      /\b(exits?|exited|exiting)\b/i,
+      /\b(waves?|waved|waving)\s+(his|her|their|a)/i,
+      /\b(pauses?|paused|pausing)\b/i,
+      /\b(sighs?|sighed|sighing)\b/i,
+      /\b(looks?|looked|looking)\s+(at|toward|up|down)/i,
+      /\b(turns?|turned|turning)\s+(to|toward|around)/i,
+      /\b(moves?|moved|moving)\s+(to|toward|closer)/i,
+      /\b(gestures?|gestured|gesturing)\b/i,
+      /\b(points?|pointed|pointing)\s+(at|to|toward)/i,
+      /\b(reaches?|reached|reaching)\s+(for|toward|out)/i,
+      /\b(grabs?|grabbed|grabbing)\b/i
+    ];
+
+    // Check if sentence matches character action patterns
+    const hasCharacterAction = characterActionPatterns.some(pattern => pattern.test(lowerSentence));
+
+    // Return true only if it has both a character reference AND an action pattern
+    return hasCharacterName && hasCharacterAction;
+  }
+
+  /**
+   * Check if a sentence is a character introduction
+   * Example: "WIZARD CLIF HIGH (mid-70s, magnificent long white beard...)"
+   */
+  private isCharacterIntroduction(sentence: string): boolean {
+    // Character introductions typically have:
+    // 1. All-caps name
+    // 2. Parenthetical description with age, appearance, etc.
+    const hasAllCapsName = /[A-Z]{2,}\s+[A-Z]{2,}/.test(sentence);
+    const hasParentheticalDescription = /\([^)]*\)/.test(sentence);
+
+    return hasAllCapsName && hasParentheticalDescription;
+  }
+
+  /**
+   * Get style-specific visual characteristics based on active style guidelines
+   * Returns visual descriptors that match the franchise/format aesthetic
+   */
+  private getStyleVisualCharacteristics(context: SceneContext): string | null {
+    if (!this.styleGuidelines || !this.styleGuidelines.appliedStyles) {
+      return null;
+    }
+
+    const characteristics: string[] = [];
+    const appliedStylesLower = this.styleGuidelines.appliedStyles.map(s => s.toLowerCase());
+
+    // Check for Star Trek franchise style
+    if (appliedStylesLower.some(s => s.includes('star trek'))) {
+      // Apply Star Trek visual aesthetic
+      characteristics.push('Clean futurism with bright, optimistic lighting');
+      characteristics.push('Sleek, utopian design with smooth surfaces and advanced technology');
+
+      // Check if this is a bridge/command center
+      const location = context.set.toLowerCase();
+      if (location.includes('bridge') || location.includes('command')) {
+        characteristics.push('Command stations with illuminated displays and ergonomic controls');
+      }
+    }
+
+    // Check for SNL comedy format style
+    if (appliedStylesLower.some(s => s.includes('saturday night live') || s.includes('snl'))) {
+      // Apply SNL visual style
+      characteristics.push('Exaggerated, absurd visual comedy elements');
+      characteristics.push('Fast-paced, chaotic energy with physical comedy potential');
+
+      // Emphasize the comedic tone
+      if (context.atmosphere && context.atmosphere !== 'neutral') {
+        characteristics.push(`Absurdly ${context.atmosphere} atmosphere for comedic effect`);
+      }
+    }
+
+    // Check for other franchises
+    if (appliedStylesLower.some(s => s.includes('star wars'))) {
+      characteristics.push('Lived-in, used-future aesthetic with weathered technology');
+    }
+
+    return characteristics.length > 0 ? characteristics.join('. ') : null;
   }
 
   /**

@@ -1,0 +1,111 @@
+{
+  "name": "commercials",
+  "version": "1.0.0",
+  "displayName": "Commercial Writing Standards",
+  "description": "Comprehensive commercial writing standards for TV, streaming, and digital advertising including format-specific rules, legal compliance, and persuasive techniques",
+  "type": "writing-standards",
+  "language": "screenplay",
+  "parent": "screenplay",
+  "tags": [
+    "commercials",
+    "advertising",
+    "tv-commercials",
+    "streaming-ads",
+    "digital-advertising",
+    "persuasion",
+    "legal-compliance",
+    "ftc",
+    "brand-messaging"
+  ],
+  "dependencies": {
+    "screenplay": "^1.0.0"
+  },
+  "augment": {
+    "characterCount": 408000,
+    "characterCountNote": "17 content files × 24,000 avg chars (3k-45k range) = ~408,000 total",
+    "perFileRange": "3,000 - 45,000",
+    "priority": "medium",
+    "category": "writing-standards",
+    "appliesTo": {
+      "filePatterns": [
+        "**/*.fountain",
+        "**/commercials/**/*.md",
+        "**/ads/**/*.fountain"
+      ],
+      "projectTypes": [
+        "commercial",
+        "advertising",
+        "marketing"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link parent module: augx link writing-standards/screenplay",
+      "Link commercials module: augx link writing-standards/screenplay/commercials",
+      "Configure in .augment/screenplay-config.json with 'commercials' category",
+      "Use Fountain format (.fountain) for commercial scripts"
+    ]
+  },
+  "configuration": {
+    "file": ".augment/commercials-config.json",
+    "schema": {
+      "formats": {
+        "type": "array",
+        "items": {
+          "enum": [
+            "tv-15sec",
+            "tv-30sec",
+            "tv-60sec",
+            "streaming-pre-roll",
+            "streaming-mid-roll",
+            "digital-banner",
+            "social-media",
+            "radio"
+          ]
+        },
+        "description": "Commercial formats to apply"
+      },
+      "legalCompliance": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enable FTC and legal compliance checks"
+      },
+      "brandGuidelines": {
+        "type": "object",
+        "description": "Brand-specific guidelines and restrictions"
+      }
+    }
+  },
+  "contents": {
+    "rules": [
+      "core-principles.md",
+      "format-15sec.md",
+      "format-30sec.md",
+      "format-60sec.md",
+      "streaming-pre-roll.md",
+      "streaming-mid-roll.md",
+      "digital-banner.md",
+      "social-media.md",
+      "radio.md",
+      "persuasion-techniques.md",
+      "call-to-action.md",
+      "brand-messaging.md",
+      "legal-compliance.md",
+      "ftc-guidelines.md",
+      "production-notes.md"
+    ],
+    "examples": [
+      "tv-30sec-example.fountain",
+      "streaming-pre-roll-example.fountain"
+    ]
+  },
+  "references": {
+    "ftc": "https://www.ftc.gov/business-guidance/advertising-marketing",
+    "aaa": "https://www.aaaa.org/",
+    "adAge": "https://adage.com/",
+    "cannesLions": "https://www.canneslions.com/"
+  }
+}
+

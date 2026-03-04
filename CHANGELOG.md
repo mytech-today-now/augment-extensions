@@ -8,6 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-03-04
+
+### Added
+- **Commercial Techniques Guide** - Comprehensive guide covering commercial execution strategies
+  - Hook development techniques (visual, audio, narrative, question-based)
+  - Call-to-Action (CTA) optimization strategies
+  - Testimonials and social proof implementation
+  - Product demonstration best practices
+  - Voiceover techniques and delivery styles
+  - Music and sound design principles
+  - Visual storytelling methods
+  - Emotional trigger frameworks
+
+### Changed
+- **Gitignore** - Updated to exclude CLI development and test files
+  - Excludes debug-output.txt, test-*.md, wizard-*.md files
+  - Excludes cli/evaluation/ directory
+
 ## [2.4.1] - 2026-03-04
 
 ### Fixed

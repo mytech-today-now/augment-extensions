@@ -108,6 +108,12 @@ src/types/
 # Development files (internal use only)
 dev/
 
+# CLI development and test files
+cli/debug-output.txt
+cli/test-*.md
+cli/wizard-*.md
+cli/evaluation/
+
 # User-Generated Content (DO NOT IGNORE)
 # screenplays/ - User-generated screenplay projects (tracked in git)
 # Note: This directory is created by writing-standards/screenplay module

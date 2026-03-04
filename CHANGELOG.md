@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.1] - 2026-03-04
+
 ### Fixed
 - **GUI Module Unlinking** - Fixed critical bug where `augx gui` did not properly unlink modules when unchecked
   - GUI now correctly detects and unlinks modules that are unchecked in the interactive module selector

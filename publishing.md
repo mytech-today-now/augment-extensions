@@ -1,17 +1,74 @@
-# Publishing to npm
+# Publishing Guide
 
-This guide explains how to publish the Augment Extensions CLI to npm.
+This guide explains how to publish the Augment Extensions CLI to **npm** and **GitHub Packages**.
 
-## Prerequisites
+## Quick Start: Automated Publishing (Recommended)
+
+The package automatically publishes to both registries when you push a git tag:
+
+```bash
+# After committing your changes
+git tag -a v2.5.0 -m "Release v2.5.0"
+git push origin main
+git push origin v2.5.0
+```
+
+The GitHub Actions workflow (`.github/workflows/publish.yml`) will automatically:
+1. Build the package
+2. Publish to npm registry
+3. Publish to GitHub Packages registry
+
+### Required Secrets
+
+Ensure `NPM_TOKEN` is set in your repository secrets:
+- Go to: Repository Settings → Secrets and variables → Actions
+- Add secret: `NPM_TOKEN` (your npm authentication token)
+- `GITHUB_TOKEN` is automatically provided by GitHub Actions
+
+---
+
+## Publishing to GitHub Packages
+
+### Installation from GitHub Packages
+
+Users can install from GitHub Packages by creating `.npmrc` in their project:
+
+```
+@mytech-today-now:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+```
+
+Then install:
+
+```bash
+npm install @mytech-today-now/augment-extensions
+```
+
+### Manual Publishing to GitHub Packages
+
+If you need to publish manually:
+
+```bash
+npm run build
+npm publish --registry=https://npm.pkg.github.com
+```
+
+Make sure you have a `.npmrc` file with your GitHub token (see Manual Setup below).
+
+---
+
+## Manual Publishing to npm
+
+### Prerequisites
 
 1. **npm account**: Create one at https://www.npmjs.com/signup
 2. **npm CLI**: Installed with Node.js
 3. **Git repository**: Code should be committed and pushed to GitHub
 4. **Build tools**: TypeScript compiler installed
 
-## One-Time Setup
+### One-Time Setup
 
-### 1. Create npm Account (if you don't have one)
+#### 1. Create npm Account (if you don't have one)
 
 ```bash
 npm adduser
@@ -25,7 +82,7 @@ Enter your:
 - Email (this will be public)
 - One-time password (if 2FA is enabled)
 
-### 2. Verify Login
+#### 2. Verify Login
 
 ```bash
 npm whoami
@@ -33,28 +90,28 @@ npm whoami
 
 This should display your npm username.
 
-### 3. Update package.json
+#### 3. Setup Authentication for Both Registries
 
-**IMPORTANT**: Update the repository URL in `package.json`:
-
-```json
-"repository": {
-  "type": "git",
-  "url": "https://github.com/YOUR-USERNAME/augment-extensions.git"
-}
-```
-
-Replace `YOUR-USERNAME` with your actual GitHub username or organization.
-
-### 4. Create Organization (Optional but Recommended)
-
-For scoped packages like `@augment-extensions/cli`, you need an npm organization:
+Copy the example configuration:
 
 ```bash
-# Create organization on npm website
-# Go to: https://www.npmjs.com/org/create
-# Organization name: augment-extensions
+cp .npmrc.example .npmrc
 ```
+
+Edit `.npmrc` and replace the tokens:
+
+```
+registry=https://registry.npmjs.org/
+@mytech-today-now:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN_HERE
+//registry.npmjs.org/:_authToken=YOUR_NPM_TOKEN_HERE
+```
+
+**⚠️ Never commit `.npmrc` to git!** It's already in `.gitignore`.
+
+**Getting tokens:**
+- **npm Token**: Create at https://www.npmjs.com/settings/YOUR_USERNAME/tokens
+- **GitHub Token**: Create a Personal Access Token (classic) with `write:packages` scope at https://github.com/settings/tokens
 
 Or use your personal scope:
 ```json

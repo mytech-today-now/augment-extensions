@@ -1,0 +1,13 @@
+# Example .npmrc configuration for publishing to both npm and GitHub Packages
+# Copy this file to .npmrc and replace TOKEN with your actual tokens
+
+# For publishing to npm registry (default)
+registry=https://registry.npmjs.org/
+
+# For publishing to GitHub Packages (scoped)
+@mytech-today-now:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN_HERE
+
+# For npm registry authentication (if needed)
+//registry.npmjs.org/:_authToken=YOUR_NPM_TOKEN_HERE
+

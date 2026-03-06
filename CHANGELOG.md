@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.1] - 2026-03-06
+
+### Added
+- **GitHub Packages Support** - Package now publishes to both npm and GitHub Packages
+  - Added GitHub Actions workflow for automated dual-registry publishing
+  - Added .npmrc.example for local authentication setup
+  - Updated PUBLISHING.md with GitHub Packages documentation
+
+### Changed
+- **Package Configuration** - Updated package.json with explicit registry configuration
+- **Gitignore** - Added .npmrc to prevent credential leaks
+
 ## [2.5.0] - 2026-03-04
 
 ### Added

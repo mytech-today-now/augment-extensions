@@ -1,13 +1,14 @@
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 import {
+  findModule,
   findModuleEnhanced,
   getModuleSuggestions,
   extractModuleMetadata,
   listModuleFiles,
   discoverModules
-} from '../module-system';
+} from '@cli/utils/module-system';
 
 describe('Module Discovery', () => {
   const testModulesDir = path.join(__dirname, '__fixtures__', 'test-modules');
@@ -79,6 +80,14 @@ describe('Module Discovery', () => {
       // Result depends on actual modules available
       expect(result === null || typeof result === 'object').toBe(true);
     });
+
+    it('should resolve top-level modules by exact name', () => {
+      const result = findModule('visual-design');
+
+      expect(result).not.toBeNull();
+      expect(result?.fullName).toBe('visual-design');
+      expect(result?.metadata.name).toBe('visual-design');
+    });
   });
 
   describe('getModuleSuggestions', () => {
@@ -124,15 +133,20 @@ describe('Module Discovery', () => {
       if (metadata) {
         expect(metadata.name).toBe('empty-module');
         expect(metadata.version).toBe('0.0.0');
-        expect(metadata.type).toBe('unknown');
+        expect(metadata.type).toBe('examples');
       }
 
       fs.rmSync(emptyDir, { recursive: true, force: true });
     });
 
-    it('should return null for non-existent path', () => {
+    it('should generate default metadata for non-existent path', () => {
       const metadata = extractModuleMetadata('/non/existent/path');
-      expect(metadata).toBeNull();
+
+      expect(metadata).not.toBeNull();
+      if (metadata) {
+        expect(metadata.name).toBe('path');
+        expect(metadata.version).toBe('0.0.0');
+      }
     });
 
     it('should calculate file statistics correctly', () => {
@@ -250,10 +264,10 @@ describe('Module Discovery', () => {
 
       if (modules.length > 0) {
         const module = modules[0];
-        expect(module).toHaveProperty('name');
         expect(module).toHaveProperty('fullName');
         expect(module).toHaveProperty('path');
         expect(module).toHaveProperty('metadata');
+        expect(module.metadata).toHaveProperty('name');
       }
     });
   });

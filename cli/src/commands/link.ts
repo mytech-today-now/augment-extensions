@@ -30,10 +30,12 @@ export async function linkCommand(moduleName: string, options: LinkOptions): Pro
     }
 
     // Check if already linked
-    const existingIndex = config.modules.findIndex((m: any) => m.name === moduleName);
+    const existingIndex = config.modules.findIndex((m: any) =>
+      m.name === module.fullName || m.name === moduleName
+    );
     
     if (existingIndex >= 0) {
-      console.log(chalk.yellow(`Module already linked: ${moduleName}`));
+      console.log(chalk.yellow(`Module already linked: ${module.fullName}`));
       console.log(chalk.gray('Use "augx update" to update to latest version'));
       return;
     }

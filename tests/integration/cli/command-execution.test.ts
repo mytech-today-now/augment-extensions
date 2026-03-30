@@ -128,6 +128,14 @@ describe('CLI Command Execution', () => {
       // Should be valid JSON (empty array or object)
       expect(() => JSON.parse(result.stdout)).not.toThrow();
     });
+
+    it('should search top-level modules', async () => {
+      const project = await testEnv.createProject();
+      const result = await executeCommand('node', [CLI_PATH, 'search', 'visual'], project.path);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('visual-design');
+    });
   });
 
   describe('Exit Codes', () => {
@@ -211,6 +219,26 @@ describe('CLI Command Execution', () => {
       results.forEach(result => {
         expect(result.exitCode).toBe(0);
       });
+    });
+
+    it('should show a top-level module successfully', async () => {
+      const project = await testEnv.createProject();
+      const result = await executeCommand('node', [CLI_PATH, 'show', 'visual-design'], project.path);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('visual-design');
+    });
+
+    it('should link a top-level module successfully', async () => {
+      const project = await testEnv.createProject();
+      const result = await executeCommand('node', [CLI_PATH, 'link', 'visual-design'], project.path);
+
+      expect(result.exitCode).toBe(0);
+      expect(result.stdout).toContain('visual-design');
+
+      const configPath = join(project.path, '.augment', 'extensions.json');
+      const config = JSON.parse(await import('fs/promises').then(fs => fs.readFile(configPath, 'utf-8')));
+      expect(config.modules.some((module: { name: string }) => module.name === 'visual-design')).toBe(true);
     });
   });
 

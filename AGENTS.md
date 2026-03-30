@@ -143,7 +143,7 @@ When making architectural changes:
 3. Break down into tasks
 4. Implement and archive when complete
 
-**Learn More**: See `augment-extensions/workflows/openspec/` for comprehensive workflow documentation.
+**Learn More**: See `workflows/openspec/` for comprehensive workflow documentation.
 
 ---
 
@@ -371,3 +371,4 @@ augx mcp discover beads
 - NEVER stop before pushing - that leaves work stranded locally
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
+

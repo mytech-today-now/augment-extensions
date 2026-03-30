@@ -12,7 +12,7 @@ import {
   generateMarkdown,
   Tool,
   HelpNode
-} from '../extractCommandHelp';
+} from '../../../cli/src/utils/extractCommandHelp';
 
 // Mock fs module
 jest.mock('fs');

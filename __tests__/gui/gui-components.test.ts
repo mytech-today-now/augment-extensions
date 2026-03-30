@@ -1,4 +1,6 @@
 import inquirer from 'inquirer';
+import { filterCollectionsToRepoModules, filterLinkedModulesToRepoModules, filterModulesForGui } from '../../cli/src/commands/gui';
+import type { Collection, Module } from '../../cli/src/utils/module-system';
 
 // Mock test environment for GUI components
 interface ModuleMetadata {
@@ -39,6 +41,44 @@ class TestEnvironment {
 
 function createTestEnvironment(): TestEnvironment {
   return new TestEnvironment();
+}
+
+function createRepoModule(overrides: Partial<Module> & { fullName: string }): Module {
+  return {
+    metadata: {
+      name: overrides.fullName.split('/').pop() || overrides.fullName,
+      version: '1.0.0',
+      displayName: overrides.metadata?.displayName || overrides.fullName,
+      description: overrides.metadata?.description || `Test module: ${overrides.fullName}`,
+      type: overrides.metadata?.type || 'coding-standards',
+      tags: overrides.metadata?.tags || []
+    },
+    path: overrides.path || `/repo/${overrides.fullName}`,
+    fullName: overrides.fullName,
+    rules: overrides.rules || [],
+    examples: overrides.examples || []
+  };
+}
+
+function createRepoCollection(fullName: string, moduleIds: string[]): Collection {
+  const name = fullName.replace(/^collections\//, '');
+
+  return {
+    metadata: {
+      name,
+      version: '1.0.0',
+      displayName: name,
+      description: `Collection ${name}`,
+      type: 'collection',
+      modules: moduleIds.map(id => ({
+        id,
+        version: '^1.0.0',
+        required: true
+      }))
+    },
+    path: `/repo/${fullName}`,
+    fullName
+  };
 }
 
 /**
@@ -361,6 +401,91 @@ describe('GUI Components Tests', () => {
 
       expect(filtered).toHaveLength(2);
       expect(filtered.every(m => m.metadata.type === 'coding-standards')).toBe(true);
+    });
+
+    it('should keep the GUI flow scoped to repo modules from config through search results', async () => {
+      const discoveredModules: Module[] = [
+        createRepoModule({
+          fullName: 'coding-standards/typescript',
+          metadata: {
+            name: 'typescript',
+            version: '1.0.0',
+            displayName: 'TypeScript Standards',
+            description: 'TypeScript coding standards',
+            type: 'coding-standards',
+            tags: ['typescript', 'standards']
+          }
+        }),
+        createRepoModule({
+          fullName: 'domain-rules/api-security',
+          metadata: {
+            name: 'api-security',
+            version: '1.0.0',
+            displayName: 'API Security',
+            description: 'Security guidance for APIs',
+            type: 'domain-rules',
+            tags: ['api', 'security']
+          }
+        }),
+        createRepoModule({
+          fullName: 'writing-standards/blog-writing',
+          metadata: {
+            name: 'blog-writing',
+            version: '1.0.0',
+            displayName: 'Blog Writing',
+            description: 'Writing guidance for blog content',
+            type: 'writing-standards',
+            tags: ['writing', 'blog']
+          }
+        })
+      ];
+      const configuredLinkedModules = [
+        'coding-standards/typescript',
+        'writing-standards/blog-writing',
+        'examples/missing-module'
+      ];
+      const collections: Collection[] = [
+        createRepoCollection('collections/backend', [
+          'coding-standards/typescript',
+          'domain-rules/api-security'
+        ]),
+        createRepoCollection('collections/broken', [
+          'coding-standards/typescript',
+          'examples/missing-module'
+        ]),
+        createRepoCollection('collections/writing', [
+          'writing-standards/blog-writing'
+        ])
+      ];
+
+      const modules = filterModulesForGui(discoveredModules);
+      const linkedModules = filterLinkedModulesToRepoModules(configuredLinkedModules, modules);
+      const repoCollections = filterCollectionsToRepoModules(collections, modules);
+
+      const searchTerm = 'typescript';
+      const searchResults = modules.filter(m =>
+        m.metadata.displayName.toLowerCase().includes(searchTerm) ||
+        m.metadata.description.toLowerCase().includes(searchTerm) ||
+        m.metadata.tags?.some(tag => tag.toLowerCase().includes(searchTerm))
+      );
+      const choices = searchResults.map(m => ({
+        value: m.fullName,
+        checked: linkedModules.includes(m.fullName)
+      }));
+
+      expect(linkedModules).toEqual(['coding-standards/typescript']);
+      expect(repoCollections.map(collection => collection.fullName)).toEqual(['collections/backend']);
+      expect(modules.map(module => module.fullName)).toEqual([
+        'coding-standards/typescript',
+        'domain-rules/api-security'
+      ]);
+      expect(searchResults.map(module => module.fullName)).toEqual(['coding-standards/typescript']);
+      expect(choices).toEqual([
+        expect.objectContaining({
+          value: 'coding-standards/typescript',
+          checked: true
+        })
+      ]);
     });
   });
 

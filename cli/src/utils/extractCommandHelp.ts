@@ -43,9 +43,9 @@ const DEFAULT_TOOLS: Tool[] = [
  * Subcommand detection patterns
  */
 const SUBCOMMAND_PATTERNS = [
-  /Commands?:\s*\n((?:\s+\w+.*\n)+)/,           // "Commands:" section
-  /Available commands?:\s*\n((?:\s+\w+.*\n)+)/, // "Available commands:" section
-  /Usage:.*\{(\w+(?:\|\w+)*)\}/,                // Usage: cmd {subcmd1|subcmd2}
+  /Commands?:\s*\n((?:\s+\w+.*\n)+)/g,           // "Commands:" / "Additional Commands:" sections (Cobra)
+  /Available commands?:\s*\n((?:\s+\w+.*\n)+)/g, // "Available commands:" section
+  /Usage:.*\{(\w+(?:\|\w+)*)\}/,                 // Usage: cmd {subcmd1|subcmd2}
 ];
 
 /**
@@ -65,26 +65,46 @@ export function detectTools(repoRoot: string, tools: Tool[] = DEFAULT_TOOLS): To
 }
 
 /**
- * Execute help command and capture output
+ * Execute help command and capture output.
+ * Tries the primary help flag first, then falls back to alternative strategies.
  */
 export async function executeHelp(
   command: string,
   helpFlag: string = '--help',
   timeout: number = 5000
 ): Promise<string> {
+  // Strategy 1: `command --help`
+  const result = await tryExec(`${command} ${helpFlag}`, timeout);
+  if (result !== null) return result;
+
+  // Strategy 2: For Cobra-style CLIs, try `<root> help <subcommand...>`
+  // e.g., "bd blocked --help" → "bd help blocked"
+  const parts = command.split(' ');
+  if (parts.length >= 2) {
+    const root = parts[0];
+    const sub = parts.slice(1).join(' ');
+    const fallback = await tryExec(`${root} help ${sub}`, timeout);
+    if (fallback !== null) return fallback;
+  }
+
+  throw new Error(`All help strategies failed for "${command}"`);
+}
+
+/**
+ * Try executing a command and return its output, or null on failure.
+ */
+async function tryExec(cmd: string, timeout: number): Promise<string | null> {
   try {
-    const { stdout, stderr } = await execAsync(`${command} ${helpFlag}`, {
+    const { stdout, stderr } = await execAsync(cmd, {
       timeout,
       encoding: 'utf8'
     });
-    
     return stdout || stderr || '';
   } catch (error: any) {
     // Some commands return help on stderr or with non-zero exit code
-    if (error.stdout || error.stderr) {
-      return error.stdout || error.stderr;
-    }
-    throw error;
+    if (error.stdout != null && error.stdout !== '') return error.stdout;
+    if (error.stderr != null && error.stderr !== '') return error.stderr;
+    return null;
   }
 }
 
@@ -93,17 +113,33 @@ export async function executeHelp(
  */
 export function detectSubcommands(helpText: string): string[] {
   const subcommands: Set<string> = new Set();
-  
-  // Try each pattern
+
+  // Try each pattern (some are global to match multiple sections)
   for (const pattern of SUBCOMMAND_PATTERNS) {
-    const match = helpText.match(pattern);
-    if (match) {
-      const commands = extractCommandNames(match[1]);
-      commands.forEach(cmd => subcommands.add(cmd));
+    // Reset lastIndex for global regexes
+    pattern.lastIndex = 0;
+
+    if (pattern.global) {
+      let match;
+      while ((match = pattern.exec(helpText)) !== null) {
+        const commands = extractCommandNames(match[1]);
+        commands.forEach(cmd => subcommands.add(cmd));
+      }
+    } else {
+      const match = helpText.match(pattern);
+      if (match) {
+        const commands = extractCommandNames(match[1]);
+        commands.forEach(cmd => subcommands.add(cmd));
+      }
     }
   }
-  
-  return Array.from(subcommands).sort();
+
+  // Filter out noise: "Flags", "Use", section headers that aren't commands
+  const filtered = Array.from(subcommands).filter(cmd =>
+    cmd !== 'Flags' && cmd !== 'Use' && cmd !== 'Global'
+  );
+
+  return filtered.sort();
 }
 
 /**
@@ -124,6 +160,26 @@ function extractCommandNames(text: string): string[] {
 }
 
 /**
+ * Tracks failures during recursive help extraction so they can be
+ * summarised once instead of printed line-by-line.
+ */
+const extractionFailures: string[] = [];
+
+/**
+ * Reset the failure tracker (useful between tools or test runs).
+ */
+export function resetExtractionFailures(): void {
+  extractionFailures.length = 0;
+}
+
+/**
+ * Return a copy of the recorded failures.
+ */
+export function getExtractionFailures(): string[] {
+  return [...extractionFailures];
+}
+
+/**
  * Recursively extract help for command and subcommands
  */
 export async function extractHelpRecursive(
@@ -137,31 +193,37 @@ export async function extractHelpRecursive(
   if (depth >= maxDepth) {
     return { command, help: '', children: [] };
   }
-  
+
   // Build full command
   const fullCommand = [command, ...subcommand].join(' ');
-  
+
   try {
     // Extract help for this command
     const help = await executeHelp(fullCommand, helpFlag);
-    
+
     // Detect subcommands
     const subcommands = detectSubcommands(help);
-    
+
     // Recursively extract help for each subcommand (in parallel)
     const children = await Promise.all(
       subcommands.map(sub =>
         extractHelpRecursive(command, [...subcommand, sub], depth + 1, maxDepth, helpFlag)
       )
     );
-    
+
     return {
       command: fullCommand,
       help,
       children
     };
   } catch (error: any) {
-    console.warn(`⚠️  Failed to extract help for "${fullCommand}": ${error.message}`);
+    // Top-level command failures are critical — warn immediately
+    if (depth === 0) {
+      console.warn(`⚠️  Failed to extract help for "${fullCommand}": ${error.message}`);
+    } else {
+      // Subcommand failures are non-critical — record for summary
+      extractionFailures.push(fullCommand);
+    }
     return { command: fullCommand, help: '', children: [] };
   }
 }
@@ -174,6 +236,9 @@ export async function extractAllHelp(repoRoot: string): Promise<Map<Tool, HelpNo
   const helpMap = new Map<Tool, HelpNode>();
 
   for (const tool of tools) {
+    // Reset failure tracker per tool
+    resetExtractionFailures();
+
     try {
       console.log(`📖 Extracting help for ${tool.name}...`);
       const helpNode = await extractHelpRecursive(tool.command, [], 0, 3, tool.helpFlag);
@@ -186,6 +251,12 @@ export async function extractAllHelp(repoRoot: string): Promise<Map<Tool, HelpNo
       } else {
         console.error(`❌ Failed to extract ${tool.name} help: ${error.message}`);
       }
+    }
+
+    // Print a single summary for any subcommand failures
+    const failures = getExtractionFailures();
+    if (failures.length > 0) {
+      console.warn(`⚠️  ${tool.name}: ${failures.length} subcommand(s) did not respond to --help (skipped)`);
     }
   }
 

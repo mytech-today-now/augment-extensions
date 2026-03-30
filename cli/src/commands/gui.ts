@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import * as fs from 'fs';
 import * as path from 'path';
-import { discoverModules, discoverCollections } from '../utils/module-system';
+import { discoverModules, discoverCollections, Module, Collection } from '../utils/module-system';
 import { linkCommand } from './link';
 import { unlinkCommand } from './unlink';
 
@@ -46,6 +46,28 @@ function displayKeyboardHelp(): void {
   console.log();
 }
 
+function getRepoModuleNameSet(modules: Module[]): Set<string> {
+  return new Set(modules.map(module => module.fullName));
+}
+
+export function filterModulesForGui(modules: Module[]): Module[] {
+  return modules.filter(module => module.metadata.type !== 'writing-standards');
+}
+
+export function filterLinkedModulesToRepoModules(linkedModules: string[], modules: Module[]): string[] {
+  const repoModuleNames = getRepoModuleNameSet(modules);
+  return linkedModules.filter(moduleName => repoModuleNames.has(moduleName));
+}
+
+export function filterCollectionsToRepoModules(collections: Collection[], modules: Module[]): Collection[] {
+  const repoModuleNames = getRepoModuleNameSet(modules);
+
+  return collections.filter(collection => {
+    const collectionModules = collection.metadata.modules || [];
+    return collectionModules.length > 0 && collectionModules.every(module => repoModuleNames.has(module.id));
+  });
+}
+
 export async function guiCommand(options: GuiOptions = {}): Promise<void> {
   try {
     console.log(chalk.blue('\n🎨 Augment Extensions Module Manager\n'));
@@ -60,11 +82,37 @@ export async function guiCommand(options: GuiOptions = {}): Promise<void> {
     }
 
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-    const linkedModules = config.modules.map((m: any) => m.name);
+    const configuredLinkedModules = Array.isArray(config.modules)
+      ? config.modules
+          .map((m: any) => m?.name)
+          .filter((name: unknown): name is string => typeof name === 'string')
+      : [];
 
     // Discover available modules and collections
-    const modules = discoverModules();
-    const collections = discoverCollections();
+    const discoveredModules = discoverModules();
+    const modules = filterModulesForGui(discoveredModules);
+    const linkedModules = filterLinkedModulesToRepoModules(configuredLinkedModules, modules);
+    const discoveredCollections = discoverCollections();
+    const collections = filterCollectionsToRepoModules(discoveredCollections, modules);
+
+    const skippedLinkedModuleCount = configuredLinkedModules.length - linkedModules.length;
+    const skippedCollectionCount = discoveredCollections.length - collections.length;
+
+    if (skippedLinkedModuleCount > 0) {
+      console.log(
+        chalk.yellow(
+          `Skipping ${skippedLinkedModuleCount} linked module(s) that are not available in augx gui.`
+        )
+      );
+    }
+
+    if (skippedCollectionCount > 0) {
+      console.log(
+        chalk.yellow(
+          `Skipping ${skippedCollectionCount} collection(s) that reference modules unavailable in augx gui.`
+        )
+      );
+    }
 
     // Main menu
     const { action } = await inquirer.prompt([
@@ -96,7 +144,7 @@ export async function guiCommand(options: GuiOptions = {}): Promise<void> {
     } else if (action === 'link-collection') {
       await linkCollectionInteractive(collections, linkedModules);
     } else if (action === 'search') {
-      await searchModulesInteractive(modules);
+      await searchModulesInteractive(modules, linkedModules);
     }
 
   } catch (error: any) {
@@ -105,7 +153,12 @@ export async function guiCommand(options: GuiOptions = {}): Promise<void> {
   }
 }
 
-async function linkModulesInteractive(modules: any[], linkedModules: string[]): Promise<void> {
+async function linkModulesInteractive(modules: Module[], linkedModules: string[]): Promise<void> {
+  if (modules.length === 0) {
+    console.log(chalk.yellow('No modules available in this repository.'));
+    return;
+  }
+
   const choices: ModuleChoice[] = modules.map(m => ({
     name: `${m.metadata.displayName} (${m.fullName}) - ${m.metadata.description}`,
     value: m.fullName,
@@ -168,7 +221,7 @@ async function linkModulesInteractive(modules: any[], linkedModules: string[]): 
   }
 }
 
-async function linkCollectionInteractive(collections: any[], linkedModules: string[]): Promise<void> {
+async function linkCollectionInteractive(collections: Collection[], linkedModules: string[]): Promise<void> {
   if (collections.length === 0) {
     console.log(chalk.yellow('No collections available.'));
     return;
@@ -228,7 +281,7 @@ async function linkCollectionInteractive(collections: any[], linkedModules: stri
   console.log(chalk.green('\n✓ Collection linking complete!'));
 }
 
-async function searchModulesInteractive(modules: any[]): Promise<void> {
+async function searchModulesInteractive(modules: Module[], linkedModules: string[]): Promise<void> {
   const { searchTerm } = await inquirer.prompt([
     {
       type: 'input',
@@ -284,7 +337,7 @@ async function searchModulesInteractive(modules: any[]): Promise<void> {
   ]);
 
   if (linkNow) {
-    await linkModulesInteractive(results, []);
+    await linkModulesInteractive(results, linkedModules);
   }
 }
 

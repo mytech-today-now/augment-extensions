@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 import { Command } from 'commander';
 import chalk from 'chalk';
@@ -45,11 +45,10 @@ import {
   mcpGenerateCLICommand
 } from './commands/mcp';
 import { codeAnalysisCommand } from './commands/code-analysis';
-import { generateShotListCommand } from './commands/generate-shot-list';
 
 // Read version from package.json
 const packageJson = JSON.parse(
-  readFileSync(join(__dirname, '../../package.json'), 'utf-8')
+  readFileSync(join(__dirname, '../../package.json'), 'utf-8').replace(/^\uFEFF/, '')
 );
 
 const program = new Command();
@@ -75,7 +74,7 @@ initCmd
     const path = require('path');
     const chalk = require('chalk');
 
-    console.log(chalk.blue('\n📋 Initializing Beads task tracking...\n'));
+    console.log(chalk.blue('\nðŸ“‹ Initializing Beads task tracking...\n'));
 
     const beadsDir = path.join(process.cwd(), '.beads');
     const beadsIssuesPath = path.join(beadsDir, 'issues.jsonl');
@@ -86,17 +85,17 @@ initCmd
     // Create .beads directory
     if (!fs.existsSync(beadsDir)) {
       fs.mkdirSync(beadsDir, { recursive: true });
-      console.log(chalk.green('✓ Created .beads directory'));
+      console.log(chalk.green('âœ“ Created .beads directory'));
     } else {
-      console.log(chalk.gray('• .beads directory already exists'));
+      console.log(chalk.gray('â€¢ .beads directory already exists'));
     }
 
     // Create issues.jsonl
     if (!fs.existsSync(beadsIssuesPath)) {
       fs.writeFileSync(beadsIssuesPath, '', 'utf-8');
-      console.log(chalk.green('✓ Created .beads/issues.jsonl'));
+      console.log(chalk.green('âœ“ Created .beads/issues.jsonl'));
     } else {
-      console.log(chalk.gray('• .beads/issues.jsonl already exists'));
+      console.log(chalk.gray('â€¢ .beads/issues.jsonl already exists'));
     }
 
     // Create config.json
@@ -107,33 +106,33 @@ initCmd
         created: new Date().toISOString()
       };
       fs.writeFileSync(beadsConfigPath, JSON.stringify(beadsConfig, null, 2), 'utf-8');
-      console.log(chalk.green('✓ Created .beads/config.json'));
+      console.log(chalk.green('âœ“ Created .beads/config.json'));
     } else {
-      console.log(chalk.gray('• .beads/config.json already exists'));
+      console.log(chalk.gray('â€¢ .beads/config.json already exists'));
     }
 
     // Create scripts directory
     if (!fs.existsSync(scriptsDir)) {
       fs.mkdirSync(scriptsDir, { recursive: true });
-      console.log(chalk.green('✓ Created scripts directory'));
+      console.log(chalk.green('âœ“ Created scripts directory'));
     } else {
-      console.log(chalk.gray('• scripts directory already exists'));
+      console.log(chalk.gray('â€¢ scripts directory already exists'));
     }
 
     // Create completed.jsonl
     if (!fs.existsSync(completedPath)) {
       fs.writeFileSync(completedPath, '', 'utf-8');
-      console.log(chalk.green('✓ Created scripts/completed.jsonl'));
+      console.log(chalk.green('âœ“ Created scripts/completed.jsonl'));
     } else {
-      console.log(chalk.gray('• scripts/completed.jsonl already exists'));
+      console.log(chalk.gray('â€¢ scripts/completed.jsonl already exists'));
     }
 
-    console.log(chalk.green('\n✓ Beads initialization complete!\n'));
+    console.log(chalk.green('\nâœ“ Beads initialization complete!\n'));
     console.log(chalk.gray('Next steps:'));
-    console.log(chalk.cyan('  • Create tasks: bd create "Task title" -p 1'));
-    console.log(chalk.cyan('  • List tasks: bd list'));
-    console.log(chalk.cyan('  • Close tasks: bd close <task-id>'));
-    console.log(chalk.cyan('  • View completed: augx show completed\n'));
+    console.log(chalk.cyan('  â€¢ Create tasks: bd create "Task title" -p 1'));
+    console.log(chalk.cyan('  â€¢ List tasks: bd list'));
+    console.log(chalk.cyan('  â€¢ Close tasks: bd close <task-id>'));
+    console.log(chalk.cyan('  â€¢ View completed: augx show completed\n'));
   });
 
 program
@@ -386,7 +385,7 @@ program
       console.log(chalk.blue('Migrating existing data to coordination system...\n'));
       const result = migrateExistingData();
 
-      console.log(chalk.green.bold('\n✓ Migration complete!'));
+      console.log(chalk.green.bold('\nâœ“ Migration complete!'));
       console.log(chalk.gray(`Backup created at: ${result.backup}`));
       console.log(chalk.gray(`\nBeads: ${result.beads.added} added, ${result.beads.updated} updated, ${result.beads.removed} removed`));
       console.log(chalk.gray(`OpenSpec: ${result.openspec.added} added, ${result.openspec.updated} updated, ${result.openspec.removed} removed`));
@@ -535,26 +534,6 @@ program
     });
   });
 
-// Generate Shot List command
-program
-  .command('generate-shot-list')
-  .description('Generate AI-optimized shot lists from screenplays')
-  .requiredOption('--path <file>', 'Path to screenplay file')
-  .option('--format <format>', 'Output format: md, json, jsonl, csv, txt, html', 'md')
-  .option('--output <filename>', 'Custom output filename')
-  .option('--max-characters <number>', 'Maximum characters per shot description', '4000')
-  .option('--max-shot-length <seconds>', 'Maximum shot duration in seconds', '12')
-  .option('--logging', 'Enable comprehensive error logging to JSONL file')
-  .action((options) => {
-    generateShotListCommand({
-      path: options.path,
-      format: options.format,
-      output: options.output,
-      maxCharacters: parseInt(options.maxCharacters, 10),
-      maxShotLength: parseInt(options.maxShotLength, 10),
-      logging: options.logging
-    });
-  });
 
 program.parse(process.argv);
 

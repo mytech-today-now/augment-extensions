@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
 import * as semver from 'semver';
+import { findModule } from '../utils/module-system';
 
 interface UpdateOptions {
   module?: string;
@@ -40,13 +41,17 @@ export async function updateCommand(options: UpdateOptions): Promise<void> {
 
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
+    const resolvedModuleName = options.module
+      ? (findModule(options.module)?.fullName || options.module)
+      : undefined;
+
     if (!config.modules || config.modules.length === 0) {
       console.log(chalk.yellow('No modules linked. Use "augx link <module>" to link modules.'));
       return;
     }
 
-    const modulesToUpdate = options.module
-      ? config.modules.filter((m: LinkedModule) => m.name === options.module)
+    const modulesToUpdate = resolvedModuleName
+      ? config.modules.filter((m: LinkedModule) => m.name === resolvedModuleName)
       : config.modules;
 
     if (modulesToUpdate.length === 0) {

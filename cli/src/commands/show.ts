@@ -72,7 +72,7 @@ interface ShowModuleOptions {
  */
 export async function showCommand(moduleName: string, options: ShowOptions): Promise<void> {
   try {
-    const module = findModule(moduleName);
+    const module = findModuleEnhanced(moduleName);
 
     if (!module) {
       console.error(chalk.red(`Module not found: ${moduleName}`));
@@ -1288,48 +1288,16 @@ function getLinkedModules(): ModuleListItem[] {
  * Get all available modules with linked status
  */
 async function getAllModules(): Promise<ModuleListItem[]> {
-  const modules: ModuleListItem[] = [];
-
   // Check for linked modules in current project
   const linkedModules = getLinkedModules();
 
-  // Get all available modules from repository
-  const modulesDir = path.join(__dirname, '../../../augment-extensions');
-
-  if (!fs.existsSync(modulesDir)) {
-    return linkedModules;
-  }
-
-  const categories = fs.readdirSync(modulesDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
-
-  for (const category of categories) {
-    const categoryPath = path.join(modulesDir, category);
-    const moduleNames = fs.readdirSync(categoryPath, { withFileTypes: true })
-      .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name);
-
-    for (const moduleName of moduleNames) {
-      const modulePath = path.join(categoryPath, moduleName);
-      const moduleJsonPath = path.join(modulePath, 'module.json');
-
-      if (fs.existsSync(moduleJsonPath)) {
-        const moduleData = JSON.parse(fs.readFileSync(moduleJsonPath, 'utf-8'));
-        const fullName = `${category}/${moduleName}`;
-
-        modules.push({
-          name: fullName,
-          version: moduleData.version,
-          description: moduleData.description,
-          type: moduleData.type,
-          linked: linkedModules.some(m => m.name === fullName)
-        });
-      }
-    }
-  }
-
-  return modules;
+  return discoverModules().map(module => ({
+    name: module.fullName,
+    version: module.metadata.version,
+    description: module.metadata.description,
+    type: module.metadata.type,
+    linked: linkedModules.some(m => m.name === module.fullName)
+  }));
 }
 
 /**

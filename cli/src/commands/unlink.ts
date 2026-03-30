@@ -30,8 +30,10 @@ export async function unlinkCommand(moduleName: string, options: UnlinkOptions =
       return;
     }
 
+    const resolvedModuleName = findModule(moduleName)?.fullName || moduleName;
+
     // Check if module is linked
-    const moduleIndex = config.modules.findIndex((m: any) => m.name === moduleName);
+    const moduleIndex = config.modules.findIndex((m: any) => m.name === resolvedModuleName);
     
     if (moduleIndex === -1) {
       console.log(chalk.yellow(`Module not linked: ${moduleName}`));
@@ -40,11 +42,11 @@ export async function unlinkCommand(moduleName: string, options: UnlinkOptions =
 
     // Check for dependencies
     const dependentModules = config.modules.filter((m: any) => 
-      m.dependencies && m.dependencies.includes(moduleName)
+      m.dependencies && m.dependencies.includes(resolvedModuleName)
     );
 
     if (dependentModules.length > 0 && !options.force) {
-      console.error(chalk.red(`\nCannot unlink ${moduleName}. The following modules depend on it:\n`));
+      console.error(chalk.red(`\nCannot unlink ${resolvedModuleName}. The following modules depend on it:\n`));
       dependentModules.forEach((m: any) => {
         console.error(chalk.red(`  - ${m.name}`));
       });
@@ -56,7 +58,7 @@ export async function unlinkCommand(moduleName: string, options: UnlinkOptions =
     config.modules.splice(moduleIndex, 1);
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
-    console.log(chalk.green(`✓ Successfully unlinked: ${moduleName}`));
+    console.log(chalk.green(`✓ Successfully unlinked: ${resolvedModuleName}`));
 
     if (dependentModules.length > 0) {
       console.log(chalk.yellow('\n⚠ Warning: The following modules may be affected:'));

@@ -799,17 +799,27 @@ export function discoverCollections(): Collection[] {
  * Find module by name (supports both "category/module" and "module" formats)
  */
 export function findModule(moduleName: string): Module | null {
+  const normalizedName = moduleName.trim();
+
+  if (!normalizedName) {
+    return null;
+  }
+
   const modulesDir = getModulesDir();
 
   // If moduleName includes category (e.g., "coding-standards/typescript")
-  if (moduleName.includes('/')) {
-    const modulePath = path.join(modulesDir, moduleName);
+  if (normalizedName.includes('/')) {
+    const modulePath = path.join(modulesDir, normalizedName);
     return loadModule(modulePath);
   }
 
-  // Search all categories for the module
+  // Search discovered modules for exact top-level, short-name, or category/module matches
   const modules = discoverModules();
-  return modules.find(m => m.fullName.endsWith(`/${moduleName}`)) || null;
+  return modules.find(m =>
+    m.fullName === normalizedName ||
+    m.metadata.name === normalizedName ||
+    m.fullName.endsWith(`/${normalizedName}`)
+  ) || null;
 }
 
 /**

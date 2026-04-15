@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.2] - 2026-04-15
+
+### Added
+
+- **No-em-dash rule** installed by `augx init` - drops `.augment/rules/no-em-dash.md` into target projects, instructing AI agents never to use the em-dash character (U+2014) in generated text, code, comments, or documentation
+- `installEmDashRule()` helper in `install-rules.ts` following the same idempotent, rollback-safe pattern as `installCharacterCountRule()`
+
+### Fixed
+
+- Replaced two em-dash characters in `extractCommandHelp.ts` code comments with plain hyphens, keeping the source file itself em-dash-free
+
 ## [3.1.1] - 2026-04-15
 
 ### Removed

@@ -217,11 +217,11 @@ export async function extractHelpRecursive(
       children
     };
   } catch (error: any) {
-    // Top-level command failures are critical — warn immediately
+    // Top-level command failures are critical - warn immediately
     if (depth === 0) {
       console.warn(`⚠️  Failed to extract help for "${fullCommand}": ${error.message}`);
     } else {
-      // Subcommand failures are non-critical — record for summary
+      // Subcommand failures are non-critical - record for summary
       extractionFailures.push(fullCommand);
     }
     return { command: fullCommand, help: '', children: [] };

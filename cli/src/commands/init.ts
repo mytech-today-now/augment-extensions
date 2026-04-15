@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
 import inquirer from 'inquirer';
-import { installCharacterCountRule } from '../utils/install-rules';
+import { installCharacterCountRule, installEmDashRule } from '../utils/install-rules';
 import { extractCommandHelp } from '../utils/extractCommandHelp';
 
 interface InitOptions {
@@ -111,6 +111,19 @@ Check \`.augment/extensions.json\` for currently linked modules.
     if (!ruleResult.success) {
       console.log(chalk.yellow(`⚠ Warning: Could not install character count rule: ${ruleResult.error}`));
       console.log(chalk.gray('You can manually copy the rule from .augment/rules/character-count-management.md'));
+    }
+
+    // Install no-em-dash rule
+    console.log(chalk.blue('\n🚫 Installing no-em-dash rule...\n'));
+    const emDashResult = await installEmDashRule({
+      targetDir: process.cwd(),
+      skipIfExists: true,
+      verbose: true
+    });
+
+    if (!emDashResult.success) {
+      console.log(chalk.yellow(`⚠ Warning: Could not install no-em-dash rule: ${emDashResult.error}`));
+      console.log(chalk.gray('You can manually copy the rule from .augment/rules/no-em-dash.md'));
     }
 
     // Extract command help for workflow tools

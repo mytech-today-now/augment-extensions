@@ -64,6 +64,43 @@ Before committing changes to \`.augment/\` files:
 3. If outside range, apply reduction/addition priorities
 `;
 
+/**
+ * Em-dash prevention rule content.
+ * Instructs AI agents never to use the em-dash character (U+2014) in any output.
+ */
+const NO_EM_DASH_RULE_CONTENT = `---
+type: "always_apply"
+---
+
+# No Em-Dash in AI Output
+
+## Rule
+
+**Never use the em-dash character (\u2014) in any generated text, code, comments, or documentation.**
+
+Use a regular hyphen-minus (-) or double-hyphen (--) instead.
+
+## Rationale
+
+Em-dashes cause copy-paste and encoding issues in terminals, config files, and cross-platform tooling. Plain ASCII punctuation is always safe and unambiguous.
+
+## Examples
+
+| Instead of | Use |
+|---|---|
+| \`foo \u2014 bar\` | \`foo - bar\` or \`foo -- bar\` |
+| \`critical \u2014 warn immediately\` | \`critical - warn immediately\` |
+
+## Scope
+
+This rule applies to **all** AI-generated output in this project:
+- Code comments
+- Markdown documentation
+- Console/log messages
+- Commit messages
+- Any other text
+`;
+
 export interface InstallRulesOptions {
   targetDir?: string;
   skipIfExists?: boolean;
@@ -415,3 +452,102 @@ export async function installCharacterCountRule(
   }
 }
 
+/**
+ * Install the no-em-dash rule to .augment/rules directory.
+ * Mirrors the shape of installCharacterCountRule.
+ */
+export async function installEmDashRule(
+  options: InstallRulesOptions = {}
+): Promise<InstallRulesResult> {
+  const {
+    targetDir = process.cwd(),
+    skipIfExists = true,
+    verbose = false,
+    force = false
+  } = options;
+
+  try {
+    const augmentDir = path.join(targetDir, '.augment');
+    const rulesDir = path.join(augmentDir, 'rules');
+    const rulePath = path.join(rulesDir, 'no-em-dash.md');
+
+    const ruleExists = fsSync.existsSync(rulePath);
+
+    if (ruleExists) {
+      const existingContent = await fs.readFile(rulePath, 'utf-8');
+
+      if (existingContent.trim() === NO_EM_DASH_RULE_CONTENT.trim()) {
+        if (verbose) {
+          console.log(chalk.gray('i No-em-dash rule is up to date'));
+        }
+        return { success: true, created: false, skipped: true, path: rulePath };
+      }
+
+      if (force) {
+        if (verbose) {
+          console.log(chalk.yellow('Warning: Replacing existing no-em-dash rule (--force)'));
+        }
+      } else if (skipIfExists) {
+        if (verbose) {
+          console.log(chalk.gray('i No-em-dash rule already exists, skipping...'));
+        }
+        return { success: true, created: false, skipped: true, path: rulePath };
+      } else {
+        if (verbose) {
+          console.log(chalk.yellow('Warning: No-em-dash rule exists with different content, skipping...'));
+          console.log(chalk.gray('  Use --force to replace'));
+        }
+        return { success: true, created: false, skipped: true, path: rulePath };
+      }
+    }
+
+    if (!fsSync.existsSync(augmentDir)) {
+      await createDirectorySafe(augmentDir, verbose);
+    }
+
+    if (!fsSync.existsSync(rulesDir)) {
+      await createDirectorySafe(rulesDir, verbose);
+    }
+
+    await writeFileSafe(rulePath, NO_EM_DASH_RULE_CONTENT, verbose);
+
+    if (verbose) {
+      console.log(chalk.green('Installed no-em-dash rule'));
+    }
+
+    return {
+      success: true,
+      created: !ruleExists,
+      updated: ruleExists,
+      skipped: false,
+      path: rulePath
+    };
+
+  } catch (error) {
+    if (error instanceof InstallRulesError) {
+      if (verbose) {
+        console.error(chalk.red('Failed to install no-em-dash rule:'));
+        console.error(chalk.red(`  ${(error as InstallRulesError).message}`));
+      }
+      return {
+        success: false,
+        created: false,
+        skipped: false,
+        error: (error as InstallRulesError).message,
+        errorType: (error as InstallRulesError).type
+      };
+    }
+
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    if (verbose) {
+      console.error(chalk.red('Failed to install no-em-dash rule:'), errorMessage);
+    }
+    return {
+      success: false,
+      created: false,
+      skipped: false,
+      error: errorMessage,
+      errorType: 'UNKNOWN'
+    };
+  }
+}

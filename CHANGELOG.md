@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.1] - 2026-04-15
+
+### Removed
+
+- **`archiver`** removed from production dependencies — the package was never imported in the CLI source and pulled in the deprecated `glob@10.5.0` transitively via `archiver-utils@5.0.2`
+- **`@types/archiver`** and **`@types/glob`** removed from devDependencies (types for packages no longer in use)
+
+### Security
+
+- Patched `lodash` from `4.17.23` → `4.18.1` (transitive via `ink`) — resolves prototype-pollution and code-injection advisories (GHSA-r5fr-rjxr-66jc, GHSA-f23m-r3pf-42rh)
+- Patched `vite` from `7.3.1` → `7.3.2` (transitive via `vitest`) — resolves path-traversal and arbitrary file-read advisories (GHSA-4w7w-66w2-5vf9, GHSA-v2wj-q39q-566r, GHSA-p9ff-h696-f583)
+
 ## [3.1.0] - 2026-03-30
 
 ### Security

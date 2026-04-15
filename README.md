@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI**
 
-[![Version](https://img.shields.io/badge/version-3.1.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-3.1.1-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 

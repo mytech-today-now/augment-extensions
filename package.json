@@ -1,6 +1,6 @@
 {
     "name": "@mytechtoday/augment-extensions",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "description": "CLI tool for managing Augment Code AI extension modules",
     "main": "cli/dist/index.js",
     "bin": {
@@ -93,7 +93,6 @@
         "@typescript-eslint/typescript-estree": "^8.58.0",
         "ajv": "^8.18.0",
         "ajv-formats": "^3.0.1",
-        "archiver": "^7.0.1",
         "chalk": "^5.3.0",
         "commander": "^11.0.0",
         "csv-stringify": "^6.6.0",
@@ -113,8 +112,6 @@
         "yaml": "^2.3.0"
     },
     "devDependencies": {
-        "@types/archiver": "^7.0.0",
-        "@types/glob": "^8.1.0",
         "@types/highlight.js": "^9.12.4",
         "@types/ink": "^0.5.2",
         "@types/inquirer": "^9.0.0",

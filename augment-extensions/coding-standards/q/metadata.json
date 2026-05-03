@@ -24,12 +24,12 @@
   "files": {
     "rules": [
       "q-standards.md",
-      "naming-conventions.md",
-      "qubit-management.md",
-      "error-handling.md",
-      "performance-optimization.md",
-      "security.md",
-      "testing.md"
+      "q-naming-conventions.md",
+      "q-qubit-management.md",
+      "q-error-handling.md",
+      "q-performance-optimization.md",
+      "q-security.md",
+      "q-testing.md"
     ],
     "examples": [
       "bell-state.qs"

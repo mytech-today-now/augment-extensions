@@ -1,0 +1,29 @@
+{
+  "name": "q-standards",
+  "version": "1.0.0",
+  "displayName": "Q# Coding Standards",
+  "description": "Q# coding standards and AI prompter rules for quantum development with the Quantum Development Kit (QDK) and Azure Quantum.",
+  "type": "coding-standards",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "augment": {
+    "characterCount": 4800,
+    "priority": "medium",
+    "category": "coding-standards"
+  },
+  "installation": {
+    "required": false,
+    "dependencies": []
+  },
+  "tags": [
+    "qsharp",
+    "q-sharp",
+    "quantum",
+    "qdk",
+    "azure-quantum",
+    "quantum-computing",
+    "operations",
+    "qubits",
+    "resource-estimation"
+  ]
+}

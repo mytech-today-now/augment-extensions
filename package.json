@@ -1,139 +1,139 @@
 {
-    "name": "@mytechtoday/augment-extensions",
-    "version": "3.1.2",
-    "description": "CLI tool for managing Augment Code AI extension modules",
-    "main": "cli/dist/index.js",
-    "bin": {
-        "augx": "cli/dist/cli.js"
-    },
-    "files": [
-        "cli/dist/",
-        "augment-extensions/coding-standards/",
-        "augment-extensions/domain-rules/",
-        "augment-extensions/visual-design/",
-        "augment-extensions/workflows/adr-support/",
-        "augment-extensions/workflows/database/",
-        "augment-extensions/workflows/wordpress-plugin/",
-        "augment-extensions/collections/",
-        "augment-extensions/examples/",
-        "README.md",
-        "LICENSE",
-        "AGENTS.md",
-        "modules.md"
-    ],
-    "scripts": {
-        "build": "cd cli && tsc",
-        "dev": "cd cli && tsc --watch",
-        "test": "jest",
-        "test:watch": "jest --watch",
-        "test:coverage": "jest --coverage",
-        "test:all": "npx tsx test-all.ts",
-        "test:all:standalone": "npx tsx test-all.ts",
-        "test:vitest": "vitest run",
-        "test:vitest:watch": "vitest watch",
-        "test:vitest:ui": "vitest --ui",
-        "test:vitest:coverage": "vitest run --coverage",
-        "test:unit": "vitest run tests/unit",
-        "test:integration": "vitest run tests/integration",
-        "lint": "cd cli && eslint src/**/*.ts",
-        "prepare": "npm run build",
-        "prepublishOnly": "npm run build",
-        "install:cli": "npm install && npm run build && npm install -g .",
-        "uninstall:cli": "npm uninstall -g @mytechtoday/augment-extensions",
-        "reinstall:cli": "npm run uninstall:cli && npm run install:cli",
-        "check:node": "node -e \"const v=process.version.match(/^v(\\d+)/)[1]; if(v<16){console.error('Node.js >=16 required, found v'+process.version); process.exit(1);} else {console.log('Node.js version OK: '+process.version);}\"",
-        "postinstall": "npm run check:node"
-    },
-    "keywords": [
-        "augment",
-        "augment-code",
-        "ai",
-        "ai-assistant",
-        "coding-assistant",
-        "extensions",
-        "modules",
-        "coding-standards",
-        "typescript",
-        "openspec",
-        "beads"
-    ],
-    "author": "Augment Extensions",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/mytech-today-now/augment-extensions.git"
-    },
-    "bugs": {
-        "url": "https://github.com/mytech-today-now/augment-extensions/issues"
-    },
-    "homepage": "https://github.com/mytech-today-now/augment-extensions#readme",
-    "funding": [
-        {
-            "type": "github",
-            "url": "https://github.com/sponsors/mytech-today-now"
-        },
-        {
-            "type": "patreon",
-            "url": "https://patreon.com/mytech_today"
-        },
-        {
-            "type": "ko_fi",
-            "url": "https://ko-fi.com/mytech_today"
-        },
-        "https://www.buymeacoffee.com/mytech_today"
-    ],
-    "engines": {
-        "node": ">=16.0.0"
-    },
-    "publishConfig": {
-        "access": "public",
-        "registry": "https://registry.npmjs.org/"
-    },
-    "dependencies": {
-        "@typescript-eslint/typescript-estree": "^8.58.0",
-        "ajv": "^8.18.0",
-        "ajv-formats": "^3.0.1",
-        "chalk": "^5.3.0",
-        "commander": "^11.0.0",
-        "csv-stringify": "^6.6.0",
-        "fast-xml-parser": "^5.4.1",
-        "gray-matter": "^4.0.3",
-        "highlight.js": "^11.11.1",
-        "ink": "3.2.0",
-        "inquirer": "^9.2.0",
-        "js-yaml": "^4.1.1",
-        "minimatch": "^10.1.1",
-        "php-parser": "^3.3.0",
-        "react": "17.0.2",
-        "semver": "^7.5.0",
-        "tar": "^7.5.9",
-        "unzipper": "^0.12.3",
-        "uuid": "^13.0.0",
-        "yaml": "^2.3.0"
-    },
-    "devDependencies": {
-        "@types/highlight.js": "^9.12.4",
-        "@types/ink": "^0.5.2",
-        "@types/inquirer": "^9.0.0",
-        "@types/jest": "^30.0.0",
-        "@types/js-yaml": "^4.0.9",
-        "@types/node": "^20.19.33",
-        "@types/react": "^19.2.14",
-        "@types/semver": "^7.5.0",
-        "@types/tar": "^6.1.13",
-        "@types/unzipper": "^0.10.11",
-        "@types/uuid": "^10.0.0",
-        "@typescript-eslint/eslint-plugin": "^8.58.0",
-        "@typescript-eslint/parser": "^8.58.0",
-        "@vitest/coverage-v8": "^4.0.18",
-        "@vitest/ui": "^4.0.18",
-        "eslint": "^8.50.0",
-        "ink-testing-library": "^4.0.0",
-        "jest": "^29.7.0",
-        "ts-jest": "^29.4.6",
-        "ts-node": "^10.9.2",
-        "tsx": "^4.21.0",
-        "typescript": "^5.9.3",
-        "vitest": "^4.0.18"
-    }
+    "name":  "@mytechtoday/augment-extensions",
+    "version":  "3.1.3",
+    "description":  "CLI tool for managing Augment Code AI extension modules",
+    "main":  "cli/dist/index.js",
+    "bin":  {
+                "augx":  "cli/dist/cli.js"
+            },
+    "files":  [
+                  "cli/dist/",
+                  "augment-extensions/coding-standards/",
+                  "augment-extensions/domain-rules/",
+                  "augment-extensions/visual-design/",
+                  "augment-extensions/workflows/adr-support/",
+                  "augment-extensions/workflows/database/",
+                  "augment-extensions/workflows/wordpress-plugin/",
+                  "augment-extensions/collections/",
+                  "augment-extensions/examples/",
+                  "README.md",
+                  "LICENSE",
+                  "AGENTS.md",
+                  "modules.md"
+              ],
+    "scripts":  {
+                    "build":  "cd cli \u0026\u0026 tsc",
+                    "dev":  "cd cli \u0026\u0026 tsc --watch",
+                    "test":  "jest",
+                    "test:watch":  "jest --watch",
+                    "test:coverage":  "jest --coverage",
+                    "test:all":  "npx tsx test-all.ts",
+                    "test:all:standalone":  "npx tsx test-all.ts",
+                    "test:vitest":  "vitest run",
+                    "test:vitest:watch":  "vitest watch",
+                    "test:vitest:ui":  "vitest --ui",
+                    "test:vitest:coverage":  "vitest run --coverage",
+                    "test:unit":  "vitest run tests/unit",
+                    "test:integration":  "vitest run tests/integration",
+                    "lint":  "cd cli \u0026\u0026 eslint src/**/*.ts",
+                    "prepare":  "npm run build",
+                    "prepublishOnly":  "npm run build",
+                    "install:cli":  "npm install \u0026\u0026 npm run build \u0026\u0026 npm install -g .",
+                    "uninstall:cli":  "npm uninstall -g @mytechtoday/augment-extensions",
+                    "reinstall:cli":  "npm run uninstall:cli \u0026\u0026 npm run install:cli",
+                    "check:node":  "node -e \"const v=process.version.match(/^v(\\d+)/)[1]; if(v\u003c16){console.error(\u0027Node.js \u003e=16 required, found v\u0027+process.version); process.exit(1);} else {console.log(\u0027Node.js version OK: \u0027+process.version);}\"",
+                    "postinstall":  "npm run check:node"
+                },
+    "keywords":  [
+                     "augment",
+                     "augment-code",
+                     "ai",
+                     "ai-assistant",
+                     "coding-assistant",
+                     "extensions",
+                     "modules",
+                     "coding-standards",
+                     "typescript",
+                     "openspec",
+                     "beads"
+                 ],
+    "author":  "Augment Extensions",
+    "license":  "MIT",
+    "repository":  {
+                       "type":  "git",
+                       "url":  "git+https://github.com/mytech-today-now/augment-extensions.git"
+                   },
+    "bugs":  {
+                 "url":  "https://github.com/mytech-today-now/augment-extensions/issues"
+             },
+    "homepage":  "https://github.com/mytech-today-now/augment-extensions#readme",
+    "funding":  [
+                    {
+                        "type":  "github",
+                        "url":  "https://github.com/sponsors/mytech-today-now"
+                    },
+                    {
+                        "type":  "patreon",
+                        "url":  "https://patreon.com/mytech_today"
+                    },
+                    {
+                        "type":  "ko_fi",
+                        "url":  "https://ko-fi.com/mytech_today"
+                    },
+                    "https://www.buymeacoffee.com/mytech_today"
+                ],
+    "engines":  {
+                    "node":  "\u003e=16.0.0"
+                },
+    "publishConfig":  {
+                          "access":  "public",
+                          "registry":  "https://registry.npmjs.org/"
+                      },
+    "dependencies":  {
+                         "@typescript-eslint/typescript-estree":  "^8.58.0",
+                         "ajv":  "^8.18.0",
+                         "ajv-formats":  "^3.0.1",
+                         "chalk":  "^5.3.0",
+                         "commander":  "^11.0.0",
+                         "csv-stringify":  "^6.6.0",
+                         "fast-xml-parser":  "^5.4.1",
+                         "gray-matter":  "^4.0.3",
+                         "highlight.js":  "^11.11.1",
+                         "ink":  "3.2.0",
+                         "inquirer":  "^9.2.0",
+                         "js-yaml":  "^4.1.1",
+                         "minimatch":  "^10.1.1",
+                         "php-parser":  "^3.3.0",
+                         "react":  "17.0.2",
+                         "semver":  "^7.5.0",
+                         "tar":  "^7.5.9",
+                         "unzipper":  "^0.12.3",
+                         "uuid":  "^13.0.0",
+                         "yaml":  "^2.3.0"
+                     },
+    "devDependencies":  {
+                            "@types/highlight.js":  "^9.12.4",
+                            "@types/ink":  "^0.5.2",
+                            "@types/inquirer":  "^9.0.0",
+                            "@types/jest":  "^30.0.0",
+                            "@types/js-yaml":  "^4.0.9",
+                            "@types/node":  "^20.19.33",
+                            "@types/react":  "^19.2.14",
+                            "@types/semver":  "^7.5.0",
+                            "@types/tar":  "^6.1.13",
+                            "@types/unzipper":  "^0.10.11",
+                            "@types/uuid":  "^10.0.0",
+                            "@typescript-eslint/eslint-plugin":  "^8.58.0",
+                            "@typescript-eslint/parser":  "^8.58.0",
+                            "@vitest/coverage-v8":  "^4.0.18",
+                            "@vitest/ui":  "^4.0.18",
+                            "eslint":  "^8.50.0",
+                            "ink-testing-library":  "^4.0.0",
+                            "jest":  "^29.7.0",
+                            "ts-jest":  "^29.4.6",
+                            "ts-node":  "^10.9.2",
+                            "tsx":  "^4.21.0",
+                            "typescript":  "^5.9.3",
+                            "vitest":  "^4.0.18"
+                        }
 }

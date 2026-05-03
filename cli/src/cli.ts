@@ -63,6 +63,8 @@ const initCmd = program
   .command('init')
   .description('Initialize Augment Extensions in current project (includes Beads integration if .beads/ exists)')
   .option('--from-submodule', 'Initialize from existing submodule')
+  .option('-y, --yes', 'Accept defaults for all optional-rule prompts (non-interactive)')
+  .option('--no-optional-rules', 'Skip the optional-rule prompts entirely (install nothing optional)')
   .action(initCommand);
 
 // Init beads subcommand

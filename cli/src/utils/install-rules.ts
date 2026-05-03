@@ -101,6 +101,145 @@ This rule applies to **all** AI-generated output in this project:
 - Any other text
 `;
 
+/**
+ * ASCII-only-in-code rule content.
+ * Restricts AI-generated code to printable ASCII characters.
+ */
+const ASCII_ONLY_CODE_RULE_CONTENT = `---
+type: "always_apply"
+---
+
+# ASCII-Only in Generated Code
+
+## Rule
+
+When generating, modifying, or suggesting **code**, use only printable ASCII (U+0020 through U+007E) plus tab, line feed, and carriage return.
+
+## Scope
+
+Applies to:
+- Source files in any language
+- Identifiers, string literals, regex literals
+- Code comments and docstrings
+- Fenced code blocks inside Markdown
+- Configuration files (JSON, YAML, TOML, INI, .env)
+- Shell, PowerShell, and command-line snippets
+
+## Disallowed in Code
+
+- Smart quotes (\u2018 \u2019 \u201C \u201D)
+- En-dash (\u2013) and em-dash (\u2014)
+- Non-breaking space (U+00A0)
+- Accented or non-Latin letters - use ASCII transliterations
+- Emoji and pictographic symbols
+- Any other character outside U+0000 through U+007F
+
+## Allowed Substitutions
+
+| Instead of | Use |
+|---|---|
+| \u2014 (em-dash) | - or -- |
+| \u2013 (en-dash) | - |
+| \u2018 \u2019 (smart single quotes) | ' |
+| \u201C \u201D (smart double quotes) | " |
+| \u00A0 (NBSP) | regular space |
+
+## Exception
+
+If a non-ASCII character is intrinsic to the data (e.g., test fixtures for Unicode handling, localization payloads), encode it using the language's escape syntax (\\\\uXXXX, \\\\xXX, &#xXXXX;, etc.) rather than embedding the literal character.
+`;
+
+/**
+ * UTF-8-allowed-in-non-code rule content.
+ * Explicitly permits UTF-8 in prose while preserving the ASCII-only-code rule.
+ */
+const UTF8_NON_CODE_RULE_CONTENT = `---
+type: "always_apply"
+---
+
+# UTF-8 Allowed in Non-Code Content
+
+## Rule
+
+UTF-8 characters **are permitted** in non-code content. This rule is the explicit complement to the ASCII-only-code rule.
+
+## Where UTF-8 Is Allowed
+
+- Markdown prose outside fenced code blocks
+- README narrative sections
+- Issue and pull-request descriptions and bodies
+- Commit message bodies (commit subject lines should remain ASCII)
+- User-facing documentation
+- Localized strings stored as data (not as code identifiers)
+
+## Where UTF-8 Is NOT Allowed
+
+The ASCII-only-code rule still governs:
+- Code, including fenced code blocks inside Markdown
+- File and directory names
+- Command examples and shell snippets
+- Configuration files
+
+## Interaction with Other Rules
+
+- If the no-em-dash rule is installed, em-dashes remain disallowed everywhere.
+- If the no-emoji rule is installed, emoji remain disallowed everywhere.
+- This rule grants permission for prose; it does not override stricter rules.
+`;
+
+/**
+ * No-emoji rule content.
+ * Discourages emoji and pictographic symbols in AI output.
+ */
+const NO_EMOJI_RULE_CONTENT = `---
+type: "always_apply"
+---
+
+# No Emoji in AI Output
+
+## Rule
+
+**Do not use emoji or pictographic symbols** in any generated content unless the user explicitly requests them.
+
+## Rationale
+
+Emoji render inconsistently across terminals, log aggregators, and accessibility tooling, and they add visual noise without semantic precision.
+
+## Scope
+
+Applies to all AI output, including:
+- Code and code comments
+- Console and log messages
+- Commit messages
+- Markdown documentation
+- Chat replies to the user
+
+## Disallowed Unicode Ranges (non-exhaustive)
+
+- Emoticons: U+1F600 through U+1F64F
+- Misc Symbols and Pictographs: U+1F300 through U+1F5FF
+- Transport and Map Symbols: U+1F680 through U+1F6FF
+- Supplemental Symbols and Pictographs: U+1F900 through U+1F9FF
+- Dingbats: U+2700 through U+27BF
+- Misc Symbols (decorative use): U+2600 through U+26FF
+- Variation Selectors: U+FE00 through U+FE0F
+- Regional Indicator Symbols: U+1F1E6 through U+1F1FF
+
+## Substitutions
+
+| Instead of | Use |
+|---|---|
+| check mark | [OK] or "done" |
+| cross mark | [FAIL] or "error" |
+| warning sign | "warning:" |
+| rocket | (omit) |
+| clipboard | (omit) |
+
+## Exception
+
+When the user explicitly requests emoji (e.g., social-media copy, README badges), comply for that specific request only.
+`;
+
 export interface InstallRulesOptions {
   targetDir?: string;
   skipIfExists?: boolean;
@@ -550,4 +689,156 @@ export async function installEmDashRule(
       errorType: 'UNKNOWN'
     };
   }
+}
+
+/**
+ * Shared installer for simple rules that follow the standard pattern:
+ *   - File lives in .augment/rules/<filename>
+ *   - Skip if existing content is identical
+ *   - Skip-with-warning when content differs unless --force
+ *
+ * Used by the optional rules prompted during `augx init`.
+ */
+async function installSimpleRule(
+  filename: string,
+  content: string,
+  ruleLabel: string,
+  options: InstallRulesOptions = {}
+): Promise<InstallRulesResult> {
+  const {
+    targetDir = process.cwd(),
+    skipIfExists = true,
+    verbose = false,
+    force = false
+  } = options;
+
+  try {
+    const augmentDir = path.join(targetDir, '.augment');
+    const rulesDir = path.join(augmentDir, 'rules');
+    const rulePath = path.join(rulesDir, filename);
+
+    const ruleExists = fsSync.existsSync(rulePath);
+
+    if (ruleExists) {
+      const existingContent = await fs.readFile(rulePath, 'utf-8');
+
+      if (existingContent.trim() === content.trim()) {
+        if (verbose) {
+          console.log(chalk.gray(`i ${ruleLabel} rule is up to date`));
+        }
+        return { success: true, created: false, skipped: true, path: rulePath };
+      }
+
+      if (force) {
+        if (verbose) {
+          console.log(chalk.yellow(`Warning: Replacing existing ${ruleLabel} rule (--force)`));
+        }
+      } else if (skipIfExists) {
+        if (verbose) {
+          console.log(chalk.gray(`i ${ruleLabel} rule already exists, skipping...`));
+        }
+        return { success: true, created: false, skipped: true, path: rulePath };
+      } else {
+        if (verbose) {
+          console.log(chalk.yellow(`Warning: ${ruleLabel} rule exists with different content, skipping...`));
+          console.log(chalk.gray('  Use --force to replace'));
+        }
+        return { success: true, created: false, skipped: true, path: rulePath };
+      }
+    }
+
+    if (!fsSync.existsSync(augmentDir)) {
+      await createDirectorySafe(augmentDir, verbose);
+    }
+
+    if (!fsSync.existsSync(rulesDir)) {
+      await createDirectorySafe(rulesDir, verbose);
+    }
+
+    await writeFileSafe(rulePath, content, verbose);
+
+    if (verbose) {
+      console.log(chalk.green(`Installed ${ruleLabel} rule`));
+    }
+
+    return {
+      success: true,
+      created: !ruleExists,
+      updated: ruleExists,
+      skipped: false,
+      path: rulePath
+    };
+
+  } catch (error) {
+    if (error instanceof InstallRulesError) {
+      if (verbose) {
+        console.error(chalk.red(`Failed to install ${ruleLabel} rule:`));
+        console.error(chalk.red(`  ${error.message}`));
+      }
+      return {
+        success: false,
+        created: false,
+        skipped: false,
+        error: error.message,
+        errorType: error.type
+      };
+    }
+
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    if (verbose) {
+      console.error(chalk.red(`Failed to install ${ruleLabel} rule:`), errorMessage);
+    }
+    return {
+      success: false,
+      created: false,
+      skipped: false,
+      error: errorMessage,
+      errorType: 'UNKNOWN'
+    };
+  }
+}
+
+/**
+ * Install the ASCII-only-in-code rule to .augment/rules/ascii-only-code.md.
+ * Prompted optionally during `augx init`.
+ */
+export async function installAsciiOnlyCodeRule(
+  options: InstallRulesOptions = {}
+): Promise<InstallRulesResult> {
+  return installSimpleRule(
+    'ascii-only-code.md',
+    ASCII_ONLY_CODE_RULE_CONTENT,
+    'ascii-only-code',
+    options
+  );
+}
+
+/**
+ * Install the UTF-8-allowed-in-non-code rule to .augment/rules/utf8-non-code-allowed.md.
+ * Prompted optionally during `augx init`.
+ */
+export async function installUtf8NonCodeRule(
+  options: InstallRulesOptions = {}
+): Promise<InstallRulesResult> {
+  return installSimpleRule(
+    'utf8-non-code-allowed.md',
+    UTF8_NON_CODE_RULE_CONTENT,
+    'utf8-non-code-allowed',
+    options
+  );
+}
+
+/**
+ * Install the no-emoji rule to .augment/rules/no-emoji.md.
+ * Prompted optionally during `augx init`.
+ */
+export async function installNoEmojiRule(
+  options: InstallRulesOptions = {}
+): Promise<InstallRulesResult> {
+  return installSimpleRule(
+    'no-emoji.md',
+    NO_EMOJI_RULE_CONTENT,
+    'no-emoji',
+    options
+  );
 }

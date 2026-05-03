@@ -2,11 +2,102 @@ import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
 import inquirer from 'inquirer';
-import { installCharacterCountRule, installEmDashRule } from '../utils/install-rules';
+import {
+  installCharacterCountRule,
+  installEmDashRule,
+  installAsciiOnlyCodeRule,
+  installUtf8NonCodeRule,
+  installNoEmojiRule,
+  InstallRulesResult
+} from '../utils/install-rules';
 import { extractCommandHelp } from '../utils/extractCommandHelp';
 
 interface InitOptions {
   fromSubmodule?: boolean;
+  yes?: boolean;
+  // Commander maps `--no-optional-rules` to `optionalRules: false`;
+  // when the flag is omitted the value is `true` (default).
+  optionalRules?: boolean;
+}
+
+interface OptionalRuleSpec {
+  key: string;
+  promptMessage: string;
+  defaultAnswer: boolean;
+  install: (opts: { targetDir: string; skipIfExists: boolean; verbose: boolean }) => Promise<InstallRulesResult>;
+  successLabel: string;
+  ruleFilename: string;
+}
+
+const OPTIONAL_RULES: OptionalRuleSpec[] = [
+  {
+    key: 'asciiOnlyCode',
+    promptMessage: 'Add a rule that forces the AI to use ASCII (not UTF-8) when generating code?',
+    defaultAnswer: true,
+    install: installAsciiOnlyCodeRule,
+    successLabel: 'ASCII-only-in-code',
+    ruleFilename: 'ascii-only-code.md'
+  },
+  {
+    key: 'utf8NonCode',
+    promptMessage: 'Add a rule that explicitly allows UTF-8 in non-code content (prose, docs, etc.)?',
+    defaultAnswer: true,
+    install: installUtf8NonCodeRule,
+    successLabel: 'UTF-8-in-non-code-allowed',
+    ruleFilename: 'utf8-non-code-allowed.md'
+  },
+  {
+    key: 'noEmoji',
+    promptMessage: 'Add a rule that tells the AI to avoid emoji in generated content?',
+    defaultAnswer: true,
+    install: installNoEmojiRule,
+    successLabel: 'no-emoji',
+    ruleFilename: 'no-emoji.md'
+  }
+];
+
+async function maybeInstallOptionalRules(options: InitOptions): Promise<void> {
+  if (options.optionalRules === false) {
+    console.log(chalk.gray('\nSkipping optional rule prompts (--no-optional-rules).'));
+    return;
+  }
+
+  // Build answers either from --yes (accept all defaults) or interactive prompts.
+  let answers: Record<string, boolean>;
+  if (options.yes) {
+    answers = OPTIONAL_RULES.reduce<Record<string, boolean>>((acc, rule) => {
+      acc[rule.key] = true;
+      return acc;
+    }, {});
+    console.log(chalk.gray('\nAccepting all optional rule prompts (--yes).'));
+  } else {
+    console.log(chalk.bold.blue('\nOptional rules\n'));
+    answers = await inquirer.prompt(
+      OPTIONAL_RULES.map(rule => ({
+        type: 'confirm',
+        name: rule.key,
+        message: rule.promptMessage,
+        default: rule.defaultAnswer
+      }))
+    );
+  }
+
+  for (const rule of OPTIONAL_RULES) {
+    if (!answers[rule.key]) {
+      console.log(chalk.gray(`- Skipped ${rule.successLabel} rule.`));
+      continue;
+    }
+    console.log(chalk.blue(`\nInstalling ${rule.successLabel} rule...`));
+    const result = await rule.install({
+      targetDir: process.cwd(),
+      skipIfExists: true,
+      verbose: true
+    });
+    if (!result.success) {
+      console.log(chalk.yellow(`Warning: Could not install ${rule.successLabel} rule: ${result.error}`));
+      console.log(chalk.gray(`You can manually copy the rule from .augment/rules/${rule.ruleFilename}`));
+    }
+  }
 }
 
 export async function initCommand(options: InitOptions): Promise<void> {
@@ -125,6 +216,10 @@ Check \`.augment/extensions.json\` for currently linked modules.
       console.log(chalk.yellow(`⚠ Warning: Could not install no-em-dash rule: ${emDashResult.error}`));
       console.log(chalk.gray('You can manually copy the rule from .augment/rules/no-em-dash.md'));
     }
+
+    // Prompt for and conditionally install the optional rules
+    // (ASCII-only-code, UTF-8 in non-code, no-emoji)
+    await maybeInstallOptionalRules(options);
 
     // Extract command help for workflow tools
     console.log(chalk.blue('\n📖 Extracting command help for workflow tools...\n'));

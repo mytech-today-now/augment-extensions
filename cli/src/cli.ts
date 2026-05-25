@@ -45,6 +45,7 @@ import {
   mcpGenerateCLICommand
 } from './commands/mcp';
 import { codeAnalysisCommand } from './commands/code-analysis';
+import { exportCommand } from './commands/export';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -230,6 +231,11 @@ program
   .command('link <module>')
   .description('Link an extension module to current project')
   .option('--version <version>', 'Specific version to link')
+  .option(
+    '--mirror <tools>',
+    'Mirror the module into native tool locations (claude-code, cursor, windsurf, copilot, all - comma-separated)'
+  )
+  .option('--verbose', 'Log materialization mode (symlink vs copy) for each file')
   .action(linkCommand);
 
 program
@@ -511,6 +517,33 @@ mcpCommand
   .command('generate-cli <serverCommand> <outputPath>')
   .description('Generate CLI using mcporter')
   .action(mcpGenerateCLICommand);
+
+// Cross-platform export command
+program
+  .command('export')
+  .description(
+    'Aggregate linked Augx modules into native rule files for Claude Code, Cursor, Windsurf, or Copilot'
+  )
+  .option(
+    '--target <tools>',
+    'Target tool(s): claude-code, cursor, windsurf, copilot, all (comma-separated)'
+  )
+  .option(
+    '--output <path>',
+    'Override output path (only valid with a single --target)'
+  )
+  .option('--dry-run', 'Report projected output without writing')
+  .option('--force', 'Overwrite even when drift is detected')
+  .option('--verbose', 'Print per-target write decisions')
+  .action((options) => {
+    exportCommand({
+      target: options.target,
+      output: options.output,
+      dryRun: options.dryRun,
+      force: options.force,
+      verbose: options.verbose,
+    });
+  });
 
 // Code Analysis command
 program

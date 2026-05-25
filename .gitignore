@@ -121,3 +121,22 @@ cli/evaluation/
 # and contains creative content that should be preserved and versioned.
 
 .beads/.jsonl.lock
+beads-bd/
+openspec/
+scripts/
+tests/
+beads-install.sh
+completed.jsonl
+find_ready_tasks.js
+release.ps1
+test-all.ts
+test-modules.md
+test-results.jsonl
+test-submodules.js
+ai-prompts/
+.beads/
+.augment/
+_tests_/
+_mocks_/
+.codegraph/
+

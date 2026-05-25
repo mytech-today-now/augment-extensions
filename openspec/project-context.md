@@ -88,6 +88,7 @@ Follows the `AGENTS.md` convention used by OpenSpec and Beads:
 - Development teams using Augment Code AI
 - Individual developers wanting to extend AI capabilities
 - Organizations standardizing coding practices
+- Consumers of `augx export` and `augx link --mirror` artifacts: the same module set powers Claude Code (`CLAUDE.md`, `.claude/rules/`), Cursor (`.cursor/rules/`), Windsurf (`.windsurfrules`, `.windsurf/rules/`), and GitHub Copilot (`.github/copilot-instructions.md`, `.github/instructions/`) in addition to Augment Code.
 
 ## Success Metrics
 

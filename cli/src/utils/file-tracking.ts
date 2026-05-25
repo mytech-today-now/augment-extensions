@@ -7,6 +7,7 @@
 
 import * as fs from 'fs';
 import { minimatch } from 'minimatch';
+import type { ExportBlock, MirrorsBlock } from '../types/coordination-export';
 
 interface CoordinationManifest {
   version: string;
@@ -15,6 +16,9 @@ interface CoordinationManifest {
   tasks: Record<string, any>;
   rules: Record<string, any>;
   files: Record<string, FileEntry>;
+  export?: ExportBlock;
+  mirrors?: MirrorsBlock;
+  [unknownKey: string]: unknown;
 }
 
 interface FileEntry {

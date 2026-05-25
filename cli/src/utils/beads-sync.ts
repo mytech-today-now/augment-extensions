@@ -7,6 +7,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import type { ExportBlock, MirrorsBlock } from '../types/coordination-export';
 
 interface BeadsTask {
   id: string;
@@ -31,6 +32,9 @@ interface CoordinationManifest {
   tasks: Record<string, any>;
   rules: Record<string, any>;
   files: Record<string, any>;
+  export?: ExportBlock;
+  mirrors?: MirrorsBlock;
+  [unknownKey: string]: unknown;
 }
 
 /**

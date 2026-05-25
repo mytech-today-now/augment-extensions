@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-02-04T17:30:00.0000000Z",
+  "lastUpdated": "2026-05-25T21:13:00Z",
   "specs": {
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
@@ -224,6 +224,107 @@
         ".augment/coordination.json"
       ],
       "dependencies": []
+    },
+    "cross-platform/export-command": {
+      "path": "openspec/specs/cross-platform/export-command.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-xplat1",
+        "bd-xplat1-1",
+        "bd-xplat2",
+        "bd-xplat2-1",
+        "bd-xplat2-2",
+        "bd-xplat2-3",
+        "bd-xplat2-4",
+        "bd-xplat2-5",
+        "bd-xplat2-6"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ],
+      "affectedFiles": [
+        "cli/src/adapters/**/*.ts",
+        "cli/src/commands/export.ts",
+        "cli/src/lib/export-runner.ts",
+        "cli/src/lib/source-hash.ts",
+        "cli/src/cli.ts"
+      ],
+      "dependencies": [
+        "cross-platform/coordination-export-block"
+      ]
+    },
+    "cross-platform/mirror-hook": {
+      "path": "openspec/specs/cross-platform/mirror-hook.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-xplat1",
+        "bd-xplat1-1",
+        "bd-xplat3",
+        "bd-xplat3-1",
+        "bd-xplat3-2",
+        "bd-xplat3-3",
+        "bd-xplat3-4"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "affectedFiles": [
+        "cli/src/commands/link.ts",
+        "cli/src/commands/unlink.ts",
+        "cli/src/lib/mirror-runner.ts",
+        "cli/src/lib/mirror-coordination.ts",
+        "cli/src/cli.ts"
+      ],
+      "dependencies": [
+        "cross-platform/export-command",
+        "cross-platform/coordination-export-block"
+      ]
+    },
+    "cross-platform/coordination-export-block": {
+      "path": "openspec/specs/cross-platform/coordination-export-block.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-xplat1",
+        "bd-xplat1-1",
+        "bd-xplat1-2"
+      ],
+      "relatedRules": [
+        "coordination-system.md",
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "affectedFiles": [
+        "cli/src/types/coordination-export.ts",
+        "cli/src/lib/mirror-coordination.ts",
+        ".augment/coordination.json"
+      ],
+      "dependencies": []
+    },
+    "cross-platform/mcp-template": {
+      "path": "openspec/specs/cross-platform/mcp-template.md",
+      "status": "active",
+      "relatedTasks": [
+        "bd-xplat1",
+        "bd-xplat1-1",
+        "bd-xplat4",
+        "bd-xplat4-1",
+        "bd-xplat4-2"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "affectedFiles": [
+        "augment-extensions/workflows/mcp/templates/beads.md",
+        "cli/src/lib/mcp-detection.ts",
+        "cli/src/adapters/banner.ts"
+      ],
+      "dependencies": [
+        "cross-platform/export-command"
+      ]
     }
   },
   "tasks": {
@@ -503,6 +604,654 @@
         "module-development.md"
       ],
       "outputFiles": []
+    },
+    "bd-xplat1": {
+      "title": "Phase 1: Foundations",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "coordination-system.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": []
+    },
+    "bd-xplat1-1": {
+      "title": "Write per-capability specs",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "openspec/specs/cross-platform/export-command.md",
+        "openspec/specs/cross-platform/mirror-hook.md",
+        "openspec/specs/cross-platform/coordination-export-block.md",
+        "openspec/specs/cross-platform/mcp-template.md"
+      ],
+      "dependencies": []
+    },
+    "bd-xplat1-2": {
+      "title": "Update .augment/coordination.json schema",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/coordination-export-block"
+      ],
+      "relatedRules": [
+        "coordination-system.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/types/coordination-export.ts",
+        ".augment/coordination.json"
+      ],
+      "dependencies": [
+        "bd-xplat1-1"
+      ]
+    },
+    "bd-xplat1-3": {
+      "title": "Define ToolAdapter interface",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/adapters/index.ts"
+      ],
+      "dependencies": [
+        "bd-xplat1-1"
+      ]
+    },
+    "bd-xplat1-4": {
+      "title": "Implement source-hash utility",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/lib/source-hash.ts"
+      ],
+      "dependencies": [
+        "bd-xplat1-1"
+      ]
+    },
+    "bd-xplat2": {
+      "title": "Phase 2: Aggregator Command",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat1"
+      ]
+    },
+    "bd-xplat2-1": {
+      "title": "Claude Code adapter",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/adapters/claude-code.ts"
+      ],
+      "dependencies": [
+        "bd-xplat1-3"
+      ]
+    },
+    "bd-xplat2-2": {
+      "title": "Cursor adapter",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/adapters/cursor.ts"
+      ],
+      "dependencies": [
+        "bd-xplat1-3"
+      ]
+    },
+    "bd-xplat2-3": {
+      "title": "Windsurf adapter",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/adapters/windsurf.ts"
+      ],
+      "dependencies": [
+        "bd-xplat1-3"
+      ]
+    },
+    "bd-xplat2-4": {
+      "title": "Copilot adapter",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/adapters/copilot.ts"
+      ],
+      "dependencies": [
+        "bd-xplat1-3"
+      ]
+    },
+    "bd-xplat2-5": {
+      "title": "augx export command wiring",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/commands/export.ts",
+        "cli/src/lib/export-runner.ts",
+        "cli/src/cli.ts"
+      ],
+      "dependencies": [
+        "bd-xplat2-1",
+        "bd-xplat2-2",
+        "bd-xplat2-3",
+        "bd-xplat2-4"
+      ]
+    },
+    "bd-xplat2-6": {
+      "title": "Drift detection",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/lib/source-hash.ts",
+        "cli/src/adapters/banner.ts",
+        "cli/src/lib/export-runner.ts"
+      ],
+      "dependencies": [
+        "bd-xplat1-4",
+        "bd-xplat2-5"
+      ]
+    },
+    "bd-xplat3": {
+      "title": "Phase 3: Mirror Hook",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/mirror-hook"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat1",
+        "bd-xplat2"
+      ]
+    },
+    "bd-xplat3-1": {
+      "title": "--mirror flag on augx link",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/mirror-hook"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/commands/link.ts",
+        "cli/src/cli.ts"
+      ],
+      "dependencies": [
+        "bd-xplat1-2"
+      ]
+    },
+    "bd-xplat3-2": {
+      "title": "Symlink-first / copy-fallback materializer",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/mirror-hook"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/lib/mirror-runner.ts",
+        "cli/src/lib/mirror-coordination.ts"
+      ],
+      "dependencies": [
+        "bd-xplat3-1"
+      ]
+    },
+    "bd-xplat3-3": {
+      "title": "Idempotent re-link",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/mirror-hook"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/lib/mirror-runner.ts",
+        "cli/src/lib/mirror-coordination.ts"
+      ],
+      "dependencies": [
+        "bd-xplat3-2"
+      ]
+    },
+    "bd-xplat3-4": {
+      "title": "augx unlink cleanup",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/mirror-hook"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/commands/unlink.ts"
+      ],
+      "dependencies": [
+        "bd-xplat3-2"
+      ]
+    },
+    "bd-xplat4": {
+      "title": "Phase 4: MCP Wiring Template",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/workflows/mcp/templates/beads.md"
+      ],
+      "dependencies": [
+        "bd-xplat2"
+      ]
+    },
+    "bd-xplat4-1": {
+      "title": "Author MCP template",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/workflows/mcp/templates/beads.md",
+        "cli/src/lib/mcp-detection.ts"
+      ],
+      "dependencies": [
+        "bd-xplat4"
+      ]
+    },
+    "bd-xplat4-2": {
+      "title": "Per-target inlining",
+      "status": "closed",
+      "relatedSpecs": [
+        "cross-platform/mcp-template",
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "cli/src/lib/mcp-detection.ts",
+        "cli/src/lib/export-runner.ts",
+        "cli/src/adapters/banner.ts",
+        "cli/src/adapters/claude-code.ts",
+        "cli/src/adapters/cursor.ts",
+        "cli/src/adapters/windsurf.ts",
+        "cli/src/adapters/copilot.ts"
+      ],
+      "dependencies": [
+        "bd-xplat4-1",
+        "bd-xplat2-1",
+        "bd-xplat2-2",
+        "bd-xplat2-3",
+        "bd-xplat2-4"
+      ]
+    },
+    "bd-xplat5": {
+      "title": "Phase 5: Tests",
+      "status": "in-progress",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat2",
+        "bd-xplat3",
+        "bd-xplat4"
+      ]
+    },
+    "bd-xplat5-1": {
+      "title": "Unit: source-hash stability (U1)",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat5"
+      ]
+    },
+    "bd-xplat5-2": {
+      "title": "Unit: symlink fallback on Windows (U2)",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/mirror-hook"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat5"
+      ]
+    },
+    "bd-xplat5-3": {
+      "title": "Unit: idempotent re-link and stale prune (U3)",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/mirror-hook"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat5"
+      ]
+    },
+    "bd-xplat5-4": {
+      "title": "Unit: drift detection refuses overwrite (U4)",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat5"
+      ]
+    },
+    "bd-xplat5-5": {
+      "title": "Unit: --dry-run writes nothing and reports byte counts (U5)",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat5"
+      ]
+    },
+    "bd-xplat5-6": {
+      "title": "Integration: end-to-end export against fixture project (I1)",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat5"
+      ]
+    },
+    "bd-xplat5-7": {
+      "title": "Integration: Claude Code + Cursor parse generated files (I3)",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat5"
+      ]
+    },
+    "bd-xplat6": {
+      "title": "Phase 6: Documentation",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md",
+        "no-unnecessary-docs.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat2",
+        "bd-xplat3",
+        "bd-xplat4"
+      ]
+    },
+    "bd-xplat6-1": {
+      "title": "Update AGENTS.md",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook"
+      ],
+      "relatedRules": [
+        "no-em-dash.md",
+        "no-unnecessary-docs.md"
+      ],
+      "outputFiles": [
+        "AGENTS.md"
+      ],
+      "dependencies": [
+        "bd-xplat6"
+      ]
+    },
+    "bd-xplat6-2": {
+      "title": "Update openspec/project-context.md",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook"
+      ],
+      "relatedRules": [
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "openspec/project-context.md"
+      ],
+      "dependencies": [
+        "bd-xplat6"
+      ]
+    },
+    "bd-xplat6-3": {
+      "title": "Author augment-extensions/workflows/cross-platform/ guide",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/workflows/cross-platform/**/*"
+      ],
+      "dependencies": [
+        "bd-xplat6"
+      ]
+    },
+    "bd-xplat7": {
+      "title": "Phase 7: Finalization",
+      "status": "in-progress",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "coordination-system.md",
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat5",
+        "bd-xplat6"
+      ]
+    },
+    "bd-xplat7-1": {
+      "title": "Coordination manifest update",
+      "status": "in-progress",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "coordination-system.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        ".augment/coordination.json"
+      ],
+      "dependencies": [
+        "bd-xplat7"
+      ]
+    },
+    "bd-xplat7-2": {
+      "title": "Run full validation suite",
+      "status": "in-progress",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": [
+        "bd-xplat7-1",
+        "bd-xplat5"
+      ]
+    },
+    "bd-xplat7-3": {
+      "title": "Archive change",
+      "status": "open",
+      "relatedSpecs": [
+        "cross-platform/export-command",
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block",
+        "cross-platform/mcp-template"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "no-em-dash.md",
+        "no-unnecessary-docs.md"
+      ],
+      "outputFiles": [
+        "openspec/archive/cross-platform/**/*"
+      ],
+      "dependencies": [
+        "bd-xplat7-2"
+      ]
     }
   },
   "rules": {
@@ -540,11 +1289,31 @@
         ],
         "specs": [
           "testing/functional-tests",
-          "augment-extensions/spec"
+          "augment-extensions/spec",
+          "cross-platform/export-command",
+          "cross-platform/mirror-hook",
+          "cross-platform/coordination-export-block",
+          "cross-platform/mcp-template"
         ],
         "tasks": []
       },
       "priority": "medium"
+    },
+    "no-em-dash.md": {
+      "path": ".augment/rules/no-em-dash.md",
+      "appliesTo": {
+        "filePatterns": [
+          "**/*"
+        ],
+        "specs": [
+          "cross-platform/export-command",
+          "cross-platform/mirror-hook",
+          "cross-platform/coordination-export-block",
+          "cross-platform/mcp-template"
+        ],
+        "tasks": []
+      },
+      "priority": "high"
     },
     "augment-extensions-workflow.md": {
       "path": ".augment/rules/augment-extensions-workflow.md",
@@ -569,7 +1338,8 @@
         ],
         "specs": [
           "harmonize-workflows",
-          "augment-config/standardized-structure"
+          "augment-config/standardized-structure",
+          "cross-platform/coordination-export-block"
         ],
         "tasks": []
       },
@@ -947,6 +1717,220 @@
       ],
       "rulesApplied": [
         "augment-extensions-workflow.md"
+      ]
+    },
+    "augment-extensions/workflows/mcp/templates/beads.md": {
+      "createdBy": "bd-xplat4-1",
+      "modifiedBy": [
+        "bd-xplat4-2"
+      ],
+      "governedBy": [
+        "cross-platform/mcp-template"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/adapters/banner.ts": {
+      "createdBy": "bd-xplat1-3",
+      "modifiedBy": [
+        "bd-xplat2-6",
+        "bd-xplat4-2"
+      ],
+      "governedBy": [
+        "cross-platform/export-command",
+        "cross-platform/mcp-template"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/adapters/claude-code.ts": {
+      "createdBy": "bd-xplat2-1",
+      "modifiedBy": [
+        "bd-xplat4-2"
+      ],
+      "governedBy": [
+        "cross-platform/export-command",
+        "cross-platform/mcp-template"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/adapters/cursor.ts": {
+      "createdBy": "bd-xplat2-2",
+      "modifiedBy": [
+        "bd-xplat4-2"
+      ],
+      "governedBy": [
+        "cross-platform/export-command",
+        "cross-platform/mcp-template"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/adapters/windsurf.ts": {
+      "createdBy": "bd-xplat2-3",
+      "modifiedBy": [
+        "bd-xplat4-2"
+      ],
+      "governedBy": [
+        "cross-platform/export-command",
+        "cross-platform/mcp-template"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/adapters/copilot.ts": {
+      "createdBy": "bd-xplat2-4",
+      "modifiedBy": [
+        "bd-xplat4-2"
+      ],
+      "governedBy": [
+        "cross-platform/export-command",
+        "cross-platform/mcp-template"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/adapters/index.ts": {
+      "createdBy": "bd-xplat1-3",
+      "modifiedBy": [],
+      "governedBy": [
+        "cross-platform/export-command"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/commands/export.ts": {
+      "createdBy": "bd-xplat2-5",
+      "modifiedBy": [],
+      "governedBy": [
+        "cross-platform/export-command"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/commands/link.ts": {
+      "createdBy": "bd-augext.6",
+      "modifiedBy": [
+        "bd-xplat3-1",
+        "bd-xplat3-3"
+      ],
+      "governedBy": [
+        "cross-platform/mirror-hook"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/commands/unlink.ts": {
+      "createdBy": "bd-modgui.13",
+      "modifiedBy": [
+        "bd-xplat3-4"
+      ],
+      "governedBy": [
+        "cross-platform/mirror-hook"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/lib/source-hash.ts": {
+      "createdBy": "bd-xplat1-4",
+      "modifiedBy": [
+        "bd-xplat2-6"
+      ],
+      "governedBy": [
+        "cross-platform/export-command"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/lib/export-runner.ts": {
+      "createdBy": "bd-xplat2-5",
+      "modifiedBy": [
+        "bd-xplat2-6",
+        "bd-xplat4-2"
+      ],
+      "governedBy": [
+        "cross-platform/export-command",
+        "cross-platform/mcp-template"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/lib/mirror-runner.ts": {
+      "createdBy": "bd-xplat3-2",
+      "modifiedBy": [
+        "bd-xplat3-3"
+      ],
+      "governedBy": [
+        "cross-platform/mirror-hook"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/lib/mirror-coordination.ts": {
+      "createdBy": "bd-xplat3-2",
+      "modifiedBy": [
+        "bd-xplat3-3"
+      ],
+      "governedBy": [
+        "cross-platform/mirror-hook",
+        "cross-platform/coordination-export-block"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "coordination-system.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/lib/mcp-detection.ts": {
+      "createdBy": "bd-xplat4-1",
+      "modifiedBy": [
+        "bd-xplat4-2"
+      ],
+      "governedBy": [
+        "cross-platform/mcp-template"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/types/coordination-export.ts": {
+      "createdBy": "bd-xplat1-2",
+      "modifiedBy": [],
+      "governedBy": [
+        "cross-platform/coordination-export-block"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "coordination-system.md",
+        "no-em-dash.md"
       ]
     }
   }

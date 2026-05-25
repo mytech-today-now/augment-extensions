@@ -343,6 +343,104 @@ augx mcp discover beads
 
 ---
 
+## Cross-Platform Distribution
+
+This repository can materialize linked Augx modules into the native rules surfaces of other AI coding tools, so the same module set powers Claude Code, Cursor, Windsurf, and GitHub Copilot in addition to Augment Code. The Augment Code surface (`.augment/` rules) is unchanged.
+
+Two complementary mechanisms, both opt-in, both safe to use together:
+
+1. `augx export --target <tool>` - aggregates linked modules into the single-file format the tool expects.
+2. `augx link <module> --mirror <tool>[,<tool>...]` - per-module symlink (or copy fallback on Windows) into the tool's native rules directory.
+
+### `augx export` Command
+
+```
+augx export --target <claude-code|cursor|windsurf|copilot|all>
+            [--output <path>] [--dry-run] [--force] [--verbose]
+```
+
+Per-target output paths:
+
+| Target | Path |
+|---|---|
+| `claude-code` | `CLAUDE.md` |
+| `cursor` | `.cursor/rules/augx.mdc` |
+| `windsurf` | `.windsurfrules` |
+| `copilot` | `.github/copilot-instructions.md` |
+| `all` | all of the above |
+
+Each generated file starts with a banner containing `augx-version`, `generated-at`, `source-hash`, and the contributing modules. Re-running with unchanged inputs is a byte-identical no-op. If the existing file has been hand-edited (banner hash mismatches the content), export refuses to overwrite and exits 3; pass `--force` to override.
+
+### `--mirror` Flag on `augx link`
+
+```
+augx link <module> [--mirror <tool>[,<tool>...]] [--verbose]
+```
+
+Per-tool per-module destinations:
+
+| Target | Per-Module Path |
+|---|---|
+| `claude-code` | `.claude/rules/<module>/...` plus a one-line include stub in `CLAUDE.md` |
+| `cursor` | `.cursor/rules/augx-<module>.mdc` |
+| `windsurf` | `.windsurf/rules/augx-<module>.md` |
+| `copilot` | `.github/instructions/augx-<module>.instructions.md` |
+
+The mirror hook tries `symlink` first and falls back to `copyFile` on Windows when `EPERM`/`EACCES`/`ENOSYS` is raised (no Developer Mode). The chosen mode is recorded in `.augment/coordination.json.mirrors[<module>]` so subsequent runs do not retry symlink. `augx unlink <module>` reverses both tracked symlinks and tracked copies; hand-edited targets are left in place with a warning.
+
+### `export` and `mirrors` Blocks in `.augment/coordination.json`
+
+Two optional top-level keys:
+
+```json
+{
+  "export": {
+    "targets": ["claude-code", "cursor"],
+    "ignore": ["**/examples/**"],
+    "mirror": false
+  },
+  "mirrors": {
+    "<module-id>": [
+      { "tool": "cursor",
+        "sourcePath": "augment-extensions/modules/<module>/rules/<file>.md",
+        "targetPath": ".cursor/rules/augx-<module>.mdc",
+        "mode": "symlink" }
+    ]
+  }
+}
+```
+
+- `export.targets` - default target list when `augx export` is called without `--target`.
+- `export.ignore` - glob patterns excluded from aggregation (forward-slash, defaults to `["**/examples/**"]`).
+- `export.mirror` - when `true`, `augx link` runs the mirror hook for all `targets` without requiring `--mirror`.
+- `mirrors` - CLI-managed materialization log; do not hand-edit. Cleared by `augx unlink`.
+
+Loaders MUST ignore unrecognized keys silently. Absence of both blocks preserves prior behavior exactly.
+
+### MCP-First Task-Context Contract
+
+Exported artifacts NEVER embed live task data (no `bd-` IDs, no statuses, no dependency snapshots). When the project declares a Beads MCP server in either `.vscode/mcp.json` or `.augment/mcp/servers.json`, `augx export` inlines a single tool-agnostic snippet from `augment-extensions/workflows/mcp/templates/beads.md` directly after the banner. The snippet:
+
+- Names the Beads MCP `beads` server and tells the consuming agent to query it for live task state.
+- Lists the public operations (`tasks/list`, `tasks/get`, `dependencies/list`, `status/get`).
+- References `augment-extensions/workflows/beads/` for the command guide.
+- Contains no IDs, statuses, secrets, or endpoint URLs.
+
+When neither MCP config file declares the `beads` server, the snippet is omitted entirely. This keeps exported files focused on static guidance and prevents stale task data from leaking into rule surfaces.
+
+### For AI Agents
+
+When reading an exported file in any of the four target tools:
+
+1. Treat the content between the banner and the footer as canonical static guidance.
+2. For ANY task-related question, query the Beads MCP server (`beads`) rather than parsing prose for task state.
+3. Never hand-edit exported files - changes are overwritten on the next `augx export`. Edit module sources under `augment-extensions/` and re-run export.
+4. If a mirrored per-module file disappears after a module rename, run `augx link <module> --mirror ...` again to refresh the tracked set; stale targets are pruned automatically.
+
+**Learn More**: See `augment-extensions/workflows/cross-platform/` for the day-to-day guide (per-tool paths, drift-resolution playbook, end-to-end session walkthrough).
+
+---
+
 **Note**: This is a meta-repository for extending Augment Code AI. The actual project-specific `.augment/` folder remains in individual projects.
 
 

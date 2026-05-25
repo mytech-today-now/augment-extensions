@@ -2,9 +2,48 @@ import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
 import { findModule, discoverCollections } from '../utils/module-system';
+import { unlinkModuleMirrors } from '../lib/mirror-runner';
+import {
+  persistMirrorEntries,
+  readMirrorManifest,
+} from '../lib/mirror-coordination';
 
 interface UnlinkOptions {
   force?: boolean;
+}
+
+/**
+ * Remove every mirror artifact recorded for `moduleId` and clear the
+ * `mirrors[<moduleId>]` block from the coordination manifest. Emits a
+ * per-target line in verbose mode and a single warning for any file that
+ * was kept because it had been hand-edited.
+ */
+function cleanupModuleMirrors(projectRoot: string, moduleId: string): void {
+  const { manifest } = readMirrorManifest(projectRoot);
+  const entries = manifest.mirrors?.[moduleId] ?? [];
+  if (entries.length === 0) {
+    return;
+  }
+  const result = unlinkModuleMirrors(projectRoot, moduleId, entries);
+  const kept = result.outcomes.filter((o) => o.status === 'kept-hand-edited');
+  const removed = result.outcomes.filter((o) => o.status === 'removed').length;
+  if (removed > 0) {
+    console.log(chalk.gray(`  Pruned ${removed} mirror target(s)`));
+  }
+  if (result.claudeStubRemoved) {
+    console.log(chalk.gray('  Removed CLAUDE.md include stub'));
+  }
+  if (kept.length > 0) {
+    console.log(
+      chalk.yellow(
+        `  Kept ${kept.length} hand-edited file(s) - delete manually if no longer wanted:`
+      )
+    );
+    for (const k of kept) {
+      console.log(chalk.yellow(`    - ${k.targetPath}`));
+    }
+  }
+  persistMirrorEntries(projectRoot, moduleId, []);
 }
 
 export async function unlinkCommand(moduleName: string, options: UnlinkOptions = {}): Promise<void> {
@@ -58,6 +97,8 @@ export async function unlinkCommand(moduleName: string, options: UnlinkOptions =
     config.modules.splice(moduleIndex, 1);
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
+    cleanupModuleMirrors(process.cwd(), resolvedModuleName);
+
     console.log(chalk.green(`✓ Successfully unlinked: ${resolvedModuleName}`));
 
     if (dependentModules.length > 0) {
@@ -94,6 +135,7 @@ async function unlinkCollection(
     if (moduleIndex >= 0) {
       config.modules.splice(moduleIndex, 1);
       unlinkedCount++;
+      cleanupModuleMirrors(process.cwd(), module.id);
       console.log(chalk.green(`  ✓ Unlinked: ${module.id}`));
     } else {
       console.log(chalk.gray(`  - Skipped (not linked): ${module.id}`));

@@ -1,0 +1,91 @@
+{
+  "name": "cross-platform",
+  "version": "1.0.0",
+  "displayName": "Cross-Platform Distribution Workflow",
+  "description": "Day-to-day guide for distributing Augx extension modules into Claude Code, Cursor, Windsurf, and GitHub Copilot via 'augx export' and 'augx link --mirror'. Covers per-tool target paths, drift resolution, Windows symlink fallback, and the MCP-first task-context contract.",
+  "type": "workflow",
+  "tags": [
+    "augx",
+    "cli",
+    "cross-platform",
+    "claude-code",
+    "cursor",
+    "windsurf",
+    "copilot",
+    "interoperability",
+    "export",
+    "mirror",
+    "symlink",
+    "workflow"
+  ],
+  "dependencies": {},
+  "augment": {
+    "characterCount": 0,
+    "priority": "medium",
+    "category": "workflow",
+    "appliesTo": {
+      "filePatterns": [
+        "CLAUDE.md",
+        ".claude/rules/**/*",
+        ".cursor/rules/**/*",
+        ".windsurfrules",
+        ".windsurf/rules/**/*",
+        ".github/copilot-instructions.md",
+        ".github/instructions/**/*",
+        ".augment/coordination.json"
+      ],
+      "languages": ["markdown", "json"],
+      "domains": [
+        "website",
+        "web-app",
+        "os-application",
+        "linux",
+        "windows",
+        "dotnet",
+        "mobile",
+        "ai-prompt-helper"
+      ]
+    }
+  },
+  "installation": {
+    "required": false,
+    "steps": [
+      "Link module: augx link workflows/cross-platform",
+      "Read rules/export-guide.md for 'augx export' usage",
+      "Read rules/mirror-guide.md for 'augx link --mirror' usage",
+      "Read rules/drift-resolution.md when 'augx export' exits 3",
+      "Read rules/windows-fallback.md when running on Windows without Developer Mode"
+    ]
+  },
+  "features": {
+    "export_command": {
+      "enabled": true,
+      "description": "Aggregate linked modules into the native single-file format of Claude Code, Cursor, Windsurf, or GitHub Copilot."
+    },
+    "mirror_hook": {
+      "enabled": true,
+      "description": "Per-module materialization into each tool's per-module rules directory with symlink-or-copy semantics."
+    },
+    "drift_resolution": {
+      "enabled": true,
+      "description": "Playbook for resolving the 'exit 3 / hand-edited target' refusal from 'augx export'."
+    },
+    "windows_fallback": {
+      "enabled": true,
+      "description": "Documented EPERM/EACCES/ENOSYS fallback from symlink to copy, recorded once in coordination.mirrors."
+    },
+    "mcp_task_context": {
+      "enabled": true,
+      "description": "MCP-first contract: exported files contain zero live task data; agents query the Beads MCP server instead."
+    }
+  },
+  "contents": [
+    "README.md - Module overview, quick reference, per-tool target paths.",
+    "rules/export-guide.md - Day-to-day 'augx export' usage and flags.",
+    "rules/mirror-guide.md - Day-to-day 'augx link --mirror' usage and flags.",
+    "rules/drift-resolution.md - Recovering from 'exit 3' drift refusal.",
+    "rules/windows-fallback.md - Symlink-to-copy fallback behavior on Windows.",
+    "rules/mcp-snippet-inlining.md - When and how the Beads MCP snippet is inlined.",
+    "examples/end-to-end-session.md - Walkthrough of a full link -> mirror -> export -> unlink session."
+  ]
+}

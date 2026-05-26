@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "specs": {},
+  "tasks": {},
+  "export": {
+    "targets": ["claude-code", "cursor", "windsurf", "copilot"],
+    "ignore": ["**/examples/**"],
+    "mirror": false
+  }
+}

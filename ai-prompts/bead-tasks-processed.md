@@ -1,0 +1,285 @@
+﻿Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 1):
+ID: bd-xplat1 | Name: Phase 1: Foundations | Description: Land the per-capability specs, the ToolAdapter contract, the source-hash utility, and the coordination schema additions that every later phase depends on. De...
+ID: bd-xplat1-1 | Name: Write per-capability specs | Description: Promote the four draft specs in openspec/changes/cross-platform/specs/ to canonical specs under openspec/specs/cross-platform/: export-command.md, mirror-hoo...
+ID: bd-xplat1-2 | Name: Update .augment/coordination.json schema | Description: Add optional top-level 'export' and 'mirrors' keys to the coordination loader per specs/coordination-export-block.md. 'export' carries targets[], ignore[], m...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 2):
+ID: bd-xplat1-3 | Name: Define ToolAdapter interface | Description: Create cli/src/adapters/types.ts with the ToolAdapter contract from design.md component 2: id ('claude-code'|'cursor'|'windsurf'|'copilot'), exportPaths(proj...
+ID: bd-xplat1-4 | Name: Implement source-hash utility | Description: Create cli/src/lib/source-hash.ts that hashes the canonical JSON encoding of {sortedModuleIds, versions, contentDigests, ignorePatterns} with SHA-256 and tru...
+ID: bd-xplat2 | Name: Phase 2: Aggregator Command | Description: Ship 'augx export --target <claude-code|cursor|windsurf|copilot|all>' with one adapter per target, flag parsing (--output, --dry-run, --force, --verbose), ig...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 3):
+ID: bd-xplat2-1 | Name: Claude Code adapter | Description: Implement cli/src/adapters/claude-code.ts. Output path: CLAUDE.md. Compose: banner (GENERATED + version + timestamp + source-hash + modules list) -> optional...
+ID: bd-xplat2-2 | Name: Cursor adapter | Description: Implement cli/src/adapters/cursor.ts. Output path: .cursor/rules/augx.mdc. YAML frontmatter (description: 'Augx aggregated rules', alwaysApply: true) precede...
+ID: bd-xplat2-3 | Name: Windsurf adapter | Description: Implement cli/src/adapters/windsurf.ts. Output path: .windsurfrules (single Markdown file at project root). Banner + optional MCP snippet + per-module sectio...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 4):
+ID: bd-xplat2-4 | Name: Copilot adapter | Description: Implement cli/src/adapters/copilot.ts. Output path: .github/copilot-instructions.md. Banner + optional MCP snippet + per-module sections in alphabetical orde...
+ID: bd-xplat2-5 | Name: augx export command wiring | Description: Create cli/src/commands/export.ts. Parse --target, --output, --dry-run, --force, --verbose. When --target absent, fall back to .augment/coordination.json.exp...
+ID: bd-xplat2-6 | Name: Drift detection | Description: Before writing each target, read existing file, extract 'source-hash' banner comment, recompute hash over the body, and compare against the new computed hash...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 5):
+ID: bd-xplat3 | Name: Phase 3: Mirror Hook | Description: Extend 'augx link <module>' with optional --mirror <tool>[,<tool>...] flag and symlink-preferred / copy-fallback materialization. Add idempotent re-link (cre...
+ID: bd-xplat3-1 | Name: --mirror flag on augx link | Description: Add --mirror to cli/src/commands/link.ts. Accept a comma-separated tool list against the closed enum {claude-code, cursor, windsurf, copilot}. When the flag ...
+ID: bd-xplat3-2 | Name: Symlink-first / copy-fallback materializer | Description: For each resolved rule file, try fs.symlinkSync(source, dest); on EPERM / EACCES / ENOSYS (notably Windows without Developer Mode) fall back to fs.copyFileSy...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 6):
+ID: bd-xplat3-3 | Name: Idempotent re-link | Description: On every 'augx link --mirror' invocation: compute desired (tool, targetPath) tuples from current module rules; diff against tracked mirrors[<moduleId>]; crea...
+ID: bd-xplat3-4 | Name: augx unlink cleanup | Description: For each entry in mirrors[<moduleId>]: if target is a symlink to the recorded source OR a copy whose content hash still matches the source, delete it; if the...
+ID: bd-xplat4 | Name: Phase 4: MCP Wiring Template | Description: Provide the canonical Beads MCP snippet that exported per-tool files inline conditionally, so any AI agent reading those files queries the Beads MCP server f...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 7):
+ID: bd-xplat4-1 | Name: Author MCP template | Description: Create augment-extensions/workflows/mcp/templates/beads.md with the canonical content from specs/mcp-template.md: server id 'beads', four MCP operations (tas...
+ID: bd-xplat4-2 | Name: Per-target inlining | Description: Each adapter inspects .vscode/mcp.json and .augment/mcp/servers.json; if either declares a server with id 'beads', inline the template content immediately af...
+ID: bd-xplat5 | Name: Phase 5: Tests | Description: Unit and integration coverage of all acceptance criteria in proposal.md and the full U1-U9 / I1-I3 contract in tests/test-plan.md. Coverage targets: source-h...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 8):
+ID: bd-xplat7 | Name: Phase 7: Finalization | Description: Register the change in the coordination manifest, run the full validation suite (unit + integration + 'augx export --dry-run' on this repo), and archive the ...
+ID: bd-xplat7-1 | Name: Coordination manifest update | Description: Register the cross-platform change in .augment/coordination.json: add the spec entry, the bd-xplat* task IDs, the affected file patterns (cli/src/adapters/, ...
+ID: bd-xplat7-2 | Name: Run full validation suite | Description: Execute all unit + integration tests under cli/test/ and verify 'augx export --dry-run --target all' on this repo succeeds with non-zero byte counts for each...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 9):
+ID: bd-xplat7-3 | Name: Archive change | Description: Move openspec/changes/cross-platform/ to openspec/archive/cross-platform/. Update .augment/coordination.json references that point at the changes path. Confi...
+ID: bd-xplat5-1 | Name: Unit: source-hash stability (U1) | Description: tests/source-hash.test.ts: assert reorder invariance (same modules, different array order -> same hash), version-bump sensitivity, content-edit sensitivity, ...
+ID: bd-xplat5-2 | Name: Unit: symlink fallback on Windows (U2) | Description: tests/mirror-symlink-fallback.test.ts: mock fs.symlinkSync to throw EPERM, assert copyFile is called with the same arguments, assert the tracked mirrors entr...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 10):
+ID: bd-xplat5-3 | Name: Unit: idempotent re-link and stale prune (U3) | Description: tests/mirror-idempotent.test.ts: link a module with 3 rule files, assert 3 tracked entries; delete one source file and re-link, assert tracked == 2 and orpha...
+ID: bd-xplat5-4 | Name: Unit: drift detection refuses overwrite (U4) | Description: tests/drift-detection.test.ts: run 'augx export --target claude-code' and capture banner hash; append a stray line to CLAUDE.md; re-run without --force, asse...
+ID: bd-xplat5-5 | Name: Unit: --dry-run writes nothing and reports byte counts (U5) | Description: tests/dry-run.test.ts: stub fs.writeFile and fs.writeFileSync to fail if called; run 'augx export --target all --dry-run'; assert stdout contains four '[dry-...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 11):
+ID: bd-xplat5-6 | Name: Integration: end-to-end export against fixture project (I1) | Description: tests/export-e2e.test.ts using cli/test/fixtures/cross-platform-e2e/ with two linked modules (typescript-standards, openspec-workflow). Run 'augx export --ta...
+ID: bd-xplat5-7 | Name: Integration: Claude Code + Cursor parse generated files (I3) | Description: tests/tool-parse.test.ts: after I1 runs, load CLAUDE.md and .cursor/rules/augx.mdc with each tool's official parser (or known-good schema). Assert no parse e...
+ID: bd-xplat6 | Name: Phase 6: Documentation | Description: Document the new surfaces (augx export, --mirror flag, export block, MCP-first contract) in AGENTS.md, openspec/project-context.md, and a new augment-extensi...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'
+
+---
+
+Using Augmentcode AI (with Augment-extensions) in VS Code:
+- Load bead tasks using 'scripts\beads-helpers.ps1' (dot-sourceit to get the 'bd' alias: . .\scripts\beads-helpers.ps1) or call 'scripts\beads-query.ps1' directly
+- Check task completion status with "bd list --status open" or "bd ready " - skip any task whose status is not open/in-progress
+- For each remaining task in this batch:
+    - Claim the task before starting: "bd update <id> --claim"
+    - Generate production-quality code that fully satisfies the bead task requirements
+    - Follow professional coding standards at all times
+    - Do not use stubs, placeholders, or incomplete implementations
+    - Do not hallucinate or make up functionality
+    - Never reuse the same code pattern for multiple distinct tasks
+    - Address every TODO in the relevant files:
+        â€¢ If a TODO is relevant, implement the required change
+        â€¢ If a TODO is not relevant, explicitly document why it can be ignored
+    - Do not proceed until all TODOs are explicitly resolved or justified
+(batch 12):
+ID: bd-xplat6-1 | Name: Update AGENTS.md | Description: Add a new '## Cross-Platform Distribution' section to AGENTS.md covering: augx export command and supported targets, --mirror flag on augx link, the export b...
+ID: bd-xplat6-2 | Name: Update openspec/project-context.md | Description: Under 'Target Users', add a bullet noting that exported artifacts make the modules consumable by Claude Code, Cursor, Windsurf, and GitHub Copilot in additio...
+ID: bd-xplat6-3 | Name: Author augment-extensions/workflows/cross-platform/ guide | Description: Create augment-extensions/workflows/cross-platform/ with a day-to-day guide for 'augx export' and '--mirror': per-tool target paths table, drift-resolution p...
+After completing the tasks above:
+- Mark the processed bead task(s) as closed in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl'.  Do NOT delete the bead task from 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\.beads\issues.jsonl' â€” only mark it as closed.
+- Also record completion in 'G:\_kyle\temp_documents\GitHub\augx\augment-extensions\completed.jsonl'

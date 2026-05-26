@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "specs": {},
+  "tasks": {},
+  "export": {
+    "targets": ["claude-code", "cursor", "windsurf", "copilot"],
+    "ignore": ["**/examples/**"],
+    "mirror": false
+  },
+  "mirrors": {
+    "typescript-standards": [
+      {
+        "tool": "cursor",
+        "sourcePath": "augment-extensions/modules/typescript-standards/rules/naming.md",
+        "targetPath": ".cursor/rules/augx-typescript-standards.mdc",
+        "mode": "symlink"
+      },
+      {
+        "tool": "claude-code",
+        "sourcePath": "augment-extensions/modules/typescript-standards/rules/naming.md",
+        "targetPath": ".claude/rules/typescript-standards/naming.md",
+        "mode": "symlink"
+      }
+    ]
+  }
+}

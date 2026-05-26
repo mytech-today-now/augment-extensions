@@ -1,142 +1,143 @@
+# =============================================================================
 # Dependencies
+# =============================================================================
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# =============================================================================
 # Build outputs
+# =============================================================================
 dist/
 build/
 *.tsbuildinfo
 
-# IDE
+# =============================================================================
+# IDE / editor
+# =============================================================================
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
+# =============================================================================
 # OS
+# =============================================================================
 .DS_Store
 Thumbs.db
 
-# Testing
+# =============================================================================
+# Test / coverage
+# =============================================================================
 coverage/
 .nyc_output/
 
-# Environment
+# =============================================================================
+# Environment / secrets
+# =============================================================================
 .env
 .env.local
 .env.*.local
 .npmrc
 
-# Logs
+# =============================================================================
+# Logs / temp / backup
+# =============================================================================
 logs/
 *.log
-
-# Temporary files
 tmp/
 temp/
 *.tmp
+*.bak
+*.backup
+*.backup*
 
-# Augment (entire directory - project-specific AI agent rules)
-.augment/
-# Exception: Track MCP documentation and examples
+# =============================================================================
+# Augment - ignore local state; keep tracked mcp/ docs and coordination.json.
+# Use .augment/* (glob) instead of .augment/ (dir) so git descends into the
+# directory and the negations below can re-include selected paths.
+# =============================================================================
+.augment/*
 !.augment/mcp/
-!.augment/mcp/*.md
-!.augment/mcp/servers.json
+!.augment/coordination.json
+.augment/extensions.json
 
-# Beads (cache and database only - track issues.jsonl and config)
+# =============================================================================
+# Beads - ignore local cache, server state, and lock files.
+# Keep issues.jsonl, config, hooks, scripts, and READMEs tracked.
+# =============================================================================
+.beads/cache.db
 .beads/beads.db
 .beads/beads.db-shm
 .beads/beads.db-wal
 .beads/.local_version
 .beads/metadata.json
-.beads/*.backup*
-.beads/.beads/daemon-error
+.beads/.bd-dolt-ok
+.beads/.jsonl.lock
+.beads/.beads/
+.beads/dolt/
+.beads/dolt-server.lock
+.beads/dolt-server.pid
+.beads/dolt-server.port
+.beads/interactions.jsonl
+.beads/daemon-error
+daemon.log
 daemon.lock
+beads-bd/
+beads_bd/
 
-# OpenSpec (entire directory - project-specific specs)
-openspec/
-
-# ai-prompts (entire directory - project-specific tests)
-ai-prompts/
-
-# scripts (entire directory - project-specific tests)
-scripts/
-
-# Augment Extensions
-.augment/extensions.json
-
-# Benchmarks
+# =============================================================================
+# Benchmarks - local results only; baseline/ and scenarios/ stay tracked
+# =============================================================================
 .benchmarks/
+benchmarks/results.json
 
-# CLI
+# =============================================================================
+# CLI - debug and ad-hoc test outputs
+# =============================================================================
 .cli/
+cli/debug-output.txt
+cli/test-output.md
+cli/test-*.md
+cli/wizard-*.md
+cli/evaluation/
 
-# Task Execution Summaries (temporary files)
+# =============================================================================
+# Root-level test/work artifacts
+# =============================================================================
+completed.jsonl
+test-results.jsonl
+docs/beads-tasks.jsonl
+
+# =============================================================================
+# Task execution summaries (transient working files)
+# =============================================================================
 *-EXECUTION-SUMMARY.md
 *-TASKS-SUMMARY.md
 *SUMMARY.md
 IMPLEMENTATION_SUMMARY.md
 TASK_COMPLETION_SUMMARY.md
-TASK-EXECUTION-SUMMARY.md
-BD-INSPECT-TASKS-COMPLETION-SUMMARY.md
-CMDHELP-EXECUTION-SUMMARY.md
-CMDHELP-TASKS-SUMMARY.md
-RAHA-TASKS-EXECUTION-SUMMARY.md
-RAHA-TASKS-2.4-2.7-EXECUTION-SUMMARY.md
 
-# Development/Internal Documentation (not for end users)
-test-modules.md
-npm-publish-checklist.md
-publishing.md
+# =============================================================================
+# Internal / development-only documentation (not for end users)
+# =============================================================================
 project-status.md
-module-development.md
-analyze-inspect-tasks.md
-modules.md
-
-# Daemon logs
-daemon.log
-daemon.lock
-
-# RAHA (Repository Analysis HTML Generator) - Work in Progress
-src/
-src/analyzers/
-src/types/
-
-# Development files (internal use only)
-dev/
-
-# CLI development and test files
-cli/debug-output.txt
-cli/test-*.md
-cli/wizard-*.md
-cli/evaluation/
-
-# User-Generated Content (DO NOT IGNORE)
-# screenplays/ - User-generated screenplay projects (tracked in git)
-# Note: This directory is created by writing-standards/screenplay module
-# and contains creative content that should be preserved and versioned.
-
-.beads/.jsonl.lock
-beads-bd/
-openspec/
-scripts/
-tests/
-beads-install.sh
-completed.jsonl
-find_ready_tasks.js
-release.ps1
-test-all.ts
+publishing.md
+npm-publish-checklist.md
 test-modules.md
-test-results.jsonl
-test-submodules.js
-ai-prompts/
-.beads/
-.augment/
-_tests_/
-_mocks_/
+analyze-inspect-tasks.md
+
+# =============================================================================
+# Work-in-progress source trees (root-level only; do not match cli/src/ etc.)
+# =============================================================================
+/src/
+/dev/
 .codegraph/
 
+# =============================================================================
+# User-generated content - DO NOT IGNORE
+# screenplays/ is created by writing-standards/screenplay; preserve versioning.
+# =============================================================================

@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "specs": {
+    "cross-platform/export-command": {
+      "status": "proposed",
+      "file": "openspec/specs/cross-platform/export-command.md",
+      "relatedTasks": ["bd-xplat2-1", "bd-xplat2-5"]
+    },
+    "cross-platform/mirror-hook": {
+      "status": "proposed",
+      "file": "openspec/specs/cross-platform/mirror-hook.md",
+      "relatedTasks": ["bd-xplat3-1", "bd-xplat3-2"]
+    }
+  },
+  "tasks": {
+    "bd-xplat2-1": {
+      "status": "open",
+      "relatedRules": [],
+      "relatedSpecs": ["cross-platform/export-command"]
+    },
+    "bd-xplat3-1": {
+      "status": "open",
+      "relatedRules": [],
+      "relatedSpecs": ["cross-platform/mirror-hook"]
+    }
+  },
+  "export": {
+    "targets": ["claude-code", "cursor"],
+    "ignore": ["**/examples/**", "**/CHANGELOG.md"],
+    "mirror": true
+  },
+  "mirrors": {
+    "typescript-standards": [
+      {
+        "tool": "claude-code",
+        "sourcePath": "augment-extensions/modules/typescript-standards/rules/naming.md",
+        "targetPath": ".claude/rules/typescript-standards/naming.md",
+        "mode": "symlink"
+      },
+      {
+        "tool": "cursor",
+        "sourcePath": "augment-extensions/modules/typescript-standards/rules/naming.md",
+        "targetPath": ".cursor/rules/augx-typescript-standards.mdc",
+        "mode": "copy"
+      }
+    ],
+    "openspec-workflow": [
+      {
+        "tool": "claude-code",
+        "sourcePath": "augment-extensions/modules/openspec-workflow/rules/workflow.md",
+        "targetPath": ".claude/rules/openspec-workflow/workflow.md",
+        "mode": "symlink"
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "beads": {
+      "command": "python",
+      "args": ["-m", "beads_mcp"],
+      "env": {}
+    }
+  }
+}

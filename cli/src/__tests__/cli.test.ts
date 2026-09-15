@@ -20,6 +20,7 @@ jest.mock('../commands/install-rules');
 jest.mock('../commands/gui');
 jest.mock('../commands/unlink');
 jest.mock('../commands/self-remove');
+jest.mock('../commands/lifecycle');
 jest.mock('../commands/skill');
 jest.mock('../commands/mcp');
 jest.mock('chalk', () => ({
@@ -471,6 +472,54 @@ describe('CLI Command Parsing', () => {
 
       expect(mockAction).toHaveBeenCalled();
       expect(mockAction.mock.calls[0][0].force).toBe(true);
+    });
+  });
+
+  describe('lifecycle command', () => {
+    it('should parse lifecycle command without an action', () => {
+      const mockAction = jest.fn();
+      program
+        .command('lifecycle [action]')
+        .option('--json', 'Output as JSON')
+        .option('--dry-run', 'Preview lifecycle mutations without applying them')
+        .option('--force', 'Skip confirmation prompts for destructive actions')
+        .option('--fix <ids>', 'Apply one or more safe fixes, comma-separated')
+        .option('--all-safe', 'Apply every safe fix that the diagnostics report')
+        .option('--report <path>', 'Write a diagnostic report to the given path')
+        .option('--keep-data', 'Preserve user data during uninstall')
+        .option('--remove-data', 'Remove user data during uninstall after archiving it')
+        .action(mockAction);
+
+      program.parse(['node', 'augx', 'lifecycle']);
+
+      expect(mockAction).toHaveBeenCalled();
+      expect(mockAction.mock.calls[0][0]).toBeUndefined();
+      expect(mockAction.mock.calls[0][1].json).toBeUndefined();
+      expect(mockAction.mock.calls[0][1].dryRun).toBeUndefined();
+      expect(mockAction.mock.calls[0][1].force).toBeUndefined();
+    });
+
+    it('should parse lifecycle status with flags', () => {
+      const mockAction = jest.fn();
+      program
+        .command('lifecycle [action]')
+        .option('--json', 'Output as JSON')
+        .option('--dry-run', 'Preview lifecycle mutations without applying them')
+        .option('--force', 'Skip confirmation prompts for destructive actions')
+        .option('--fix <ids>', 'Apply one or more safe fixes, comma-separated')
+        .option('--all-safe', 'Apply every safe fix that the diagnostics report')
+        .option('--report <path>', 'Write a diagnostic report to the given path')
+        .option('--keep-data', 'Preserve user data during uninstall')
+        .option('--remove-data', 'Remove user data during uninstall after archiving it')
+        .action(mockAction);
+
+      program.parse(['node', 'augx', 'lifecycle', 'status', '--json', '--dry-run', '--report', 'report.json']);
+
+      expect(mockAction).toHaveBeenCalled();
+      expect(mockAction.mock.calls[0][0]).toBe('status');
+      expect(mockAction.mock.calls[0][1].json).toBe(true);
+      expect(mockAction.mock.calls[0][1].dryRun).toBe(true);
+      expect(mockAction.mock.calls[0][1].report).toBe('report.json');
     });
   });
 

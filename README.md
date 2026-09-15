@@ -138,6 +138,20 @@ augx self-remove --dry-run
 augx self-remove --force
 ```
 
+#### `augx lifecycle [action]`
+
+Inspect and manage the project lifecycle artifact. The command supports `status`, `repair`, `rollback`, `report`, and `uninstall`. When run without an action in an interactive terminal, it opens a menu. Use `--dry-run` to preview changes, `--fix <ids>` or `--all-safe` to control repairs, and `--report <path>` to write a redacted diagnostic report.
+
+```bash
+augx lifecycle status
+augx lifecycle repair --all-safe
+augx lifecycle rollback --dry-run
+augx lifecycle report --report .augment/lifecycle/reports/latest.json
+augx lifecycle uninstall --force
+```
+
+See [docs/LIFECYCLE.md](./docs/LIFECYCLE.md) for the state model, artifact schema, repair flow, and recovery notes.
+
 ### Module discovery
 
 #### `augx list`

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "application": {
+    "name": "augment-extensions",
+    "version": "0.0.0-placeholder"
+  },
+  "projectRoot": "C:/path/to/project",
+  "status": "installation-completed",
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "updatedAt": "2026-01-01T00:00:00.000Z",
+  "lastOperation": {
+    "name": "init",
+    "status": "succeeded",
+    "startedAt": "2026-01-01T00:00:00.000Z",
+    "finishedAt": "2026-01-01T00:00:01.000Z"
+  },
+  "extensionsConfig": {
+    "version": "0.1.0",
+    "modules": [],
+    "settings": {
+      "autoUpdate": false,
+      "checkUpdatesOnInit": true
+    }
+  },
+  "backups": [
+    {
+      "id": "backup-2026-01-01T00-00-00-000Z",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "reason": "placeholder",
+      "path": "C:/path/to/project/.augment/lifecycle/backups/backup-2026-01-01T00-00-00-000Z",
+      "files": []
+    }
+  ],
+  "archives": [
+    {
+      "id": "archive-2026-01-01T00-00-00-000Z",
+      "createdAt": "2026-01-01T00:00:00.000Z",
+      "path": "C:/path/to/project/.augment/lifecycle/archives/archive-2026-01-01T00-00-00-000Z.zip",
+      "checksum": "placeholder-checksum",
+      "source": "placeholder"
+    }
+  ],
+  "issues": [
+    {
+      "id": "missing-command-help",
+      "severity": "warning",
+      "title": "Command help reference is missing",
+      "message": "The command help file has not been generated.",
+      "evidence": ["Checked path: C:/path/to/project/.augment/COMMAND_HELP.md"],
+      "path": ".augment/COMMAND_HELP.md",
+      "blocksLifecycle": false,
+      "recommendedSolution": "Run augx lifecycle repair to regenerate command help.",
+      "riskLevel": "low",
+      "reversible": true,
+      "requiredPermissions": ["write .augment"],
+      "confirmationRequired": false,
+      "expectedResult": "The command help reference will be regenerated.",
+      "safeFix": "rebuild-command-help"
+    }
+  ],
+  "notes": [
+    "Placeholder artifact example only.",
+    "No secrets or credential values are stored here."
+  ]
+}

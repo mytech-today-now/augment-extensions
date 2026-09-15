@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "status": "recovery-required",
+  "installedModuleCount": 0,
+  "backupCount": 1,
+  "archiveCount": 1,
+  "upgradeAvailable": false,
+  "rollbackAvailable": true,
+  "issues": [
+    {
+      "id": "missing-command-help",
+      "severity": "warning",
+      "title": "Command help reference is missing",
+      "message": "The command help file has not been generated.",
+      "evidence": [
+        "Checked path: <redacted-path>"
+      ],
+      "path": ".augment/COMMAND_HELP.md",
+      "blocksLifecycle": false,
+      "recommendedSolution": "Run augx lifecycle repair to regenerate command help.",
+      "riskLevel": "low",
+      "reversible": true,
+      "requiredPermissions": [
+        "write .augment"
+      ],
+      "confirmationRequired": false,
+      "expectedResult": "The command help reference will be regenerated.",
+      "safeFix": "rebuild-command-help"
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/augment-extensions/lifecycle-artifact.schema.json",
+  "title": "Augment Extensions Lifecycle Artifact",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schemaVersion",
+    "application",
+    "projectRoot",
+    "status",
+    "createdAt",
+    "updatedAt",
+    "lastOperation",
+    "extensionsConfig",
+    "backups",
+    "archives",
+    "issues"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "application": {
+      "type": "object",
+      "required": ["name", "version"],
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "projectRoot": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "not-installed",
+        "installation-detected",
+        "installation-in-progress",
+        "installation-completed",
+        "installation-partially-completed",
+        "installation-failed",
+        "upgrade-available",
+        "upgrade-in-progress",
+        "rollback-available",
+        "rollback-in-progress",
+        "uninstallation-pending-confirmation",
+        "uninstallation-in-progress",
+        "uninstallation-partially-completed",
+        "uninstallation-completed",
+        "diagnostic-analysis-in-progress",
+        "repair-available",
+        "repair-in-progress",
+        "recovery-required"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastOperation": {
+      "type": "object",
+      "required": ["name", "status", "startedAt"],
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["running", "succeeded", "failed"]
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "finishedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    },
+    "extensionsConfig": {
+      "type": "object",
+      "required": ["modules"],
+      "additionalProperties": true,
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "settings": {
+          "type": "object"
+        }
+      }
+    },
+    "backups": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "archives": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

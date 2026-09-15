@@ -29,6 +29,7 @@ import { installRulesCommand } from './commands/install-rules';
 import { guiCommand } from './commands/gui';
 import { unlinkCommand } from './commands/unlink';
 import { selfRemoveCommand } from './commands/self-remove';
+import { lifecycleCommand } from './commands/lifecycle';
 import {
   skillListCommand,
   skillShowCommand,
@@ -299,6 +300,19 @@ program
   .option('--dry-run', 'Preview the unlink-only cleanup without making changes')
   .option('--force', 'Skip confirmation prompts')
   .action(selfRemoveCommand);
+
+program
+  .command('lifecycle [action]')
+  .description('Inspect, repair, rollback, report, or uninstall the project lifecycle state')
+  .option('--json', 'Output as JSON')
+  .option('--dry-run', 'Preview lifecycle mutations without applying them')
+  .option('--force', 'Skip confirmation prompts for destructive actions')
+  .option('--fix <ids>', 'Apply one or more safe fixes, comma-separated')
+  .option('--all-safe', 'Apply every safe fix that the diagnostics report')
+  .option('--report <path>', 'Write a diagnostic report to the given path')
+  .option('--keep-data', 'Preserve user data during uninstall')
+  .option('--remove-data', 'Remove user data during uninstall after archiving it')
+  .action(lifecycleCommand);
 
 program
   .command('diff <module>')

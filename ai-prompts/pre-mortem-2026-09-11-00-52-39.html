@@ -1,0 +1,2000 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Augment Extensions Pre-Mortem Report, 2026-09-11 00:52:39</title>
+  <meta name="description" content="Repository-grounded pre-mortem for Augment Extensions generated from the current working tree.">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5efe6;
+      --bg-accent: #e5f0eb;
+      --surface: rgba(255, 250, 243, 0.96);
+      --surface-soft: rgba(255, 255, 255, 0.72);
+      --ink: #1f2732;
+      --muted: #596473;
+      --accent: #0f766e;
+      --accent-soft: rgba(15, 118, 110, 0.1);
+      --gold: #9a6b15;
+      --gold-soft: rgba(154, 107, 21, 0.1);
+      --danger: #a83b32;
+      --danger-soft: rgba(168, 59, 50, 0.1);
+      --border: #d8ccba;
+      --shadow: 0 18px 38px rgba(30, 24, 17, 0.08);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --max: 1180px;
+    }
+
+    html {
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 27%),
+        radial-gradient(circle at top right, rgba(154, 107, 21, 0.08), transparent 24%),
+        linear-gradient(180deg, var(--bg), #fbfaf7 62%, #ffffff 100%);
+      color: var(--ink);
+      font-size: 16px;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+      line-height: 1.58;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.46), transparent 22%),
+        linear-gradient(300deg, rgba(229, 240, 235, 0.42), transparent 18%);
+      z-index: -1;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration-thickness: 0.12em;
+      text-underline-offset: 0.18em;
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: #0b5e58;
+    }
+
+    .page {
+      width: min(var(--max), calc(100vw - 1.5rem));
+      margin: 0 auto;
+      padding: 1.25rem 0 3rem;
+    }
+
+    .hero,
+    .panel,
+    article {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 1.6rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto auto -8rem -6rem;
+      width: 18rem;
+      height: 18rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(15, 118, 110, 0.14), transparent 66%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.35rem;
+      color: var(--accent);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.18;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      max-width: 18ch;
+    }
+
+    h2 {
+      font-size: clamp(1.35rem, 2vw, 2rem);
+      margin-bottom: 0.8rem;
+    }
+
+    h3 {
+      font-size: 1.12rem;
+    }
+
+    p {
+      margin: 0 0 0.85rem;
+    }
+
+    .lede {
+      max-width: 76ch;
+      color: var(--muted);
+      font-size: 1.06rem;
+    }
+
+    .meta-grid,
+    .stat-grid,
+    .two-col,
+    .footer-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .meta-grid,
+    .stat-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-top: 1.15rem;
+    }
+
+    .meta,
+    .stat,
+    .callout {
+      min-width: 0;
+      padding: 0.95rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+    }
+
+    .meta-label,
+    .stat-label {
+      display: block;
+      margin: 0 0 0.15rem;
+      color: var(--muted);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .meta-value,
+    .stat-value {
+      display: block;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .panel {
+      padding: 1.35rem;
+      margin: 1.15rem 0;
+    }
+
+    .panel h2 {
+      color: var(--accent);
+    }
+
+    .callout {
+      border-left: 4px solid var(--gold);
+      background: #fff4de;
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    }
+
+    .callout strong {
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1040px;
+      border-collapse: collapse;
+    }
+
+    caption {
+      text-align: left;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    th,
+    td {
+      padding: 0.78rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .kind,
+    .severity,
+    .likelihood,
+    .priority {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 0.18rem 0.55rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .kind.core {
+      background: var(--accent-soft);
+      color: #075e57;
+    }
+
+    .kind.additional {
+      background: var(--gold-soft);
+      color: #74470a;
+    }
+
+    .severity.critical,
+    .severity.high {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .severity.medium {
+      background: var(--gold-soft);
+      color: var(--gold);
+    }
+
+    .severity.low {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .likelihood.almost-certain,
+    .likelihood.likely {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .likelihood.possible {
+      background: var(--gold-soft);
+      color: var(--gold);
+    }
+
+    .likelihood.unlikely,
+    .likelihood.rare {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .priority.p1,
+    .priority.p2,
+    .priority.p3,
+    .priority.p4 {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .priority.p5,
+    .priority.p6,
+    .priority.p7,
+    .priority.p8 {
+      background: var(--gold-soft);
+      color: var(--gold);
+    }
+
+    .priority.p9,
+    .priority.p10,
+    .priority.p11,
+    .priority.p12 {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .priority.p13,
+    .priority.p14,
+    .priority.p15,
+    .priority.p16 {
+      background: rgba(89, 100, 115, 0.12);
+      color: var(--muted);
+    }
+
+    .issues {
+      display: grid;
+      gap: 1rem;
+    }
+
+    article {
+      overflow: visible;
+    }
+
+    article header {
+      padding: 1.15rem 1.35rem 0.95rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .issue-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.55rem;
+    }
+
+    .issue-number {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    article h3 {
+      max-width: 72ch;
+    }
+
+    .issue-details {
+      display: grid;
+      grid-template-columns: 200px minmax(0, 1fr);
+      margin: 0;
+    }
+
+    .issue-details dt,
+    .issue-details dd {
+      margin: 0;
+      padding: 0.82rem 1.35rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .issue-details dt {
+      background: #fbf5ea;
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .issue-details dd {
+      background: rgba(255, 255, 255, 0.35);
+      overflow-wrap: anywhere;
+    }
+
+    .issue-details dd:last-child,
+    .issue-details dt:nth-last-of-type(1) {
+      border-bottom: 0;
+    }
+
+    .evidence,
+    .baseline,
+    .acceptance,
+    .tests {
+      margin: 0.35rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    .evidence li,
+    .baseline li,
+    .acceptance li,
+    .tests li {
+      margin: 0.28rem 0;
+    }
+
+    code {
+      font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+      font-size: 0.9em;
+      background: #eee7da;
+      border: 1px solid #ded4c5;
+      border-radius: 4px;
+      padding: 0.06em 0.28em;
+      overflow-wrap: anywhere;
+    }
+
+    pre {
+      margin: 0.65rem 0 0;
+      padding: 0.9rem 1rem;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    pre code {
+      border: 0;
+      background: transparent;
+      padding: 0;
+    }
+
+    .footer {
+      margin-top: 1.2rem;
+      padding: 1rem 0 0.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .footer-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    @media (max-width: 860px) {
+      .issue-details {
+        grid-template-columns: 1fr;
+      }
+
+      .issue-details dt {
+        padding-bottom: 0.35rem;
+        border-bottom: 0;
+      }
+
+      .issue-details dd {
+        padding-top: 0.35rem;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        width: min(calc(100vw - 1rem), var(--max));
+        padding-top: 0.6rem;
+      }
+
+      .hero,
+      .panel {
+        padding: 1rem;
+      }
+
+      article header,
+      .issue-details dt,
+      .issue-details dd {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+
+    @media print {
+      :root {
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-soft: #ffffff;
+        --ink: #000000;
+        --muted: #333333;
+        --border: #aaaaaa;
+      }
+
+      html,
+      body {
+        background: #ffffff;
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .page {
+        width: 100%;
+        padding: 0;
+      }
+
+      .hero,
+      .panel {
+        box-shadow: none;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      article {
+        box-shadow: none;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .table-wrap {
+        overflow: visible;
+      }
+
+      table {
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div class="eyebrow">Repository review, pre-mortem</div>
+      <h1>How Augment Extensions could fail on the next release</h1>
+      <p class="lede">This report inspects the current working tree of Augment Extensions and forecasts the most likely ways the CLI, generated file workflows, MCP integration, skill execution, and repository tests could fail for real users before those failures become release regressions.</p>
+
+      <div class="meta-grid" aria-label="Repository metadata">
+        <div class="meta">
+          <span class="meta-label">Repository</span>
+          <span class="meta-value">mytech-today-now/augment-extensions</span>
+        </div>
+        <div class="meta">
+          <span class="meta-label">Branch</span>
+          <span class="meta-value">codex/catalog-hook-layout-fix</span>
+        </div>
+        <div class="meta">
+          <span class="meta-label">Generated</span>
+          <span class="meta-value">2026-09-11 00:52:39 America/Chicago</span>
+        </div>
+        <div class="meta">
+          <span class="meta-label">Output path</span>
+          <span class="meta-value">./ai-prompts/pre-mortem-2026-09-11-00-52-39.html</span>
+        </div>
+        <div class="meta">
+          <span class="meta-label">Scope</span>
+          <span class="meta-value">Current repository root and its nested CLI, module, and workflow files</span>
+        </div>
+        <div class="meta">
+          <span class="meta-label">Style source</span>
+          <span class="meta-value"><code>ai-prompts/pre-mortem-2026-09-09-23-33-25.html</code></span>
+        </div>
+      </div>
+
+      <div class="stat-grid" aria-label="Validation snapshot">
+        <div class="stat">
+          <span class="stat-label">Core findings</span>
+          <span class="stat-value">10</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Additional findings</span>
+          <span class="stat-value">6</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Diagnostics run</span>
+          <span class="stat-value">Targeted Vitest on MCP integration, plus direct source inspection</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Observed result</span>
+          <span class="stat-value">17 tests passed with 1 unhandled error warning in the slow-timeout case</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="panel" id="executive-summary" aria-labelledby="executive-summary-heading">
+      <h2 id="executive-summary-heading">Executive Summary</h2>
+      <div class="two-col">
+        <div>
+          <p>The highest-risk cluster sits where the repo accepts user-controlled input and turns it into executable or generated artifacts. That includes skill frontmatter parsing, dynamic skill loading, MCP wrapper generation, MCP server configuration, and shell hook generation. Those paths are small, but they sit directly on the trust boundary between repository data and code execution.</p>
+          <p>A second cluster is operational. The code-analysis command crawls recursively without pruning generated directories, module validation counts every file under a module tree, and the repo does not yet have a CI workflow in <code>.github/workflows/</code> even though <code>package.json</code> already defines the local quality gates. That combination makes it easy for a slow or noisy path to escape detection until a user hits it.</p>
+          <p>The report also found a few boundary and contract problems that are less dramatic but still important: the <code>show --filter</code> path only matches basenames, the version resolver still has a single-version limit, and malformed MCP config files are quietly treated as empty. Those issues do not all break the CLI immediately, but they do create misleading or stale behavior that will slow down support and erode trust.</p>
+        </div>
+        <aside class="callout">
+          <strong>What matters most:</strong>
+          <p>Fix the execution boundary first, then the recursive scan and hook machinery, then the versioning and diagnostics gaps. If we remove the places where user input becomes file content or process execution, the remaining issues become much easier to validate and much less risky to ship.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="panel" id="scope-method" aria-labelledby="scope-method-heading">
+      <h2 id="scope-method-heading">Review Scope and Methodology</h2>
+      <div class="two-col">
+        <div>
+          <p>I inspected the root <code>AGENTS.md</code>, the nested <code>cli/AGENTS.md</code>, the package manifest, the main README, the project-status note, the CLI entrypoint, the command implementations, and the lower-level helpers that back module loading, MCP, skill loading, catalog sync, and hook installation.</p>
+          <ul>
+            <li>Repository identity confirmed from local evidence: <code>mytech-today-now/augment-extensions</code> on branch <code>codex/catalog-hook-layout-fix</code>.</li>
+            <li>Package scripts reviewed in <code>package.json</code>: <code>build</code>, <code>lint</code>, <code>test:vitest</code>, <code>prepare</code>, and <code>prepublishOnly</code>.</li>
+            <li>Targeted diagnostics run: <code>npm run test:vitest -- cli/src/utils/__tests__/mcp-integration.test.ts</code>.</li>
+            <li>Observed outcome of that vitest run: 17 tests passed, but Vitest also reported one unhandled error warning in the slow-timeout case.</li>
+            <li>Lightweight reproductions were used for line-ending behavior and wrapper string generation to confirm the source-level risks.</li>
+          </ul>
+        </div>
+        <div>
+          <p>I did not modify any application source, dependency, CI, or test file. The report is grounded in the current tree and in read-only command results only. Where a finding depends on a future caller, a future category, or a future version layout, I label it as <strong>Testable assumption</strong> and include a concrete confirmation path.</p>
+          <p>The existing pre-mortem file in <code>ai-prompts/</code> already established the report family style, so I adapted that visual language here instead of inventing a different layout for the same kind of audit.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="input-resolution" aria-labelledby="input-resolution-heading">
+      <h2 id="input-resolution-heading">Input-Resolution Note</h2>
+      <p>The source request referred to 10 mandatory issues but did not enumerate them. I treated that inconsistency as an explicit, testable assumption, selected the 10 highest-priority core issues by repository evidence, and added 6 distinct supporting issues that either expose adjacent failure modes or sharpen the same boundaries from a different angle. No separate issue was created for the placeholder itself.</p>
+    </section>
+
+    <section class="panel" id="risk-register" aria-labelledby="risk-register-heading">
+      <h2 id="risk-register-heading">Prioritized Risk Table</h2>
+      <div class="table-wrap">
+        <table>
+          <caption>Sixteen repository-grounded failure modes, ordered to match the article sequence below.</caption>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Kind</th>
+              <th scope="col">Title</th>
+              <th scope="col">Priority</th>
+              <th scope="col">Severity</th>
+              <th scope="col">Likelihood</th>
+              <th scope="col">Impacted area</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-issue-id="issue-01">
+              <td>01</td>
+              <td><span class="kind core">Core</span></td>
+              <td>Skill frontmatter parsing rejects CRLF files</td>
+              <td><span class="priority p1">P1</span></td>
+              <td><span class="severity high">High</span></td>
+              <td><span class="likelihood likely">Likely</span></td>
+              <td>Skill discovery and skill execution</td>
+            </tr>
+            <tr data-issue-id="issue-02">
+              <td>02</td>
+              <td><span class="kind core">Core</span></td>
+              <td>Skill cache ignores request-specific loading options</td>
+              <td><span class="priority p2">P2</span></td>
+              <td><span class="severity high">High</span></td>
+              <td><span class="likelihood possible">Possible</span></td>
+              <td>Skill loading, dependency resolution, and token budgeting</td>
+            </tr>
+            <tr data-issue-id="issue-03">
+              <td>03</td>
+              <td><span class="kind core">Core</span></td>
+              <td>Code-analysis recursively scans entire workspaces</td>
+              <td><span class="priority p3">P3</span></td>
+              <td><span class="severity high">High</span></td>
+              <td><span class="likelihood likely">Likely</span></td>
+              <td>Directory analysis, performance, and CLI responsiveness</td>
+            </tr>
+            <tr data-issue-id="issue-04">
+              <td>04</td>
+              <td><span class="kind core">Core</span></td>
+              <td>MCP wrapper generation does not escape user-controlled names</td>
+              <td><span class="priority p4">P4</span></td>
+              <td><span class="severity critical">Critical</span></td>
+              <td><span class="likelihood possible">Possible</span></td>
+              <td>Generated skill wrappers and metadata integrity</td>
+            </tr>
+            <tr data-issue-id="issue-05">
+              <td>05</td>
+              <td><span class="kind core">Core</span></td>
+              <td>MCP add parsing breaks quoted args and malformed JSON</td>
+              <td><span class="priority p5">P5</span></td>
+              <td><span class="severity high">High</span></td>
+              <td><span class="likelihood likely">Likely</span></td>
+              <td>MCP server configuration UX and argument handling</td>
+            </tr>
+            <tr data-issue-id="issue-06">
+              <td>06</td>
+              <td><span class="kind core">Core</span></td>
+              <td><code>show --filter</code> only matches basenames</td>
+              <td><span class="priority p6">P6</span></td>
+              <td><span class="severity medium">Medium</span></td>
+              <td><span class="likelihood likely">Likely</span></td>
+              <td>Module inspection and filtered file listing</td>
+            </tr>
+            <tr data-issue-id="issue-07">
+              <td>07</td>
+              <td><span class="kind core">Core</span></td>
+              <td>Hook installers are brittle and can strand managed blocks</td>
+              <td><span class="priority p7">P7</span></td>
+              <td><span class="severity medium">Medium</span></td>
+              <td><span class="likelihood possible">Possible</span></td>
+              <td>Git hooks, postinstall hooks, and repository automation</td>
+            </tr>
+            <tr data-issue-id="issue-08">
+              <td>08</td>
+              <td><span class="kind core">Core</span></td>
+              <td>Validation counts generated and vendor content as authored work</td>
+              <td><span class="priority p8">P8</span></td>
+              <td><span class="severity medium">Medium</span></td>
+              <td><span class="likelihood possible">Possible</span></td>
+              <td>Module validation, character counts, and project-agnostic checks</td>
+            </tr>
+            <tr data-issue-id="issue-09">
+              <td>09</td>
+              <td><span class="kind core">Core</span></td>
+              <td>No CI workflow or release gate exists in the repo</td>
+              <td><span class="priority p9">P9</span></td>
+              <td><span class="severity high">High</span></td>
+              <td><span class="likelihood likely">Likely</span></td>
+              <td>Deployment safety, regression detection, and release readiness</td>
+            </tr>
+            <tr data-issue-id="issue-10">
+              <td>10</td>
+              <td><span class="kind core">Core</span></td>
+              <td><code>loadModule</code> does not explicitly reject outside absolute paths</td>
+              <td><span class="priority p10">P10</span></td>
+              <td><span class="severity medium">Medium</span></td>
+              <td><span class="likelihood unlikely">Unlikely</span></td>
+              <td>Module resolution boundary and future internal callers</td>
+            </tr>
+            <tr data-issue-id="issue-11">
+              <td>11</td>
+              <td><span class="kind additional">Additional</span></td>
+              <td>Version resolver only sees a single <code>VERSION</code> file</td>
+              <td><span class="priority p11">P11</span></td>
+              <td><span class="severity medium">Medium</span></td>
+              <td><span class="likelihood possible">Possible</span></td>
+              <td>Version pinning, upgrade, and diff flows</td>
+            </tr>
+            <tr data-issue-id="issue-12">
+              <td>12</td>
+              <td><span class="kind additional">Additional</span></td>
+              <td>Malformed MCP config files are silently treated as empty</td>
+              <td><span class="priority p12">P12</span></td>
+              <td><span class="severity medium">Medium</span></td>
+              <td><span class="likelihood possible">Possible</span></td>
+              <td>MCP diagnostics and configuration recovery</td>
+            </tr>
+            <tr data-issue-id="issue-13">
+              <td>13</td>
+              <td><span class="kind additional">Additional</span></td>
+              <td>Hook scripts assume <code>augx</code> is already on PATH</td>
+              <td><span class="priority p13">P13</span></td>
+              <td><span class="severity medium">Medium</span></td>
+              <td><span class="likelihood possible">Possible</span></td>
+              <td>Hook execution on checkout, merge, and install</td>
+            </tr>
+            <tr data-issue-id="issue-14">
+              <td>14</td>
+              <td><span class="kind additional">Additional</span></td>
+              <td>ModuleLoader cache can serve stale metadata for too long</td>
+              <td><span class="priority p14">P14</span></td>
+              <td><span class="severity medium">Medium</span></td>
+              <td><span class="likelihood possible">Possible</span></td>
+              <td>Long-lived module inspection and version comparison</td>
+            </tr>
+            <tr data-issue-id="issue-15">
+              <td>15</td>
+              <td><span class="kind additional">Additional</span></td>
+              <td>Skill discovery only scans a fixed category list</td>
+              <td><span class="priority p15">P15</span></td>
+              <td><span class="severity low">Low</span></td>
+              <td><span class="likelihood possible">Possible</span></td>
+              <td>Skill discovery and GUI browsing</td>
+            </tr>
+            <tr data-issue-id="issue-16">
+              <td>16</td>
+              <td><span class="kind additional">Additional</span></td>
+              <td>MCP timeout handling can emit noisy rejection warnings</td>
+              <td><span class="priority p16">P16</span></td>
+              <td><span class="severity low">Low</span></td>
+              <td><span class="likelihood unlikely">Unlikely</span></td>
+              <td>MCP timeout behavior and test stability</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="issues" id="issues" aria-labelledby="issues-heading">
+      <h2 id="issues-heading" class="panel" style="margin-bottom:0;">Issue Articles</h2>
+
+      <article id="issue-01" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-01-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 01</span>
+            <span class="kind core">Core</span>
+            <span class="priority p1">P1</span>
+          </div>
+          <h3 id="issue-01-heading">Skill frontmatter parsing rejects CRLF files</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>Skill frontmatter parsing rejects CRLF files.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p1">P1</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity high">High</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood likely">Likely</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Skill discovery, skill validation, and skill execution on Windows or on any machine that normalizes files to CRLF.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>parseSkill()</code> expects frontmatter delimiters to use literal LF line endings. A skill file written with CRLF never matches the regex, so the skill disappears from discovery and injection flows even though the file is otherwise valid.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/skill-system.ts:65-73</code> uses <code>/^---\n([\s\S]*?)\n---\n([\s\S]*)$/</code> and therefore only accepts LF-delimited frontmatter.</li>
+              <li>A direct reproduction returned <code>false</code> for the same frontmatter shape when the input used CRLF line endings.</li>
+              <li><code>discoverSkills()</code> and the skill commands depend on that parser, so the failure propagates to every skill workflow.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Line endings are not a niche edge case. They are common on Windows, they can appear after editor conversions, and they can arrive from git checkouts. If the parser rejects them, an otherwise valid skill becomes invisible, which creates a support problem that is hard to diagnose from the CLI output alone.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Normalize the frontmatter parse to accept <code>\r?\n</code>, keep the body content unchanged, and preserve the current error path for truly malformed files. Do not rewrite skill files automatically unless the user explicitly asks for that normalization.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Work in the current project and resolve the repository root yourself. Inspect <code>cli/src/utils/skill-system.ts</code> and the skill command tests first, then update the parser so a skill frontmatter block survives LF and CRLF input without changing the surrounding body text. Keep the existing success shape for valid files, keep the current failure mode for malformed frontmatter, and avoid any broader refactor of the skill discovery flow. If a line-ending conversion is needed, do it only in memory for parsing, not by rewriting the file on disk. Add targeted tests for LF, CRLF, and malformed frontmatter, then run the repository's skill test command and the new unit test file. Finish by reporting the changed files, the exact tests you ran, the observed results, and any remaining assumptions.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Unit: add a temp skill fixture with CRLF frontmatter and assert <code>parseSkill()</code> returns the correct metadata and body, not an error.</li>
+              <li>Integration: create a temp skill repo with CRLF content and verify <code>skill list</code> and <code>skill show</code> still discover the skill.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Confirm LF skills still parse exactly as before, including the content string returned to <code>skill inject</code>.</li>
+              <li>Keep the malformed-frontmatter failure path intact so truly broken skill files still surface a useful error.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>LF and CRLF skill files load identically.</li>
+              <li>Malformed frontmatter still fails with the same user-facing diagnostic path.</li>
+              <li>No unrelated skill CLI output changes, and no file rewriting occurs as part of parsing.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>High. The parser regex and the CRLF reproduction both point to the same failure mode.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-02" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-02-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 02</span>
+            <span class="kind core">Core</span>
+            <span class="priority p2">P2</span>
+          </div>
+          <h3 id="issue-02-heading">Skill cache ignores request-specific loading options</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>Skill cache ignores request-specific loading options.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p2">P2</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity high">High</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood possible">Possible</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Skill loading, dependency resolution, and token budgeting for injections or batch loads.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>loadSkillDynamic()</code> caches by <code>skillId</code> alone. If one caller loads a skill with dependencies enabled and a later caller asks for dependencies disabled, the second caller can still receive the first caller's expanded tree from cache.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/skill-system.ts:342-391</code> defines <code>skillCache</code> and returns <code>skillCache.get(skillId)</code> before it examines <code>resolveDependencies</code> or <code>maxTokens</code>.</li>
+              <li>The cache key does not include any request option, so two calls with different loading intent can reuse the same object.</li>
+              <li>That is especially risky for <code>skill inject</code> and <code>skill load</code>, where token budgets and dependency breadth are user-visible behavior.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>The cache is an optimization, not a source of truth. If it ignores the request contract, the CLI can appear to succeed while silently returning the wrong dependency set or the wrong token footprint. That turns a tuning knob into a hidden state leak.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Include the request options in the cache key, or split the cache by loading mode so dependency-expanded and dependency-free loads cannot collide. Keep the public return shape stable, and preserve cache hits for identical option sets.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/utils/skill-system.ts</code> and the skill command tests first. Update the cache strategy so <code>resolveDependencies</code> and <code>maxTokens</code> cannot be ignored by a previous cached load. Avoid a broad refactor of skill discovery, and do not change the return shape of <code>LoadedSkill</code>. Add tests that load the same skill twice with different options and verify the dependency list and token budget behavior differ as requested. Run the relevant skill unit tests and the existing skill command tests, then report the changed files, command outputs, and any remaining risk around cache invalidation.</p>
+          </dt>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Unit: load one skill once with dependencies enabled and once with <code>resolveDependencies: false</code>; assert the second result has no inherited dependency tree.</li>
+              <li>Unit: load the same skill under two different <code>maxTokens</code> values and confirm the smaller budget still rejects oversized dependency sets.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Keep the current cache hit path for identical option sets.</li>
+              <li>Preserve the current warning behavior for missing dependencies and the current flattening behavior in <code>getSkillContentForInjection()</code>.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Cache reuse never changes the requested dependency breadth.</li>
+              <li>Budget enforcement still fails when the loaded tree is too large.</li>
+              <li>Identical option sets still benefit from cache hits.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>High. The cache key and the option checks are both visible in the source.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-03" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-03-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 03</span>
+            <span class="kind core">Core</span>
+            <span class="priority p3">P3</span>
+          </div>
+          <h3 id="issue-03-heading">Code-analysis recursively scans entire workspaces</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>Code-analysis recursively scans entire workspaces.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p3">P3</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity high">High</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood likely">Likely</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Directory analysis, performance, and CLI responsiveness.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>collectFilesRecursively()</code> walks every directory it sees, and <code>resolvePatternFiles()</code> feeds it broad base directories. With no prune list, a workspace rooted analysis can crawl <code>node_modules</code>, build output, nested repos, and any other generated tree that happens to sit under the target directory.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/commands/code-analysis.ts:375-393</code> recurses through every directory and only filters by extension.</li>
+              <li>The current implementation has no ignore list for vendor or generated folders, so broad scans do not stop at authored files.</li>
+              <li>The repository already has a large <code>node_modules</code> tree, so this is not theoretical when a user points the command at the workspace root.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Analysis commands are supposed to help a user move faster. A recursive crawl across generated code does the opposite: it burns time, floods output, and makes the command feel unreliable even when the actual issue logic is fine.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Add a default ignore list for generated and vendor directories, and prune traversal before the recursion fans out. Keep an explicit override path for users who truly want to scan those trees.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/commands/code-analysis.ts</code> and its tests first. Update the recursive file collector so it skips standard generated and vendor directories by default, then wire a narrow override if the command already exposes one. Preserve the existing summary formatting and issue mapping, and avoid introducing a new dependency just to walk the tree. Add tests that prove <code>node_modules</code> and build output are skipped by default while authored files are still analyzed. Run the code-analysis test file and any related utility tests, and report the command outputs plus any residual risk around very large repos.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Integration: analyze a temp workspace that contains a large <code>node_modules</code> tree and verify the command only reports authored files.</li>
+              <li>Boundary: confirm a plain authored tree still returns the same issues and summary counts as before.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Keep extension filtering intact for <code>.ts</code>, <code>.js</code>, <code>.tsx</code>, and <code>.jsx</code>.</li>
+              <li>Preserve the text, markdown, and JSON output modes.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Workspace-root analysis no longer crawls vendor trees by default.</li>
+              <li>Output stays stable for authored files.</li>
+              <li>Users have a documented way to opt in to deeper scans when they need them.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>High. The traversal logic is direct and the absence of pruning is explicit.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-04" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-04-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 04</span>
+            <span class="kind core">Core</span>
+            <span class="priority p4">P4</span>
+          </div>
+          <h3 id="issue-04-heading">MCP wrapper generation does not escape user-controlled names</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>MCP wrapper generation does not escape user-controlled names.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p4">P4</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity critical">Critical</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood possible">Possible</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Generated skill wrappers and metadata integrity.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>generateMCPSkillWrapper()</code> interpolates <code>serverName</code>, <code>toolName</code>, <code>skillId</code>, and <code>category</code> directly into YAML frontmatter and the CLI command string. If those values contain punctuation, colon characters, or newline content, the generated skill file can become malformed or can carry injected metadata.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/mcp-integration.ts:693-733</code> writes the frontmatter and command text with direct string interpolation.</li>
+              <li>The local reproduction with <code>bad:server</code> showed the raw <code>cliCommand</code> and frontmatter fields emitted without quoting or escaping.</li>
+              <li>The generated file is later parsed as a skill, so malformed frontmatter can cascade into discovery failures elsewhere.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Generated artifacts are only safe if their source values are constrained. Here the wrapper becomes part of the skills tree, which means one unsafe server name can poison the skill loader and break unrelated browsing or injection paths.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Validate the names up front, reject unsafe characters, or encode the values in a way the skill parser can round-trip safely. Keep the generated wrapper content deterministic for safe inputs.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/utils/mcp-integration.ts</code> and the existing MCP tests first. Add explicit validation or escaping for the generated frontmatter values, and keep the wrapper output parseable by the skill system. Do not change the public CLI surface unless a field must be rejected for safety. Add tests that prove safe names still generate the same wrapper, and unsafe names are either rejected or safely encoded. Run the MCP integration tests, the skill parser tests, and the wrapper generation tests, then report the changed files, the exact command output, and the remaining risk around maliciously named servers or tools.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Unit: generate a wrapper for a normal server and tool name and assert the skill frontmatter still parses.</li>
+              <li>Unit: attempt to generate a wrapper with a colon or newline in the server name and assert it is rejected or escaped safely.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Keep the current wrapper shape for valid inputs.</li>
+              <li>Keep the MCP server config summary and usage examples intact for safe names.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>No generated wrapper can contain malformed frontmatter from ordinary user input.</li>
+              <li>Valid wrapper names continue to work as before.</li>
+              <li>The generated skill remains discoverable by the skill loader.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>High. The interpolation is visible in one function, and the reproduction is easy to observe.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-05" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-05-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 05</span>
+            <span class="kind core">Core</span>
+            <span class="priority p5">P5</span>
+          </div>
+          <h3 id="issue-05-heading">MCP add parsing breaks quoted args and malformed JSON</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>MCP add parsing breaks quoted args and malformed JSON.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p5">P5</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity high">High</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood likely">Likely</span></dd>
+          <dt>Impacted area</dt>
+          <dd>MCP server configuration UX and argument handling.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>mcpAddCommand()</code> splits <code>--args</code> on spaces, which destroys quoted or multi-word arguments. The same path also parses <code>--env</code> and execution args with raw <code>JSON.parse()</code> calls, so malformed JSON bubbles out as an unfriendly exception instead of an actionable CLI error.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/commands/mcp.ts:70-135</code> uses <code>options.args ? options.args.split(' ') : undefined</code> and <code>JSON.parse(options.args)</code> without request-specific validation.</li>
+              <li>Quoted values, environment strings with spaces, and invalid JSON are common configuration inputs for MCP users.</li>
+              <li>The command tests currently cover only the happy path and a generic transport rejection, not the parsing edge cases.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Users configuring MCP servers expect the CLI to preserve their argument boundaries. If the tool silently splits or crashes on a malformed flag, it turns configuration into trial and error and makes the resulting server record hard to trust.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Use a shell-aware tokenizer or structured repeated flags for arguments, validate JSON before writing it, and replace raw parser exceptions with clear CLI diagnostics that explain which flag is invalid.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/commands/mcp.ts</code> and <code>cli/src/utils/mcp-integration.ts</code> first. Replace the space-splitting argument parsing with a safer representation, and catch malformed JSON for both <code>--args</code> and <code>--env</code> so the CLI can tell the user exactly which flag is broken. Preserve the existing happy-path output and do not broaden the command surface unless the parser needs a new flag shape. Add tests for quoted args, multi-word args, malformed JSON, and empty values. Run the MCP command unit tests and the MCP integration tests, then report the exact behavior changes and any remaining compatibility risk.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Unit: add an MCP server with a quoted multi-word argument and assert the saved config preserves the argument boundary.</li>
+              <li>Unit: pass malformed JSON to the command and assert the CLI prints a targeted error message and exits nonzero.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Keep the simple one-token argument case unchanged.</li>
+              <li>Preserve the existing MCP server list and execution output on valid input.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Quoted args survive round-trips intact.</li>
+              <li>Malformed JSON is reported with a useful CLI message.</li>
+              <li>Valid MCP config records remain backward-compatible.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>High. The parsing code is simple and the failure mode is directly visible.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-06" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-06-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 06</span>
+            <span class="kind core">Core</span>
+            <span class="priority p6">P6</span>
+          </div>
+          <h3 id="issue-06-heading"><code>show --filter</code> only matches basenames</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd><code>show --filter</code> only matches basenames.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p6">P6</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity medium">Medium</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood likely">Likely</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Module inspection and filtered file listing.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>showModuleContent()</code> passes the filter string through to <code>listModuleFiles()</code>, but <code>matchesFilter()</code> only compares against <code>entry.name</code>. Relative-path filters therefore miss nested files, and patterns that look path-aware but are really basename-only give users the wrong mental model.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/commands/show.ts:468-520</code> routes the filter into <code>listModuleFiles()</code>.</li>
+              <li><code>cli/src/utils/module-system.ts:558-650</code> and <code>matchesFilter()</code> compare only <code>entry.name</code>, not the relative path.</li>
+              <li>That means nested patterns such as <code>rules/*.md</code> or <code>examples/**/*.md</code> cannot work the way path-aware users expect.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Inspection tools are most useful when they reduce search friction. A path filter that silently behaves like a basename filter wastes the user's time and makes the module browser feel inconsistent.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Match against normalized relative paths instead of raw basenames, and keep the basename behavior only if the pattern is explicitly simple enough to warrant it. Make the matching rules visible in the help text.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/commands/show.ts</code> and <code>cli/src/utils/module-system.ts</code> first. Update the filter matcher so the CLI can honor path-aware globs without breaking the simple basename case. Keep the existing secure-mode and pagination behavior intact, and avoid changing the output structure. Add tests for nested file filters, Windows path separators, and the existing <code>*.md</code> style. Run the show command tests and the module-system tests, then report the exact patterns that now work and any edge cases that still need documentation.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Integration: a module with nested <code>rules/</code> and <code>examples/</code> files should be filterable by relative path.</li>
+              <li>Unit: basename patterns still match simple markdown files exactly as they do today.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Keep the JSON, markdown, and text output modes stable.</li>
+              <li>Preserve secure redaction and file pagination behavior.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Filter patterns are path-aware and documented.</li>
+              <li>Windows and Unix path styles work the same way.</li>
+              <li>Simple basename matching still works.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>High. The mismatch is visible in the file matcher itself.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-07" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-07-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 07</span>
+            <span class="kind core">Core</span>
+            <span class="priority p7">P7</span>
+          </div>
+          <h3 id="issue-07-heading">Hook installers are brittle and can strand managed blocks</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>Hook installers are brittle and can strand managed blocks.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p7">P7</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity medium">Medium</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood possible">Possible</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Git hooks, postinstall hooks, and repository automation.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p>The catalog hook and rule-install hook helpers append raw shell fragments and then try to remove them later with string searches or a regular expression. If a user hand-edits the hook, reorders the file, or adds another <code>fi</code> block, the managed section can be duplicated, partially removed, or left behind when the command says it succeeded.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/catalog-sync.ts:14-88</code> appends <code>augx catalog</code> and removes it with a sentinel text search plus a depth-based block remover.</li>
+              <li><code>cli/src/utils/rule-install-hooks.ts:26-182</code> does the same for <code>augx install-rules --quiet</code> and the postinstall script.</li>
+              <li>Neither helper uses explicit managed start and end markers, so the remove path has to guess where the block stops.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Hooks are shared developer state. If the CLI rewrites them too loosely, it can silently change user-maintained automation or leave partially managed snippets in place, which is exactly the kind of drift that is hard to debug after the fact.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Wrap the managed content in explicit begin and end markers, round-trip only that block, and leave unrelated hook logic untouched. Keep a clear skip message when the hook cannot be managed safely.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/utils/catalog-sync.ts</code> and <code>cli/src/utils/rule-install-hooks.ts</code> first, plus any existing tests that cover hooks or postinstall changes. Replace the ad hoc append and remove logic with a managed block that can be identified unambiguously on the next run. Do not alter unrelated hook content, and do not introduce a new hook framework. Add tests for a pristine hook, a hook with preexisting shell logic, a hook with duplicate managed blocks, and a removal pass that preserves user code. Run the hook-related tests and any install-rules tests you add, then report the exact hook diffs and any remaining compatibility concern.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Unit: create a hook with extra shell logic, install the managed block, then remove it and assert the unrelated logic is unchanged.</li>
+              <li>Unit: call setup twice and confirm the managed block is still present exactly once.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Fresh hooks still install and uninstall cleanly.</li>
+              <li>Existing package.json postinstall logic still round-trips without losing user-added script segments.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Managed hook blocks are idempotent.</li>
+              <li>User-authored hook logic survives setup and teardown unchanged.</li>
+              <li>Removal can reliably detect and remove only the managed block.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>Medium. The failure mode is clear, but the exact replacement strategy should still be tested on real hook content.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-08" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-08-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 08</span>
+            <span class="kind core">Core</span>
+            <span class="priority p8">P8</span>
+          </div>
+          <h3 id="issue-08-heading">Validation counts generated and vendor content as authored work</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>Validation counts generated and vendor content as authored work.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p8">P8</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity medium">Medium</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood possible">Possible</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Module validation, character counts, and project-agnostic checks.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>calculateModuleCharacterCount()</code> and <code>validateProjectAgnostic()</code> recurse through every file under a module tree without pruning generated or vendor directories. If a module carries build output, fixture copies, or local dependency trees, validation can overcount the module and produce noisy warnings that are not actually about authored content.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/module-system.ts:1117-1202</code> walks all files recursively and only applies content-based heuristics after the traversal has already happened.</li>
+              <li><code>cli/src/commands/validate.ts:15-120</code> uses those helpers as the source of truth for module size and project-agnostic checks.</li>
+              <li>Nothing in the traversal excludes <code>dist</code>, <code>build</code>, <code>node_modules</code>, or other generated folders by default.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Validation output is only trusted when it reflects the files a human actually authored. If generated content skews the numbers, the command turns into background noise and the size guidance stops being useful.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Introduce a default ignore list for generated and vendor directories, and keep an explicit opt-in for users who need a full-tree scan. Preserve the existing warning semantics for actual authored content.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/utils/module-system.ts</code> and <code>cli/src/commands/validate.ts</code> first. Update the recursive counters so they skip generated and vendor directories by default, and make sure the validation output still reflects the authored module tree. Do not rewrite the documented size thresholds or the project-agnostic heuristics unless the new ignore rules require a small adaptation. Add tests that place build output and dependency trees under a module and confirm the validation numbers stay stable. Run the validation command tests and the relevant module-system tests, then report the changed counts and any residual risk around opt-in deep scans.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Validation: a module containing <code>dist</code> and <code>node_modules</code> should not have those folders counted as authored content.</li>
+              <li>Validation: a clean module still reports the same count and warning set as before.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Project-agnostic warnings still detect real hardcoded paths or URLs in authored files.</li>
+              <li>The character-count report still formats bytes and counts the same way for clean modules.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Validation output reflects authored content by default.</li>
+              <li>Generated and vendor directories do not inflate module size.</li>
+              <li>Real project-agnostic issues are still surfaced.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>High. The traversal code is explicit and the omission of ignore rules is easy to verify.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-09" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-09-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 09</span>
+            <span class="kind core">Core</span>
+            <span class="priority p9">P9</span>
+          </div>
+          <h3 id="issue-09-heading">No CI workflow or release gate exists in the repo</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>No CI workflow or release gate exists in the repo.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p9">P9</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity high">High</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood likely">Likely</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Deployment safety, regression detection, and release readiness.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p>The package has local quality scripts, but the tree does not contain a GitHub Actions workflow under <code>.github/workflows/</code>. The project-status note still lists CI/CD as planned, so there is no automated gate that mirrors the documented local commands before release.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>package.json:25-41</code> defines <code>build</code>, <code>lint</code>, <code>test:vitest</code>, <code>prepare</code>, and <code>prepublishOnly</code>, which means the repo already knows what gates it wants.</li>
+              <li><code>project-status.md:117-200</code> still lists GitHub Actions, automated testing, and release workflow work as planned or high priority.</li>
+              <li>During inspection, <code>.github/workflows/ci.yml</code> was absent from the tree.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Every other risk in this report is easier to catch when the same checks run in PRs and on release branches. Without CI, the repo relies on manual memory and one-off local commands, which is a brittle way to protect a release pipeline.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Add a workflow that runs the documented local gates on pull requests and on release branches, and make sure it is the same set of checks that contributors expect to run locally. Keep the workflow simple and explicit rather than over-abstracting it.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>package.json</code>, <code>project-status.md</code>, and the existing docs first. Add a GitHub Actions workflow that runs the repo's lint, build, and targeted test commands on PRs and pushes, then align the status document with the real release posture. Do not add a complicated release orchestrator unless the project already needs one. Add the workflow file, add or update a smoke check if needed, and verify that the local commands and the CI commands match. Report the workflow file path, the exact commands it runs, and any remaining release gap that still needs manual sign-off.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Workflow: a clean PR should run the same lint and build gates that contributors use locally.</li>
+              <li>Workflow: a deliberate lint or test regression should fail the workflow before release.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Local <code>npm run lint</code> and <code>npm run build</code> still behave as documented.</li>
+              <li>Publish-oriented scripts such as <code>prepare</code> and <code>prepublishOnly</code> remain unchanged unless the workflow needs a small alignment fix.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>The repo contains an automated CI gate.</li>
+              <li>The CI gate runs the documented local quality checks.</li>
+              <li>The release posture is documented accurately in the repository status note.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>High. The workflow directory is absent and the status note still says the work is pending.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-10" data-issue-kind="core" class="issue issue-core" aria-labelledby="issue-10-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 10</span>
+            <span class="kind core">Core</span>
+            <span class="priority p10">P10</span>
+          </div>
+          <h3 id="issue-10-heading"><code>loadModule</code> does not explicitly reject outside absolute paths</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd><code>loadModule</code> does not explicitly reject outside absolute paths.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind core">Core</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p10">P10</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity medium">Medium</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood unlikely">Unlikely</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Module resolution boundary and future internal callers.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p>The containment gate in <code>loadModule()</code> only runs when the input is relative or already inside the modules directory. A caller that passes a fully qualified absolute path outside the tree skips that gate and proceeds directly to <code>module.json</code> lookup.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/module-system.ts:78-94</code> defines the containment helper, and <code>cli/src/utils/module-system.ts:281-304</code> shows the guard only wrapping relative or in-tree inputs.</li>
+              <li>The current CLI surface mostly passes safe paths, so this is best treated as a <strong>Testable assumption</strong> rather than a user-visible crash that already ships.</li>
+              <li>The boundary still matters because the helper is public inside the codebase and a future refactor could call it directly with a path-like value.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>A containment helper that is strong for some inputs but not all inputs is easy to misuse later. The codebase already relies on path containment elsewhere, so it is safer to make the rejection rule unconditional here too.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Canonicalize every path before reading metadata and reject any path that resolves outside the module tree, regardless of whether the input was absolute or relative. Keep the existing inside-tree behavior unchanged.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/utils/module-system.ts</code> and the module discovery tests first. Tighten <code>loadModule()</code> so every candidate path is canonicalized and validated before any file lookup happens. Do not loosen the existing show-command containment checks, and do not change module discovery semantics for normal in-tree modules. Add tests that assert an absolute path outside the module tree is rejected, that an in-tree absolute path still works, and that symlink escapes still fail. Run the module-system and module-inspection tests, then report the exact boundary behavior you changed and any future callers that still need to be audited.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Unit: an absolute path outside the tree should return <code>null</code> from <code>loadModule()</code>.</li>
+              <li>Integration: a valid in-tree absolute path should still load the module and preserve the current full-name resolution.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Current relative path behavior should remain unchanged.</li>
+              <li>Symlink escape protection should stay intact.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>No absolute path outside the module tree can be loaded.</li>
+              <li>Current in-tree module lookup still works.</li>
+              <li>The fix does not weaken existing traversal protections.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>Medium. The code path is visible, but the current CLI surface does not appear to hit it directly today.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-11" data-issue-kind="additional" class="issue issue-additional" aria-labelledby="issue-11-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 11</span>
+            <span class="kind additional">Additional</span>
+            <span class="priority p11">P11</span>
+          </div>
+          <h3 id="issue-11-heading">Version resolver only sees a single <code>VERSION</code> file</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>Version resolver only sees a single <code>VERSION</code> file.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind additional">Additional</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p11">P11</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity medium">Medium</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood possible">Possible</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Version pinning, upgrade, and diff flows.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>VersionResolver.getAvailableVersions()</code> only reads one file and the source contains an explicit TODO for a future <code>versions/</code> directory. That means the current version commands cannot express parallel release trees if the repository grows into them.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/core/version-resolver.ts:139-151</code> reads a single <code>VERSION</code> file and stops.</li>
+              <li>The TODO directly states that multiple versions in a <code>versions/</code> directory are future work.</li>
+              <li><code>module-management.ts</code> already exposes version selection and comparison commands, so the gap will show up the moment the repo wants side-by-side releases.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Version commands imply choice. If the backing resolver only sees one file, the CLI will tell users it can manage versions while actually hiding the structure they need for parallel module releases.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Plan an index that can represent multiple versions explicitly, or scan a versioned directory layout when the repo adopts one. Keep the current single-file behavior as a compatibility path until the new layout is ready.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/core/version-resolver.ts</code> and the version-management commands first. Extend the resolver so it can discover more than one published version without breaking the single-file case. Do not change the current single-version behavior until the new layout is validated by tests. Add tests that model a future multi-version directory, plus a compatibility test for the current <code>VERSION</code> file layout. Run the version-management tests and report which resolution strategy changed, if any, and what remains a deliberate compatibility shim.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Unit: a temp module tree with multiple version records should resolve the latest version deterministically.</li>
+              <li>Unit: the current single <code>VERSION</code> file path should still resolve exactly as it does today.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Range and exact-version lookups should still work for the current layout.</li>
+              <li>The compatibility path should remain explicit until the new layout exists.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>The resolver can represent more than one release if the tree needs it.</li>
+              <li>The current single-version case still works unchanged.</li>
+              <li>The limitation is documented if the broader layout is deferred.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>Medium. The TODO is explicit, but the current repo may not yet require the broader layout.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-12" data-issue-kind="additional" class="issue issue-additional" aria-labelledby="issue-12-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 12</span>
+            <span class="kind additional">Additional</span>
+            <span class="priority p12">P12</span>
+          </div>
+          <h3 id="issue-12-heading">Malformed MCP config files are silently treated as empty</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>Malformed MCP config files are silently treated as empty.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind additional">Additional</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p12">P12</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity medium">Medium</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood possible">Possible</span></dd>
+          <dt>Impacted area</dt>
+          <dd>MCP diagnostics and configuration recovery.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>loadMCPConfigs()</code> catches JSON parse errors, warns once, and returns an empty list. That makes a corrupted <code>.augment/mcp/servers.json</code> look exactly like a deliberately empty config in most command paths.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/mcp-integration.ts:588-601</code> parses the JSON, catches failures, logs a warning, and returns <code>[]</code>.</li>
+              <li>The command layer then treats the empty array as "no MCP servers configured."</li>
+              <li>That behavior hides the difference between "no config" and "broken config" from the user.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Configuration corruption should be obvious. If the CLI hides it, users will spend time editing the wrong file or assume MCP simply is not installed.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Return a structured error or throw a command-specific parse failure so the command can explain that the config exists but cannot be read. Keep the normal empty-config path for the intentional zero-server case.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/utils/mcp-integration.ts</code> and <code>cli/src/commands/mcp.ts</code> first. Distinguish between "file missing" and "file present but malformed" so the user gets a clear diagnostic instead of a false empty state. Do not change the happy-path server list or execution output. Add tests for missing config, valid empty config, and malformed JSON. Run the MCP command tests and report the exact error shape you added or preserved.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Malformed JSON should produce a nonzero exit and a parse-specific error message.</li>
+              <li>A truly empty config should still behave like an intentional empty state.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Valid MCP configs still list and execute as before.</li>
+              <li>The warning path should remain easy to spot in logs, even if the command continues.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Malformed config is distinguishable from an empty config.</li>
+              <li>User-facing diagnostics say which file is broken.</li>
+              <li>Valid configs still work without extra noise.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>High. The silent fallback is explicit in the loader.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-13" data-issue-kind="additional" class="issue issue-additional" aria-labelledby="issue-13-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 13</span>
+            <span class="kind additional">Additional</span>
+            <span class="priority p13">P13</span>
+          </div>
+          <h3 id="issue-13-heading">Hook scripts assume <code>augx</code> is already on PATH</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>Hook scripts assume <code>augx</code> is already on PATH.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind additional">Additional</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p13">P13</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity medium">Medium</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood possible">Possible</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Hook execution on checkout, merge, and install.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p>The managed hook bodies call <code>augx catalog</code> and <code>augx install-rules --quiet</code> directly. On a machine where the package is only installed locally or where the PATH does not include the binary, the hook can fail exactly when Git is trying to complete a checkout or merge.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/catalog-sync.ts:26-35</code> inserts a shell block that shells out to <code>augx catalog</code>.</li>
+              <li><code>cli/src/utils/rule-install-hooks.ts:51-73</code> inserts a shell block that shells out to <code>augx install-rules --quiet</code>.</li>
+              <li>There is no availability guard or fallback path in either helper.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Hook failures are disproportionately frustrating because they interrupt a developer's normal Git workflow. Even a clear error is better than an opaque command-not-found path in a hook script that the user did not author.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Probe for the CLI before invoking it, or resolve a local binary path that works even when the global command is absent. If the binary is unavailable, skip the hook body and print a specific explanation instead of letting Git absorb a raw shell error.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/utils/catalog-sync.ts</code> and <code>cli/src/utils/rule-install-hooks.ts</code> first. Add an availability guard for the CLI command used by the generated hooks, and keep the current behavior when the binary exists. Do not change the hook type or the scripts they manage unless the fallback needs a small structural adjustment. Add tests for PATH-present and PATH-missing cases, and make sure the hook setup command still leaves existing user logic alone. Run the hook tests you add, then report the failure mode, the guard you introduced, and the exact fallback text shown when the command is unavailable.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Hook setup should detect when <code>augx</code> is unavailable and skip or warn instead of breaking Git operations.</li>
+              <li>When <code>augx</code> is present, the hook content should remain the same for the same managed action.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Existing hook removal should still work on a command-present machine.</li>
+              <li>Package.json postinstall behavior should still round-trip when the CLI is available.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Hook setup and execution do not assume a global install without checking.</li>
+              <li>Missing CLI availability yields a user-friendly skip or warning.</li>
+              <li>Git operations are not blocked by a raw command-not-found failure.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>Medium. The scripts are direct, but the ideal fallback depends on how the repo expects augx to be installed.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-14" data-issue-kind="additional" class="issue issue-additional" aria-labelledby="issue-14-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 14</span>
+            <span class="kind additional">Additional</span>
+            <span class="priority p14">P14</span>
+          </div>
+          <h3 id="issue-14-heading">ModuleLoader cache can serve stale metadata for too long</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>ModuleLoader cache can serve stale metadata for too long.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind additional">Additional</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p14">P14</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity medium">Medium</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood possible">Possible</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Long-lived module inspection and version comparison.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>ModuleLoader</code> caches results by module path and version, but invalidation is TTL-based instead of file-change-based. In a long-lived process, a module edit can sit behind a fresh-looking cache entry until the TTL expires.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/core/module-loader.ts:36-118</code> uses a map keyed by <code>modulePath:version</code> and checks only the timestamp against <code>cacheTTL</code>.</li>
+              <li>The loader does not compare file mtimes or content hashes when it serves a cached record.</li>
+              <li>This is mostly a long-lived-process risk, but it can mislead version and diff flows if they reuse the same loader instance.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Stale version metadata is hard to notice because the command still returns a valid object. The first signal is usually a mismatch between what the user just edited and what the CLI says is installed.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Invalidate by mtime or content hash when the module files change, or make the cache explicit enough that only truly static callers use it. Keep the short-lived cache behavior for unchanged files.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/core/module-loader.ts</code> and the version-management commands first. Tighten cache invalidation so a changed module file cannot keep serving a stale load within the TTL window. Do not remove the cache outright unless a simpler invalidation strategy is clearly safer. Add tests for a reload after <code>VERSION</code> or <code>module.json</code> changes, plus a same-file cache hit. Run the module-loader and version-management tests, then report whether you used mtimes, content hashes, or a narrower cache scope.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Changing <code>VERSION</code> or <code>module.json</code> should invalidate the cached load.</li>
+              <li>Repeated reads without changes should still hit the cache.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Current version resolution logic should remain intact.</li>
+              <li>The cache API surface should not change for callers that already use it correctly.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Edited module files do not stay hidden behind stale cache entries.</li>
+              <li>Unchanged files still benefit from caching.</li>
+              <li>The fix is deterministic enough to test in CI.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>Medium. The cache behavior is explicit, but the preferred invalidation mechanism should match the repo's performance budget.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-15" data-issue-kind="additional" class="issue issue-additional" aria-labelledby="issue-15-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 15</span>
+            <span class="kind additional">Additional</span>
+            <span class="priority p15">P15</span>
+          </div>
+          <h3 id="issue-15-heading">Skill discovery only scans a fixed category list</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>Skill discovery only scans a fixed category list.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind additional">Additional</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p15">P15</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity low">Low</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood possible">Possible</span></dd>
+          <dt>Impacted area</dt>
+          <dd>Skill discovery and GUI browsing.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p><code>discoverSkills()</code> iterates only over <code>SKILL_CATEGORIES</code>. If the repo adds a new category directory that is otherwise valid, the new skills remain invisible until the source list changes.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/skill-system.ts:37-47</code> hard-codes the supported category list.</li>
+              <li><code>cli/src/utils/skill-system.ts:247-273</code> loops over that list rather than discovering category directories dynamically.</li>
+              <li>The GUI and skill browse flows depend on the same discovery result, so the hidden category would disappear everywhere.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>This is not a security problem, but it is a product discoverability problem. New categories feel broken if the files are present but the browser cannot see them.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Either centralize category registration in one manifest or discover category directories dynamically and validate the files within them. Keep the current supported categories intact while broadening discovery.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/utils/skill-system.ts</code> and the GUI tests first. Make category discovery data-driven so a valid new skill category can appear without a source edit, but keep the current category validation rules explicit. Avoid changing skill file parsing or content injection while you work. Add a test that places a valid skill under a new temp category and verifies discovery sees it, and add a baseline test for the existing categories. Run the skill discovery and GUI browse tests, then report whether you kept a manifest or switched to directory discovery.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>A temp category with a valid skill file should appear in discovery and GUI browsing.</li>
+              <li>The current shipped categories should still be discovered exactly as before.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>Category validation should still reject invalid names.</li>
+              <li>Existing skill list and search output should not change for the shipped categories.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>Valid new categories are discoverable without a code edit, or the limitation is documented clearly.</li>
+              <li>Current categories still load normally.</li>
+              <li>The browse and search flows stay aligned with discovery.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>Medium. The behavior is explicit, though it may be intentional until the skill registry grows.</dd>
+        </dl>
+      </article>
+
+      <article id="issue-16" data-issue-kind="additional" class="issue issue-additional" aria-labelledby="issue-16-heading">
+        <header>
+          <div class="issue-kicker">
+            <span class="issue-number">Issue 16</span>
+            <span class="kind additional">Additional</span>
+            <span class="priority p16">P16</span>
+          </div>
+          <h3 id="issue-16-heading">MCP timeout handling can emit noisy rejection warnings</h3>
+        </header>
+        <dl class="issue-details">
+          <dt>Title</dt>
+          <dd>MCP timeout handling can emit noisy rejection warnings.</dd>
+          <dt>Kind</dt>
+          <dd><span class="kind additional">Additional</span></dd>
+          <dt>Priority</dt>
+          <dd><span class="priority p16">P16</span></dd>
+          <dt>Severity</dt>
+          <dd><span class="severity low">Low</span></dd>
+          <dt>Likelihood</dt>
+          <dd><span class="likelihood unlikely">Unlikely</span></dd>
+          <dt>Impacted area</dt>
+          <dd>MCP timeout behavior and test stability.</dd>
+          <dt>Failure mode</dt>
+          <dd>
+            <p>The timeout branch in <code>runMCPJSONRPCRequest()</code> calls <code>requestTermination()</code> and then rejects the promise. In the targeted Vitest run, the suite still reported one unhandled error warning in the slow-timeout case even though the tests passed.</p>
+          </dd>
+          <dt>Evidence or rationale</dt>
+          <dd>
+            <ul class="evidence">
+              <li><code>cli/src/utils/mcp-integration.ts:399-519</code> contains the timeout and close handling for the JSON-RPC request lifecycle.</li>
+              <li>The actual command outcome for <code>npm run test:vitest -- cli/src/utils/__tests__/mcp-integration.test.ts</code> was 17 tests passed with 1 unhandled error warning.</li>
+              <li>That warning makes the timeout case noisier than it should be and can hide a real transport failure under test harness noise.</li>
+            </ul>
+          </dd>
+          <dt>Why this matters</dt>
+          <dd>
+            <p>Even if the runtime behavior is correct, noisy unhandled rejection warnings erode trust in the test suite and make slow MCP servers harder to reason about. The code should settle the timeout path once and only once.</p>
+          </dd>
+          <dt>Recommended mitigation</dt>
+          <dd>
+            <p>Collapse the timeout and close paths so the promise settles exactly once, then add a regression test that asserts the slow-server case does not trigger an unhandled rejection warning.</p>
+          </dd>
+          <dt>Implementation prompt</dt>
+          <dd>
+            <p>Inspect <code>cli/src/utils/mcp-integration.ts</code> and the vitest suite first. Tighten the timeout lifecycle so a slow or missing MCP response only produces the intended rejection and no extra warning noise. Keep the transport semantics intact and avoid changing the command output unless a clearer timeout message is needed. Add a regression test that reproduces the slow timeout path and asserts the promise rejects once without a secondary warning. Run the MCP integration tests, record the exact output, and report the remaining risk if any warnings still show up in fake-timer mode.</p>
+          </dd>
+          <dt>Regression tests</dt>
+          <dd>
+            <ul class="tests">
+              <li>Slow MCP execution should reject once with the timeout message and no secondary unhandled warning.</li>
+              <li>Successful MCP execution should still resolve with the parsed result.</li>
+            </ul>
+          </dd>
+          <dt>Additional baseline tests</dt>
+          <dd>
+            <ul class="baseline">
+              <li>The stdout and stderr truncation behavior should still appear in timeout diagnostics.</li>
+              <li>The close path should still clean up timers and child process listeners.</li>
+            </ul>
+          </dd>
+          <dt>Acceptance criteria</dt>
+          <dd>
+            <ul class="acceptance">
+              <li>The timeout path settles cleanly exactly once.</li>
+              <li>No extra unhandled rejection warning appears in the slow case.</li>
+              <li>Fast MCP responses still work unchanged.</li>
+            </ul>
+          </dd>
+          <dt>Confidence</dt>
+          <dd>Low to medium. The warning was observed in the test run, but the exact timing race still needs a targeted confirmation after the fix.</dd>
+        </dl>
+      </article>
+    </section>
+
+    <section class="panel" id="scope-notes" aria-labelledby="scope-notes-heading">
+      <h2 id="scope-notes-heading">Scope Notes and Limitations</h2>
+      <div class="two-col">
+        <div>
+          <p>The 10 core issues were selected through repository inspection because the source request did not enumerate them. I intentionally avoided duplicate coverage of the same failure mode, even when several files touched the same boundary, so the report stays useful as a remediation plan rather than a long synonym list.</p>
+          <p>The report reuses the styling language from the previous pre-mortem file in <code>ai-prompts/</code>, but all CSS here is self-contained. There are no external fonts, scripts, images, or network requests.</p>
+        </div>
+        <div>
+          <p>Not every suspicious helper became a report item. Some were already covered by existing tests, some were clearly future work rather than present risk, and some were too similar to a higher-value item to justify a separate section. Where I believed the repository evidence supported a risk but the current CLI path might not reach it directly, I labeled the finding as <strong>Testable assumption</strong> instead of overstating it.</p>
+          <p>The one targeted vitest run I executed passed its tests but still emitted a warning in the timeout case. I have used that result as evidence for the final MCP timing issue, but I did not rerun the entire suite or a full lint and build pipeline in this session.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-grid">
+        <div>
+          <strong>Repository identity</strong>
+          <p>mytech-today-now/augment-extensions</p>
+        </div>
+        <div>
+          <strong>Generation timestamp</strong>
+          <p>2026-09-11 00:52:39 America/Chicago</p>
+        </div>
+        <div>
+          <strong>Output path</strong>
+          <p><code>./ai-prompts/pre-mortem-2026-09-11-00-52-39.html</code></p>
+        </div>
+        <div>
+          <strong>Report scope</strong>
+          <p>Current working tree, CLI implementation, module utilities, generated hooks, MCP integration, and the current test surface.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

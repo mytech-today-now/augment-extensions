@@ -53,9 +53,9 @@ All notable changes to the Visual Design module will be documented in this file.
 - ✅ 5 skill categories (Visual Design Fundamentals, UI Design, UX Design, Technical Implementation, Design Tools & Workflow)
 - ✅ 3 vendor design systems (Google, Microsoft, Amazon)
 - ✅ 10 domain-specific styles
-- ✅ Comprehensive test coverage (100% for core modules)
+- Legacy 100% core-module coverage statement from this release is unverified by the current test suite.
 - ✅ Extensive usage examples
-- ✅ WCAG 2.1 AA accessibility compliance
+- Legacy WCAG 2.1 AA compliance statement from this release is unverified. See the current rules for standards scope and required evidence.
 - ✅ Responsive design patterns
 - ✅ Cross-platform support
 

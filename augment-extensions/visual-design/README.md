@@ -11,15 +11,36 @@ This module provides AI agents with structured visual design knowledge including
 - **Domain Styles**: Website, Web-app, Mobile, .NET Application, Linux, Windows, Motion Picture, AI Prompt Helper, Print Campaigns
 - **Default Fallback**: google → microsoft → amazon
 
+## Guidance Structure and Discovery
+
+This module combines its selectable TypeScript vendor and domain styles with indexed rules, progressive guidelines, and task-oriented skills:
+
+- Start at rules/index.md for the decision order and task router. The CLI lists direct Markdown files in rules.
+- Review rules/design-practice.md for research, UX, product, service, interaction, information architecture, visual language, and design-system work.
+- Review rules/accessibility-and-color.md and rules/platform-guidance.md for accessibility, themes, typography, motion, and platform constraints.
+- Use guidelines/design-levels.md and guidelines/coverage-map.md for basic, intermediate, and advanced coverage.
+- Use skills/design-brief.md and skills/design-review.md for repeatable design work.
+- Use skills/responsive-validation/SKILL.md and its runner for caller-supplied web applications.
+
+Read module-local files through augx show visual-design <module-relative-path>, for example rules/index.md or skills/responsive-validation/SKILL.md. The repository-level augx skill command indexes the root skills directory only; module-local skill files are discoverable through the module index and file-view command.
+
+The responsive workflow applies to screen interfaces. Print, film, and image-generation work retain their existing domain-specific constraints and do not use browser viewport rules.
+
 ## Architecture
 
 ```
 visual-design/
 ├── module.json                 # Module metadata
 ├── README.md                   # This file
+├── metadata.json               # Version, character count, and indexed content files
+├── VERSION                     # Version used by the version-aware module loader
 ├── visual-design-core.ts       # Core design elements, principles, skills
 ├── types.ts                    # TypeScript interfaces
 ├── style-selector.ts           # Vendor priority logic
+├── rules/                      # Directly listed module rules and task index
+├── guidelines/                 # Design levels and coverage map
+├── skills/                     # Module-local task procedures and responsive runner
+├── scripts/                    # Guidance manifest validator
 ├── domains/
 │   ├── web-page-styles/
 │   │   ├── google-modern.ts    # Material 3 Expressive
@@ -38,6 +59,7 @@ visual-design/
 │       └── os-application.ts   # General OS applications
 ├── __tests__/                  # Unit and integration tests
 │   ├── README.md               # Test documentation
+│   ├── guidance-contract.test.ts # Guidance and responsive plan contract tests
 │   ├── style-selector.test.ts  # Style selector tests
 │   └── vendor-styles.test.ts   # Vendor integration tests
 └── examples/                   # Usage examples
@@ -79,7 +101,7 @@ augx link visual-design
 augx show visual-design
 
 # View specific vendor style
-augx show visual-design/google-modern
+augx show visual-design domains/web-page-styles/google-modern.ts
 ```
 
 ## Usage
@@ -104,8 +126,7 @@ for a SaaS product with:
 - Testimonials section
 - Footer with links
 
-Apply Material 3 Expressive characteristics: dynamic color theming, rounded 
-corners, and accessible contrast ratios.
+Apply Material 3 Expressive characteristics such as dynamic color and rounded corners. Measure contrast for each rendered state against the product target.
 ```
 
 ## Design Elements (8)
@@ -130,16 +151,16 @@ corners, and accessible contrast ratios.
 7. **Proportion** - Size relationships
 8. **White Space** - Breathing room
 9. **Consistency** - Predictable patterns
-10. **Accessibility** - WCAG 2.1 AA compliance
+10. **Accessibility** - Inclusive design reviewed against the applicable target
 11. **Responsiveness** - Multi-device adaptation
 
-## Skill Categories (5)
+## Core TypeScript Skill Categories (5)
 
 1. **Color Theory** - Palettes, harmony, psychology
 2. **Typography** - Font pairing, hierarchy, readability
 3. **Layout Design** - Grid systems, composition, flow
 4. **Visual Hierarchy** - Emphasis, contrast, scale
-5. **Accessibility** - WCAG compliance, inclusive design
+5. **Accessibility** - Inclusive design and accessibility review
 
 ## Vendor Characteristics
 
@@ -147,7 +168,7 @@ corners, and accessible contrast ratios.
 - Dynamic color theming with tonal palettes
 - Rounded corners (8px-24px)
 - Springy motion with easing curves
-- High accessibility standards (WCAG 2.1 AA+)
+- Accessible design patterns that must be verified against the current product target
 
 ### Microsoft Fluent 2
 - Acrylic and Mica materials for depth
@@ -238,6 +259,8 @@ The `__tests__/` directory contains comprehensive test coverage:
 
 - **style-selector.test.ts**: Tests for vendor priority chain and fallback logic
 - **vendor-styles.test.ts**: Integration tests for all vendor design systems
+- **guidance-contract.test.ts**: Checks metadata references, module discovery, skill coverage, and responsive sweep planning
+- **scripts/validate-guidance.cjs**: Validates metadata paths and local guidance links
 - **README.md**: Test documentation and usage instructions
 
 All tests validate:
@@ -247,7 +270,7 @@ All tests validate:
 - ✅ Fallback logic for invalid vendors
 - ✅ Cross-vendor consistency
 - ✅ Required properties validation
-- ✅ Accessibility standards (WCAG 2.1 AA)
+- ✅ Current accessibility guidance and metadata contract
 
 ## License
 

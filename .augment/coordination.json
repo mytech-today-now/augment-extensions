@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-05-25T21:13:00Z",
+  "lastUpdated": "2026-11-08T20:03:14.719Z",
   "specs": {
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
@@ -325,6 +325,23 @@
       "dependencies": [
         "cross-platform/export-command"
       ]
+    },
+    "visual-design/guidance": {
+      "path": "openspec/archive/visual-design-guidance-refactor/proposal.md",
+      "status": "archived",
+      "relatedTasks": [],
+      "relatedRules": [
+        "character-count-management.md",
+        "no-em-dash.md"
+      ],
+      "affectedFiles": [
+        "augment-extensions/visual-design/**/*",
+        "modules.md",
+        "openspec/specs/visual-design/guidance.md",
+        "openspec/archive/visual-design-guidance-refactor/**/*",
+        ".augment/coordination.json"
+      ],
+      "dependencies": []
     }
   },
   "tasks": {

@@ -24,7 +24,7 @@ export const DESIGN_ELEMENTS: DesignElement[] = [
       aspects: [
         'Color theory (primary, secondary, tertiary)',
         'Color harmony (complementary, analogous, triadic)',
-        'Contrast ratios (WCAG AA: 4.5:1 for text, AAA: 7:1)',
+        'Text contrast thresholds by text size and conformance target',
         'Color psychology and emotional impact',
         'Accessibility (color blindness, high contrast modes)',
         'Brand color consistency'
@@ -170,7 +170,7 @@ export const DESIGN_PRINCIPLES: DesignPrinciple[] = [
       'Size contrast: Large vs small elements',
       'Shape contrast: Geometric vs organic forms',
       'Texture contrast: Smooth vs rough surfaces',
-      'Ensure sufficient contrast for accessibility (WCAG AA: 4.5:1)',
+      'Check text and non-text contrast against the applicable criteria',
       'Use contrast to guide attention and create focal points'
     ]
   },
@@ -243,7 +243,7 @@ export const DESIGN_PRINCIPLES: DesignPrinciple[] = [
       'Use white space to create visual hierarchy',
       'Increase white space for premium/luxury feel',
       'Reduce clutter by embracing emptiness',
-      'White space is not wasted space—it enhances comprehension'
+      'White space is not wasted space; it enhances comprehension'
     ]
   },
   {
@@ -262,13 +262,13 @@ export const DESIGN_PRINCIPLES: DesignPrinciple[] = [
     name: 'Accessibility',
     description: 'Designing for all users, including those with disabilities',
     guidelines: [
-      'WCAG 2.1 Level AA compliance minimum',
-      'Color contrast ratios: 4.5:1 for text, 3:1 for UI components',
+      'Use the product and applicable accessibility conformance target; review current criteria',
+      'Check text and non-text contrast using the applicable size, state, and exception rules',
       'Keyboard navigation support (tab order, focus states)',
       'Screen reader compatibility (semantic HTML, ARIA labels)',
       'Responsive text sizing (rem units, no fixed px)',
       'Support for reduced motion preferences',
-      'Touch targets minimum 44x44px (iOS) or 48x48px (Android)'
+      'Distinguish platform-recommended touch targets from WCAG CSS-pixel target-size criteria'
     ]
   },
   {
@@ -276,7 +276,7 @@ export const DESIGN_PRINCIPLES: DesignPrinciple[] = [
     description: 'Adapting design to different screen sizes and devices',
     guidelines: [
       'Mobile-first approach (design for smallest screen first)',
-      'Breakpoints: 320px (mobile), 768px (tablet), 1024px (desktop), 1440px (large)',
+      'Choose breakpoints where content or interaction needs a different arrangement',
       'Fluid typography (clamp, vw units)',
       'Flexible layouts (CSS Grid, Flexbox)',
       'Responsive images (srcset, picture element)',
@@ -332,7 +332,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       'User flows and journey mapping',
       'Wireframing and prototyping',
       'Usability testing',
-      'Accessibility design (WCAG compliance)',
+      'Accessibility design against the product target',
       'Interaction design patterns',
       'Content strategy',
       'Error prevention and recovery',

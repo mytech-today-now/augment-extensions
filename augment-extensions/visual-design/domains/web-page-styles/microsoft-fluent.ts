@@ -407,7 +407,7 @@ export const MICROSOFT_FLUENT: VendorStyle = {
     'Adaptive color system with light and dark themes',
     'Rounded corners (2px-8px radius)',
     'Purposeful, subtle motion with ease-out curves',
-    'Accessible design (WCAG 2.1 AA compliant)',
+    'Accessibility patterns require verification against the product target',
     'Responsive 12-column grid system',
     'Component-based architecture',
     'Focus on productivity and clarity',
@@ -430,7 +430,7 @@ export const MICROSOFT_FLUENT: VendorStyle = {
  *    - Use adaptive color tokens that work in light and dark themes
  *    - Apply brand primary (#0078D4) for key actions
  *    - Use neutral grays (2-step increments) for backgrounds and surfaces
- *    - Ensure WCAG AA compliance (4.5:1 contrast ratio minimum)
+ *    - Verify each used color pair against the applicable contrast criteria
  *    - Support automatic theme switching
  *
  * 2. TYPOGRAPHY
@@ -469,7 +469,7 @@ export const MICROSOFT_FLUENT: VendorStyle = {
  *    - Provide clear visual feedback for interactions
  *
  * 7. ACCESSIBILITY
- *    - Ensure WCAG 2.1 AA compliance
+ *    - Verify the implementation against the applicable current accessibility target
  *    - Provide sufficient color contrast
  *    - Support keyboard navigation
  *    - Include ARIA labels and roles

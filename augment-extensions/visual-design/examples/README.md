@@ -2,6 +2,8 @@
 
 This directory contains practical examples demonstrating how to use the Visual Design module with Augment AI.
 
+For task workflows, start with the module-local design brief, design review, and responsive validation skills. Use the [guidance index](../rules/index.md) and [coverage map](../guidelines/coverage-map.md) to select rules by task and depth. Browser viewport guidance applies to screen examples; print and image-generation examples retain medium-specific constraints.
+
 ## Examples
 
 ### 1. Basic Usage (`basic-usage.md`)

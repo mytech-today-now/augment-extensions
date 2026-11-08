@@ -104,7 +104,7 @@ const WINDOWS_LAYOUT: LayoutSystem = {
     guidelines: [
       'Use 4px base unit for spacing',
       'Follow WinUI 3 spacing guidelines',
-      'Maintain 44x44px touch targets',
+      'Follow current Windows touch guidance for supported input modes',
       'Use consistent padding in controls'
     ]
   },

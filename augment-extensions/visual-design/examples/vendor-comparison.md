@@ -28,7 +28,7 @@ import { GOOGLE_MODERN } from './domains/web-page-styles/google-modern';
 // - Rounded corners (8px, 12px, 16px)
 // - Springy motion (cubic-bezier(0.2, 0, 0, 1))
 // - Subtle elevation shadows
-// - Accessibility-first (WCAG AA)
+// - Accessibility review required; palette intent is not conformance evidence
 ```
 
 ### When to Use
@@ -36,7 +36,7 @@ import { GOOGLE_MODERN } from './domains/web-page-styles/google-modern';
 - **Consumer-facing applications**: Mobile apps, web apps
 - **Modern, expressive designs**: Colorful, dynamic interfaces
 - **Google ecosystem**: Android, Chrome, Google Workspace
-- **Accessibility priority**: WCAG AA/AAA compliance
+- **Accessibility**: Verify rendered colors, states, and applicable criteria before making a conformance claim
 
 ### Example: Landing Page Hero
 

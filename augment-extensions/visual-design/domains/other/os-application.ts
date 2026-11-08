@@ -104,7 +104,7 @@ const OS_APP_LAYOUT: LayoutSystem = {
     guidelines: [
       'Use 4px base unit for consistency',
       'Follow platform spacing conventions',
-      'Maintain touch-friendly targets (44x44px minimum)',
+      'Use target sizes suited to the operating system and supported input modes',
       'Use consistent padding in panels'
     ]
   },

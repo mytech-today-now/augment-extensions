@@ -144,10 +144,10 @@ const googleStyle = defaultStyleSelector.selectVendorStyle('google');
 </section>
 ```
 
-#### Contrast (WCAG AA: 4.5:1 for text)
+#### Example contrast checks (WCAG 2.2 AA normal text target: 4.5:1)
 
 ```css
-/* Ensure sufficient contrast */
+/* These example pairs exceed 4.5:1; measure every rendered state and theme. */
 .text-on-primary {
   color: #FFFFFF; /* White on #6750A4 = 7.2:1 ✓ */
 }
@@ -203,9 +203,11 @@ A modern, accessible landing page following Google Material 3 Expressive design 
 - ✅ Dynamic color theming
 - ✅ Proper typography hierarchy
 - ✅ Responsive grid layout
-- ✅ WCAG AA contrast ratios
+- ✅ Example color pairs measured against WCAG 2.2 AA normal-text contrast
 - ✅ Mobile-first approach
 - ✅ Consistent spacing (8px grid)
+
+This example does not establish product conformance. Check all actual text, control, theme, and state combinations against the product's stated target.
 
 ## Next Steps
 

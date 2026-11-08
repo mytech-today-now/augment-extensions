@@ -379,6 +379,23 @@ augx link coding-standards/js
 
 ## Domain Rules
 
+### Visual Design System
+- **Module**: `visual-design`
+- **Version**: 1.0.0
+- **Character Count**: ~302,930
+- **Description**: Design guidance, platform patterns, vendor palettes, and responsive validation for interfaces across web, mobile, desktop, print, film, and image generation.
+- **Contents**:
+  - Indexed design rules, progressive guidelines, and task skills
+  - Basic, intermediate, and advanced guidance for general design, color, typography, and layout
+  - Responsive validation from 256 through 7680 CSS pixels with breakpoint neighbors and orientation cases
+  - Existing vendor style selection and domain design references
+
+**Usage**:
+```bash
+augx link visual-design
+augx show visual-design rules/index.md
+```
+
 ### API Design Guidelines
 - **Module**: `domain-rules/api-design`
 - **Version**: 1.0.0
@@ -790,11 +807,11 @@ augx mcp wrap github-mcp search-repos github-search --category retrieval
 
 ## Statistics
 
-- **Total Modules**: 21
-- **Coding Standards**: 6
+- **Total Modules**: 27
+- **Coding Standards**: 11
 - **Writing Standards**: 1
-- **Domain Rules**: 6
+- **Domain Rules**: 9
 - **Workflows**: 2
 - **Examples**: 4
 - **Total Skills**: 4
-- **Total Character Count**: ~2,717,183
+- **Total Character Count**: ~3,140,238

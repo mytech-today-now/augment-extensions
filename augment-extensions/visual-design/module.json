@@ -2,7 +2,7 @@
   "name": "visual-design",
   "version": "1.0.0",
   "displayName": "Visual Design System",
-  "description": "Comprehensive visual design module with vendor-specific design systems (Google Material 3, Microsoft Fluent 2, Amazon Cloudscape) and domain-specific styles (Website, Web-app, Mobile, .NET, Linux, Windows, Motion Picture, AI Prompt Helper, Print Campaigns). Provides design elements, principles, and skills for AI-driven design generation.",
+  "description": "Design guidance, platform patterns, vendor palettes, and responsive validation for interfaces across web, mobile, desktop, print, film, and image generation.",
   "type": "domain-rules",
   "tags": [
     "visual-design",
@@ -13,23 +13,35 @@
     "typography",
     "color-theory",
     "layout",
-    "ui-ux"
+    "ui-ux",
+    "product-design",
+    "accessibility",
+    "responsive-design",
+    "service-design",
+    "ux-writing"
   ],
   "augment": {
     "inject": "on-demand",
     "priority": "medium",
+    "characterCount": 302930,
     "contexts": [
       "design",
       "ui",
       "ux",
       "frontend",
       "web-development",
-      "visual-identity"
+      "visual-identity",
+      "product-design",
+      "accessibility",
+      "responsive-design",
+      "mobile",
+      "desktop"
     ]
   },
-  "characterCount": 85000,
+  "characterCount": 302930,
   "contents": {
     "core": [
+      "VERSION",
       "visual-design-core.ts",
       "types.ts",
       "style-selector.ts"
@@ -60,7 +72,29 @@
     ],
     "examples": [
       "examples/"
-    ]
+    ],
+    "guidance": {
+      "rules": [
+        "rules/index.md",
+        "rules/design-practice.md",
+        "rules/accessibility-and-color.md",
+        "rules/platform-guidance.md"
+      ],
+      "guidelines": [
+        "guidelines/index.md",
+        "guidelines/design-levels.md",
+        "guidelines/coverage-map.md"
+      ],
+      "skills": [
+        "skills/README.md",
+        "skills/design-brief.md",
+        "skills/design-review.md",
+        "skills/responsive-validation/SKILL.md"
+      ],
+      "coverageMap": "guidelines/coverage-map.md",
+      "responsiveRunner": "skills/responsive-validation/scripts/responsive-sweep.cjs",
+      "validationScript": "scripts/validate-guidance.cjs"
+    }
   },
   "vendorPriority": [
     "google",
@@ -75,4 +109,3 @@
     ]
   }
 }
-

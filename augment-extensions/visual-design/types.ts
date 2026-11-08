@@ -96,10 +96,13 @@ export interface SemanticColors {
 }
 
 export interface AccessibilityRequirements {
+  /** Legacy intent metadata. Measure rendered color pairs before making a conformance claim. */
   minContrastRatio?: number;
   minimumContrast?: number;
   targetContrast?: number;
+  /** A declared review target, not evidence that the full product meets this level. */
   wcagLevel?: 'A' | 'AA' | 'AAA';
+  /** Palette metadata only. Test actual themes and states for the target users. */
   colorBlindSafe: boolean;
   guidelines?: string[];
 }

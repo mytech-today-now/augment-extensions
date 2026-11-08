@@ -40,7 +40,7 @@ const DOTNET_COLORS: ColorPalette = {
     targetContrast: 7,
     colorBlindSafe: true,
     guidelines: [
-      'Follow WCAG 2.1 AA standards',
+      'Follow the product accessibility target and platform accessibility guidance',
       'Support Windows high contrast mode',
       'Test with .NET accessibility tools',
       'Ensure keyboard navigation'

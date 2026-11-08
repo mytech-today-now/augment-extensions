@@ -9,7 +9,7 @@
  * Key characteristics:
  * - Enterprise-focused: Optimized for complex, data-rich applications
  * - Component-heavy: Extensive library of pre-built UI components
- * - Accessibility-first: WCAG 2.1 Level AA compliance built-in
+ * - Accessibility patterns are included; verify the application against its current target
  * - Responsive: Mobile-first approach with adaptive layouts
  * - Dark mode: Full support for light and dark themes
  *
@@ -391,7 +391,7 @@ export const AMAZON_CLOUDSCAPE: VendorStyle = {
     'Component-heavy architecture with extensive pre-built UI library',
     'Data-dense interfaces optimized for dashboards and analytics',
     'Amazon Ember typography for brand consistency',
-    'WCAG 2.1 Level AA accessibility compliance built-in',
+    'Accessibility patterns require verification against the product target',
     'Full dark mode support with adaptive color tokens',
     'Responsive design with mobile-first approach',
     'Subtle animations and transitions for professional feel',
@@ -457,7 +457,7 @@ export const AMAZON_CLOUDSCAPE: VendorStyle = {
 /**
  * Accessibility Guidelines
  *
- * Cloudscape enforces WCAG 2.1 Level AA compliance:
+ * Verify the rendered application against its current accessibility target:
  *
  * - Color contrast: Minimum 4.5:1 for text, 3:1 for UI components
  * - Keyboard navigation: All interactive elements accessible via keyboard
@@ -465,7 +465,7 @@ export const AMAZON_CLOUDSCAPE: VendorStyle = {
  * - Focus indicators: Clear visual focus states
  * - Responsive text: Supports browser zoom up to 200%
  * - Motion preferences: Respects prefers-reduced-motion
- * - Touch targets: Minimum 44x44px for mobile
+ * - Touch targets: Follow the applicable platform guidance and input mode
  */
 
 /**

@@ -22,20 +22,17 @@ Integration tests for all vendor design systems:
 
 ## Running Tests
 
-### Prerequisites
+Run the tests from the repository root with the dependencies in `package-lock.json` installed:
+
 ```bash
-npm install --save-dev jest @types/jest ts-jest
+npm test -- --runInBand augment-extensions/visual-design/__tests__
 ```
 
-### Run All Tests
+### Run Specific Test Files
 ```bash
-npm test
-```
-
-### Run Specific Test File
-```bash
-npm test style-selector.test.ts
-npm test vendor-styles.test.ts
+npm test -- --runInBand augment-extensions/visual-design/__tests__/style-selector.test.ts
+npm test -- --runInBand augment-extensions/visual-design/__tests__/vendor-styles.test.ts
+npm test -- --runInBand augment-extensions/visual-design/__tests__/guidance-contract.test.ts
 ```
 
 ### Run with Coverage
@@ -43,7 +40,7 @@ npm test vendor-styles.test.ts
 npm test -- --coverage
 ```
 
-## Test Coverage
+## Verified Coverage
 
 The test suite covers:
 - ✅ Style selector creation and configuration
@@ -55,19 +52,37 @@ The test suite covers:
 - ✅ All vendor style implementations
 - ✅ Cross-vendor consistency checks
 - ✅ Required properties validation
-- ✅ Accessibility standards validation
-- ✅ Responsive grid systems
-- ✅ Spacing systems
+- Guidance paths, indexes, local Markdown links, metadata synchronization, and CLI module discovery
+- Responsive sweep planning, viewport boundaries, aspect ratios, and breakpoint neighbors
+- Synthetic pass, fail, and needs-review metric classifications
 
-## Expected Test Results
+The responsive contract tests do not render an application. Browser layout, native UI, physical device, zoom, reduced-motion effect, localization, and assistive-technology behavior require a consuming application and its runner.
 
-All tests should pass with 100% coverage of:
+## Covered Modules
+
+The focused suite covers behavior in:
 - `style-selector.ts`
+- `scripts/validate-guidance.cjs`
+- `skills/responsive-validation/scripts/responsive-sweep.cjs`
 - `domains/web-page-styles/google-modern.ts`
 - `domains/web-page-styles/microsoft-fluent.ts`
 - `domains/web-page-styles/amazon-cloudscape.ts`
 
 ## Adding New Tests
+
+The guidance contract suite also checks module.json references, local Markdown paths and headings, module discovery, version-aware loading, vendor priority, and responsive sweep planning. It uses synthetic invalid metadata and viewport metrics for negative-path coverage. It does not render an application.
+
+Run the module test files with Jest:
+
+    npm test -- --runInBand augment-extensions/visual-design/__tests__
+
+Validate the checked-in guidance references directly:
+
+    node augment-extensions/visual-design/scripts/validate-guidance.cjs
+
+Inspect the responsive viewport plan without an application:
+
+    node augment-extensions/visual-design/skills/responsive-validation/scripts/responsive-sweep.cjs --dry-run --width-breakpoints 768,1024
 
 When adding new vendor styles or features:
 
@@ -94,9 +109,8 @@ When adding new vendor styles or features:
 ## Continuous Integration
 
 These tests are designed to run in CI/CD pipelines:
-- Fast execution (< 5 seconds)
-- No external dependencies
-- Deterministic results
+- Deterministic and isolated
+- No additional external dependencies
 - Clear error messages
 
 ## Troubleshooting

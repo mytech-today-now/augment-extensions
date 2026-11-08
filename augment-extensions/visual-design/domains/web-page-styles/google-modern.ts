@@ -30,7 +30,7 @@ const GOOGLE_MODERN_COLORS: ColorPalette = {
     hex: '#6750A4',
     rgb: 'rgb(103, 80, 164)',
     usage: 'Primary brand color, key actions, important UI elements',
-    accessibility: 'WCAG AA compliant with white text',
+    accessibility: 'Verify white-text contrast for the actual state against the product target',
     tones: {
       0: '#000000',
       10: '#21005D',
@@ -52,7 +52,7 @@ const GOOGLE_MODERN_COLORS: ColorPalette = {
     hex: '#625B71',
     rgb: 'rgb(98, 91, 113)',
     usage: 'Secondary actions, less prominent UI elements',
-    accessibility: 'WCAG AA compliant',
+    accessibility: 'Verify contrast for the actual state against the product target',
     tones: {
       0: '#000000',
       10: '#1D192B',
@@ -74,7 +74,7 @@ const GOOGLE_MODERN_COLORS: ColorPalette = {
     hex: '#7D5260',
     rgb: 'rgb(125, 82, 96)',
     usage: 'Accent color, highlights, contrasting elements',
-    accessibility: 'WCAG AA compliant',
+    accessibility: 'Verify contrast for the actual state against the product target',
     tones: {
       0: '#000000',
       10: '#31111D',
@@ -96,21 +96,21 @@ const GOOGLE_MODERN_COLORS: ColorPalette = {
     hex: '#B3261E',
     rgb: 'rgb(179, 38, 30)',
     usage: 'Error states, destructive actions, warnings',
-    accessibility: 'WCAG AA compliant with white text'
+    accessibility: 'Verify white-text contrast for the actual state against the product target'
   },
   neutral: {
     name: 'Neutral',
     hex: '#79747E',
     rgb: 'rgb(121, 116, 126)',
     usage: 'Backgrounds, surfaces, outlines',
-    accessibility: 'WCAG AA compliant'
+    accessibility: 'Verify contrast for the actual state against the product target'
   },
   neutralVariant: {
     name: 'Neutral Variant',
     hex: '#79747E',
     rgb: 'rgb(121, 116, 126)',
     usage: 'Medium emphasis backgrounds, subtle outlines',
-    accessibility: 'WCAG AA compliant'
+    accessibility: 'Verify contrast for the actual state against the product target'
   }
 };
 
@@ -532,7 +532,7 @@ export const GOOGLE_MODERN: VendorStyle = {
     'Dynamic color theming with tonal palettes',
     'Rounded corners (8px-24px radius)',
     'Springy, expressive motion with emphasized easing',
-    'High accessibility standards (WCAG 2.1 AA+)',
+    'Accessibility patterns require verification against the product target',
     'Personalized and adaptive design',
     'Subtle elevation with layered shadows',
     'Google Sans and Roboto typography',
@@ -562,7 +562,7 @@ export const GOOGLE_MODERN: VendorStyle = {
  *    - Use dynamic color system with tonal palettes
  *    - Apply primary color for key actions and branding
  *    - Use secondary and tertiary for supporting elements
- *    - Ensure WCAG AA compliance for all color combinations
+ *    - Verify each used foreground and background pair against the product target
  *    - Support both light and dark themes
  *
  * 2. TYPOGRAPHY
@@ -597,12 +597,12 @@ export const GOOGLE_MODERN: VendorStyle = {
  *    - Follow accessibility guidelines
  *
  * 7. ACCESSIBILITY
- *    - Ensure WCAG 2.1 AA compliance minimum
+ *    - Verify the implementation against the applicable current accessibility target
  *    - Provide sufficient color contrast
  *    - Support keyboard navigation
  *    - Include ARIA labels and roles
  *    - Provide reduced motion alternatives
- *    - Ensure touch targets are at least 48x48px
+ *    - Follow target-size guidance for each supported platform and input mode
  *
  * REFERENCES:
  * - Material Design 3: https://m3.material.io/

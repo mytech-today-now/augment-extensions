@@ -42,8 +42,8 @@ const MOBILE_COLORS: ColorPalette = {
     guidelines: [
       'Support iOS Dynamic Type',
       'Support Android Material You theming',
-      'Ensure 44x44pt touch targets (iOS)',
-      'Ensure 48x48dp touch targets (Android)',
+      'Follow current Apple-recommended control sizes for iOS and iPadOS',
+      'Follow Android accessibility guidance for touch target size and spacing',
       'Test with accessibility scanners'
     ]
   }
@@ -104,8 +104,7 @@ const MOBILE_LAYOUT: LayoutSystem = {
     scale: [0, 8, 16, 24, 32, 40, 48, 64],
     guidelines: [
       'Use 8px base unit for spacing',
-      'Maintain 44x44pt touch targets (iOS)',
-      'Maintain 48x48dp touch targets (Android)',
+      'Use platform-recommended touch target sizes and spacing',
       'Use safe area insets for notched devices'
     ]
   },

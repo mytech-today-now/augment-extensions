@@ -4,6 +4,7 @@ import * as path from 'path';
 import { execSync } from 'child_process';
 import * as semver from 'semver';
 import { compareSemanticVersions, findModule } from '../utils/module-system';
+import { resolveExtensionsProjectRoot } from '../utils/extensions-config';
 
 interface UpdateOptions {
   module?: string;
@@ -32,7 +33,8 @@ export async function updateCommand(options: UpdateOptions): Promise<void> {
     console.log(chalk.blue('\n🔄 Updating modules...\n'));
 
     // Load extensions config
-    const configPath = path.join(process.cwd(), '.augment', 'extensions.json');
+    const projectRoot = resolveExtensionsProjectRoot();
+    const configPath = path.join(projectRoot, '.augment', 'extensions.json');
 
     if (!fs.existsSync(configPath)) {
       console.error(chalk.red('Augment Extensions not initialized. Run: augx init'));

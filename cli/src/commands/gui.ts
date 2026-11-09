@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
 import { discoverModules, discoverCollections, Module, Collection } from '../utils/module-system';
+import { getExtensionsConfigPath } from '../utils/extensions-config';
 import {
   discoverSkills,
   findSkill,
@@ -103,7 +104,7 @@ export async function guiCommand(
     console.log(chalk.gray('Press Ctrl+H or ? for keyboard shortcuts\n'));
 
     // Check if initialized
-    const configPath = path.join(process.cwd(), '.augment', 'extensions.json');
+    const configPath = getExtensionsConfigPath();
 
     if (!fs.existsSync(configPath)) {
       console.error(chalk.red('Augment Extensions not initialized. Run: augx init'));

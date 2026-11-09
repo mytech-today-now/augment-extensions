@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.0] - 2026-11-08
+
+### Added
+
+- Linked-module commands inherit the nearest `.augment/extensions.json` within the current Git repository, with nested manifests taking precedence
+- Added `augx lifecycle` for lifecycle status, safe repair, rollback, reporting, and uninstall workflows
+- Expanded the Visual Design module with design levels, platform and accessibility guidance, review skills, and responsive validation tools
+
+### Security
+
+- Hardened MCP wrapper path handling and removed shell interpretation from skill command execution
+
+### Improved
+
+- Improved GUI navigation and selection state, MCP integration, and inspection caching
+
 ## [3.1.3] - 2026-09-10
 
 ### Security

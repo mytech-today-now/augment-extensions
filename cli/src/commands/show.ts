@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
+import { getExtensionsConfigPath } from '../utils/extensions-config';
 import hljs from 'highlight.js';
 import {
   findModule,
@@ -1280,7 +1281,7 @@ export async function showAllCommand(options: ShowListOptions): Promise<void> {
  * Get linked modules from extensions.json
  */
 function getLinkedModules(): ModuleListItem[] {
-  const configPath = path.join(process.cwd(), '.augment', 'extensions.json');
+  const configPath = getExtensionsConfigPath();
 
   if (!fs.existsSync(configPath)) {
     return [];

@@ -2,7 +2,10 @@ import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getInteractivePrompt, type InteractivePrompt } from '../utils/interactive-prompt';
-import { writeExtensionsConfig } from '../utils/extensions-config';
+import {
+  resolveExtensionsProjectRoot,
+  writeExtensionsConfig
+} from '../utils/extensions-config';
 import { installCharacterCountRule, installEmDashRule } from '../utils/install-rules';
 import { extractCommandHelp } from '../utils/extractCommandHelp';
 import { selfRemoveCommand } from './self-remove';
@@ -49,7 +52,7 @@ const DEFAULT_FIX_ORDER: LifecycleFixId[] = [
 ];
 
 function projectRoot(): string {
-  return process.cwd();
+  return resolveExtensionsProjectRoot();
 }
 
 function lifecycleLabel(issue: LifecycleIssue): string {

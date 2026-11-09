@@ -1,6 +1,9 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
-import * as path from 'path';
+import {
+  getExtensionsConfigPath,
+  resolveExtensionsProjectRoot
+} from '../utils/extensions-config';
 import { findModule, discoverCollections } from '../utils/module-system';
 import { unlinkModuleMirrors } from '../lib/mirror-runner';
 import {
@@ -62,7 +65,7 @@ export async function unlinkCommand(moduleName: string, options: UnlinkOptions =
     console.log(chalk.blue(`Unlinking module: ${moduleName}`));
 
     // Load extensions config
-    const configPath = path.join(process.cwd(), '.augment', 'extensions.json');
+    const configPath = getExtensionsConfigPath();
     
     if (!fs.existsSync(configPath)) {
       console.error(chalk.red('Augment Extensions not initialized. Run: augx init'));
@@ -108,7 +111,7 @@ export async function unlinkCommand(moduleName: string, options: UnlinkOptions =
     config.modules.splice(moduleIndex, 1);
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
-    cleanupModuleMirrors(process.cwd(), resolvedModuleName);
+    cleanupModuleMirrors(resolveExtensionsProjectRoot(), resolvedModuleName);
 
     console.log(chalk.green(`✓ Successfully unlinked: ${resolvedModuleName}`));
 
@@ -146,7 +149,7 @@ async function unlinkCollection(
     if (moduleIndex >= 0) {
       config.modules.splice(moduleIndex, 1);
       unlinkedCount++;
-      cleanupModuleMirrors(process.cwd(), module.id);
+      cleanupModuleMirrors(resolveExtensionsProjectRoot(), module.id);
       console.log(chalk.green(`  ✓ Unlinked: ${module.id}`));
     } else {
       console.log(chalk.gray(`  - Skipped (not linked): ${module.id}`));

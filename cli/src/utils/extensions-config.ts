@@ -24,8 +24,31 @@ export interface LoadedExtensionsConfig {
   error?: string;
 }
 
+/**
+ * Resolve the nearest linked-module manifest without crossing a Git repository boundary.
+ */
+export function resolveExtensionsProjectRoot(startDirectory: string = process.cwd()): string {
+  const resolvedStart = path.resolve(startDirectory);
+  let currentDirectory = resolvedStart;
+  let reachedBoundary = false;
+
+  while (!reachedBoundary) {
+    if (fs.existsSync(path.join(currentDirectory, '.augment', 'extensions.json'))) {
+      return currentDirectory;
+    }
+
+    const parentDirectory = path.dirname(currentDirectory);
+    reachedBoundary =
+      parentDirectory === currentDirectory ||
+      fs.existsSync(path.join(currentDirectory, '.git'));
+    if (!reachedBoundary) currentDirectory = parentDirectory;
+  }
+
+  return resolvedStart;
+}
+
 export function getExtensionsConfigPath(projectRoot: string = process.cwd()): string {
-  return path.join(projectRoot, '.augment', 'extensions.json');
+  return path.join(resolveExtensionsProjectRoot(projectRoot), '.augment', 'extensions.json');
 }
 
 export function loadExtensionsConfig(projectRoot: string = process.cwd()): LoadedExtensionsConfig {

@@ -4,6 +4,7 @@ import * as path from 'path';
 import { ModuleLoader } from '../core/module-loader';
 import { VersionManager } from '../core/version-manager';
 import { CompatibilityChecker } from '../core/compatibility-checker';
+import { getExtensionsConfigPath } from '../utils/extensions-config';
 import { discoverModules, compareSemanticVersions } from '../utils/module-system';
 
 export interface UpgradeCommandOptions {
@@ -149,7 +150,7 @@ export async function upgradeCommand(moduleName: string, options: UpgradeCommand
       return;
     }
 
-    const configPath = path.join(process.cwd(), '.augment', 'extensions.json');
+    const configPath = getExtensionsConfigPath();
     let upgraded = false;
     if (fs.existsSync(configPath)) {
       try {

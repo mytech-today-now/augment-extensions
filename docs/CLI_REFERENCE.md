@@ -11,6 +11,8 @@ augx --help       # Show help
 
 ## Commands
 
+Linked-module commands use the nearest ancestor .augment/extensions.json within the current Git repository. Nested folders inherit that manifest; a nested copy with its own manifest takes precedence.
+
 ### `augx init`
 
 Initialize Augment Extensions in the current project.

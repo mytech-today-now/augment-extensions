@@ -18,6 +18,7 @@ import {
 } from '../adapters';
 import type { ToolAdapter } from '../adapters/types';
 import { resolveLinkedModules } from '../lib/module-resolver';
+import { resolveExtensionsProjectRoot } from '../utils/extensions-config';
 import {
   hasBeadsMcpServer,
   loadBeadsMcpSnippet,
@@ -175,7 +176,7 @@ function resolveOutputPath(
  * numeric exit code.
  */
 export async function exportCommand(options: ExportOptions): Promise<number> {
-  const projectRoot = process.cwd();
+  const projectRoot = resolveExtensionsProjectRoot();
   const exportBlock = readExportBlock(projectRoot);
 
   let adapters: ToolAdapter[] | null;

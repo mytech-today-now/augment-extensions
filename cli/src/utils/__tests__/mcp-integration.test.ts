@@ -205,11 +205,11 @@ describe('MCP integration transport handling', () => {
       Buffer.from('0123456789abcdef0123456789abcdef0123456789abcdef\n')
     );
 
-    await vi.advanceTimersByTimeAsync(50);
-
-    await expect(resultPromise).rejects.toThrow(
+    const timeoutRejection = expect(resultPromise).rejects.toThrow(
       /MCP beads\/tasks\/list timed out after 50ms[\s\S]*truncated to last/
     );
+    await vi.advanceTimersByTimeAsync(50);
+    await timeoutRejection;
     expect(child.kill).toHaveBeenCalledWith('SIGTERM');
 
     await vi.advanceTimersByTimeAsync(25);

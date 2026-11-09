@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
-import * as path from 'path';
+import { getExtensionsConfigPath } from '../utils/extensions-config';
 import { discoverModules, Module as ModuleType } from '../utils/module-system';
 import { ModuleLoader } from '../core/module-loader';
 
@@ -96,7 +96,7 @@ async function getModules(linkedOnly: boolean = false, showVersions: boolean = f
 }
 
 function getLinkedModules(): Module[] {
-  const configPath = path.join(process.cwd(), '.augment', 'extensions.json');
+  const configPath = getExtensionsConfigPath();
   
   if (!fs.existsSync(configPath)) {
     return [];

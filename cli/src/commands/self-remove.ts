@@ -1,6 +1,10 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
+import {
+  getExtensionsConfigPath,
+  resolveExtensionsProjectRoot
+} from '../utils/extensions-config';
 import { getInteractivePrompt, type InteractivePrompt } from '../utils/interactive-prompt';
 
 interface SelfRemoveOptions {
@@ -95,9 +99,10 @@ export async function selfRemoveCommand(options: SelfRemoveOptions = {}): Promis
   try {
     console.log(chalk.red('\nAugment Extensions Safe Cleanup\n'));
 
-    const augmentDir = path.join(process.cwd(), '.augment');
-    const extensionsConfigPath = path.join(augmentDir, 'extensions.json');
-    const vscodeExtensionsJsonPath = path.join(process.cwd(), '.vscode', 'extensions.json');
+    const projectRoot = resolveExtensionsProjectRoot();
+
+    const extensionsConfigPath = getExtensionsConfigPath(projectRoot);
+    const vscodeExtensionsJsonPath = path.join(projectRoot, '.vscode', 'extensions.json');
 
     if (!fs.existsSync(extensionsConfigPath)) {
       console.log(chalk.yellow('Augment Extensions not found in this project.'));
@@ -193,7 +198,7 @@ export async function selfRemoveCommand(options: SelfRemoveOptions = {}): Promis
       }
     }
 
-    const logPath = path.join(process.cwd(), SELF_REMOVE_LOG_RELATIVE_PATH);
+    const logPath = path.join(projectRoot, SELF_REMOVE_LOG_RELATIVE_PATH);
     const logContent = {
       timestamp: new Date().toISOString(),
       modulesRemoved: originalModules.length,

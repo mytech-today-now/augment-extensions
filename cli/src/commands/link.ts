@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
 import { findModule } from '../utils/module-system';
+import { resolveExtensionsProjectRoot } from '../utils/extensions-config';
 import { resolveSingleModule } from '../lib/module-resolver';
 import {
   ensureClaudeIncludeStub,
@@ -92,7 +93,7 @@ export async function linkCommand(moduleName: string, options: LinkOptions): Pro
   try {
     console.log(chalk.blue(`Linking module: ${moduleName}`));
 
-    const projectRoot = process.cwd();
+    const projectRoot = resolveExtensionsProjectRoot();
     const configPath = path.join(projectRoot, '.augment', 'extensions.json');
 
     if (!fs.existsSync(configPath)) {

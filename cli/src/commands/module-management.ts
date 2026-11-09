@@ -13,6 +13,7 @@ import {
 import {
   loadExtensionsConfig,
   pinModuleVersion as persistPinnedModuleVersion,
+  resolveExtensionsProjectRoot,
   type LinkedModuleRecord
 } from '../utils/extensions-config';
 
@@ -334,7 +335,7 @@ export async function checkUpdatesCommand(): Promise<void> {
   try {
     console.log(chalk.blue('Checking for updates...'));
 
-    const projectRoot = process.cwd();
+    const projectRoot = resolveExtensionsProjectRoot();
     const configResult = loadExtensionsConfig(projectRoot);
 
     if (!configResult.exists) {
@@ -418,7 +419,7 @@ export async function diffCommand(moduleName: string): Promise<void> {
   try {
     console.log(chalk.magenta(`Showing diff for: ${moduleName}`));
 
-    const projectRoot = process.cwd();
+    const projectRoot = resolveExtensionsProjectRoot();
     const configResult = loadExtensionsConfig(projectRoot);
 
     if (!configResult.exists) {

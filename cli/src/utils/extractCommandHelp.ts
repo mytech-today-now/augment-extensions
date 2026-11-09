@@ -238,8 +238,11 @@ export async function extractHelpRecursive(
 /**
  * Extract help for all detected tools
  */
-export async function extractAllHelp(repoRoot: string): Promise<Map<Tool, HelpNode>> {
-  const tools = detectTools(repoRoot);
+export async function extractAllHelp(
+  repoRoot: string,
+  configuredTools: Tool[] = DEFAULT_TOOLS
+): Promise<Map<Tool, HelpNode>> {
+  const tools = detectTools(repoRoot, configuredTools);
   const helpMap = new Map<Tool, HelpNode>();
 
   for (const tool of tools) {
@@ -323,11 +326,15 @@ function formatHelpNode(node: HelpNode, level: number = 3): string {
 /**
  * Main extraction function
  */
-export async function extractCommandHelp(repoRoot: string, outputPath?: string): Promise<string> {
+export async function extractCommandHelp(
+  repoRoot: string,
+  outputPath?: string,
+  tools: Tool[] = DEFAULT_TOOLS
+): Promise<string> {
   console.log('🚀 Starting command help extraction...\n');
 
   // Extract help from all tools
-  const helpMap = await extractAllHelp(repoRoot);
+  const helpMap = await extractAllHelp(repoRoot, tools);
 
   if (helpMap.size === 0) {
     console.warn('⚠️  No tools detected. Skipping help extraction.');

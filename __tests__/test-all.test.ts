@@ -23,9 +23,18 @@ import {
 
 describe('Augment Extensions CLI - Comprehensive Test Suite', () => {
   let runner: TestRunner;
+  let allResults: Array<{ status: string }> = [];
+
+  beforeAll(() => {
+    allResults = [];
+  });
 
   beforeEach(() => {
     runner = new TestRunner();
+  });
+
+  afterEach(() => {
+    allResults.push(...runner.getResults());
   });
 
   describe('Init Commands', () => {
@@ -138,8 +147,13 @@ describe('Augment Extensions CLI - Comprehensive Test Suite', () => {
 
   describe('Summary', () => {
     it('should have overall passing rate above 80%', () => {
-      const summary = runner.getSummary();
-      const passingRate = (summary.passed / summary.total) * 100;
+      const executedResults = allResults.filter(result => result.status !== 'skipped');
+      const passed = executedResults.filter(result => result.status === 'success').length;
+      const passingRate = executedResults.length === 0
+        ? 0
+        : (passed / executedResults.length) * 100;
+
+      expect(executedResults.length).toBeGreaterThan(0);
       expect(passingRate).toBeGreaterThan(80);
     });
   });

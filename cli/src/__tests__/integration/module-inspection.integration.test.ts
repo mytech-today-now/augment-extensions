@@ -7,33 +7,25 @@ import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { execSync } from 'child_process';
+import { spawnSync } from 'child_process';
 
 const TEST_MODULE_PATH = path.join(__dirname, '../../../../augment-extensions/test-module');
 const TEST_COMPLETED_PROJECT_PATH = path.join(__dirname, '__fixtures__', 'completed-test-project');
 const TEST_OUTSIDE_FILE_PATH = path.join(__dirname, '../../../../outside.txt');
 const CLI_PATH = path.join(__dirname, '../../../dist/cli.js');
 
-function runCli(command: string, cwd: string = process.cwd()): { stdout: string; stderr: string; status: number } {
-  try {
-    return {
-      stdout: execSync(command, { encoding: 'utf-8', cwd }),
-      stderr: '',
-      status: 0
-    };
-  } catch (error) {
-    const execError = error as {
-      stdout?: string | Buffer;
-      stderr?: string | Buffer;
-      status?: number;
-    };
+function runCli(args: string[], cwd: string = process.cwd()): { stdout: string; stderr: string; status: number } {
+  const result = spawnSync(process.execPath, [CLI_PATH, ...args], {
+    encoding: 'utf-8',
+    cwd,
+    timeout: 20000
+  });
 
-    return {
-      stdout: typeof execError.stdout === 'string' ? execError.stdout : execError.stdout?.toString() ?? '',
-      stderr: typeof execError.stderr === 'string' ? execError.stderr : execError.stderr?.toString() ?? '',
-      status: execError.status ?? 1
-    };
-  }
+  return {
+    stdout: result.stdout ?? '',
+    stderr: `${result.stderr ?? ''}${result.error?.message ?? ''}`,
+    status: result.status ?? 1
+  };
 }
 
 describe('Module Inspection Integration Tests', () => {
@@ -114,7 +106,7 @@ describe('Module Inspection Integration Tests', () => {
 
   describe('Routing and output', () => {
     it('should discover and display module overview', () => {
-      const { stdout, stderr, status } = runCli(`node ${CLI_PATH} show module test-module`);
+      const { stdout, stderr, status } = runCli(['show', 'module', 'test-module']);
 
       expect(status).toBe(0);
       expect(stdout).toContain('Module: test-module');
@@ -127,7 +119,7 @@ describe('Module Inspection Integration Tests', () => {
     });
 
     it('should display an individual file from the module', () => {
-      const { stdout, stderr, status } = runCli(`node ${CLI_PATH} show module test-module rules/test-rule.md`);
+      const { stdout, stderr, status } = runCli(['show', 'module', 'test-module', 'rules/test-rule.md']);
 
       expect(status).toBe(0);
       expect(stdout).toContain('File: rules');
@@ -140,7 +132,7 @@ describe('Module Inspection Integration Tests', () => {
 
     it('should reject absolute file paths by default', () => {
       const absoluteRulePath = path.resolve(TEST_MODULE_PATH, 'rules', 'test-rule.md').replace(/\\/g, '/');
-      const { stdout, stderr, status } = runCli(`node ${CLI_PATH} show module test-module ${absoluteRulePath}`);
+      const { stdout, stderr, status } = runCli(['show', 'module', 'test-module', absoluteRulePath]);
       const output = `${stdout}${stderr}`;
 
       expect(status).toBe(1);
@@ -157,9 +149,9 @@ describe('Module Inspection Integration Tests', () => {
         'utf-8'
       );
 
-      const { stdout, stderr, status } = runCli(
-        `node ${CLI_PATH} show module test-module --content --depth 2 --search module-search-hit`
-      );
+      const { stdout, stderr, status } = runCli([
+        'show', 'module', 'test-module', '--content', '--depth', '2', '--search', 'module-search-hit'
+      ]);
 
       expect(status).toBe(0);
       expect(stdout).toContain('Search Results: \"module-search-hit\"');
@@ -170,7 +162,7 @@ describe('Module Inspection Integration Tests', () => {
 
     it('should search completed tasks with the task search flag', () => {
       const { stdout, stderr, status } = runCli(
-        `node ${CLI_PATH} show completed --task-search renamed`,
+        ['show', 'completed', '--task-search', 'renamed'],
         TEST_COMPLETED_PROJECT_PATH
       );
 
@@ -183,7 +175,7 @@ describe('Module Inspection Integration Tests', () => {
     });
 
     it('should document unique search flags in show help', () => {
-      const { stdout, status } = runCli(`node ${CLI_PATH} show --help`);
+      const { stdout, status } = runCli(['show', '--help']);
       const normalizedHelp = stdout.replace(/\s+/g, ' ');
 
       expect(status).toBe(0);
@@ -196,7 +188,7 @@ describe('Module Inspection Integration Tests', () => {
     });
 
     it('should route show linked to the linked-module handler', () => {
-      const { stdout, status } = runCli(`node ${CLI_PATH} show linked --json`);
+      const { stdout, status } = runCli(['show', 'linked', '--json']);
 
       expect(status).toBe(0);
       const linkedModules = JSON.parse(stdout);
@@ -204,7 +196,7 @@ describe('Module Inspection Integration Tests', () => {
     });
 
     it('should route show all to the all-modules handler', () => {
-      const { stdout, status } = runCli(`node ${CLI_PATH} show all --json`);
+      const { stdout, status } = runCli(['show', 'all', '--json']);
 
       expect(status).toBe(0);
       const allModules = JSON.parse(stdout);
@@ -215,14 +207,14 @@ describe('Module Inspection Integration Tests', () => {
 
   describe('Error Handling Tests', () => {
     it('should show usage when the module name is missing', () => {
-      const { stdout, stderr, status } = runCli(`node ${CLI_PATH} show module`);
+      const { stdout, stderr, status } = runCli(['show', 'module']);
 
       expect(status).toBe(1);
       expect(`${stdout}${stderr}`).toContain('Usage: augx show module <module-name> [file-path] [options]');
     });
 
     it('should handle non-existent module gracefully', () => {
-      const { stdout, stderr, status } = runCli(`node ${CLI_PATH} show module non-existent-module`);
+      const { stdout, stderr, status } = runCli(['show', 'module', 'non-existent-module']);
       const output = `${stdout}${stderr}`;
 
       expect(status).toBe(1);
@@ -231,7 +223,7 @@ describe('Module Inspection Integration Tests', () => {
     });
 
     it('should handle non-existent file gracefully', () => {
-      const { stdout, stderr, status } = runCli(`node ${CLI_PATH} show module test-module non-existent-file.md`);
+      const { stdout, stderr, status } = runCli(['show', 'module', 'test-module', 'non-existent-file.md']);
       const output = `${stdout}${stderr}`;
 
       expect(status).toBe(1);
@@ -240,7 +232,7 @@ describe('Module Inspection Integration Tests', () => {
     });
 
     it('should not read files outside the module root through traversal', () => {
-      const { stdout, stderr, status } = runCli(`node ${CLI_PATH} show module test-module ../../outside.txt`);
+      const { stdout, stderr, status } = runCli(['show', 'module', 'test-module', '../../outside.txt']);
       const output = `${stdout}${stderr}`;
 
       expect(status).toBe(1);
@@ -259,7 +251,7 @@ describe('Module Inspection Integration Tests', () => {
       fs.symlinkSync(escapeTargetDir, escapeLinkPath, process.platform === 'win32' ? 'junction' : 'dir');
 
       try {
-        const { stdout, stderr, status } = runCli(`node ${CLI_PATH} show module test-module rules/escape/secret.md`);
+        const { stdout, stderr, status } = runCli(['show', 'module', 'test-module', 'rules/escape/secret.md']);
         const output = `${stdout}${stderr}`;
 
         expect(status).toBe(1);
@@ -277,7 +269,9 @@ describe('Module Inspection Integration Tests', () => {
       fs.writeFileSync(secretFilePath, 'API_KEY=abcdefghijklmnop\n', 'utf-8');
 
       try {
-        const { stdout, stderr, status } = runCli(`node ${CLI_PATH} show module test-module rules/secure-secret.md --secure`);
+        const { stdout, stderr, status } = runCli([
+          'show', 'module', 'test-module', 'rules/secure-secret.md', '--secure'
+        ]);
         const output = `${stdout}${stderr}`;
 
         expect(status).toBe(0);

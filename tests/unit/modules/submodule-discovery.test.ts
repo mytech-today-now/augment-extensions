@@ -1,152 +1,91 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { TestEnvironment } from '../../helpers/test-env';
+import { describe, it, expect } from 'vitest';
 import { loadModule, discoverModules } from '@cli/utils/module-system';
-import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
-import * as fs from 'fs';
+
+const MODULES_ROOT = join(process.cwd(), 'augment-extensions');
+const SOFTWARE_ARCHITECTURE_PATH = join(
+  MODULES_ROOT,
+  'domain-rules',
+  'software-architecture'
+);
+const CATPPUCCIN_MOCHA_PATH = join(
+  MODULES_ROOT,
+  'domain-rules',
+  'design',
+  'color',
+  'themes',
+  'catppuccin-mocha'
+);
 
 describe('Submodule Discovery', () => {
-  let testEnv: TestEnvironment;
+  describe('Submodule metadata', () => {
+    it('loads declared software architecture submodules', () => {
+      const architecture = loadModule(SOFTWARE_ARCHITECTURE_PATH);
 
-  beforeEach(async () => {
-    testEnv = new TestEnvironment();
-    await testEnv.setup();
-  });
-
-  afterEach(async () => {
-    await testEnv.cleanup();
-  });
-
-  describe('Submodule Detection', () => {
-    it('should detect screenplay cinematic-styles as a submodule', () => {
-      // Load the actual screenplay module
-      const screenplayPath = join(process.cwd(), 'augment-extensions', 'writing-standards', 'screenplay');
-      const screenplay = loadModule(screenplayPath);
-
-      expect(screenplay).not.toBeNull();
-      expect(screenplay?.isSubModule).toBe(false);
-      expect(screenplay?.subModules).toBeDefined();
-      expect(screenplay?.subModules?.length).toBeGreaterThan(0);
-      
-      // Check if cinematic-styles is in submodules
-      const hasCinematicStyles = screenplay?.subModules?.some(
-        sub => sub.includes('cinematic-styles')
-      );
-      expect(hasCinematicStyles).toBe(true);
+      expect(architecture).not.toBeNull();
+      expect(architecture?.isSubModule).toBe(false);
+      expect(architecture?.subModules).toHaveLength(5);
+      expect(architecture?.subModules).toEqual(expect.arrayContaining([
+        'domain-rules/software-architecture/fundamentals',
+        'domain-rules/software-architecture/patterns',
+        'domain-rules/software-architecture/quality',
+        'domain-rules/software-architecture/practices',
+        'domain-rules/software-architecture/specialized'
+      ]));
     });
 
-    it('should detect cinematic-styles as a submodule with parent reference', () => {
-      const cinematicStylesPath = join(
-        process.cwd(), 
-        'augment-extensions', 
-        'writing-standards', 
-        'screenplay', 
-        'cinematic-styles'
-      );
-      const cinematicStyles = loadModule(cinematicStylesPath);
+    it('derives the parent path for a real nested module', () => {
+      const theme = loadModule(CATPPUCCIN_MOCHA_PATH);
 
-      expect(cinematicStyles).not.toBeNull();
-      expect(cinematicStyles?.isSubModule).toBe(true);
-      expect(cinematicStyles?.parentModule).toBe('writing-standards/screenplay');
-    });
-
-    it('should detect all screenplay submodules', () => {
-      const screenplayPath = join(process.cwd(), 'augment-extensions', 'writing-standards', 'screenplay');
-      const screenplay = loadModule(screenplayPath);
-
-      expect(screenplay?.subModules).toBeDefined();
-      
-      // Based on module.json, should have: styles, cinematic-styles, genres, themes
-      const expectedSubModules = ['styles', 'cinematic-styles', 'genres', 'themes'];
-      
-      for (const expectedSub of expectedSubModules) {
-        const hasSubModule = screenplay?.subModules?.some(
-          sub => sub.endsWith(expectedSub)
-        );
-        
-        // Only check if the submodule directory exists
-        const subModulePath = join(screenplayPath, expectedSub);
-        if (fs.existsSync(join(subModulePath, 'module.json'))) {
-          expect(hasSubModule).toBe(true);
-        }
-      }
+      expect(theme).not.toBeNull();
+      expect(theme?.fullName).toBe('domain-rules/design/color/themes/catppuccin-mocha');
+      expect(theme?.isSubModule).toBe(true);
+      expect(theme?.parentModule).toBe('domain-rules/design/color/themes');
     });
   });
 
-  describe('Module Discovery with Submodules', () => {
-    it('should discover both parent and submodules', () => {
+  describe('Module discovery', () => {
+    it('discovers the real parent module and nested theme module', () => {
       const modules = discoverModules();
-      
-      // Find screenplay module
-      const screenplay = modules.find(m => m.fullName === 'writing-standards/screenplay');
-      expect(screenplay).toBeDefined();
-      expect(screenplay?.isSubModule).toBe(false);
-      
-      // Find cinematic-styles submodule
-      const cinematicStyles = modules.find(m => 
-        m.fullName === 'writing-standards/screenplay/cinematic-styles'
-      );
-      expect(cinematicStyles).toBeDefined();
-      expect(cinematicStyles?.isSubModule).toBe(true);
-      expect(cinematicStyles?.parentModule).toBe('writing-standards/screenplay');
+
+      expect(modules.find(module => module.fullName === 'domain-rules/software-architecture'))
+        .toBeDefined();
+      expect(modules.find(module => module.fullName === 'domain-rules/design/color/themes/catppuccin-mocha'))
+        .toMatchObject({
+          isSubModule: true,
+          parentModule: 'domain-rules/design/color/themes'
+        });
     });
 
-    it('should include submodules in total module count', () => {
+    it('does not mark known top-level modules as submodules', () => {
       const modules = discoverModules();
-      const writingStandardsModules = modules.filter(m => 
-        m.fullName.startsWith('writing-standards/')
-      );
-      
-      // Should include screenplay and its submodules
-      expect(writingStandardsModules.length).toBeGreaterThan(1);
-    });
-  });
-
-  describe('Top-level Module Detection', () => {
-    it('should not mark top-level modules as submodules', () => {
-      const modules = discoverModules();
-      
-      // Check some known top-level modules
       const topLevelPaths = [
         'coding-standards/typescript',
         'coding-standards/php',
         'domain-rules/api-design',
         'workflows/beads'
       ];
-      
+
       for (const modulePath of topLevelPaths) {
-        const module = modules.find(m => m.fullName === modulePath);
+        const module = modules.find(item => item.fullName === modulePath);
         if (module) {
           expect(module.isSubModule).toBe(false);
           expect(module.parentModule).toBeUndefined();
         }
       }
     });
-  });
 
-  describe('Submodule Hierarchy', () => {
-    it('should maintain correct parent-child relationships', () => {
+    it('preserves valid parent references for discovered nested modules', () => {
       const modules = discoverModules();
 
-      // Find all submodules
-      const subModules = modules.filter(m => m.isSubModule);
-
-      // Each submodule should have a valid parent reference
-      for (const subModule of subModules) {
+      for (const subModule of modules.filter(module => module.isSubModule)) {
         expect(subModule.parentModule).toBeDefined();
 
-        // If parent exists as a module, it should list this submodule
-        const parent = modules.find(m => m.fullName === subModule.parentModule);
-
+        const parent = modules.find(module => module.fullName === subModule.parentModule);
         if (parent) {
-          // Parent should list this submodule
-          expect(parent.subModules).toBeDefined();
           expect(parent.subModules).toContain(subModule.fullName);
         }
-        // Note: Not all parent directories have module.json files,
-        // so we don't require the parent to exist as a module
       }
     });
   });
 });
-

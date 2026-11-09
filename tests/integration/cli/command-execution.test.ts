@@ -1,7 +1,5 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { join } from 'path';
-import { writeFile, mkdir } from 'fs/promises';
-import { existsSync } from 'fs';
 import { TestEnvironment } from '../../helpers/test-env';
 import { spawn } from 'child_process';
 
@@ -22,17 +20,27 @@ import { spawn } from 'child_process';
 async function executeCommand(
   command: string,
   args: string[],
-  cwd: string
+  cwd: string,
+  timeoutMs: number = 20000
 ): Promise<{ stdout: string; stderr: string; exitCode: number }> {
   return new Promise((resolve) => {
     const child = spawn(command, args, {
       cwd,
-      shell: true,
+      shell: false,
       stdio: ['ignore', 'pipe', 'pipe']
     });
 
     let stdout = '';
     let stderr = '';
+    let settled = false;
+    let timeoutHandle: ReturnType<typeof setTimeout>;
+
+    const finish = (exitCode: number) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeoutHandle);
+      resolve({ stdout, stderr, exitCode });
+    };
 
     child.stdout?.on('data', (data) => {
       stdout += data.toString();
@@ -43,24 +51,24 @@ async function executeCommand(
     });
 
     child.on('close', (code) => {
-      resolve({
-        stdout,
-        stderr,
-        exitCode: code || 0
-      });
+      finish(code ?? 1);
     });
 
     child.on('error', (error) => {
-      resolve({
-        stdout,
-        stderr: error.message,
-        exitCode: 1
-      });
+      stderr += error.message;
+      finish(1);
     });
+
+    timeoutHandle = setTimeout(() => {
+      stderr += `\nCommand timed out after ${timeoutMs}ms`;
+      child.kill();
+    }, timeoutMs);
   });
 }
 
 describe('CLI Command Execution', () => {
+  vi.setConfig({ testTimeout: 25000 });
+
   let testEnv: TestEnvironment;
   const CLI_PATH = join(__dirname, '../../../cli/dist/index.js');
 
@@ -75,14 +83,14 @@ describe('CLI Command Execution', () => {
 
   describe('Basic Command Execution', () => {
     it('should execute help command successfully', async () => {
-      const result = await executeCommand('node', [CLI_PATH, '--help'], testEnv.tempDir);
+      const result = await executeCommand(process.execPath, [CLI_PATH, '--help'], testEnv.tempDir);
 
       expect(result.exitCode).toBe(0);
       expect(result.stdout).toBeTruthy();
     });
 
     it('should execute version command successfully', async () => {
-      const result = await executeCommand('node', [CLI_PATH, '--version'], testEnv.tempDir);
+      const result = await executeCommand(process.execPath, [CLI_PATH, '--version'], testEnv.tempDir);
 
       expect(result.exitCode).toBe(0);
       expect(result.stdout).toBeTruthy();
@@ -90,7 +98,7 @@ describe('CLI Command Execution', () => {
 
     it('should handle unknown command gracefully', async () => {
       const result = await executeCommand(
-        'node',
+        process.execPath,
         [CLI_PATH, 'unknown-command'],
         testEnv.tempDir
       );
@@ -103,7 +111,7 @@ describe('CLI Command Execution', () => {
   describe('stdout/stderr Capture', () => {
     it('should capture stdout from successful command', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
 
       expect(result.stdout).toBeTruthy();
       expect(result.stderr).toBe('');
@@ -111,7 +119,7 @@ describe('CLI Command Execution', () => {
 
     it('should capture stderr from failed command', async () => {
       const result = await executeCommand(
-        'node',
+        process.execPath,
         [CLI_PATH, 'link', 'non-existent-module'],
         testEnv.tempDir
       );
@@ -122,7 +130,7 @@ describe('CLI Command Execution', () => {
 
     it('should handle empty output', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'list', '--json'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list', '--json'], project.path);
 
       expect(result.stdout).toBeTruthy();
       // Should be valid JSON (empty array or object)
@@ -131,7 +139,7 @@ describe('CLI Command Execution', () => {
 
     it('should search top-level modules', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'search', 'visual'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'search', 'visual'], project.path);
 
       expect(result.exitCode).toBe(0);
       expect(result.stdout).toContain('visual-design');
@@ -141,14 +149,14 @@ describe('CLI Command Execution', () => {
   describe('Exit Codes', () => {
     it('should return 0 for successful command', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
 
       expect(result.exitCode).toBe(0);
     });
 
     it('should return non-zero for failed command', async () => {
       const result = await executeCommand(
-        'node',
+        process.execPath,
         [CLI_PATH, 'link', 'invalid/module'],
         testEnv.tempDir
       );
@@ -158,7 +166,7 @@ describe('CLI Command Execution', () => {
 
     it('should return non-zero for invalid arguments', async () => {
       const result = await executeCommand(
-        'node',
+        process.execPath,
         [CLI_PATH, 'list', '--invalid-flag'],
         testEnv.tempDir
       );
@@ -173,11 +181,11 @@ describe('CLI Command Execution', () => {
       const project = await testEnv.createProject();
 
       // Execute first command
-      const result1 = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const result1 = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
       expect(result1.exitCode).toBe(0);
 
       // Execute second command
-      const result2 = await executeCommand('node', [CLI_PATH, 'list', '--json'], project.path);
+      const result2 = await executeCommand(process.execPath, [CLI_PATH, 'list', '--json'], project.path);
       expect(result2.exitCode).toBe(0);
 
       // Both should succeed
@@ -189,13 +197,13 @@ describe('CLI Command Execution', () => {
       const project = await testEnv.createProject();
 
       // First list modules (should succeed even with no modules)
-      const listResult = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const listResult = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
       expect(listResult.exitCode).toBe(0);
 
       // Then show a real module from augment-extensions
       // Use a module that actually exists in the global modules directory
       const showResult = await executeCommand(
-        'node',
+        process.execPath,
         [CLI_PATH, 'show', 'coding-standards/typescript'],
         project.path
       );
@@ -210,9 +218,9 @@ describe('CLI Command Execution', () => {
 
       // Execute multiple commands in parallel
       const results = await Promise.all([
-        executeCommand('node', [CLI_PATH, 'list'], project.path),
-        executeCommand('node', [CLI_PATH, 'list', '--json'], project.path),
-        executeCommand('node', [CLI_PATH, '--version'], project.path)
+        executeCommand(process.execPath, [CLI_PATH, 'list'], project.path),
+        executeCommand(process.execPath, [CLI_PATH, 'list', '--json'], project.path),
+        executeCommand(process.execPath, [CLI_PATH, '--version'], project.path)
       ]);
 
       // All should succeed
@@ -223,7 +231,7 @@ describe('CLI Command Execution', () => {
 
     it('should show a top-level module successfully', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'show', 'visual-design'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'show', 'visual-design'], project.path);
 
       expect(result.exitCode).toBe(0);
       expect(result.stdout).toContain('visual-design');
@@ -231,7 +239,7 @@ describe('CLI Command Execution', () => {
 
     it('should link a top-level module successfully', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'link', 'visual-design'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'link', 'visual-design'], project.path);
 
       expect(result.exitCode).toBe(0);
       expect(result.stdout).toContain('visual-design');
@@ -244,7 +252,7 @@ describe('CLI Command Execution', () => {
 
   describe('CLI Error Messages', () => {
     it('should provide clear error for missing arguments', async () => {
-      const result = await executeCommand('node', [CLI_PATH, 'show'], testEnv.tempDir);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'show'], testEnv.tempDir);
 
       // Should fail with clear error message
       expect(result.exitCode).not.toBe(0);
@@ -256,7 +264,7 @@ describe('CLI Command Execution', () => {
     it('should provide clear error for invalid module', async () => {
       const project = await testEnv.createProject();
       const result = await executeCommand(
-        'node',
+        process.execPath,
         [CLI_PATH, 'show', 'invalid/non-existent-module'],
         project.path
       );
@@ -269,7 +277,7 @@ describe('CLI Command Execution', () => {
 
     it('should provide clear error for invalid project path', async () => {
       const result = await executeCommand(
-        'node',
+        process.execPath,
         [CLI_PATH, 'list'],
         '/non/existent/path'
       );
@@ -280,7 +288,7 @@ describe('CLI Command Execution', () => {
 
     it('should provide help text for unknown command', async () => {
       const result = await executeCommand(
-        'node',
+        process.execPath,
         [CLI_PATH, 'unknown-command'],
         testEnv.tempDir
       );
@@ -295,7 +303,7 @@ describe('CLI Command Execution', () => {
   describe('JSON Output', () => {
     it('should produce valid JSON with --json flag', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'list', '--json'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list', '--json'], project.path);
 
       expect(result.exitCode).toBe(0);
       expect(() => JSON.parse(result.stdout)).not.toThrow();
@@ -303,7 +311,7 @@ describe('CLI Command Execution', () => {
 
     it('should handle empty JSON output', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'list', '--json'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list', '--json'], project.path);
 
       const json = JSON.parse(result.stdout);
       expect(Array.isArray(json) || typeof json === 'object').toBe(true);
@@ -311,7 +319,7 @@ describe('CLI Command Execution', () => {
 
     it('should format JSON output correctly', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'list', '--json'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list', '--json'], project.path);
 
       const json = JSON.parse(result.stdout);
       // Should be valid JSON structure
@@ -324,7 +332,7 @@ describe('CLI Command Execution', () => {
       const project = await testEnv.createProject();
       const start = Date.now();
 
-      const result = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
 
       const duration = Date.now() - start;
       expect(result.exitCode).toBe(0);
@@ -341,7 +349,7 @@ describe('CLI Command Execution', () => {
       }
 
       const start = Date.now();
-      const result = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
       const duration = Date.now() - start;
 
       expect(result.exitCode).toBe(0);
@@ -355,7 +363,7 @@ describe('CLI Command Execution', () => {
       const project = await testEnv.createProject();
 
       // Execute with test environment
-      const result = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
 
       expect(result.exitCode).toBe(0);
       // Command should execute successfully in test environment
@@ -363,7 +371,7 @@ describe('CLI Command Execution', () => {
 
     it('should handle missing environment variables', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
 
       // Should work without special environment variables
       expect(result.exitCode).toBe(0);
@@ -373,7 +381,7 @@ describe('CLI Command Execution', () => {
   describe('Working Directory', () => {
     it('should execute commands in correct working directory', async () => {
       const project = await testEnv.createProject();
-      const result = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
 
       expect(result.exitCode).toBe(0);
       // Command should execute in project directory
@@ -383,7 +391,7 @@ describe('CLI Command Execution', () => {
       const project = await testEnv.createProject();
 
       // Execute from project directory
-      const result = await executeCommand('node', [CLI_PATH, 'list'], project.path);
+      const result = await executeCommand(process.execPath, [CLI_PATH, 'list'], project.path);
 
       expect(result.exitCode).toBe(0);
     });

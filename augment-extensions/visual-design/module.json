@@ -23,7 +23,7 @@
   "augment": {
     "inject": "on-demand",
     "priority": "medium",
-    "characterCount": 302930,
+    "characterCount": 304728,
     "contexts": [
       "design",
       "ui",
@@ -38,7 +38,7 @@
       "desktop"
     ]
   },
-  "characterCount": 302930,
+  "characterCount": 304728,
   "contents": {
     "core": [
       "VERSION",

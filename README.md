@@ -73,6 +73,10 @@ augx export --target all --dry-run     # preview without writing
 
 From a clean clone to a working `CLAUDE.md`, `.cursor/rules/augx-coding-standards-typescript.mdc`, and `.windsurf/rules/augx-coding-standards-typescript.md` is four commands.
 
+## Runtime Compatibility
+
+The package declares Node.js `>=16` and builds the CLI as CommonJS. The CLI loads Chalk synchronously for command output, so it uses Chalk 4, which supports the fluent color and bold methods used by the CLI and can be required from CommonJS on Node 16. Chalk 5 is ESM-only and fails when loaded by this CommonJS entry point on Node 16. Inquirer remains on version 9 and is loaded with native dynamic import only when an interactive prompt is needed. UUID remains unchanged because the CLI startup path does not import it.
+
 ## Concepts
 
 ### Modules

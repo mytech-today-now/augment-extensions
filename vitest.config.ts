@@ -11,7 +11,10 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     setupFiles: ['./tests/setup.ts'],
-    include: ['tests/**/*.test.ts', 'cli/src/utils/__tests__/**/*.test.ts'],
+    include: [
+      'tests/**/*.test.ts',
+      'cli/src/utils/__tests__/**/*.test.ts'
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],

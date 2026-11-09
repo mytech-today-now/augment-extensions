@@ -1,157 +1,135 @@
 /**
- * Integration tests for extractCommandHelp utility
- * Tests the full extraction flow with real command execution
+ * Integration tests for extractCommandHelp utility.
+ * Uses a real child process with deterministic help commands.
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-import { extractCommandHelp, extractAllHelp, detectTools } from '@cli/utils/extractCommandHelp';
+import {
+  extractCommandHelp,
+  extractAllHelp,
+  detectTools
+} from '@cli/utils/extractCommandHelp';
+import type { Tool } from '@cli/utils/extractCommandHelp';
+
+const NODE_HELP_TOOLS: Tool[] = [
+  { name: 'Beads', command: `"${process.execPath}"`, directory: '.beads' },
+  { name: 'OpenSpec', command: `"${process.execPath}"`, directory: 'openspec' },
+  { name: 'Augx', command: `"${process.execPath}"`, directory: '.augment' }
+];
 
 describe('extractCommandHelp integration tests', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    // Create temporary directory for tests
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'augx-test-'));
   });
 
   afterEach(() => {
-    // Clean up temporary directory
     if (fs.existsSync(tempDir)) {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
   });
 
-  describe('extractCommandHelp with all tools present', () => {
-    it('should extract help when all tools are available', async () => {
-      // Create tool directories
-      fs.mkdirSync(path.join(tempDir, '.beads'), { recursive: true });
-      fs.mkdirSync(path.join(tempDir, 'openspec'), { recursive: true });
-      fs.mkdirSync(path.join(tempDir, '.augment'), { recursive: true });
+  describe('extractCommandHelp with configured tools', () => {
+    it('extracts help from all detected tools and writes the result', async () => {
+      for (const tool of NODE_HELP_TOOLS) {
+        fs.mkdirSync(path.join(tempDir, tool.directory), { recursive: true });
+      }
 
       const outputPath = '.augment/COMMAND_HELP.md';
+      const result = await extractCommandHelp(tempDir, outputPath, NODE_HELP_TOOLS);
       const fullOutputPath = path.join(tempDir, outputPath);
 
-      // Run extraction
-      const result = await extractCommandHelp(tempDir, outputPath);
-
-      // Verify output file was created
       expect(fs.existsSync(fullOutputPath)).toBe(true);
-
-      // Verify content
       expect(result).toContain('# Command Help Reference');
       expect(result).toContain('**Generated**:');
       expect(result).toContain('**Version**: 1.0.0');
+      expect(result).toContain('Beads Commands');
+      expect(fs.readFileSync(fullOutputPath, 'utf8')).toBe(result);
+    });
 
-      // Read file and verify it matches returned content
-      const fileContent = fs.readFileSync(fullOutputPath, 'utf8');
-      expect(fileContent).toBe(result);
-    }, 30000); // 30 second timeout for real command execution
+    it('handles a subset of configured tools', async () => {
+      const augxTool = NODE_HELP_TOOLS[2];
+      fs.mkdirSync(path.join(tempDir, augxTool.directory), { recursive: true });
 
-    it('should handle missing tools gracefully', async () => {
-      // Create only one tool directory
-      fs.mkdirSync(path.join(tempDir, '.augment'), { recursive: true });
+      const result = await extractCommandHelp(tempDir, undefined, NODE_HELP_TOOLS);
 
-      const outputPath = '.augment/COMMAND_HELP.md';
-
-      // Run extraction
-      const result = await extractCommandHelp(tempDir, outputPath);
-
-      // Should still generate output for available tools
       expect(result).toContain('# Command Help Reference');
-    }, 30000);
+      expect(result).toContain('Augx Commands');
+      expect(result).not.toContain('Beads Commands');
+    });
 
-    it('should skip extraction when no tools detected', async () => {
-      // Don't create any tool directories
-
+    it('skips extraction when no configured tool directories exist', async () => {
       const outputPath = '.augment/COMMAND_HELP.md';
 
-      // Run extraction
-      const result = await extractCommandHelp(tempDir, outputPath);
+      const result = await extractCommandHelp(tempDir, outputPath, NODE_HELP_TOOLS);
 
-      // Should return empty string
       expect(result).toBe('');
-
-      // Output file should not be created
-      const fullOutputPath = path.join(tempDir, outputPath);
-      expect(fs.existsSync(fullOutputPath)).toBe(false);
-    }, 30000);
+      expect(fs.existsSync(path.join(tempDir, outputPath))).toBe(false);
+    });
   });
 
   describe('extractAllHelp', () => {
-    it('should extract help from all detected tools', async () => {
-      // Create tool directories
-      fs.mkdirSync(path.join(tempDir, '.beads'), { recursive: true });
-      fs.mkdirSync(path.join(tempDir, '.augment'), { recursive: true });
+    it('executes help for detected tools in child processes', async () => {
+      const beadsTool = NODE_HELP_TOOLS[0];
+      fs.mkdirSync(path.join(tempDir, beadsTool.directory), { recursive: true });
 
-      const helpMap = await extractAllHelp(tempDir);
+      const helpMap = await extractAllHelp(tempDir, NODE_HELP_TOOLS);
 
-      // Should have entries for detected tools
-      expect(helpMap.size).toBeGreaterThan(0);
+      expect(helpMap.size).toBe(1);
+      const [tool, helpNode] = Array.from(helpMap.entries())[0];
+      expect(tool.name).toBe('Beads');
+      expect(helpNode.command).toBe(`"${process.execPath}"`);
+      expect(helpNode.help).toContain('Usage:');
+    });
 
-      // Each entry should have a help node
-      for (const [tool, helpNode] of helpMap.entries()) {
-        expect(tool.name).toBeDefined();
-        expect(tool.command).toBeDefined();
-        expect(helpNode.command).toBeDefined();
-      }
-    }, 30000);
+    it('handles command execution failures gracefully', async () => {
+      const failingTool: Tool = {
+        name: 'Missing Tool',
+        command: 'augx-command-that-does-not-exist',
+        directory: '.beads'
+      };
+      fs.mkdirSync(path.join(tempDir, failingTool.directory), { recursive: true });
 
-    it('should handle command execution failures gracefully', async () => {
-      // Create tool directory for non-existent command
-      fs.mkdirSync(path.join(tempDir, '.beads'), { recursive: true });
-
-      // This should not throw, but handle errors gracefully
-      await expect(extractAllHelp(tempDir)).resolves.toBeDefined();
-    }, 30000);
+      await expect(extractAllHelp(tempDir, [failingTool])).resolves.toBeDefined();
+    });
   });
 
   describe('detectTools', () => {
-    it('should detect all available tools', () => {
-      // Create all tool directories
-      fs.mkdirSync(path.join(tempDir, '.beads'), { recursive: true });
-      fs.mkdirSync(path.join(tempDir, 'openspec'), { recursive: true });
-      fs.mkdirSync(path.join(tempDir, '.augment'), { recursive: true });
+    it('detects configured tools with existing directories', () => {
+      for (const tool of NODE_HELP_TOOLS) {
+        fs.mkdirSync(path.join(tempDir, tool.directory), { recursive: true });
+      }
 
-      const tools = detectTools(tempDir);
+      const tools = detectTools(tempDir, NODE_HELP_TOOLS);
 
-      expect(tools.length).toBe(3);
-      expect(tools.map(t => t.name)).toContain('Beads');
-      expect(tools.map(t => t.name)).toContain('OpenSpec');
-      expect(tools.map(t => t.name)).toContain('Augx');
+      expect(tools).toHaveLength(3);
+      expect(tools.map(tool => tool.name)).toEqual(['Beads', 'OpenSpec', 'Augx']);
     });
 
-    it('should only detect tools with existing directories', () => {
-      // Create only Beads directory
-      fs.mkdirSync(path.join(tempDir, '.beads'), { recursive: true });
+    it('only detects configured tools with existing directories', () => {
+      const beadsTool = NODE_HELP_TOOLS[0];
+      fs.mkdirSync(path.join(tempDir, beadsTool.directory), { recursive: true });
 
-      const tools = detectTools(tempDir);
-
-      expect(tools.length).toBe(1);
-      expect(tools[0].name).toBe('Beads');
+      expect(detectTools(tempDir, NODE_HELP_TOOLS)).toEqual([beadsTool]);
     });
 
-    it('should return empty array when no tools exist', () => {
-      const tools = detectTools(tempDir);
-
-      expect(tools).toEqual([]);
+    it('returns an empty array when no configured tool directories exist', () => {
+      expect(detectTools(tempDir, NODE_HELP_TOOLS)).toEqual([]);
     });
   });
 
   describe('output file creation', () => {
-    it('should create output directory if it does not exist', async () => {
-      // Create tool directory
-      fs.mkdirSync(path.join(tempDir, '.augment'), { recursive: true });
-
+    it('creates the output directory when needed', async () => {
+      const augxTool = NODE_HELP_TOOLS[2];
+      fs.mkdirSync(path.join(tempDir, augxTool.directory), { recursive: true });
       const outputPath = 'nested/dir/COMMAND_HELP.md';
 
-      await extractCommandHelp(tempDir, outputPath);
+      await extractCommandHelp(tempDir, outputPath, NODE_HELP_TOOLS);
 
-      // Verify nested directory was created
-      const fullOutputPath = path.join(tempDir, outputPath);
-      expect(fs.existsSync(fullOutputPath)).toBe(true);
-    }, 30000);
+      expect(fs.existsSync(path.join(tempDir, outputPath))).toBe(true);
+    });
   });
 });
-

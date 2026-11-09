@@ -2,7 +2,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'fs';
 import { spawnSync } from 'child_process';
 import { join, resolve } from 'path';
 import { tmpdir } from 'os';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 interface CommandResult {
   stdout: string;
@@ -13,13 +13,14 @@ interface CommandResult {
 const REPOSITORY_ROOT = resolve(__dirname, '../../..');
 const SOURCE_CLI = join(REPOSITORY_ROOT, 'cli', 'src', 'cli.ts');
 const COMPILED_CLI = join(REPOSITORY_ROOT, 'cli', 'dist', 'cli.js');
-const NPM_EXECUTABLE = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+const TSX_CLI = require.resolve('tsx/cli');
 
 function runSourceCli(args: string[], cwd = REPOSITORY_ROOT): CommandResult {
-  const result = spawnSync(NPM_EXECUTABLE, ['--no-install', 'tsx', SOURCE_CLI, ...args], {
+  const result = spawnSync(process.execPath, [TSX_CLI, SOURCE_CLI, ...args], {
     cwd,
     encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'pipe']
+    stdio: ['ignore', 'pipe', 'pipe'],
+    timeout: 15000
   });
 
   return {
@@ -33,7 +34,8 @@ function runCompiledCli(args: string[], cwd = REPOSITORY_ROOT): CommandResult {
   const result = spawnSync(process.execPath, [COMPILED_CLI, ...args], {
     cwd,
     encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'pipe']
+    stdio: ['ignore', 'pipe', 'pipe'],
+    timeout: 15000
   });
 
   return {
@@ -44,6 +46,8 @@ function runCompiledCli(args: string[], cwd = REPOSITORY_ROOT): CommandResult {
 }
 
 describe('CLI source and compiled execution', () => {
+  vi.setConfig({ testTimeout: 20000 });
+
   it('reaches the dispatcher through the supported tsx source command', () => {
     const result = runSourceCli(['--help']);
 

@@ -15,8 +15,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { createHash } from 'crypto';
-import { minimatch } from 'minimatch';
 import { findModule, getModulesDir } from '../utils/module-system';
+import { matchesGlob } from '../utils/glob-match';
 import type { ResolvedModule, ResolvedRuleFile } from '../adapters/types';
 
 /**
@@ -84,7 +84,7 @@ function walkRelative(dir: string): string[] {
  * relative to the module root). A path matches if any pattern matches.
  */
 function isIgnored(relativePath: string, ignore: readonly string[]): boolean {
-  return ignore.some((pat) => minimatch(relativePath, pat, { dot: true }));
+  return ignore.some((pat) => matchesGlob(relativePath, pat, { dot: true }));
 }
 
 /**

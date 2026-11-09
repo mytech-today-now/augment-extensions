@@ -5,8 +5,8 @@
 import * as fs from 'fs';
 import { ASTNode } from './types';
 
-const { parse } = require('@typescript-eslint/typescript-estree') as {
-  parse: (sourceCode: string, options: Record<string, unknown>) => unknown;
+const { parse } = require('@babel/parser') as {
+  parse: (sourceCode: string, options: Record<string, unknown>) => { program: unknown };
 };
 
 export interface ParseOptions {
@@ -35,19 +35,40 @@ export function parseFile(filePath: string, options: ParseOptions = {}): ParseRe
 
 export function parseCode(sourceCode: string, options: ParseOptions = {}): ASTNode {
   try {
-    return parse(sourceCode, {
-      jsx: options.jsx ?? true,
+    const jsx = options.jsx ?? true;
+    const plugins: Array<string | [string, { isTSX: boolean }]> = jsx
+      ? ['jsx', ['typescript', { isTSX: true }], 'estree']
+      : [['typescript', { isTSX: false }], 'estree'];
+    const ast = parse(sourceCode, {
       sourceType: options.sourceType ?? 'module',
-      loc: options.loc ?? true,
-      range: options.range ?? true,
+      ranges: options.range ?? true,
       tokens: options.tokens ?? false,
-      comment: options.comment ?? false,
-      errorOnUnknownASTType: false,
-      errorOnTypeScriptSyntacticAndSemanticIssues: false
-    }) as unknown as ASTNode;
+      attachComment: options.comment ?? false,
+      plugins
+    }).program as ASTNode;
+
+    if (options.loc === false) {
+      removeLocations(ast);
+    }
+
+    return ast;
   } catch (error) {
     throw new Error(`Failed to parse source: ${String(error)}`);
   }
+}
+
+function removeLocations(value: unknown): void {
+  if (!value || typeof value !== 'object') {
+    return;
+  }
+
+  if (Array.isArray(value)) {
+    value.forEach(removeLocations);
+    return;
+  }
+
+  delete (value as { loc?: unknown }).loc;
+  Object.values(value).forEach(removeLocations);
 }
 
 export function traverseAST(

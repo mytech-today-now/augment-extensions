@@ -6,7 +6,7 @@
  */
 
 import * as fs from 'fs';
-import { minimatch } from 'minimatch';
+import { matchesGlob } from './glob-match';
 import type { ExportBlock, MirrorsBlock } from '../types/coordination-export';
 
 interface CoordinationManifest {
@@ -141,7 +141,7 @@ export function getSpecForFile(filePath: string, manifestPath?: string): Array<{
   
   return Object.entries(manifest.specs)
     .filter(([id, spec]) => {
-      return spec.affectedFiles.some(pattern => minimatch(filePath, pattern));
+      return spec.affectedFiles.some(pattern => matchesGlob(filePath, pattern));
     })
     .map(([id, spec]) => ({ id, ...spec }));
 }

@@ -6,7 +6,7 @@
  */
 
 import * as fs from 'fs';
-import { minimatch } from 'minimatch';
+import { matchesGlob } from './glob-match';
 import type { ExportBlock, MirrorsBlock } from '../types/coordination-export';
 
 interface CoordinationManifest {
@@ -89,7 +89,7 @@ export function trackFileChange(
   // Find governing specs
   const governingSpecs = Object.entries(manifest.specs)
     .filter(([id, spec]) => 
-      spec.affectedFiles.some((pattern: string) => minimatch(filePath, pattern))
+      spec.affectedFiles.some((pattern: string) => matchesGlob(filePath, pattern))
     )
     .map(([id]) => id);
   
@@ -98,7 +98,7 @@ export function trackFileChange(
   // Find applicable rules
   const applicableRules = Object.entries(manifest.rules)
     .filter(([name, rule]) =>
-      rule.appliesTo.filePatterns.some((pattern: string) => minimatch(filePath, pattern))
+      rule.appliesTo.filePatterns.some((pattern: string) => matchesGlob(filePath, pattern))
     )
     .map(([name]) => name);
   
@@ -153,7 +153,7 @@ export function trackFileChanges(
     // Find governing specs
     const governingSpecs = Object.entries(manifest.specs)
       .filter(([id, spec]) => 
-        spec.affectedFiles.some((pattern: string) => minimatch(filePath, pattern))
+        spec.affectedFiles.some((pattern: string) => matchesGlob(filePath, pattern))
       )
       .map(([id]) => id);
     
@@ -162,7 +162,7 @@ export function trackFileChanges(
     // Find applicable rules
     const applicableRules = Object.entries(manifest.rules)
       .filter(([name, rule]) =>
-        rule.appliesTo.filePatterns.some((pattern: string) => minimatch(filePath, pattern))
+        rule.appliesTo.filePatterns.some((pattern: string) => matchesGlob(filePath, pattern))
       )
       .map(([name]) => name);
     

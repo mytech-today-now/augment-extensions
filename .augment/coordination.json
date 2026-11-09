@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-08T20:03:14.719Z",
+  "lastUpdated": "2026-11-08T20:52:26.5953053-06:00",
   "specs": {
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
@@ -120,7 +120,9 @@
     "testing/functional-tests": {
       "path": "openspec/specs/testing/functional-tests.md",
       "status": "active",
-      "relatedTasks": [],
+      "relatedTasks": [
+        "bd-6dd52bd3"
+      ],
       "relatedRules": [
         "module-development.md",
         "character-count-management.md"
@@ -134,7 +136,9 @@
     "augment-extensions/spec": {
       "path": "openspec/specs/augment-extensions/spec.md",
       "status": "active",
-      "relatedTasks": [],
+      "relatedTasks": [
+        "bd-ea81c7d0"
+      ],
       "relatedRules": [
         "module-development.md",
         "augment-extensions-workflow.md"
@@ -1269,6 +1273,45 @@
       "dependencies": [
         "bd-xplat7-2"
       ]
+    },
+    "bd-ea81c7d0": {
+      "title": "Remediate audited npm dependency vulnerabilities",
+      "status": "closed",
+      "relatedSpecs": [
+        "augment-extensions/spec"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "package.json",
+        "package-lock.json",
+        "cli/src/analysis/ast-parser.ts",
+        "cli/src/analysis/__tests__/ast-parser.test.ts",
+        "cli/src/lib/module-resolver.ts",
+        "cli/src/utils/coordination-queries.ts",
+        "cli/src/utils/file-tracking.ts",
+        "cli/src/utils/glob-match.ts",
+        "cli/src/utils/__tests__/glob-match.test.ts"
+      ],
+      "dependencies": []
+    },
+    "bd-6dd52bd3": {
+      "title": "Resolve Windows test-suite blockers and verify declared Node support",
+      "status": "open",
+      "relatedSpecs": [
+        "testing/functional-tests",
+        "augment-extensions/spec"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [],
+      "dependencies": []
     }
   },
   "rules": {
@@ -1642,15 +1685,20 @@
       "createdBy": "bd-coord1",
       "modifiedBy": [
         "bd-wp10-1",
-        "bd-ps6.3"
+        "bd-ps6.3",
+        "bd-ea81c7d0",
+        "bd-6dd52bd3"
       ],
       "governedBy": [
         "harmonize-workflows",
         "wordpress-plugin-module/core",
-        "powershell-coding-standards"
+        "powershell-coding-standards",
+        "augment-extensions/spec",
+        "testing/functional-tests"
       ],
       "rulesApplied": [
-        "coordination-system.md"
+        "coordination-system.md",
+        "no-em-dash.md"
       ]
     },
     "augment-extensions/coding-standards/powershell/module.json": {
@@ -1946,6 +1994,143 @@
       ],
       "rulesApplied": [
         "module-development.md",
+        "coordination-system.md",
+        "no-em-dash.md"
+      ]
+    },
+    "package.json": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-ea81c7d0"
+      ],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ]
+    },
+    "package-lock.json": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-ea81c7d0"
+      ],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/analysis/ast-parser.ts": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-ea81c7d0"
+      ],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/analysis/__tests__/ast-parser.test.ts": {
+      "createdBy": "bd-ea81c7d0",
+      "modifiedBy": null,
+      "governedBy": [
+        "augment-extensions/spec",
+        "testing/functional-tests"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/lib/module-resolver.ts": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-ea81c7d0"
+      ],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/utils/coordination-queries.ts": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-ea81c7d0"
+      ],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/utils/file-tracking.ts": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-ea81c7d0"
+      ],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/utils/glob-match.ts": {
+      "createdBy": "bd-ea81c7d0",
+      "modifiedBy": null,
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/src/utils/__tests__/glob-match.test.ts": {
+      "createdBy": "bd-ea81c7d0",
+      "modifiedBy": null,
+      "governedBy": [
+        "augment-extensions/spec",
+        "testing/functional-tests"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ]
+    },
+    ".beads/issues.jsonl": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-ea81c7d0",
+        "bd-6dd52bd3"
+      ],
+      "governedBy": [
+        "augment-extensions/spec",
+        "testing/functional-tests"
+      ],
+      "rulesApplied": [
         "coordination-system.md",
         "no-em-dash.md"
       ]

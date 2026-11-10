@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-08T20:52:26.5953053-06:00",
+  "lastUpdated": "2026-11-09T19:00:25.7186456-06:00",
   "specs": {
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
@@ -1345,6 +1345,28 @@
       ],
       "outputFiles": [],
       "dependencies": []
+    },
+    "bd-03ab60a1": {
+      "title": "Persist myTech.Today company profile across repository docs and package metadata",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "module-development.md",
+        "augment-extensions-workflow.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "AGENTS.md",
+        "ai-prompts/refactor-README.md",
+        "README.md",
+        "package.json",
+        "docs/company-profile.md",
+        "docs/NPM_PUBLISHING.md",
+        "publishing.md",
+        ".augment/coordination.json",
+        ".beads/issues.jsonl"
+      ],
+      "dependencies": []
     }
   },
   "rules": {
@@ -1720,7 +1742,8 @@
         "bd-wp10-1",
         "bd-ps6.3",
         "bd-ea81c7d0",
-        "bd-6dd52bd3"
+        "bd-6dd52bd3",
+        "bd-03ab60a1"
       ],
       "governedBy": [
         "harmonize-workflows",
@@ -2035,7 +2058,8 @@
       "createdBy": null,
       "modifiedBy": [
         "bd-ea81c7d0",
-        "bd-6dd52bd3"
+        "bd-6dd52bd3",
+        "bd-03ab60a1"
       ],
       "governedBy": [
         "augment-extensions/spec"
@@ -2160,7 +2184,8 @@
       "modifiedBy": [
         "bd-ea81c7d0",
         "bd-6dd52bd3",
-        "bd-5183"
+        "bd-5183",
+        "bd-03ab60a1"
       ],
       "governedBy": [
         "augment-extensions/spec",
@@ -2173,7 +2198,7 @@
     },
     "README.md": {
       "createdBy": null,
-      "modifiedBy": ["bd-6dd52bd3"],
+      "modifiedBy": ["bd-6dd52bd3", "bd-03ab60a1"],
       "governedBy": ["augment-extensions/spec"],
       "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
     },
@@ -2259,6 +2284,36 @@
       "createdBy": null,
       "modifiedBy": ["bd-6dd52bd3"],
       "governedBy": ["testing/functional-tests", "augment-extensions/spec"],
+      "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
+    },
+    "AGENTS.md": {
+      "createdBy": null,
+      "modifiedBy": ["bd-03ab60a1"],
+      "governedBy": [],
+      "rulesApplied": ["coordination-system.md", "no-em-dash.md"]
+    },
+    "docs/company-profile.md": {
+      "createdBy": "bd-03ab60a1",
+      "modifiedBy": [],
+      "governedBy": ["augment-extensions/spec"],
+      "rulesApplied": ["module-development.md", "no-em-dash.md"]
+    },
+    "docs/NPM_PUBLISHING.md": {
+      "createdBy": null,
+      "modifiedBy": ["bd-03ab60a1"],
+      "governedBy": ["augment-extensions/spec"],
+      "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
+    },
+    "publishing.md": {
+      "createdBy": null,
+      "modifiedBy": ["bd-03ab60a1"],
+      "governedBy": ["augment-extensions/spec"],
+      "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
+    },
+    "ai-prompts/refactor-README.md": {
+      "createdBy": null,
+      "modifiedBy": ["bd-03ab60a1"],
+      "governedBy": ["augment-extensions/spec"],
       "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
     }
   }

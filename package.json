@@ -58,7 +58,11 @@
                      "openspec",
                      "beads"
                  ],
-    "author":  "Augment Extensions",
+    "author":  {
+                   "name":  "myTech.Today",
+                   "email":  "sales@mytech.today",
+                   "url":  "https://mytech.today"
+               },
     "license":  "MIT",
     "repository":  {
                        "type":  "git",

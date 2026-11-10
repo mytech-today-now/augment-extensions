@@ -443,6 +443,10 @@ When reading an exported file in any of the four target tools:
 
 **Note**: This is a meta-repository for extending Augment Code AI. The actual project-specific `.augment/` folder remains in individual projects.
 
+## myTech.Today Company Profile
+
+The canonical company services, service area, business claims, and contact details are maintained in `docs/company-profile.md`. Keep the public profile in `README.md`, the npm author in `package.json`, and the publishing guides aligned with that record when those details change. Do not copy company-specific marketing claims into project-agnostic extension modules.
+
 
 ## Landing the Plane (Session Completion)
 

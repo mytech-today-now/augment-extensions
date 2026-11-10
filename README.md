@@ -29,6 +29,7 @@ Current release: 3.2.0 adds repository-scoped linked-module inheritance, lifecyc
 - [Module Catalog](#module-catalog)
 - [Per-Tool Consumer Notes](#per-tool-consumer-notes)
 - [Contributing](#contributing)
+- [About myTech.Today](#about-mytech-today)
 - [License](#license)
 
 ## Why This Exists
@@ -1008,6 +1009,61 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) and [AGENTS.md](./AGENTS.md) for the fu
 6. Open a PR with a description that links the proposal and the closing task ids.
 
 Branch and commit-message conventions live in `CONTRIBUTING.md`. The `Landing the Plane` section in `AGENTS.md` describes the mandatory session-close workflow for any AI agent contributing work.
+
+<a id="about-mytech-today"></a>
+## About myTech.Today
+
+<table role="presentation">
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🛠️ Our Services</h3>
+      <ul>
+        <li>IT Consulting and Support</li>
+        <li>Custom PowerShell Automation and Scripting</li>
+        <li>Infrastructure Optimization and System Administration</li>
+        <li>Cloud Integration (Azure, AWS, GCS, Microsoft 365)</li>
+        <li>Network Design and Management</li>
+        <li>Cybersecurity and Compliance Solutions</li>
+        <li>Database Management and Custom Development</li>
+        <li>System Setup, Upgrades, and Troubleshooting</li>
+        <li>Virus and Spyware Removal</li>
+        <li>Hardware Procurement, Installation, and Configuration</li>
+      </ul>
+      <h3>📍 Service Area</h3>
+      <ul>
+        <li>Omaha, NE</li>
+        <li>Lincoln, NE</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <h3>⭐ Why Choose myTech.Today?</h3>
+      <ul>
+        <li>20+ years of IT consulting and software development experience</li>
+        <li>Personalized service to 190+ satisfied clients</li>
+        <li>5-star review rating with consistent 24-hour solution delivery</li>
+        <li>Payment-upon-success terms available</li>
+        <li>Expertise in Windows automation, PowerShell scripting, and system optimization</li>
+      </ul>
+      <h3>📬 Contact Information</h3>
+      <table>
+        <tr><th scope="row">📧 Email</th><td><a href="mailto:sales@mytech.today">sales@mytech.today</a></td></tr>
+        <tr><th scope="row">🌐 Website</th><td><a href="https://mytech.today">mytech.today</a></td></tr>
+        <tr><th scope="row">💻 GitHub</th><td><a href="https://github.com/mytech-today-now">@mytech-today-now</a></td></tr>
+        <tr><th scope="row">🔗 LinkedIn</th><td><a href="https://linkedin.com/in/kylerode">linkedin.com/in/kylerode</a></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<table role="presentation">
+  <tr>
+    <td colspan="2" align="center">
+      <sub><strong>myTech.Today</strong> · Professional IT Services · Serving Omaha and Lincoln · <a href="https://mytech.today">mytech.today</a></sub>
+    </td>
+  </tr>
+</table>
+
+The canonical company profile is maintained in [docs/company-profile.md](./docs/company-profile.md). Keep it aligned with this public profile and the npm package author metadata.
 
 ## License
 

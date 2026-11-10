@@ -2,6 +2,8 @@
 
 This guide explains how to publish the Augment Extensions CLI to **npm** and **GitHub Packages**.
 
+The package publisher identity is **myTech.Today**. Keep `package.json` author metadata aligned with [docs/company-profile.md](./docs/company-profile.md); publisher contact is [sales@mytech.today](mailto:sales@mytech.today), and the company website is [mytech.today](https://mytech.today).
+
 ## Quick Start: Automated Publishing (Recommended)
 
 The package automatically publishes to both registries when you push a git tag:

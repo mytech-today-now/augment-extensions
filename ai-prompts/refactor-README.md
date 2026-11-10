@@ -16,6 +16,7 @@ Treat the article framing as a lens, not a section heading. The reader should fi
 1. Read the current `README.md` end-to-end to preserve its voice, existing sections, and any badges, links, or examples already present. Do not discard - extend.
 2. Survey the repo to enumerate every shippable feature and configuration. At minimum, inspect:
    - `AGENTS.md` (root) - canonical agent integration contract, including the `## Cross-Platform Distribution` section.
+   - `docs/company-profile.md` and root `package.json` - canonical myTech.Today company profile and published package identity; keep the README's About section aligned with them.
    - `openspec/project-context.md` and `openspec/specs/` - source-of-truth specs (cross-platform, beads, etc.).
    - `augment-extensions/` module tree - every module's `module.json`, `README.md`, `rules/`, and `examples/` (coding-standards, workflows/{openspec, beads, mcp, cross-platform, adr-support, database, wordpress-plugin}, domain-rules, examples).
    - `cli/` - the `augx` CLI surface (`init`, `list`, `show`, `link`, `link --mirror`, `unlink`, `search`, `update`, `version`, `export`, `mcp` subcommands).
@@ -64,6 +65,7 @@ Treat the article framing as a lens, not a section heading. The reader should fi
 - Installation/quickstart: `augx init`, `augx link <module>`, `augx export --target <tool>`.
 - Per-tool consumer notes: how Claude Code, Cursor, Windsurf, Copilot, and Augment Code each consume the artifacts.
 - Contribution model, versioning policy (semver per module), and links to `MODULES.md`, `AGENTS.md`, and `openspec/`.
+- The `About myTech.Today` profile, with services, service area, business claims, and contact links kept aligned with `docs/company-profile.md` and the npm author metadata in `package.json`.
 
 ## Structure (recommended top-level outline)
 1. Title + one-paragraph positioning statement (architecture-for-AI-coding-agents framing, no jargon).
@@ -96,6 +98,7 @@ Adjust the outline only if the existing README has a strong order worth preservi
 - Do **not** fabricate flags, paths, exit codes, or features. If unsure, inspect the source; if still unsure, omit.
 - Do **not** add emoji decoration to headings beyond what the existing README already uses.
 - Do **not** rewrite or remove existing accurate content unless it conflicts with current repo state; integrate, do not replace.
+- Do **not** remove or rewrite the `About myTech.Today` profile without updating `docs/company-profile.md` and `package.json` together.
 - Do **not** include rationale-for-changes comments inside the markdown.
 
 # Deliverable

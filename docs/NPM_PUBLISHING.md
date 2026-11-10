@@ -15,6 +15,9 @@ Guide for publishing the `augx` CLI to npm.
 - **Scope**: `@mytechtoday` (scoped package)
 - **Access**: Public
 - **Binary**: `augx` command
+- **Publisher**: myTech.Today ([company profile](./company-profile.md))
+- **Publisher contact**: sales@mytech.today
+- **Publisher website**: https://mytech.today
 
 ## Pre-Publishing Checklist
 

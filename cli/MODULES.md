@@ -17,6 +17,69 @@ augx link <module-name>
 
 ## Coding Standards
 
+### Bash Coding Standards
+- **Module**: `coding-standards/bash`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Comprehensive Bash coding standards for professional, maintainable, and secure Bash scripts across automation, CI/CD, CLI tools, configuration, data processing, system administration, and cross-platform development.
+- **Contents**:
+  - Naming conventions
+  - Universal standards
+
+**Usage**:
+```bash
+augx link coding-standards/bash
+```
+
+### C Coding Standards
+- **Module**: `coding-standards/c`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Comprehensive C programming language coding standards for systems programming, embedded systems, kernel development, device drivers, real-time systems, networking, and legacy code maintenance
+
+**Usage**:
+```bash
+augx link coding-standards/c
+```
+
+### CSS Standards
+- **Module**: `coding-standards/css`
+- **Version**: 1.0.0
+- **Character Count**: ~30,556
+- **Description**: Comprehensive CSS coding standards for modern web development with styling, layouts, responsiveness, and preprocessors (Sass, Less)
+- **Contents**:
+  - Css modern features
+  - Css standards
+
+**Usage**:
+```bash
+augx link coding-standards/css
+```
+
+### Go Coding Standards
+- **Module**: `coding-standards/go`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Professional Go coding standards for Augment Code AI covering web services, microservices, CLI tools, cloud-native applications, distributed systems, DevOps tooling, and API development
+
+**Usage**:
+```bash
+augx link coding-standards/go
+```
+
+### HTML Standards
+- **Module**: `coding-standards/html`
+- **Version**: 1.0.0
+- **Character Count**: ~32,477
+- **Description**: Comprehensive HTML coding standards for modern web development with semantic HTML, accessibility guidelines, and HTML5 features
+- **Contents**:
+  - Html standards
+
+**Usage**:
+```bash
+augx link coding-standards/html
+```
+
 ### HTML/CSS/JavaScript Standards
 - **Module**: `coding-standards/html-css-js`
 - **Version**: 1.0.0
@@ -35,6 +98,92 @@ augx link <module-name>
 **Usage**:
 ```bash
 augx link coding-standards/html-css-js
+```
+
+### Java Coding Standards
+- **Module**: `coding-standards/java`
+- **Version**: 1.0.0
+- **Character Count**: ~19,105
+- **Description**: Version-aware Java development guidance for project structure, language features, APIs, reliability, testing, tooling, and secure coding.
+- **Contents**:
+  - Language and api design
+  - Reliability and concurrency
+  - Testing tooling and security
+
+**Usage**:
+```bash
+augx link coding-standards/java
+```
+
+### JavaScript Standards
+- **Module**: `coding-standards/js`
+- **Version**: 1.0.0
+- **Character Count**: ~101,818
+- **Description**: Comprehensive JavaScript coding standards for modern web development with ES6+, DOM manipulation, async patterns, and framework integration
+- **Contents**:
+  - Async patterns
+  - Dom manipulation
+  - Javascript standards
+  - Performance
+  - Tooling
+
+**Usage**:
+```bash
+augx link coding-standards/js
+```
+
+### PHP Coding Standards
+- **Module**: `coding-standards/php`
+- **Version**: 1.0.0
+- **Character Count**: ~186,539
+- **Description**: Comprehensive PHP coding standards following PSR standards and modern PHP best practices across various project types including web applications, APIs, CLI tools, CMS integrations, e-commerce systems, and legacy migrations.
+- **Contents**:
+  - Api development
+  - Category configuration
+  - Cli tools
+  - Cms integration
+  - Code quality
+  - Documentation
+  - Ecommerce
+  - Error handling
+  - Legacy migration
+  - Naming conventions
+  - Performance
+  - Psr standards
+  - Security
+  - Testing
+  - Type declarations
+  - Web applications
+
+**Usage**:
+```bash
+augx link coding-standards/php
+```
+
+### PowerShell Coding Standards
+- **Module**: `coding-standards/powershell`
+- **Version**: 1.0.0
+- **Character Count**: ~162,000
+- **Description**: Comprehensive PowerShell coding standards for professional, maintainable, and secure PowerShell code across automation, modules, DSC, cloud orchestration, administrative tools, cross-platform scripts, and legacy migrations.
+- **Contents**:
+  - Administrative tools
+  - Automation scripts
+  - Cloud orchestration
+  - Configuration schema
+  - Cross platform scripts
+  - Dsc configurations
+  - Error handling
+  - Legacy migrations
+  - Modules functions
+  - Naming conventions
+  - Performance optimization
+  - Security practices
+  - Testing guidelines
+  - Universal standards
+
+**Usage**:
+```bash
+augx link coding-standards/powershell
 ```
 
 ### Python Coding Standards
@@ -58,6 +207,25 @@ augx link coding-standards/html-css-js
 augx link coding-standards/python
 ```
 
+### Q# Coding Standards
+- **Module**: `coding-standards/q`
+- **Version**: 1.0.0
+- **Character Count**: ~4,800
+- **Description**: Q# coding standards and AI prompter rules for quantum development with the Quantum Development Kit (QDK) and Azure Quantum.
+- **Contents**:
+  - Q error handling
+  - Q naming conventions
+  - Q performance optimization
+  - Q qubit management
+  - Q security
+  - Q standards
+  - Q testing
+
+**Usage**:
+```bash
+augx link coding-standards/q
+```
+
 ### React Patterns
 - **Module**: `coding-standards/react`
 - **Version**: 1.0.0
@@ -75,13 +243,37 @@ augx link coding-standards/python
 augx link coding-standards/react
 ```
 
+### Spring Framework and Spring Boot Standards
+- **Module**: `coding-standards/spring`
+- **Version**: 1.0.0
+- **Character Count**: ~24,030
+- **Description**: Practical Spring Framework and Spring Boot guidance for dependency injection, configuration, web APIs, transactions, testing, security, and operations.
+- **Contents**:
+  - Beans configuration and boot
+  - Data testing and transactions
+  - Production operations
+  - Web apis and security
+
+**Usage**:
+```bash
+augx link coding-standards/spring
+```
+
 ### TypeScript Standards
 - **Module**: `coding-standards/typescript`
-- **Version**: 1.0.0
-- **Character Count**: ~6,416
-- **Description**: Comprehensive TypeScript coding standards and best practices
+- **Version**: 2.0.0
+- **Character Count**: ~25,000
+- **Description**: Comprehensive TypeScript coding standards and best practices including modern features, tooling, testing, architecture, and security
 - **Contents**:
+  - Architecture
+  - Error handling
+  - Modern features
+  - Monorepo
   - Naming conventions
+  - Security performance
+  - Testing
+  - Tooling
+  - Type patterns
 
 **Usage**:
 ```bash
@@ -136,6 +328,170 @@ augx link domain-rules/api-design
 augx link domain-rules/database
 ```
 
+### Catppuccin Latte Theme
+- **Module**: `domain-rules/design/color/themes/catppuccin-latte`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Soothing light theme with pastel colors (Latte variant)
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/catppuccin-latte
+```
+
+### Catppuccin Mocha Theme
+- **Module**: `domain-rules/design/color/themes/catppuccin-mocha`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Soothing dark theme with pastel colors (Mocha variant)
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/catppuccin-mocha
+```
+
+### Dracula Theme
+- **Module**: `domain-rules/design/color/themes/dracula`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Dark theme with purple and pink accents inspired by the popular Dracula color scheme
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/dracula
+```
+
+### Gruvbox Dark Theme
+- **Module**: `domain-rules/design/color/themes/gruvbox-dark`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Retro-inspired dark theme with warm earthy tones
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/gruvbox-dark
+```
+
+### Gruvbox Light Theme
+- **Module**: `domain-rules/design/color/themes/gruvbox-light`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Retro-inspired light theme with warm earthy tones
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/gruvbox-light
+```
+
+### High Contrast Theme
+- **Module**: `domain-rules/design/color/themes/high-contrast`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Accessibility-focused theme with maximum contrast for better readability
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/high-contrast
+```
+
+### Monokai Theme
+- **Module**: `domain-rules/design/color/themes/monokai`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Dark theme with vibrant colors inspired by the classic Monokai editor theme
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/monokai
+```
+
+### Nord Theme
+- **Module**: `domain-rules/design/color/themes/nord`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Arctic-inspired dark theme with cool blue tones
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/nord
+```
+
+### One Dark Theme
+- **Module**: `domain-rules/design/color/themes/one-dark`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Popular dark theme inspired by Atom's One Dark
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/one-dark
+```
+
+### One Light Theme
+- **Module**: `domain-rules/design/color/themes/one-light`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Popular light theme inspired by Atom's One Light
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/one-light
+```
+
+### Solarized Dark Theme
+- **Module**: `domain-rules/design/color/themes/solarized-dark`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Dark theme with warm tones based on the Solarized color palette
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/solarized-dark
+```
+
+### Solarized Light Theme
+- **Module**: `domain-rules/design/color/themes/solarized-light`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Light theme with warm tones based on the Solarized color palette
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/solarized-light
+```
+
+### Tokyo Night Theme
+- **Module**: `domain-rules/design/color/themes/tokyo-night`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Dark theme inspired by Tokyo's neon-lit nights
+
+**Usage**:
+```bash
+augx link domain-rules/design/color/themes/tokyo-night
+```
+
+### Model Context Protocol (MCP) Guidelines
+- **Module**: `domain-rules/mcp`
+- **Version**: 1.0.0
+- **Character Count**: ~219,130
+- **Description**: Comprehensive guidelines for designing and implementing Model Context Protocol systems including token-based, state-based, vector-based, hybrid, graph-augmented, and compressed MCP
+- **Contents**:
+  - Compressed mcp
+  - Configuration
+  - Graph augmented mcp
+  - Hybrid mcp
+  - State based mcp
+  - Testing validation
+  - Token based mcp
+  - Universal rules
+  - Vector based mcp
+
+**Usage**:
+```bash
+augx link domain-rules/mcp
+```
+
 ### Security Guidelines
 - **Module**: `domain-rules/security`
 - **Version**: 1.0.0
@@ -152,6 +508,60 @@ augx link domain-rules/database
 **Usage**:
 ```bash
 augx link domain-rules/security
+```
+
+### SEO, Sales, and Marketing Content Standards
+- **Module**: `domain-rules/seo-sales-marketing`
+- **Version**: 1.0.0
+- **Character Count**: ~288,256
+- **Description**: Comprehensive marketing and sales content standards for AI-driven content creation
+- **Contents**:
+  - Affiliate influencer marketing
+  - Asset management
+  - Brand consistency
+  - Content marketing
+  - Conversion optimization
+  - Direct sales
+  - Email marketing
+  - Legal compliance
+  - Ppc advertising
+  - Seo optimization
+  - Social media marketing
+  - Universal marketing
+
+**Usage**:
+```bash
+augx link domain-rules/seo-sales-marketing
+```
+
+### Software Architecture Design
+- **Module**: `domain-rules/software-architecture`
+- **Version**: 1.0.0
+- **Character Count**: ~508,000
+- **Description**: Comprehensive software architecture design patterns, principles, and best practices covering monolithic, microservices, event-driven, serverless, and industry-specific architectures
+- **Contents**:
+  - Challenges solutions
+  - Definitions terminology
+  - Design principles
+  - Evaluation testing
+  - Event driven architecture
+  - Fundamentals
+  - Industry architectures
+  - Layered architecture
+  - Microservices architecture
+  - Modeling documentation
+  - Monolithic architecture
+  - Principles
+  - Quality attributes
+  - Scalability performance
+  - Security architecture
+  - Serverless architecture
+  - Skills development
+  - Tools methodologies
+
+**Usage**:
+```bash
+augx link domain-rules/software-architecture
 ```
 
 ### WordPress Development Standards
@@ -212,38 +622,20 @@ augx link domain-rules/wordpress
 augx link domain-rules/wordpress-plugin
 ```
 
-## Workflows
-
-### Beads Workflow
-- **Module**: `workflows/beads`
+### Visual Design System
+- **Module**: `visual-design`
 - **Version**: 1.0.0
-- **Character Count**: ~39,912
-- **Description**: Distributed, git-backed graph issue tracker for AI agents. Provides persistent, structured memory for coding agents with dependency tracking.
+- **Character Count**: ~304,728
+- **Description**: Design guidance, platform patterns, vendor palettes, and responsive validation for interfaces across web, mobile, desktop, print, film, and image generation.
 - **Contents**:
-  - Best practices
-  - File format
-  - Manual setup
-  - Workflow
+  - Accessibility and color
+  - Design practice
+  - Index
+  - Platform guidance
 
 **Usage**:
 ```bash
-augx link workflows/beads
-```
-
-### OpenSpec Workflow
-- **Module**: `workflows/openspec`
-- **Version**: 1.0.0
-- **Character Count**: ~32,661
-- **Description**: Spec-driven development (SDD) workflow for AI coding assistants. Provides structured change management with proposals, specs, and tasks.
-- **Contents**:
-  - Best practices
-  - Manual setup
-  - Spec format
-  - Workflow
-
-**Usage**:
-```bash
-augx link workflows/openspec
+augx link visual-design
 ```
 
 ## Examples
@@ -294,9 +686,8 @@ augx link examples/woocommerce-extension
 
 ## Statistics
 
-- **Total Modules**: 17
-- **Coding Standards**: 4
-- **Domain Rules**: 5
-- **Workflows**: 2
+- **Total Modules**: 45
+- **Coding Standards**: 15
+- **Domain Rules**: 22
 - **Examples**: 4
-- **Total Character Count**: ~1,588,153
+- **Total Character Count**: ~3,415,603

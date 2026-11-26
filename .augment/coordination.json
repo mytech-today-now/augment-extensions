@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-09T19:00:25.7186456-06:00",
+  "lastUpdated": "2026-11-26T10:26:34Z",
   "specs": {
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
@@ -1367,6 +1367,43 @@
         ".beads/issues.jsonl"
       ],
       "dependencies": []
+    },
+    "bd-a51d89bc": {
+      "title": "Add independent Java and Spring coding standards modules",
+      "status": "closed",
+      "relatedSpecs": [
+        "augment-extensions/spec"
+      ],
+      "relatedRules": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "augment-extensions/coding-standards/java/module.json",
+        "augment-extensions/coding-standards/java/metadata.json",
+        "augment-extensions/coding-standards/java/README.md",
+        "augment-extensions/coding-standards/java/CHANGELOG.md",
+        "augment-extensions/coding-standards/java/rules/language-and-api-design.md",
+        "augment-extensions/coding-standards/java/rules/reliability-and-concurrency.md",
+        "augment-extensions/coding-standards/java/rules/testing-tooling-and-security.md",
+        "augment-extensions/coding-standards/java/examples/SearchRequest.java",
+        "augment-extensions/coding-standards/spring/module.json",
+        "augment-extensions/coding-standards/spring/metadata.json",
+        "augment-extensions/coding-standards/spring/README.md",
+        "augment-extensions/coding-standards/spring/CHANGELOG.md",
+        "augment-extensions/coding-standards/spring/rules/beans-configuration-and-boot.md",
+        "augment-extensions/coding-standards/spring/rules/web-apis-and-security.md",
+        "augment-extensions/coding-standards/spring/rules/data-testing-and-transactions.md",
+        "augment-extensions/coding-standards/spring/rules/production-operations.md",
+        "augment-extensions/coding-standards/spring/examples/OrderController.java",
+        "README.md",
+        "modules.md",
+        "cli/MODULES.md",
+        ".beads/issues.jsonl",
+        ".augment/coordination.json"
+      ],
+      "dependencies": []
     }
   },
   "rules": {
@@ -1743,7 +1780,8 @@
         "bd-ps6.3",
         "bd-ea81c7d0",
         "bd-6dd52bd3",
-        "bd-03ab60a1"
+        "bd-03ab60a1",
+        "bd-a51d89bc"
       ],
       "governedBy": [
         "harmonize-workflows",
@@ -2185,7 +2223,8 @@
         "bd-ea81c7d0",
         "bd-6dd52bd3",
         "bd-5183",
-        "bd-03ab60a1"
+        "bd-03ab60a1",
+        "bd-a51d89bc"
       ],
       "governedBy": [
         "augment-extensions/spec",
@@ -2198,7 +2237,7 @@
     },
     "README.md": {
       "createdBy": null,
-      "modifiedBy": ["bd-6dd52bd3", "bd-03ab60a1"],
+      "modifiedBy": ["bd-6dd52bd3", "bd-03ab60a1", "bd-a51d89bc"],
       "governedBy": ["augment-extensions/spec"],
       "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
     },
@@ -2315,6 +2354,238 @@
       "modifiedBy": ["bd-03ab60a1"],
       "governedBy": ["augment-extensions/spec"],
       "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
+    },
+    "augment-extensions/coding-standards/java/module.json": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec",
+        "testing/functional-tests"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/java/metadata.json": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/java/README.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/java/CHANGELOG.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/java/rules/language-and-api-design.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/java/rules/reliability-and-concurrency.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/java/rules/testing-tooling-and-security.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/java/examples/SearchRequest.java": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/spring/module.json": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec",
+        "testing/functional-tests"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/spring/metadata.json": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/spring/README.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/spring/CHANGELOG.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/spring/rules/beans-configuration-and-boot.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/spring/rules/web-apis-and-security.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/spring/rules/data-testing-and-transactions.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/spring/rules/production-operations.md": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "augment-extensions/coding-standards/spring/examples/OrderController.java": {
+      "createdBy": "bd-a51d89bc",
+      "modifiedBy": [],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "character-count-management.md",
+        "no-em-dash.md"
+      ]
+    },
+    "modules.md": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-a51d89bc"
+      ],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
+    },
+    "cli/MODULES.md": {
+      "createdBy": null,
+      "modifiedBy": [
+        "bd-a51d89bc"
+      ],
+      "governedBy": [
+        "augment-extensions/spec"
+      ],
+      "rulesApplied": [
+        "module-development.md",
+        "no-em-dash.md"
+      ]
     }
   }
 }

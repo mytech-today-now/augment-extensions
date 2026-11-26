@@ -1,0 +1,35 @@
+{
+  "name": "java-standards",
+  "version": "1.0.0",
+  "displayName": "Java Coding Standards",
+  "description": "Version-aware Java development guidance for project structure, language features, APIs, reliability, testing, tooling, and secure coding.",
+  "type": "coding-standards",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "tags": [
+    "java",
+    "jdk",
+    "jvm",
+    "coding-standards",
+    "language-features",
+    "api-design",
+    "testing",
+    "concurrency",
+    "security",
+    "maven",
+    "gradle"
+  ],
+  "files": [
+    "rules/language-and-api-design.md",
+    "rules/reliability-and-concurrency.md",
+    "rules/testing-tooling-and-security.md",
+    "examples/SearchRequest.java"
+  ],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 19105,
+    "priority": "high",
+    "category": "coding-standards",
+    "language": "java"
+  }
+}

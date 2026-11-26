@@ -1,0 +1,38 @@
+{
+  "name": "spring-standards",
+  "version": "1.0.0",
+  "displayName": "Spring Framework and Spring Boot Standards",
+  "description": "Practical Spring Framework and Spring Boot guidance for dependency injection, configuration, web APIs, transactions, testing, security, and operations.",
+  "type": "coding-standards",
+  "author": "Augment Extensions",
+  "license": "MIT",
+  "tags": [
+    "spring",
+    "spring-framework",
+    "spring-boot",
+    "java",
+    "dependency-injection",
+    "configuration",
+    "spring-mvc",
+    "webflux",
+    "validation",
+    "transactions",
+    "spring-security",
+    "actuator",
+    "testing"
+  ],
+  "files": [
+    "rules/beans-configuration-and-boot.md",
+    "rules/web-apis-and-security.md",
+    "rules/data-testing-and-transactions.md",
+    "rules/production-operations.md",
+    "examples/OrderController.java"
+  ],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 24030,
+    "priority": "high",
+    "category": "coding-standards",
+    "language": "java"
+  }
+}

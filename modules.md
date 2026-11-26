@@ -82,6 +82,39 @@ augx link coding-standards/js
 augx link coding-standards/html-css-js  # Deprecated
 ```
 
+### Java Coding Standards
+- **Module**: `coding-standards/java`
+- **Version**: 1.0.0
+- **Character Count**: ~19,105
+- **Description**: Version-aware Java development guidance for project structure, language features, APIs, reliability, testing, tooling, and secure coding.
+- **Contents**:
+  - Project JDK baseline, language and API design
+  - Reliability, exceptions, resource management, and concurrency
+  - Testing, Maven and Gradle tooling, documentation, and secure coding
+  - Illustrative Java 17 immutable request example
+
+**Usage**:
+```bash
+augx link coding-standards/java
+```
+
+### Spring Framework and Spring Boot Standards
+- **Module**: `coding-standards/spring`
+- **Version**: 1.0.0
+- **Character Count**: ~24,030
+- **Description**: Practical Spring Framework and Spring Boot guidance for dependency injection, configuration, web APIs, transactions, testing, security, and operations.
+- **Contents**:
+  - Dependency injection, bean lifecycle, Boot structure, and configuration
+  - MVC and WebFlux choice, web validation, errors, and Spring Security
+  - Persistence boundaries, transaction semantics, and Spring testing
+  - Production configuration, observability, health, and Actuator exposure
+  - Illustrative Spring Boot MVC endpoint using Jakarta Validation
+
+**Usage**:
+```bash
+augx link coding-standards/spring
+```
+
 ### Python Coding Standards
 - **Module**: `coding-standards/python`
 - **Version**: 1.1.0

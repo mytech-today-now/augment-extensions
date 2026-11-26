@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-26T10:26:34Z",
+  "lastUpdated": "2026-11-26T18:18:21Z",
   "specs": {
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
@@ -1404,6 +1404,28 @@
         ".augment/coordination.json"
       ],
       "dependencies": []
+    },
+    "bd-0e49c6e2": {
+      "title": "Create article-informed agent harness, loops, and graphs implementation prompt",
+      "status": "closed",
+      "relatedSpecs": [],
+      "relatedRules": [
+        "no-em-dash.md"
+      ],
+      "outputFiles": [
+        "ai-prompts/agent-harness-loops-graphs-prompt.md",
+        ".beads/issues.jsonl",
+        ".augment/coordination.json"
+      ],
+      "dependencies": []
+    },
+    "bd-18f800ab": {
+      "title": "Restore Beads CLI compatibility before task synchronization",
+      "status": "open",
+      "relatedSpecs": [],
+      "relatedRules": [],
+      "outputFiles": [],
+      "dependencies": []
     }
   },
   "rules": {
@@ -2348,6 +2370,14 @@
       "modifiedBy": ["bd-03ab60a1"],
       "governedBy": ["augment-extensions/spec"],
       "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
+    },
+    "ai-prompts/agent-harness-loops-graphs-prompt.md": {
+      "createdBy": "bd-0e49c6e2",
+      "modifiedBy": [],
+      "governedBy": [],
+      "rulesApplied": [
+        "no-em-dash.md"
+      ]
     },
     "ai-prompts/refactor-README.md": {
       "createdBy": null,

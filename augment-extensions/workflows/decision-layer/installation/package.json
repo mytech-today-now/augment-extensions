@@ -1,0 +1,7 @@
+{
+  "name": "augx-decision-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "engines": { "node": ">=22" },
+  "dependencies": { "@typesafe-ai/sdk": "0.7.0" }
+}

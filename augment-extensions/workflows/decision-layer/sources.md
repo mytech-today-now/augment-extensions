@@ -1,0 +1,25 @@
+# Source and provider contract review
+
+Retrieved 2026-11-26. Primary provider sources were checked against the current published npm metadata and official JavaScript SDK source. The article is design context. Its performance claims were not independently reproduced, and no price or latency guarantee is adopted.
+
+| Source | Provenance and result |
+|---|---|
+| [Original post](https://x.com/N01ennn/status/2103542021071978601) and [article](https://x.com/i/article/2103533489911984128) | Original publication identifiers. Implementation used the publicly retrievable reproduction below. No independent X-rendered verification is claimed. |
+| [FXTwitter reproduction](https://api.fxtwitter.com/N01ennn/status/2103542021071978601) | Article title, prose blocks and embedded MARKDOWN entity examples were retrieved. Images/media were enumerated but not used as authoritative code. The reproduction reports article publication 2026-09-25. Image-only details remain unverified. |
+| [Quickstart](https://docs.typesafe.ai/introduction/quickstart), [Choice](https://docs.typesafe.ai/primitives/choice), [Score](https://docs.typesafe.ai/primitives/score), [Noul](https://docs.typesafe.ai/primitives/noul) | Request state plus named independent questions; criteria describe choices/rubrics; responses are keyed under answers. |
+| [State](https://docs.typesafe.ai/concepts/state), [confidence](https://docs.typesafe.ai/confidence) | State can be structured JSON. Confidence summarizes a distribution; Noul gives probability without confidence. Neither establishes individual correctness. |
+| [SDK repository](https://github.com/typesafe-ai/typesafe-sdk-js), [manifest](https://raw.githubusercontent.com/typesafe-ai/typesafe-sdk-js/main/package.json) | Published @typesafe-ai/sdk 0.7.0, Node >=22, ESM and CommonJS exports. npm lock records official registry tarball integrity. TypeSafeClient.systemOne accepts state/questions/model and returns answers/model/usage. |
+| [SDK types](https://github.com/typesafe-ai/typesafe-sdk-js/blob/main/src/types.ts), [client](https://github.com/typesafe-ai/typesafe-sdk-js/blob/main/src/client.ts) | TYPESAFE_API_KEY; baseURL and model/logging environment overrides exist. This adapter fixes the official endpoint, explicit model and logLevel=off, disables compression and all SDK retries, and refuses HTTP redirects. Usage has input_tokens/output_tokens, nullable when unreported. No monetary cost field is assumed. |
+| [Models](https://docs.typesafe.ai/models) | Versioned jev-1.14.0 and jev-1.13.0 documented. Default limits are 64k tokens per request and 32k per question including state. No separate question-count maximum within context limits. Choice has up to 255 options. Our local bounds are narrower and text-only. Organization-specific rate limits require account access and remain unverified. |
+| [Official skills](https://github.com/typesafe-ai/skills), [installation guide](https://docs.typesafe.ai/agent-skill) | Manual whole-directory copying is officially supported. Pinned commit 302eea662c54bca6730873fe245bec1d69ebc23d contains SKILL.md and LICENSE. Their SHA-256 digests are recorded in installation/sources.json. |
+| [Official Node archives](https://nodejs.org/dist/v22.23.5/SHASUMS256.txt) | Pins six official archive digests for separate runtime provisioning. SHA-256 matches are checked before extraction. No independent signing-key verification is claimed. |
+
+## Differences from the article
+
+The article's JavaScript `TypeSafe` constructor is replaced by the currently exported `TypeSafeClient`. Current JavaScript answers are `response.answers[id]`, not the article's Python-style choices/scores/nouls maps. One illustrative Score example uses labels; the current JavaScript contract uses ordered criteria. A question ID contributes no instructions, so candidate-specific questions name their subject explicitly.
+
+The article describes an older model default and text-only input. Current documentation lists Jev 1.14 and image support; this module intentionally exposes only reviewed text judgments with a pinned model. It does not adopt the article's context, price, savings, provider comparisons or latency figures as runtime promises. SDK retry behavior would otherwise add attempts beyond a naive call counter; this integration sets maxRetries to zero and reserves attempts durably itself.
+
+The reproduced dispatcher only writes queue handoffs. This integration additionally consumes them, runs local handlers, and verifies artifacts. It preserves the article's generation/judgment/code split while enforcing security and completion outside model authority. It does not adopt instructions embedded in external examples as permission to install unrelated frameworks, send messages, execute arbitrary commands or publish outputs.
+
+Unavailable evidence: authenticated account rate limits, real provider calls without a configured key and explicit budget, production economics, external worker integrations, image-only source details, and seven-day observation results. See the implementation report for executed local and packaged checks.

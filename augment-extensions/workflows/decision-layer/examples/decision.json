@@ -1,0 +1,13 @@
+{
+  "capability": "classify",
+  "state": {
+    "goal": "Route this local ticket: I need documentation for a draft briefing",
+    "revision": 1,
+    "evidence": ["A de-identified local ticket asks for documentation"],
+    "completed": [], "issues": [], "constraints": ["Do not send messages"], "capabilities": []
+  },
+  "candidates": [
+    { "id": "documentation", "description": "Requests for documentation and how-to guidance" },
+    { "id": "review", "description": "Ambiguous requests or destinations not covered by this menu" }
+  ]
+}

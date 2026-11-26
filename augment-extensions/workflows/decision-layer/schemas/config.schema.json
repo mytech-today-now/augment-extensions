@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "policyVersion", "model", "allowProviderData", "threshold", "relevance", "limits"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "policyVersion": { "type": "string", "pattern": "^[a-zA-Z0-9._-]{1,64}$" },
+    "model": { "enum": ["jev-1.14.0", "jev-1.13.0"] },
+    "allowProviderData": { "type": "boolean" },
+    "threshold": { "type": "number", "minimum": 0.5, "maximum": 1 },
+    "relevance": { "type": "number", "minimum": 0, "maximum": 2 },
+    "limits": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requests", "attempts", "runMs", "workerMs", "requestMs", "noProgress", "bytes"],
+      "properties": {
+        "requests": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "attempts": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "runMs": { "type": "integer", "minimum": 100, "maximum": 3600000 },
+        "workerMs": { "type": "integer", "minimum": 50, "maximum": 60000 },
+        "requestMs": { "type": "integer", "minimum": 50, "maximum": 60000 },
+        "noProgress": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "bytes": { "type": "integer", "minimum": 100, "maximum": 24000 }
+      }
+    }
+  }
+}

@@ -1,0 +1,410 @@
+[
+  {
+    "id": "case-01",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "research",
+    "goal": "Collect local evidence about release notes",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-02",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "write",
+    "goal": "Compose a local briefing about release notes",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-03",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "review",
+    "goal": "Inspect local evidence about release notes",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-04",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "research",
+    "goal": "Collect local evidence about API documentation",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-05",
+    "shouldEscalate": true,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "write",
+    "goal": "Ambiguous local request with missing requirements about API documentation",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-06",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "review",
+    "goal": "Inspect local evidence about API documentation",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-07",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "research",
+    "goal": "Collect local evidence about incident evidence",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-08",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "write",
+    "goal": "Compose a local briefing about incident evidence",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-09",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "review",
+    "goal": "Inspect local evidence about incident evidence",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-10",
+    "shouldEscalate": true,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "research",
+    "goal": "Ambiguous local request with missing requirements about configuration changes",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-11",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "write",
+    "goal": "Compose a local briefing about configuration changes",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-12",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "review",
+    "goal": "Inspect local evidence about configuration changes",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-13",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "research",
+    "goal": "Collect local evidence about accessibility notes",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-14",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "write",
+    "goal": "Compose a local briefing about accessibility notes",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-15",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "review",
+    "goal": "Inspect local evidence about accessibility notes",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-16",
+    "shouldEscalate": false,
+    "split": "calibration",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "research",
+    "goal": "Collect local evidence about dependency records",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-17",
+    "shouldEscalate": false,
+    "split": "held-out",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "write",
+    "goal": "Compose a local briefing about dependency records",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-18",
+    "shouldEscalate": false,
+    "split": "held-out",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "review",
+    "goal": "Inspect local evidence about dependency records",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-19",
+    "shouldEscalate": true,
+    "split": "held-out",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "research",
+    "goal": "Ambiguous local request with missing requirements about migration prerequisites",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-20",
+    "shouldEscalate": false,
+    "split": "held-out",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "write",
+    "goal": "Compose a local briefing about migration prerequisites",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-21",
+    "shouldEscalate": false,
+    "split": "held-out",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "review",
+    "goal": "Inspect local evidence about migration prerequisites",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-22",
+    "shouldEscalate": false,
+    "split": "held-out",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "research",
+    "goal": "Collect local evidence about recovery instructions",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-23",
+    "shouldEscalate": true,
+    "split": "held-out",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "write",
+    "goal": "Ambiguous local request with missing requirements about recovery instructions",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  },
+  {
+    "id": "case-24",
+    "shouldEscalate": false,
+    "split": "held-out",
+    "sources": [
+      "source.txt"
+    ],
+    "expected": "review",
+    "goal": "Inspect local evidence about recovery instructions",
+    "acceptance": {
+      "minBytes": 200,
+      "contains": [
+        "source.txt",
+        "local"
+      ]
+    }
+  }
+]

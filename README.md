@@ -93,6 +93,8 @@ Four module categories exist:
 
 The [Agent Engineering workflow](augment-extensions/workflows/agent-engineering/README.md) covers scoped agents, harnesses, bounded loops, and dependency graphs with validated contracts and runnable deterministic local examples. Link it with `augx link workflows/agent-engineering` from a checkout or package that contains the module.
 
+The [Decision Layer workflow](augment-extensions/workflows/decision-layer/README.md) adds an optional TypeSafe integration with project-local software setup, eleven typed decision capabilities, bounded local workers, independent artifact verification, recovery, and labeled evaluation. Link it with `augx link workflows/decision-layer`, inspect `augx decision setup --dry-run`, then explicitly run setup. Ordinary discovery and exports do not install or load the optional SDK. See the module guide for offline fixtures, live credentials and request budgets, actual host boundaries, and safe removal.
+
 ### Linked vs. mirrored vs. exported
 
 These three verbs are orthogonal and stack:

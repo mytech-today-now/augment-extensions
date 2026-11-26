@@ -638,6 +638,20 @@ augx link domain-rules/wordpress-plugin
 
 ## Workflows
 
+### Decision Layer Workflow
+- **Module**: `workflows/decision-layer`
+- **Version**: 1.0.0
+- **Character Count**: ~117,091
+- **Description**: Optional TypeSafe judgments with isolated setup, typed contracts, deterministic policy, durable local workers, independent verification and matched evaluation.
+- **Contents**: Indexed trust and operation rules, optional SDK/runtime installation, eleven capabilities, durable workers, independent verification, and matched evaluation.
+
+**Usage**:
+```bash
+augx link workflows/decision-layer
+augx decision setup --dry-run
+```
+
+
 ### Agent Engineering Workflow
 - **Module**: `workflows/agent-engineering`
 - **Version**: 1.0.0
@@ -858,10 +872,10 @@ augx mcp wrap github-mcp search-repos github-search --category retrieval
 
 ## Statistics
 
-- **Total Modules**: 46
+- **Total Modules**: 47
 - **Coding Standards**: 15
 - **Domain Rules**: 22
-- **Workflows**: 5
+- **Workflows**: 6
 - **Examples**: 4
 - **Total Skills**: 4
-- **Total Character Count**: ~3,502,703
+- **Total Character Count**: ~3,619,794

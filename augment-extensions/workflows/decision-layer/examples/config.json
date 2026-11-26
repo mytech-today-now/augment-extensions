@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "initial-1",
+  "model": "jev-1.14.0",
+  "allowProviderData": false,
+  "threshold": 0.85,
+  "relevance": 1.5,
+  "limits": { "requests": 12, "attempts": 3, "runMs": 60000, "workerMs": 5000, "requestMs": 10000, "noProgress": 2, "bytes": 24000 }
+}

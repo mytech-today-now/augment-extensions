@@ -1,0 +1,24 @@
+{
+  "name": "decision-layer",
+  "version": "1.0.0",
+  "displayName": "Decision Layer Workflow",
+  "description": "Optional TypeSafe judgments with isolated setup, typed contracts, deterministic policy, durable local workers, independent verification and matched evaluation.",
+  "type": "workflows",
+  "tags": [
+    "decision-layer",
+    "typesafe",
+    "jev",
+    "routing",
+    "workers",
+    "verification",
+    "evaluation",
+    "security"
+  ],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 117091,
+    "priority": "medium",
+    "category": "workflows"
+  },
+  "installation": "optional"
+}

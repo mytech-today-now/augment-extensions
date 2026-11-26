@@ -1,7 +1,8 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-26T18:57:08.762Z",
+  "lastUpdated": "2026-11-26T20:41:25.058Z",
   "specs": {
+    "workflows/decision-layer": {"path":"openspec/specs/decision-layer/spec.md","status":"active","relatedTasks":["bd-9e92","bd-758d"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":["augment-extensions/workflows/decision-layer/**","cli/src/commands/decision.ts","cli/src/cli.ts","tests/decision-layer.test.ts","package.json"],"dependencies":[]},
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
       "status": "active",
@@ -350,6 +351,8 @@
     "workflows/agent-engineering": {"path":"openspec/specs/agent-engineering/spec.md","status":"active","relatedTasks":["bd-b51a"],"relatedRules":["module-development.md","no-em-dash.md","character-count-management.md"],"affectedFiles":["augment-extensions/workflows/agent-engineering/**","tests/agent-engineering.test.ts","openspec/specs/agent-engineering/**","openspec/archive/add-agent-engineering/**","docs/reports/agent-engineering-2026-11-26.md","package.json","README.md","modules.md","cli/MODULES.md",".augment/coordination.json",".beads/issues.jsonl",".gitattributes"],"dependencies":[]}
   },
   "tasks": {
+    "bd-758d": {"title":"Verify decision-layer provider, external workers and additional platforms","status":"open","relatedSpecs":["workflows/decision-layer"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":["docs/followups/decision-layer-provider-and-platform-verification.prompt.md"],"dependencies":[]},
+    "bd-9e92": {"title":"Implement operational decision-layer workflow","status":"closed","relatedSpecs":["workflows/decision-layer"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":["augment-extensions/workflows/decision-layer/README.md","augment-extensions/workflows/decision-layer/examples/call-inventory.json","augment-extensions/workflows/decision-layer/examples/config.json","augment-extensions/workflows/decision-layer/examples/decision.json","augment-extensions/workflows/decision-layer/examples/labeled-cases.json","augment-extensions/workflows/decision-layer/examples/source.txt","augment-extensions/workflows/decision-layer/examples/task.json","augment-extensions/workflows/decision-layer/installation/package-lock.json","augment-extensions/workflows/decision-layer/installation/package.json","augment-extensions/workflows/decision-layer/installation/sources.json","augment-extensions/workflows/decision-layer/module.json","augment-extensions/workflows/decision-layer/rules/00-index.md","augment-extensions/workflows/decision-layer/rules/01-responsibilities.md","augment-extensions/workflows/decision-layer/rules/02-operation.md","augment-extensions/workflows/decision-layer/runtime/cli.cjs","augment-extensions/workflows/decision-layer/runtime/common.cjs","augment-extensions/workflows/decision-layer/runtime/contracts.d.ts","augment-extensions/workflows/decision-layer/runtime/decisions.cjs","augment-extensions/workflows/decision-layer/runtime/evaluate.cjs","augment-extensions/workflows/decision-layer/runtime/install.cjs","augment-extensions/workflows/decision-layer/runtime/integrations.cjs","augment-extensions/workflows/decision-layer/runtime/runner.cjs","augment-extensions/workflows/decision-layer/runtime/worker-child.cjs","augment-extensions/workflows/decision-layer/runtime/workers.cjs","augment-extensions/workflows/decision-layer/schemas/config.schema.json","augment-extensions/workflows/decision-layer/scripts/validate.cjs","augment-extensions/workflows/decision-layer/sources.md","cli/src/commands/decision.ts","docs/followups/decision-layer-provider-and-platform-verification.prompt.md","docs/reports/decision-layer-2026-11-26.md","openspec/archive/add-decision-layer/proposal.md","openspec/archive/add-decision-layer/specs/decision-layer/spec.md","openspec/archive/add-decision-layer/tasks.md","openspec/specs/decision-layer/spec.md","scripts/test-decision-layer.cjs","scripts/verify-decision-package.cjs","tests/decision-layer.test.ts"],"dependencies":[]},
     "bd-a1b2": {
       "title": "Implement CLI commands",
       "status": "open",
@@ -1523,6 +1526,48 @@
     }
   },
   "files": {
+    "openspec/specs/decision-layer/spec.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "openspec/archive/add-decision-layer/tasks.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "openspec/archive/add-decision-layer/specs/decision-layer/spec.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "openspec/archive/add-decision-layer/proposal.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "docs/reports/decision-layer-2026-11-26.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "tests/decision-layer.test.ts": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "scripts/verify-decision-package.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "scripts/test-decision-layer.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "openspec/archive/add-decision-layer/tasks.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "openspec/archive/add-decision-layer/specs/decision-layer/spec.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "openspec/archive/add-decision-layer/proposal.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "docs/followups/decision-layer-provider-and-platform-verification.prompt.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/commands/decision.ts": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/sources.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/scripts/validate.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/schemas/config.schema.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/workers.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/worker-child.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/runner.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/integrations.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/install.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/evaluate.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/decisions.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/contracts.d.ts": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/common.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/runtime/cli.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/rules/02-operation.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/rules/01-responsibilities.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/rules/00-index.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/module.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/installation/sources.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/installation/package.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/installation/package-lock.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/examples/task.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/examples/source.txt": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/examples/labeled-cases.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/examples/decision.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/examples/config.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/examples/call-inventory.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/decision-layer/README.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/cli.ts": {"createdBy":null,"modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    ".gitignore": {"createdBy":null,"modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "augment-extensions/domain-rules/wordpress-plugin/module.json": {
       "createdBy": "bd-wp1",
       "modifiedBy": [],
@@ -1797,7 +1842,7 @@
         "module-development.md"
       ]
     },
-    ".augment/coordination.json": {"createdBy":"bd-coord1","modifiedBy":["bd-wp10-1","bd-ps6.3","bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a"],"governedBy":["harmonize-workflows","wordpress-plugin-module/core","powershell-coding-standards","augment-extensions/spec","testing/functional-tests","workflows/agent-engineering"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    ".augment/coordination.json": {"createdBy":"bd-coord1","modifiedBy":["bd-wp10-1","bd-ps6.3","bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["harmonize-workflows","wordpress-plugin-module/core","powershell-coding-standards","augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
     "augment-extensions/coding-standards/powershell/module.json": {
       "createdBy": "bd-4t4f",
       "modifiedBy": [
@@ -2095,7 +2140,7 @@
         "no-em-dash.md"
       ]
     },
-    "package.json": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-b51a"],"governedBy":["augment-extensions/spec","workflows/agent-engineering"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
+    "package.json": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-b51a","bd-9e92"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
     "package-lock.json": {
       "createdBy": null,
       "modifiedBy": [
@@ -2205,8 +2250,8 @@
         "no-em-dash.md"
       ]
     },
-    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
-    "README.md": {"createdBy":null,"modifiedBy":["bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a"],"governedBy":["augment-extensions/spec","workflows/agent-engineering"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
+    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    "README.md": {"createdBy":null,"modifiedBy":["bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/visual-design/metadata.json": {
       "createdBy": null,
       "modifiedBy": ["bd-6dd52bd3"],
@@ -2535,8 +2580,8 @@
         "no-em-dash.md"
       ]
     },
-    "modules.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a"],"governedBy":["augment-extensions/spec","workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
-    "cli/MODULES.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a"],"governedBy":["augment-extensions/spec","workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "modules.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "cli/MODULES.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/workflows/agent-engineering/examples/contracts.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/workflows/agent-engineering/examples/demo.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/workflows/agent-engineering/examples/evaluation-cases.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
@@ -2570,6 +2615,6 @@
     "tests/agent-engineering.test.ts": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "docs/reports/agent-engineering-2026-11-26.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "openspec/specs/agent-engineering/spec.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
-    ".gitattributes": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]}
+    ".gitattributes": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a","bd-9e92"],"governedBy":["workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]}
   }
 }

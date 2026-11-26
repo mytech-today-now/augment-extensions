@@ -53,6 +53,7 @@ import {
 } from './commands/mcp';
 import { codeAnalysisCommand } from './commands/code-analysis';
 import { exportCommand } from './commands/export';
+import { registerDecisionCommands } from './commands/decision';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -60,6 +61,7 @@ const packageJson = JSON.parse(
 );
 
 const program = new Command();
+registerDecisionCommands(program);
 
 program
   .name('augx')

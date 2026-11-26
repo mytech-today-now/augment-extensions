@@ -1,0 +1,18 @@
+{
+  "retrieved": "2026-11-26",
+  "nodeVersion": "22.23.5",
+  "sdkVersion": "0.7.0",
+  "skillCommit": "302eea662c54bca6730873fe245bec1d69ebc23d",
+  "skillFiles": {
+    "SKILL.md": "d1513cb2e0f72f58c11ac004ce99fd828fce8668a741b6a274247201e57db724",
+    "LICENSE": "835f233f1d6ed84a9b9a351aba0689b47644a4137d6316911fc7957bde523b02"
+  },
+  "archives": {
+    "win32-x64": ["node-v22.23.5-win-x64.zip", "4a191082e9706866830379d577d2cc8a50c776fcd9436a8d061b063ed0d9a0e3"],
+    "win32-arm64": ["node-v22.23.5-win-arm64.zip", "c1856817f611738c77534efbff8a5a17990593eab24046bc8d2c23a77a160d13"],
+    "linux-x64": ["node-v22.23.5-linux-x64.tar.gz", "c54118104acc524633b5abe106bbf44a53126ec8b4e5fa105cb92b5d7de8a1a1"],
+    "linux-arm64": ["node-v22.23.5-linux-arm64.tar.gz", "8bd3dc69eee8f3f226315a80d7d1d4faccf217a4c8fae500168ac2e38f3bdba3"],
+    "darwin-x64": ["node-v22.23.5-darwin-x64.tar.gz", "c53383238206b9ae4db23c5d8a63645e2e753bec8ab51a49cc81939aa64e9422"],
+    "darwin-arm64": ["node-v22.23.5-darwin-arm64.tar.gz", "e7131995759b61a0170b646010d2ad35a5d37b4cb0d471f3e8317eac6f742f3d"]
+  }
+}

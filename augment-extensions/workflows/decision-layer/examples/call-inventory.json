@@ -1,0 +1,6 @@
+[
+  { "name": "plan feature", "kind": "generation", "callsPerDay": 20 },
+  { "name": "dispatch worker", "kind": "judgment", "callsPerDay": 200 },
+  { "name": "classify input", "kind": "judgment", "callsPerDay": 100 },
+  { "name": "check request budget", "kind": "deterministic", "callsPerDay": 300 }
+]

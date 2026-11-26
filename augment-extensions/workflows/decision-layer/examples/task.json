@@ -1,0 +1,8 @@
+{
+  "id": "briefing",
+  "goal": "Draft a local briefing from the supplied source evidence",
+  "kind": "write",
+  "capabilities": ["local-document"],
+  "sources": ["source.txt"],
+  "acceptance": { "minBytes": 200, "contains": ["inspectable briefing", "source.txt"] }
+}

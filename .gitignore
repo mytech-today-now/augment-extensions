@@ -110,6 +110,8 @@ cli/evaluation/
 # =============================================================================
 completed.jsonl
 test-results.jsonl
+.augx-decision/
+test-artifacts/
 docs/beads-tasks.jsonl
 
 # =============================================================================

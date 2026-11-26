@@ -1,0 +1,2 @@
+# Keep the self-inclusive module character count stable on Windows checkouts.
+augment-extensions/workflows/agent-engineering/** text eol=lf

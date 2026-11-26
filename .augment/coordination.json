@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-26T18:18:21Z",
+  "lastUpdated": "2026-11-26T18:57:08.762Z",
   "specs": {
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
@@ -346,7 +346,8 @@
         ".augment/coordination.json"
       ],
       "dependencies": []
-    }
+    },
+    "workflows/agent-engineering": {"path":"openspec/specs/agent-engineering/spec.md","status":"active","relatedTasks":["bd-b51a"],"relatedRules":["module-development.md","no-em-dash.md","character-count-management.md"],"affectedFiles":["augment-extensions/workflows/agent-engineering/**","tests/agent-engineering.test.ts","openspec/specs/agent-engineering/**","openspec/archive/add-agent-engineering/**","docs/reports/agent-engineering-2026-11-26.md","package.json","README.md","modules.md","cli/MODULES.md",".augment/coordination.json",".beads/issues.jsonl",".gitattributes"],"dependencies":[]}
   },
   "tasks": {
     "bd-a1b2": {
@@ -1426,7 +1427,8 @@
       "relatedRules": [],
       "outputFiles": [],
       "dependencies": []
-    }
+    },
+    "bd-b51a": {"title":"Implement reusable agent engineering workflow","status":"closed","relatedSpecs":["workflows/agent-engineering"],"relatedRules":["module-development.md","no-em-dash.md","character-count-management.md"],"outputFiles":["augment-extensions/workflows/agent-engineering/examples/contracts.cjs","augment-extensions/workflows/agent-engineering/examples/demo.cjs","augment-extensions/workflows/agent-engineering/examples/evaluation-cases.json","augment-extensions/workflows/agent-engineering/examples/graphs.cjs","augment-extensions/workflows/agent-engineering/examples/loop.cjs","augment-extensions/workflows/agent-engineering/examples/recovery.cjs","augment-extensions/workflows/agent-engineering/examples/stub.cjs","augment-extensions/workflows/agent-engineering/examples/verify.cjs","augment-extensions/workflows/agent-engineering/module.json","augment-extensions/workflows/agent-engineering/README.md","augment-extensions/workflows/agent-engineering/rules/01-adoption.md","augment-extensions/workflows/agent-engineering/rules/02-agents.md","augment-extensions/workflows/agent-engineering/rules/03-contracts.md","augment-extensions/workflows/agent-engineering/rules/04-loops.md","augment-extensions/workflows/agent-engineering/rules/05-graphs.md","augment-extensions/workflows/agent-engineering/rules/06-improvement.md","augment-extensions/workflows/agent-engineering/schemas/contracts.schema.json","augment-extensions/workflows/agent-engineering/scripts/validate.cjs","augment-extensions/workflows/agent-engineering/sources.md","augment-extensions/workflows/agent-engineering/templates/agent.json","augment-extensions/workflows/agent-engineering/templates/check-tool.json","augment-extensions/workflows/agent-engineering/templates/evidence.json","augment-extensions/workflows/agent-engineering/templates/invocation.json","augment-extensions/workflows/agent-engineering/templates/node.json","augment-extensions/workflows/agent-engineering/templates/state.json","augment-extensions/workflows/agent-engineering/templates/task.json","augment-extensions/workflows/agent-engineering/templates/tool.json","openspec/archive/add-agent-engineering/proposal.md","openspec/archive/add-agent-engineering/specs/agent-engineering/spec.md","openspec/archive/add-agent-engineering/tasks.md","tests/agent-engineering.test.ts","package.json","README.md","modules.md","cli/MODULES.md","docs/reports/agent-engineering-2026-11-26.md",".beads/issues.jsonl",".augment/coordination.json","openspec/specs/agent-engineering/spec.md",".gitattributes"],"dependencies":[]}
   },
   "rules": {
     "character-count-management.md": {
@@ -1795,28 +1797,7 @@
         "module-development.md"
       ]
     },
-    ".augment/coordination.json": {
-      "createdBy": "bd-coord1",
-      "modifiedBy": [
-        "bd-wp10-1",
-        "bd-ps6.3",
-        "bd-ea81c7d0",
-        "bd-6dd52bd3",
-        "bd-03ab60a1",
-        "bd-a51d89bc"
-      ],
-      "governedBy": [
-        "harmonize-workflows",
-        "wordpress-plugin-module/core",
-        "powershell-coding-standards",
-        "augment-extensions/spec",
-        "testing/functional-tests"
-      ],
-      "rulesApplied": [
-        "coordination-system.md",
-        "no-em-dash.md"
-      ]
-    },
+    ".augment/coordination.json": {"createdBy":"bd-coord1","modifiedBy":["bd-wp10-1","bd-ps6.3","bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a"],"governedBy":["harmonize-workflows","wordpress-plugin-module/core","powershell-coding-standards","augment-extensions/spec","testing/functional-tests","workflows/agent-engineering"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
     "augment-extensions/coding-standards/powershell/module.json": {
       "createdBy": "bd-4t4f",
       "modifiedBy": [
@@ -2114,22 +2095,7 @@
         "no-em-dash.md"
       ]
     },
-    "package.json": {
-      "createdBy": null,
-      "modifiedBy": [
-        "bd-ea81c7d0",
-        "bd-6dd52bd3",
-        "bd-03ab60a1"
-      ],
-      "governedBy": [
-        "augment-extensions/spec"
-      ],
-      "rulesApplied": [
-        "module-development.md",
-        "augment-extensions-workflow.md",
-        "no-em-dash.md"
-      ]
-    },
+    "package.json": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-b51a"],"governedBy":["augment-extensions/spec","workflows/agent-engineering"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
     "package-lock.json": {
       "createdBy": null,
       "modifiedBy": [
@@ -2239,30 +2205,8 @@
         "no-em-dash.md"
       ]
     },
-    ".beads/issues.jsonl": {
-      "createdBy": null,
-      "modifiedBy": [
-        "bd-ea81c7d0",
-        "bd-6dd52bd3",
-        "bd-5183",
-        "bd-03ab60a1",
-        "bd-a51d89bc"
-      ],
-      "governedBy": [
-        "augment-extensions/spec",
-        "testing/functional-tests"
-      ],
-      "rulesApplied": [
-        "coordination-system.md",
-        "no-em-dash.md"
-      ]
-    },
-    "README.md": {
-      "createdBy": null,
-      "modifiedBy": ["bd-6dd52bd3", "bd-03ab60a1", "bd-a51d89bc"],
-      "governedBy": ["augment-extensions/spec"],
-      "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
-    },
+    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    "README.md": {"createdBy":null,"modifiedBy":["bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a"],"governedBy":["augment-extensions/spec","workflows/agent-engineering"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/visual-design/metadata.json": {
       "createdBy": null,
       "modifiedBy": ["bd-6dd52bd3"],
@@ -2591,31 +2535,41 @@
         "no-em-dash.md"
       ]
     },
-    "modules.md": {
-      "createdBy": null,
-      "modifiedBy": [
-        "bd-a51d89bc"
-      ],
-      "governedBy": [
-        "augment-extensions/spec"
-      ],
-      "rulesApplied": [
-        "module-development.md",
-        "no-em-dash.md"
-      ]
-    },
-    "cli/MODULES.md": {
-      "createdBy": null,
-      "modifiedBy": [
-        "bd-a51d89bc"
-      ],
-      "governedBy": [
-        "augment-extensions/spec"
-      ],
-      "rulesApplied": [
-        "module-development.md",
-        "no-em-dash.md"
-      ]
-    }
+    "modules.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a"],"governedBy":["augment-extensions/spec","workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "cli/MODULES.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a"],"governedBy":["augment-extensions/spec","workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/examples/contracts.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/examples/demo.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/examples/evaluation-cases.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/examples/graphs.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/examples/loop.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/examples/recovery.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/examples/stub.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/examples/verify.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/module.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/README.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/rules/01-adoption.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/rules/02-agents.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/rules/03-contracts.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/rules/04-loops.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/rules/05-graphs.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/rules/06-improvement.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/schemas/contracts.schema.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/scripts/validate.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/sources.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/templates/agent.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/templates/check-tool.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/templates/evidence.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/templates/invocation.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/templates/node.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/templates/state.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/templates/task.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "augment-extensions/workflows/agent-engineering/templates/tool.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "openspec/archive/add-agent-engineering/proposal.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "openspec/archive/add-agent-engineering/specs/agent-engineering/spec.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "openspec/archive/add-agent-engineering/tasks.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "tests/agent-engineering.test.ts": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "docs/reports/agent-engineering-2026-11-26.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "openspec/specs/agent-engineering/spec.md": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    ".gitattributes": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]}
   }
 }

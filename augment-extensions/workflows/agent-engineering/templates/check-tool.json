@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "id": "check",
+  "inputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "path": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      }
+    },
+    "required": [
+      "path"
+    ]
+  },
+  "outputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "passed": {
+        "type": "boolean"
+      },
+      "score": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 3
+      },
+      "expected": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "uniqueItems": true,
+        "maxItems": 64
+      },
+      "actual": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "maxItems": 64
+      },
+      "condition": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      },
+      "location": {
+        "const": "candidate.json"
+      },
+      "artifact": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "required": [
+      "passed",
+      "score",
+      "expected",
+      "actual",
+      "condition",
+      "location",
+      "artifact"
+    ]
+  },
+  "preconditions": [
+    "Contract validated",
+    "Remaining shared allocation"
+  ],
+  "effects": [
+    "Read candidate and return protected verdict"
+  ],
+  "allowedPaths": [
+    "candidate.json"
+  ],
+  "allowedDomains": [],
+  "deadlineMs": 750,
+  "retries": 0,
+  "idempotency": "Pure stub; retries consume shared calls",
+  "failures": [
+    "transient",
+    "denied",
+    "unrecoverable"
+  ],
+  "successEvidence": [
+    "Typed candidate followed by independent check"
+  ]
+}

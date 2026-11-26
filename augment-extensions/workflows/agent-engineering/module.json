@@ -1,0 +1,24 @@
+{
+  "name": "agent-engineering",
+  "version": "1.0.0",
+  "displayName": "Agent Engineering Workflow",
+  "description": "Create scoped agents, protected harnesses, bounded loops, and durable dependency graphs with validated contracts and deterministic local examples.",
+  "type": "workflows",
+  "tags": [
+    "agents",
+    "harness",
+    "loops",
+    "graphs",
+    "orchestration",
+    "verification",
+    "security",
+    "workflow"
+  ],
+  "dependencies": [],
+  "augment": {
+    "characterCount": 87100,
+    "priority": "medium",
+    "category": "workflows"
+  },
+  "installation": "optional"
+}

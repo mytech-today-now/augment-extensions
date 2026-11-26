@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "role": "implementer",
+  "purpose": "Produce one candidate inside the work packet",
+  "inputs": [
+    "Validated task",
+    "Feedback"
+  ],
+  "outputs": [
+    "Candidate artifact"
+  ],
+  "readPaths": [
+    "candidate.json"
+  ],
+  "writePaths": [
+    "candidate.json"
+  ],
+  "tools": [
+    "stub"
+  ],
+  "permissionCeiling": "local-reversible",
+  "timeoutMs": 750,
+  "allocation": {
+    "maxAttempts": 5,
+    "maxCalls": 12,
+    "wallMs": 5000,
+    "callMs": 750,
+    "stallRounds": 2,
+    "maxWorkers": 1
+  },
+  "verificationResponsibility": "Controller invokes protected independent checker",
+  "termination": [
+    "Verified acceptance",
+    "Allocation exhausted",
+    "Cancellation",
+    "Denied authority"
+  ],
+  "escalation": "handoff.json",
+  "delegationDepth": 0
+}

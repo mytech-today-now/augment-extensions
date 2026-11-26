@@ -88,8 +88,10 @@ Four module categories exist:
 
 - **coding-standards** - language- or framework-specific guidance. Currently shipped: Bash, C, CSS, Go, HTML, HTML+CSS+JS, Java, JavaScript, Perl, PHP, PowerShell, Python, Q, React, Spring Framework and Spring Boot, TypeScript.
 - **domain-rules** - subject-matter guidance independent of language. Currently shipped: API Design, Database, Design (color), MCP, Security, SEO/Sales/Marketing, Software Architecture, WordPress, WordPress Plugin. The `visual-design/` module ships alongside as a sibling tree with its own vendor and domain palettes.
-- **workflows** - process integration for spec-driven development, task tracking, and multi-tool distribution. Currently shipped: adr-support, cross-platform, database, mcp, wordpress-plugin.
+- **workflows** - process integration for spec-driven development, task tracking, and multi-tool distribution. Currently shipped: adr-support, agent-engineering, cross-platform, database, mcp, wordpress-plugin.
 - **examples** - canned working examples that illustrate the rules. Currently shipped: design-patterns, gutenberg-block-plugin, rest-api-plugin, woocommerce-extension.
+
+The [Agent Engineering workflow](augment-extensions/workflows/agent-engineering/README.md) covers scoped agents, harnesses, bounded loops, and dependency graphs with validated contracts and runnable deterministic local examples. Link it with `augx link workflows/agent-engineering` from a checkout or package that contains the module.
 
 ### Linked vs. mirrored vs. exported
 

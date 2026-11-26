@@ -638,6 +638,24 @@ augx link domain-rules/wordpress-plugin
 
 ## Workflows
 
+### Agent Engineering Workflow
+- **Module**: `workflows/agent-engineering`
+- **Version**: 1.0.0
+- **Character Count**: ~87,100
+- **Description**: Create scoped agents, protected harnesses, bounded loops, and durable dependency graphs with validated contracts and deterministic local examples.
+- **Contents**:
+  - 01 adoption
+  - 02 agents
+  - 03 contracts
+  - 04 loops
+  - 05 graphs
+  - 06 improvement
+
+**Usage**:
+```bash
+augx link workflows/agent-engineering
+```
+
 ### Beads Workflow
 - **Module**: `workflows/beads`
 - **Version**: 1.0.0
@@ -840,11 +858,10 @@ augx mcp wrap github-mcp search-repos github-search --category retrieval
 
 ## Statistics
 
-- **Total Modules**: 27
-- **Coding Standards**: 11
-- **Writing Standards**: 1
-- **Domain Rules**: 9
-- **Workflows**: 2
+- **Total Modules**: 46
+- **Coding Standards**: 15
+- **Domain Rules**: 22
+- **Workflows**: 5
 - **Examples**: 4
 - **Total Skills**: 4
-- **Total Character Count**: ~3,140,238
+- **Total Character Count**: ~3,502,703

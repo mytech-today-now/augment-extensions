@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "id": "stub",
+  "inputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "attempt": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100000
+      }
+    },
+    "required": [
+      "attempt"
+    ]
+  },
+  "outputSchema": {
+    "type": "array",
+    "items": {
+      "type": "string",
+      "enum": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    "maxItems": 8
+  },
+  "preconditions": [
+    "Contract validated",
+    "Remaining shared allocation"
+  ],
+  "effects": [
+    "Returns a candidate; controller owns writes"
+  ],
+  "allowedPaths": [
+    "candidate.json"
+  ],
+  "allowedDomains": [],
+  "deadlineMs": 750,
+  "retries": 1,
+  "idempotency": "Pure stub; retries consume shared calls",
+  "failures": [
+    "transient",
+    "denied",
+    "unrecoverable"
+  ],
+  "successEvidence": [
+    "Typed candidate followed by independent check"
+  ]
+}

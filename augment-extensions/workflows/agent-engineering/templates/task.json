@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "id": "local-demo",
+  "objective": "Produce sorted unique fixture values",
+  "scope": [
+    "candidate.json"
+  ],
+  "exclusions": [
+    "External effects",
+    "Guardrail changes"
+  ],
+  "readPaths": [
+    "candidate.json"
+  ],
+  "writePaths": [
+    "candidate.json"
+  ],
+  "preservedBehavior": [
+    "Fixture source remains unchanged"
+  ],
+  "acceptance": [
+    "Exact expected ordered values"
+  ],
+  "requiredChecks": [
+    "sorted-unique"
+  ],
+  "risk": "local-reversible",
+  "budget": {
+    "maxAttempts": 5,
+    "maxCalls": 12,
+    "wallMs": 5000,
+    "callMs": 750,
+    "stallRounds": 2,
+    "maxWorkers": 1
+  },
+  "owner": "controller",
+  "approvals": [],
+  "revision": "fixture-v1",
+  "handoff": "handoff.json"
+}

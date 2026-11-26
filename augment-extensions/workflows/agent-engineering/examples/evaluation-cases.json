@@ -1,0 +1,7 @@
+[
+  { "candidate": ["a", "b", "c"], "expected": true },
+  { "candidate": ["c", "a", "a"], "expected": false },
+  { "candidate": [], "expected": false },
+  { "candidate": ["a", "b"], "expected": false },
+  { "candidate": ["a", "b", "c", "c"], "expected": false }
+]

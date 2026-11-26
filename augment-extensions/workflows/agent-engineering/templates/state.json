@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "run": "local-demo",
+  "contract": "0000000000000000000000000000000000000000000000000000000000000000",
+  "policy": "0000000000000000000000000000000000000000000000000000000000000000",
+  "revision": "fixture-v1",
+  "mode": "repair",
+  "startedAt": 0,
+  "deadline": 5000,
+  "attempts": 0,
+  "calls": 0,
+  "dryRounds": 0,
+  "bestScore": 0,
+  "status": "running",
+  "nextAction": "dispatch",
+  "artifact": null,
+  "facts": [
+    "Fixture source is protected"
+  ],
+  "decisions": [
+    "Single controller writer"
+  ],
+  "accepted": [],
+  "rejected": [],
+  "evidence": [],
+  "trace": []
+}

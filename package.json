@@ -11,6 +11,7 @@
                   "augment-extensions/coding-standards/",
                   "augment-extensions/domain-rules/",
                   "augment-extensions/visual-design/",
+                  "augment-extensions/workflows/agent-engineering/",
                   "augment-extensions/workflows/adr-support/",
                   "augment-extensions/workflows/database/",
                   "augment-extensions/workflows/wordpress-plugin/",

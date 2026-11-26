@@ -1,0 +1,27 @@
+{
+  "id": "normalize",
+  "responsibility": "Normalize one fixture",
+  "executor": "code",
+  "inputSchema": {
+    "type": "object"
+  },
+  "outputSchema": {
+    "type": "array",
+    "items": {
+      "type": "string",
+      "enum": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    "maxItems": 8
+  },
+  "dependencies": [],
+  "acceptance": "schema",
+  "failureRoute": "handoff",
+  "allocation": {
+    "calls": 1,
+    "timeoutMs": 750
+  }
+}

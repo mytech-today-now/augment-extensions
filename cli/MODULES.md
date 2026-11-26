@@ -638,6 +638,26 @@ augx link domain-rules/wordpress-plugin
 augx link visual-design
 ```
 
+## Workflows
+
+### Agent Engineering Workflow
+- **Module**: `workflows/agent-engineering`
+- **Version**: 1.0.0
+- **Character Count**: ~87,100
+- **Description**: Create scoped agents, protected harnesses, bounded loops, and durable dependency graphs with validated contracts and deterministic local examples.
+- **Contents**:
+  - 01 adoption
+  - 02 agents
+  - 03 contracts
+  - 04 loops
+  - 05 graphs
+  - 06 improvement
+
+**Usage**:
+```bash
+augx link workflows/agent-engineering
+```
+
 ## Examples
 
 ### Design Patterns Examples
@@ -686,8 +706,9 @@ augx link examples/woocommerce-extension
 
 ## Statistics
 
-- **Total Modules**: 45
+- **Total Modules**: 46
+- **Workflows**: 5
 - **Coding Standards**: 15
 - **Domain Rules**: 22
 - **Examples**: 4
-- **Total Character Count**: ~3,415,603
+- **Total Character Count**: ~3,502,703

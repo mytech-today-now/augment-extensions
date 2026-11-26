@@ -1,0 +1,29 @@
+{
+  "check": "sorted-unique",
+  "artifact": "0000000000000000000000000000000000000000000000000000000000000000",
+  "contract": "0000000000000000000000000000000000000000000000000000000000000000",
+  "policy": "0000000000000000000000000000000000000000000000000000000000000000",
+  "revision": "fixture-v1",
+  "timestamp": "2026-11-26T00:00:00.000Z",
+  "command": [
+    "node",
+    "verify.cjs",
+    "candidate.json"
+  ],
+  "exitCode": 0,
+  "expected": [
+    "a",
+    "b",
+    "c"
+  ],
+  "actual": [
+    "a",
+    "b",
+    "c"
+  ],
+  "passed": true,
+  "scope": "Local deterministic fixture only",
+  "limitations": [
+    "No provider or production evidence"
+  ]
+}

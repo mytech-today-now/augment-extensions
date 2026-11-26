@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "task": "local-demo",
+  "role": "implementer",
+  "scope": [
+    "Produce candidate only"
+  ],
+  "dependencies": [],
+  "relevantFiles": [
+    "candidate.json"
+  ],
+  "acceptanceEvidence": [
+    "sorted-unique check"
+  ],
+  "outputSchema": {
+    "type": "array",
+    "items": {
+      "type": "string",
+      "enum": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    "maxItems": 8
+  },
+  "owner": "worker-one",
+  "writePaths": [
+    "candidate.json"
+  ],
+  "tools": [
+    "stub"
+  ],
+  "allocation": {
+    "calls": 2,
+    "timeoutMs": 750
+  },
+  "permissionCeiling": "local-reversible",
+  "delegationDepth": 0
+}

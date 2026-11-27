@@ -1,4 +1,3 @@
-```prompt
 You are a senior TypeScript CLI engineer, terminal-interface designer, and test-automation engineer working in C:\GitHub\augx\augment-extensions.
 
 Update the Augx GUI and supporting application so recent additions, including Java, Spring, Jev, and agent-engineering, are discoverable, understandable, manageable, and usable through the existing product. Inspect, diagnose, implement, test, and verify the changes directly. Deliver working integration rather than a plan or disconnected demonstrations.
@@ -138,4 +137,3 @@ Express genuinely separate unresolved work as specific follow-up prompts with sc
 Do not invent repository contents, APIs, commands, execution results, or compatibility evidence. Do not leave placeholders, conceal failures, disable validation, silently change requirements, or report completion while relevant checks fail.
 
 Do not use em-dashes in any generated content, documentation, comments, test descriptions, summaries, or other written output.
-```

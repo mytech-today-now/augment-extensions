@@ -7,4 +7,4 @@ const root = path.resolve(__dirname, '..'), project = path.join(root, 'test-arti
 fs.mkdirSync(project, { recursive: true });
 const cli = path.join(root, 'cli/dist/cli.js');
 cp.execFileSync(process.execPath, [cli, 'decision', 'setup', '--project', project], { stdio: 'inherit', windowsHide: true });
-cp.execFileSync(process.execPath, [path.join(root, 'node_modules/vitest/vitest.mjs'), 'run', 'tests/decision-layer.test.ts'], { cwd: root, stdio: 'inherit', windowsHide: true });
+cp.execFileSync(process.execPath, [path.join(root, 'node_modules/vitest/vitest.mjs'), 'run', 'tests/decision-layer.test.ts', 'tests/decision-chat.test.ts', '--maxWorkers=1'], { cwd: root, stdio: 'inherit', windowsHide: true });

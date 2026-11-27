@@ -90,12 +90,21 @@ function unchanged(root, files) {
 async function setup(root, options = {}) {
   const environment = detect(root, options.portable), host = options.host || 'codex';
   check(['codex', 'claude-code'].includes(host), 'Supported skill hosts: codex, claude-code');
+  check(!(options.automatic && options.disableAutomatic), 'Choose automatic activation or disabling');
+  if (options.automatic) {
+    const policyFile = inside(root, '.augx-decision/config.json');
+    const policy = fs.existsSync(policyFile) ? config(root) : require('../examples/config.json');
+    check(Number.isSafeInteger(Number(options.requests)) && Number(options.requests) > 0 && Number(options.requests) <= policy.limits.requests, 'Automatic setup requires --requests within configured limit');
+    require('./chat-install.cjs').preflight(root, host, environment.runtime);
+  }
   const plan = { scope: root, ...environment, selectedHost: host, operations: [environment.version ? 'Reuse compatible Node runtime and npm' : 'Download checksum-pinned portable Node with npm', 'npm ci: pinned isolated SDK, scripts disabled', 'Copy checksum-pinned official TypeSafe skill', 'Preserve or create validated config', 'Verify loading and write redacted ownership receipt'], credentialsRequired: false };
+  plan.automatic = options.automatic ? { enabled: true, host, publicProviderDataConsent: true, cumulativeRequests: Number(options.requests), activation: 'Native MCP registration and implicit skill; restart/trust required; host session NOT VERIFIED' } : options.disableAutomatic ? { enabled: false } : { unchanged: true };
   if (options.dryRun) return { dryRun: true, plan };
   const unlock = lock(root, '.augx-decision/install.lock');
   const receiptPath = inside(root, '.augx-decision/receipt.json');
   const journalPath = inside(root, '.augx-decision/install-journal.json');
   try {
+    if (options.disableAutomatic) return { automatic: require('./chat-install.cjs').disable(root) };
     const previous = fs.existsSync(receiptPath) ? read(receiptPath) : null;
     if (previous) unchanged(root, Object.fromEntries(Object.entries(previous.files).filter(([p]) => p !== '.augx-decision/config.json')));
     const software = inside(root, '.augx-decision/software');
@@ -149,7 +158,8 @@ async function setup(root, options = {}) {
     if (createdConfig || previous?.files['.augx-decision/config.json'] || journal.files['.augx-decision/config.json']) files['.augx-decision/config.json'] = previous?.files['.augx-decision/config.json'] || journal.files['.augx-decision/config.json'] || hash(fs.readFileSync(configFile));
     const receipt = { schemaVersion: 1, status: 'installed', sdk: pins.sdkVersion, runtime: environment.runtime, runtimeVersion: execute(environment.runtime, ['--version'], 10000), host, skillCommit: pins.skillCommit, files };
     atomic(receiptPath, receipt); fs.unlinkSync(journalPath);
-    return { softwareInstalled: true, configurationValid: true, credentialsAvailable: !!process.env.TYPESAFE_API_KEY, connectivity: 'NOT VERIFIED', liveEnabled: false, receipt: '.augx-decision/receipt.json' };
+    const automatic = options.automatic ? require('./chat-install.cjs').install(root, host, environment.runtime, Number(options.requests)) : require('./chat-install.cjs').status(root);
+    return { softwareInstalled: true, configurationValid: true, credentialsAvailable: !!process.env.TYPESAFE_API_KEY, connectivity: 'NOT VERIFIED', liveEnabled: false, automatic, receipt: '.augx-decision/receipt.json' };
   } finally { unlock(); }
 }
 function doctor(root) {
@@ -164,13 +174,16 @@ function doctor(root) {
     execute(environment.runtime, ['-e', 'const s=require(process.argv[1]);if(typeof s.TypeSafeClient!=="function")process.exit(2)', inside(root, '.augx-decision/software/sdk/node_modules/@typesafe-ai/sdk')], 10000);
     softwareInstalled = true;
   } catch { /* A partial installation never reports ready. */ }
-  return { ...environment, softwareInstalled, configurationValid, credentialsAvailable: !!process.env.TYPESAFE_API_KEY, connectivity: 'NOT VERIFIED', liveEnabled: false, next: softwareInstalled ? 'Use --live with an explicit --requests budget and allowProviderData=true for a provider probe' : 'Run augx decision setup; partial installs can be retried' };
+  return { ...environment, softwareInstalled, configurationValid, credentialsAvailable: !!process.env.TYPESAFE_API_KEY, connectivity: 'NOT VERIFIED', liveEnabled: false, automatic: require('./chat-install.cjs').status(root), next: softwareInstalled ? 'Inspect automatic readiness, or use --live with an explicit --requests budget for a manual provider probe' : 'Run augx decision setup; partial installs can be retried' };
 }
 function remove(root) {
   const unlock = lock(root, '.augx-decision/install.lock');
   try {
     const receiptPath = inside(root, '.augx-decision/receipt.json'), receipt = read(receiptPath), removed = [], preserved = [];
     check(receipt.files && Object.keys(receipt.files).every(ownedPath), 'Unsupported receipt ownership');
+    const configFile = inside(root, '.augx-decision/config.json');
+    const hasAutomatic = fs.existsSync(configFile) && !!read(configFile).automatic;
+    const chat = hasAutomatic || fs.existsSync(inside(root, '.augx-decision/chat-receipt.json')) ? require('./chat-install.cjs').disable(root) : null;
     for (const [relative, digest] of Object.entries(receipt.files)) {
       check(ownedPath(relative), 'Unsupported receipt ownership');
       const file = inside(root, relative);
@@ -180,7 +193,7 @@ function remove(root) {
     }
     if (!preserved.length) fs.unlinkSync(receiptPath);
     else atomic(receiptPath, { ...receipt, status: 'removed-with-preserved-edits', files: Object.fromEntries(preserved.map(p => [p, receipt.files[p]])) });
-    return { removed: removed.length, preserved, retained: 'Run data, user files, credentials, unrelated runtimes, and empty directories' };
+    return { removed: removed.length, preserved, automatic: chat, retained: 'Run data, automatic request ledger, user files, credentials, unrelated runtimes, and empty directories' };
   } finally { unlock(); }
 }
 module.exports = { setup, doctor, remove, detect, download, inventory, execute, processEnv, portable };

@@ -2,7 +2,7 @@
 
 ## Overview
 
-An explicitly invoked Augx runtime for TypeSafe judgments, code-owned policy, and durable local worker execution. Existing generative models retain planning, writing, coding, and argument generation. Jev returns judgments. Application code grants permissions, enforces limits, executes registered handlers, and verifies completion.
+An optional Augx runtime for TypeSafe judgments, code-owned policy, and durable local worker execution. Codex and Claude Code can also reach it through a native chat tool under saved automatic-use policy. Existing generative models retain planning, writing, coding, and argument generation. Jev returns judgments. Application code grants permissions, enforces limits, executes registered handlers, and verifies completion.
 
 ## Installation
 
@@ -29,7 +29,43 @@ Doctor reports software installation, configuration validity, credential availab
 augx decision decide --input decision.json --live --requests 1 --id first-live-probe
 ```
 
-A successful live probe is connectivity evidence for that request only. Doctor never silently calls the provider and continues reporting connectivity as NOT VERIFIED. Live activation is per invocation, with explicit request reservation. There is no fallback from live calls to fixtures.
+A successful live probe is connectivity evidence for that request only. Doctor never silently calls the provider and continues reporting connectivity as NOT VERIFIED. Explicit administrative live operations retain their per-invocation budget. Saved automatic-use policy is a separate opt-in described below. There is no fallback from live calls to fixtures.
+
+## Configure automatic chat judgments once
+
+After reviewing data access and setting the existing environment credential locally, run:
+
+```bash
+augx decision setup --host codex --automatic --requests 6 --dry-run
+augx decision setup --host codex --automatic --requests 6
+augx decision doctor
+```
+
+Choose `--host claude-code` for Claude Code. The terminal GUI also provides **Configure automatic chat judgments once** and **Disable automatic chat judgments**. Automatic setup explicitly saves consent for selected de-identified public context, enables `allowProviderData`, installs the separate `augx-judgments` skill and registers the `augx_decision` MCP server with only `judge` pre-approved. It leaves the official TypeSafe skill unchanged. Existing automatic policy refinements are retained. Setup makes no provider calls and stores no keys. Internal data requires an explicit approved edit adding `internal` to `automatic.dataClasses`.
+
+Restart the host in this project. Codex must trust the project to load `.codex/config.toml`; Claude Code must approve the project `.mcp.json` server once. Host and organization deny/ask rules remain authoritative. Setup does not change global host settings, trust an untrusted repository, or override a higher-priority policy. A shell or desktop host must inherit `TYPESAFE_API_KEY` from its launch environment. Project paths are absolute in the registration; rerun setup after moving the project or changing the package location.
+
+During an ordinary task such as classifying an ambiguous report among categories, or ranking already accessible retrieved evidence, the host can implicitly select the skill and call the native MCP tool. The user need not mention Jev, run a terminal command, or approve each call already covered by saved host permission and runtime policy. The typed result returns to the same agent task flow as advice. Implicit model selection is host-controlled, not guaranteed on every eligible turn. No turn interceptor or message watcher is installed.
+
+| Host | Native registration | Evidence and boundary |
+|---|---|---|
+| Codex | Project `.codex/config.toml`, `.agents/skills/augx-judgments/SKILL.md` | Installed Codex CLI accepted generated registration in an isolated trusted profile. Manual ordinary-chat selection remains NOT VERIFIED. |
+| Claude Code | Project `.mcp.json`, `.claude/skills/augx-judgments/SKILL.md`, exact tool allow entry in `.claude/settings.local.json` | Installed Claude Code connected to the stdio server in an isolated approved profile. Manual ordinary-chat selection remains NOT VERIFIED. |
+| Augment, Cursor, Windsurf, Copilot, hosted/cloud sessions | Existing static guidance only | No automatic runtime integration is claimed for these surfaces. |
+
+The tool accepts only classification and retrieval ranking with two to eight described candidates, a short original goal, current revision and relevant evidence. Context fields are allowlisted strings. It reads no project files, full conversation or hidden reasoning. Greetings, exact lookups, arithmetic, obvious deterministic choices and self-evaluation of this tool are excluded by the skill. Unsupported, incomplete, disabled, unauthorized, oversized and secret-bearing inputs fail before requesting the provider. The runtime enforces saved capability and data-class lists. Existing host access controls determine which material the agent may supply; secret scanning is additional defense and cannot prove de-identification.
+
+`automatic.requests` is a cumulative project ceiling, also capped by `limits.requests`, across conversations, processes, restarts, setup repetition and host changes. It has no automatic daily or per-turn reset. Increase the saved ceiling deliberately through setup to allocate more requests within the configured limit. The ledger retains only input digests, request count and reserved/answered/failed status. It stores no submitted context or provider results. A changed revision alone never causes another request for identical state. Changed evidence or candidates can be reconsidered if budget remains. One writer per project prevents concurrent overspending; busy requests return a fallback without queueing. A crash after reservation consumes that request and suppresses duplicate state.
+
+Requests use the existing pinned SDK adapter, fixed endpoint/model, zero retries and the smaller of `automatic.timeoutMs` and `limits.requestMs`. Complete typed answers are validated before returning. Missing credentials/software, provider failures, malformed answers, cancellation, timeout, exhausted budget and unavailable writers return an explicit fallback with no answer. Continue existing deterministic work or review and report material failures. The MCP transport supports cancellation and aborts outstanding work on input close. A judgment executes no tool, grants no permissions and verifies no completion. There is no automatic fixture mode or credential/endpoint argument in the tool.
+
+Doctor's `automatic` block separately reports saved enablement, registration integrity, request ceiling and consumed requests. Legacy `liveEnabled: false` means no explicit manual live operation is currently activated; it is not the automatic enablement field. `hostSession` and connectivity remain NOT VERIFIED until separately checked. See the [implementation evidence report](https://github.com/mytech-today-now/augment-extensions/blob/main/docs/reports/decision-chat-2026-11-27.md) for exact validation categories and acceptance gaps.
+
+```bash
+augx decision setup --disable-automatic
+```
+
+Disabling saves `automatic.enabled=false` before removing unchanged owned host entries and the companion skill. Unrelated host settings and edited owned files are retained. `augx decision remove` also disconnects tracked chat integration before removing software. The cumulative ledger is retained. `.augx-decision/chat-receipt.json` tracks only generated entry hashes and relative ownership paths. Partial activation remains disabled and retryable; inspect preserved-file errors locally, then rerun setup. Existing sessions may need restart to unload their tool, but disabled runtime policy prevents requests immediately.
 
 ## Usage
 
@@ -65,7 +101,7 @@ Use [decision.json](examples/decision.json) for an individual input. Every state
 
 `augx decision examples --offline` is the executable example for each row. [Integrations](runtime/integrations.cjs) also implements scoped ancestor AGENTS.md loading, registered action schemas loaded on demand, existing generative-model adapter invocation, existing-retriever reranking, and bounded read-only file inspection. Context selection is query-dependent and reversible. Workers receive a scoped goal and source corpus and merge only their candidate artifact through the controller. Call read-only inspection or trace evaluation explicitly from your existing background runner when needed; no scheduler is installed.
 
-A linked Markdown module cannot intercept an external coding agent. This module connects only explicit Augx calls and trusted programmatic adapters. It does not transparently wrap Codex, Claude Code, arbitrary model providers, editors, tools, or external recipients.
+A linked Markdown module cannot intercept an external coding agent. Explicit Augx calls, trusted programmatic adapters and the opt-in native MCP chat path above are separate entry points. The chat tool supplies advisory judgments and does not transparently wrap arbitrary providers, editors, tools or external recipients.
 
 To connect an existing worker, call `run(root, policy, task, options)` from `runtime/runner.cjs` and supply `options.workers` containing trusted `{id, description, capabilities, available, modulePath, sha256}` registrations. Each fixed module exports `async execute(context)`, as [workers.cjs](runtime/workers.cjs) demonstrates. Registration comes from trusted application code, never a task or provider answer. The subprocess validates the module digest before loading it. Keep verifiers outside that module. Custom adapters must reconcile their own external receipts, idempotency and usage; the built-in verifier supports the local artifact contract only. No external generative-worker integration is claimed as tested here.
 
@@ -131,6 +167,6 @@ The metadata count is the fixed-point sum of decoded file contents, including me
 
 ## Version
 
-Module version: 1.0.0.
+Module version: 1.1.0.
 
 `npm run test:decision` explicitly installs the official SDK and skill into the ignored test-artifacts/decision-consumer-source prerequisite, then runs the existing Vitest harness. A plain Vitest run skips SDK and installation contract cases if this prerequisite is absent; it does not silently fake the SDK. The packed consumer verifier additionally exercises an actual clean package installation. To connect a custom worker that makes provider calls, declare `requestsPerAttempt` in its trusted registration. The controller reserves that allocation before launch and aggregates reported token usage. The worker must honor its allocation, report `usage.requests`, and reconcile external billing independently; unknown charges remain unknown. Offline mode never launches a worker with a positive provider-request allocation.

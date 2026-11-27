@@ -655,10 +655,10 @@ augx show workflows/cross-platform README.md
 
 ### Decision Layer Workflow
 - **Module**: `workflows/decision-layer`
-- **Version**: 1.0.0
-- **Character Count**: ~117,091
+- **Version**: 1.1.0
+- **Character Count**: ~154,422
 - **Description**: Optional TypeSafe judgments with isolated setup, typed contracts, deterministic policy, durable local workers, independent verification and matched evaluation.
-- **Contents**: Indexed trust and operation rules, optional SDK/runtime installation, eleven capabilities, durable workers, independent verification, and matched evaluation.
+- **Contents**: Indexed trust and operation rules, optional SDK/runtime installation, native Codex/Claude Code chat judgments under saved policy, eleven capabilities, durable workers, independent verification, and matched evaluation.
 
 **Usage**:
 ```bash
@@ -893,4 +893,4 @@ augx mcp wrap github-mcp search-repos github-search --category retrieval
 - **Workflows**: 6
 - **Examples**: 4
 - **Total Skills**: 4
-- **Total Character Count**: ~3,660,674
+- **Total Character Count**: ~3,698,005

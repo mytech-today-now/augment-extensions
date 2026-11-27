@@ -39,6 +39,8 @@ export async function decisionWorkflowInteractive(
   const { operation: selection } = await promptApi.prompt([{ type: 'list', name: 'operation', message: 'Choose a decision operation:', pageSize: 12, choices: [
     { name: 'Setup plan (read only, no downloads)', value: 'setup-plan' },
     { name: 'Install software (preview plan first)', value: 'setup' },
+    { name: 'Configure automatic chat judgments once (saved public-data consent and budget)', value: 'setup-automatic' },
+    { name: 'Disable automatic chat judgments (retain consumed budget)', value: 'disable-automatic' },
     { name: 'Doctor (readiness, no provider probe)', value: 'doctor' },
     { name: 'Decide (validated capability input)', value: 'decide' },
     { name: 'Run (bounded local task)', value: 'run' },
@@ -50,9 +52,13 @@ export async function decisionWorkflowInteractive(
     { name: 'Back', value: 'back' }
   ] }]);
   if (selection === 'back' || !selection) return;
-  const operation = selection === 'setup-plan' ? 'setup' : selection;
+  const operation = ['setup-plan', 'setup-automatic', 'disable-automatic'].includes(selection) ? 'setup' : selection;
   if (!DECISION_OPERATIONS.includes(operation)) throw new Error('Unknown decision operation');
   const options: DecisionOptions = { project };
+  if (selection === 'disable-automatic') {
+    if (await confirm(promptApi, 'Disable automatic policy and remove unchanged owned chat registration?')) reportDecisionResult('disable automatic', await execute('setup', { project, disableAutomatic: true }));
+    return;
+  }
   if (operation === 'setup') {
     const { host } = await promptApi.prompt([{ type: 'list', name: 'host', message: 'Project-local official skill destination:', choices: [
       { name: 'Codex (.agents/skills/typesafe-ai)', value: 'codex' },
@@ -60,6 +66,13 @@ export async function decisionWorkflowInteractive(
     ] }]);
     if (host === 'cancel' || !host) return;
     options.host = host;
+    if (selection === 'setup-automatic') {
+      options.automatic = true;
+      console.log('This saves permission to send selected de-identified public context to Jev during eligible ordinary tasks. Internal data stays disabled. Host trust/approval is still required once.');
+      const { requests } = await promptApi.prompt([{ type: 'input', name: 'requests', message: 'Cumulative automatic provider request ceiling (positive integer within runtime policy; repeating setup retains usage):' }]);
+      if (typeof requests !== 'string' || !/^[1-9][0-9]*$/.test(requests.trim())) throw new Error('Automatic setup requires a positive integer request budget');
+      options.requests = requests.trim();
+    }
     const { runtime } = await promptApi.prompt([{ type: 'list', name: 'runtime', message: 'Runtime choice for this project:', choices: [
       { name: 'Reuse compatible Node 22+ with npm, otherwise provision pinned portable Node', value: 'auto' },
       { name: 'Provision pinned portable Node in this project', value: 'portable' }, { name: 'Cancel', value: 'cancel' }

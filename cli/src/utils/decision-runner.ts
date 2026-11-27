@@ -9,6 +9,8 @@ export interface DecisionOptions {
   host?: 'codex' | 'claude-code';
   dryRun?: boolean;
   portable?: boolean;
+  automatic?: boolean;
+  disableAutomatic?: boolean;
   input?: string;
   id?: string;
   offline?: boolean;

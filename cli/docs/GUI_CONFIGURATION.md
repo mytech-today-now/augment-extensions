@@ -20,6 +20,8 @@ Guidance is `workflows/decision-layer`; Jev is a provider capability within it. 
 |---|---|
 | Setup plan | Choose Codex or Claude Code skill host and automatic/portable Node choice. Runs setup --dry-run only. No downloads or writes. |
 | Install software | Same choices, displays the actual plan, then requires default-no confirmation. Installs only through the existing pinned installer in the printed project. |
+| Configure automatic chat judgments once | Choose Codex or Claude Code, save explicit public-data consent and a cumulative request ceiling, preview, then install native MCP registration and a companion implicit skill. Restart and trust/approve the project once in the host. No provider probe. |
+| Disable automatic chat judgments | Disable saved runtime policy first, remove unchanged owned host entries and companion skill, retain edits and consumed requests. |
 | Doctor | No credentials prompt or provider call. Reports software, config, credentials, connectivity and activation separately; unknowns remain unknown. |
 | Decide | JSON capability input, explicit offline/live mode and probe identity. |
 | Run | JSON task, mode and run identity. Runtime owns worker permissions, budgets and independent verification. |

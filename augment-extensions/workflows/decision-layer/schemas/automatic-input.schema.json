@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["capability", "dataClass", "state", "candidates"],
+  "properties": {
+    "capability": { "enum": ["classify", "rank-retrieval"] },
+    "dataClass": { "enum": ["public", "internal"] },
+    "state": {
+      "type": "object", "additionalProperties": false,
+      "required": ["goal", "revision", "evidence", "completed", "issues", "constraints", "capabilities"],
+      "properties": {
+        "goal": { "type": "string", "minLength": 12, "maxLength": 2000 },
+        "revision": { "type": "integer", "minimum": 0, "maximum": 2147483647 },
+        "evidence": { "$ref": "#/definitions/textList" },
+        "completed": { "$ref": "#/definitions/textList" },
+        "issues": { "$ref": "#/definitions/textList" },
+        "constraints": { "$ref": "#/definitions/textList" },
+        "capabilities": { "type": "array", "maxItems": 0 }
+      }
+    },
+    "candidates": {
+      "type": "array", "minItems": 2, "maxItems": 8,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "description"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$" },
+          "description": { "type": "string", "minLength": 8, "maxLength": 1000 },
+          "accessible": { "const": true },
+          "protected": { "type": "boolean" },
+          "kind": { "enum": ["instructions", "constraint", "blocker", "protected-evidence", "evidence"] }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "textList": { "type": "array", "maxItems": 8, "items": { "type": "string", "minLength": 1, "maxLength": 1000 } }
+  }
+}

@@ -14,6 +14,15 @@ Retrieved 2026-11-26. Primary provider sources were checked against the current 
 | [Official skills](https://github.com/typesafe-ai/skills), [installation guide](https://docs.typesafe.ai/agent-skill) | Manual whole-directory copying is officially supported. Pinned commit 302eea662c54bca6730873fe245bec1d69ebc23d contains SKILL.md and LICENSE. Their SHA-256 digests are recorded in installation/sources.json. |
 | [Official Node archives](https://nodejs.org/dist/v22.23.5/SHASUMS256.txt) | Pins six official archive digests for separate runtime provisioning. SHA-256 matches are checked before extraction. No independent signing-key verification is claimed. |
 
+## Chat integration review, 2026-11-27
+
+- [Codex MCP](https://developers.openai.com/codex/mcp/) documents trusted project `.codex/config.toml`, stdio commands, environment forwarding and exact tool approval settings. [Codex skills](https://developers.openai.com/codex/skills/) documents implicit matching by description. These pages redirected to official ChatGPT Learn documentation during review.
+- [Claude Code MCP](https://code.claude.com/docs/en/mcp), [skills](https://code.claude.com/docs/en/skills) and [permissions](https://code.claude.com/docs/en/permissions) document project registration, implicit skill activation, one-time server approval and tool-specific allow rules. Higher-priority restrictions still apply.
+- [MCP lifecycle](https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle) and [stdio transport](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports) define initialization, capability negotiation and newline-delimited JSON-RPC. The implementation advertises tools only, with no sampling or server-originated tool calls.
+- Current official [SDK README](https://github.com/typesafe-ai/typesafe-sdk-js/blob/main/README.md), [manifest](https://raw.githubusercontent.com/typesafe-ai/typesafe-sdk-js/main/package.json), npm metadata and the installed integrity-pinned package confirm SDK 0.7.0, Node >=22 and the existing TypeSafeClient API. The requested `docs.typesafe.ai/go/*.md` pages were inaccessible through the web tool; installed types and official source were used instead. No SDK or root dependency upgrade was needed.
+
+Documentation establishes supported configuration and discovery mechanisms. It does not prove actual model selection or provider behavior. See the implementation report for fixture, real-host and unverified categories.
+
 ## Differences from the article
 
 The article's JavaScript `TypeSafe` constructor is replaced by the currently exported `TypeSafeClient`. Current JavaScript answers are `response.answers[id]`, not the article's Python-style choices/scores/nouls maps. One illustrative Score example uses labels; the current JavaScript contract uses ordered criteria. A question ID contributes no instructions, so candidate-specific questions name their subject explicitly.

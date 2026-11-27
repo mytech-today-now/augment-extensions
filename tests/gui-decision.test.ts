@@ -43,6 +43,17 @@ afterEach(() => {
 });
 
 describe('decision operation prompt contract', () => {
+  it('saves automatic setup consent and budget through the same previewed installer', async () => {
+    const execute = vi.fn(async () => 0);
+    await decisionWorkflowInteractive(prompt([{ operation: 'setup-automatic' }, { host: 'codex' }, { requests: '3' }, { runtime: 'auto' }, { confirm: true }]), root, execute);
+    expect(execute).toHaveBeenNthCalledWith(1, 'setup', { project: root, host: 'codex', automatic: true, requests: '3', dryRun: true });
+    expect(execute).toHaveBeenNthCalledWith(2, 'setup', { project: root, host: 'codex', automatic: true, requests: '3' });
+  });
+  it('disables automatic use without asking for a provider mode or credential', async () => {
+    const execute = vi.fn(async () => 0);
+    await decisionWorkflowInteractive(prompt([{ operation: 'disable-automatic' }, { confirm: true }]), root, execute);
+    expect(execute).toHaveBeenCalledExactlyOnceWith('setup', { project: root, disableAutomatic: true });
+  });
   it('reports an installation failure after its successful plan without claiming installed success', async () => {
     const execute = vi.fn().mockResolvedValueOnce(0).mockResolvedValueOnce(2);
     await decisionWorkflowInteractive(prompt([{ operation: 'setup' }, { host: 'codex' }, { runtime: 'auto' }, { confirm: true }]), root, execute);

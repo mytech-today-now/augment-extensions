@@ -52,6 +52,11 @@ async function main() {
   assert(command(setupNode, [cli, 'decision', 'setup'], true).softwareInstalled);
   assert.strictEqual(fs.readFileSync(path.join(consumer, '.augx-decision/receipt.json'), 'utf8'), receiptBefore);
   assert(command(process.execPath, [cli, 'decision', 'doctor'], true).softwareInstalled);
+  const activation = command(setupNode, [cli, 'decision', 'setup', '--automatic', '--requests', '2'], true);
+  assert(activation.automatic.enabled && activation.automatic.registrationIntact);
+  assert(fs.existsSync(path.join(consumer, '.agents/skills/augx-judgments/SKILL.md')));
+  assert(fs.existsSync(path.join(moduleRoot, 'runtime/chat-server.cjs')));
+  assert(command(setupNode, [cli, 'decision', 'setup', '--disable-automatic'], true).automatic.enabled === false);
   fs.copyFileSync(path.join(moduleRoot, 'examples/source.txt'), path.join(consumer, 'source.txt'));
   const taskFile = path.join(moduleRoot, 'examples/task.json');
   const run = command(setupNode, [cli, 'decision', 'run', '--input', taskFile, '--offline', '--id', 'packed'], true);

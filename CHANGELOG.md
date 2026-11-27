@@ -8,6 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.3.0] - 2026-11-26
+
+### Added
+
+- Java and Spring Framework/Spring Boot coding standards modules
+- Agent Engineering workflow with bounded local harnesses, loops, durable graphs, recovery examples, and protected verification
+- Jev / TypeSafe Decision Layer workflow with optional local setup, offline examples, review gates, budgets, and ownership-protected software removal
+- Terminal manager actions for decision setup, diagnostics, execution, resume, evaluation, examples, inventory, and removal
+
+### Improved
+
+- Terminal module discovery, metadata search, details, and safe read-only content browsing use canonical module identities
+- Module selections refresh after actions, preview scoped changes, and preserve unrelated, pinned, and unavailable entries
+- Generated module catalogs include every discovered category, including legacy workflow modules
+
+### Fixed
+
+- Restored CommonJS CLI startup compatibility with Node.js 16 and corrected Windows test process handling
+- Preserved module tags during discovery and avoided unnecessary metadata reads during short-name lookup
+- Strengthened decision child cancellation, output redaction, and isolation from ordinary CLI startup
+
 ## [3.2.0] - 2026-11-08
 
 ### Added

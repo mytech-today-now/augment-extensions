@@ -1,10 +1,10 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
-import { execSync } from 'child_process';
 import * as semver from 'semver';
 import { compareSemanticVersions, findModule } from '../utils/module-system';
 import { resolveExtensionsProjectRoot } from '../utils/extensions-config';
+import { spawnCommandSync } from '../utils/process';
 
 interface UpdateOptions {
   module?: string;
@@ -110,10 +110,16 @@ async function updateCLI(): Promise<void> {
 
     let latestVersion: string;
     try {
-      const npmViewOutput = execSync('npm view @mytechtoday/augment-extensions version', {
-        encoding: 'utf-8',
-        stdio: ['pipe', 'pipe', 'pipe']
-      }).trim();
+      const npmViewResult = spawnCommandSync(
+        'npm',
+        ['view', '@mytechtoday/augment-extensions', 'version'],
+        { encoding: 'utf-8' }
+      );
+      if (npmViewResult.error) throw npmViewResult.error;
+      if (npmViewResult.status !== 0 || typeof npmViewResult.stdout !== 'string') {
+        throw new Error(`npm view exited with status ${npmViewResult.status}`);
+      }
+      const npmViewOutput = npmViewResult.stdout.trim();
       latestVersion = npmViewOutput;
     } catch (error) {
       console.error(chalk.red('✗ Failed to check npm registry'));
@@ -139,10 +145,17 @@ async function updateCLI(): Promise<void> {
     console.log(chalk.gray('Installing update...'));
 
     try {
-      execSync('npm install -g @mytechtoday/augment-extensions@latest', {
-        encoding: 'utf-8',
-        stdio: 'inherit'
-      });
+      const npmInstallResult = spawnCommandSync(
+        'npm',
+        ['install', '-g', '@mytechtoday/augment-extensions@latest'],
+        {
+          stdio: 'inherit'
+        }
+      );
+      if (npmInstallResult.error) throw npmInstallResult.error;
+      if (npmInstallResult.status !== 0) {
+        throw new Error(`npm install exited with status ${npmInstallResult.status}`);
+      }
 
       console.log(chalk.bold.green(`\n✨ CLI updated successfully to v${latestVersion}!\n`));
       console.log(chalk.gray('You may need to restart your terminal for changes to take effect.\n'));

@@ -7,6 +7,7 @@
 import chalk from 'chalk';
 import * as fs from 'fs';
 import * as path from 'path';
+import { spawnCommand } from '../utils/process';
 import {
   discoverSkills,
   findSkill,
@@ -54,7 +55,7 @@ function logSkillExecFailure(message: string): void {
   console.error(chalk.red(message));
   console.error(
     chalk.gray(
-      'Skill commands are executed directly without a shell. If this looks like shell syntax, rewrite it as an executable followed by literal arguments.'
+      'Skill commands are passed as an executable with literal arguments; shell syntax is not interpreted. Rewrite shell syntax as an executable followed by literal arguments.'
     )
   );
 }
@@ -76,8 +77,7 @@ function defaultSkillSpawn(
     shell: false;
   }
 ): import('child_process').ChildProcess {
-  const { spawn } = require('child_process') as typeof import('child_process');
-  return spawn(command, args, options);
+  return spawnCommand(command, args, options);
 }
 
 /**

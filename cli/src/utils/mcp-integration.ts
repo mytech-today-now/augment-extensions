@@ -7,7 +7,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { spawn, type ChildProcess } from 'child_process';
+import { type ChildProcess } from 'child_process';
+import { spawnCommand, spawnCommandSync } from './process';
 
 export const SUPPORTED_MCP_TRANSPORT = 'stdio' as const;
 export type MCPTransport = typeof SUPPORTED_MCP_TRANSPORT;
@@ -294,7 +295,7 @@ async function runMCPJSONRPCRequest<T>(
     let child: ChildProcess;
 
     try {
-      child = spawn(config.command, config.args || [], {
+      child = spawnCommand(config.command, config.args || [], {
         stdio: ['pipe', 'pipe', 'pipe'],
         env: { ...process.env, ...config.env }
       });
@@ -787,9 +788,8 @@ export async function discoverMCPTools(
  */
 export function isMCPorterAvailable(): boolean {
   try {
-    const { execSync } = require('child_process');
-    execSync('npx mcporter --version', { stdio: 'ignore' });
-    return true;
+    const result = spawnCommandSync('npx', ['mcporter', '--version'], { stdio: 'ignore' });
+    return !result.error && result.status === 0;
   } catch {
     return false;
   }
@@ -802,10 +802,8 @@ export async function generateCLIWithMCPorter(
   serverCommand: string,
   outputPath: string
 ): Promise<void> {
-  const { spawn } = require('child_process');
-
   return new Promise((resolve, reject) => {
-    const child = spawn('npx', [
+    const child = spawnCommand('npx', [
       'mcporter',
       'generate-cli',
       '--command',

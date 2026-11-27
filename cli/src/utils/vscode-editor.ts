@@ -5,9 +5,9 @@
  * Supports opening files with line numbers and preview mode.
  */
 
-import * as child_process from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
+import { spawnCommandSync } from './process';
 
 export interface EditorOptions {
   line?: number;
@@ -21,8 +21,8 @@ export interface EditorOptions {
  */
 export function isVSCodeAvailable(): boolean {
   try {
-    child_process.execSync('code --version', { stdio: 'ignore' });
-    return true;
+    const result = spawnCommandSync('code', ['--version'], { stdio: 'ignore' });
+    return !result.error && result.status === 0;
   } catch (error) {
     return false;
   }
@@ -70,11 +70,12 @@ export async function openInVSCode(filePath: string, options: EditorOptions = {}
   }
 
   try {
-    // Execute VS Code command
-    child_process.execSync(`code ${args.join(' ')}`, {
+    const result = spawnCommandSync('code', args, {
       stdio: 'ignore',
       windowsHide: true
     });
+    if (result.error) throw result.error;
+    if (result.status !== 0) throw new Error(`code exited with status ${result.status}`);
     return true;
   } catch (error) {
     throw new Error(`Failed to open file in VS Code: ${error instanceof Error ? error.message : String(error)}`);
@@ -104,11 +105,11 @@ export function focusVSCode(): boolean {
   }
 
   try {
-    child_process.execSync('code -r', {
+    const result = spawnCommandSync('code', ['-r'], {
       stdio: 'ignore',
       windowsHide: true
     });
-    return true;
+    return !result.error && result.status === 0;
   } catch (error) {
     return false;
   }
@@ -123,10 +124,12 @@ export function getVSCodeVersion(): string | null {
   }
 
   try {
-    const output = child_process.execSync('code --version', {
+    const result = spawnCommandSync('code', ['--version'], {
       encoding: 'utf-8',
       windowsHide: true
     });
+    if (result.error || result.status !== 0 || typeof result.stdout !== 'string') return null;
+    const output = result.stdout;
     const lines = output.trim().split('\n');
     return lines[0] || null;
   } catch (error) {

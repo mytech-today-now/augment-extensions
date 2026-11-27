@@ -5,7 +5,7 @@ import {
   isValidSemanticVersion,
   satisfiesVersionRange
 } from '../utils/module-system';
-import { execSync } from 'child_process';
+import { spawnCommandSync } from '../utils/process';
 
 /**
  * Compatibility check result
@@ -345,7 +345,9 @@ export class CompatibilityChecker {
    */
   private detectTypeScriptVersion(): string | null {
     try {
-      const output = execSync('tsc --version', { encoding: 'utf-8', stdio: 'pipe' });
+      const result = spawnCommandSync('tsc', ['--version'], { encoding: 'utf-8' });
+      if (result.error || result.status !== 0 || typeof result.stdout !== 'string') return null;
+      const output = result.stdout;
       const match = output.match(/Version (\d+\.\d+\.\d+)/);
       return match ? match[1] : null;
     } catch (error) {

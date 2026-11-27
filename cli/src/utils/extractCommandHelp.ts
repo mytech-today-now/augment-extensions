@@ -4,12 +4,9 @@
  * Automatically extracts and formats command-line help documentation from workflow tools.
  */
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
-
-const execAsync = promisify(exec);
+import { captureCommand } from './process';
 
 /**
  * Tool configuration
@@ -73,17 +70,21 @@ export async function executeHelp(
   helpFlag: string = '--help',
   timeout: number = 5000
 ): Promise<string> {
+  const commandParts = tokenizeCommand(command);
+  if (commandParts.length === 0) {
+    throw new Error('The command must include an executable');
+  }
+
   // Strategy 1: `command --help`
-  const result = await tryExec(`${command} ${helpFlag}`, timeout);
+  const executable = commandParts[0];
+  const commandArgs = commandParts.slice(1);
+  const result = await tryExec(executable, [...commandArgs, helpFlag], timeout);
   if (result !== null) return result;
 
   // Strategy 2: For Cobra-style CLIs, try `<root> help <subcommand...>`
   // e.g., "bd blocked --help" → "bd help blocked"
-  const parts = command.split(' ');
-  if (parts.length >= 2) {
-    const root = parts[0];
-    const sub = parts.slice(1).join(' ');
-    const fallback = await tryExec(`${root} help ${sub}`, timeout);
+  if (commandArgs.length > 0) {
+    const fallback = await tryExec(executable, ['help', ...commandArgs], timeout);
     if (fallback !== null) return fallback;
   }
 
@@ -93,19 +94,49 @@ export async function executeHelp(
 /**
  * Try executing a command and return its output, or null on failure.
  */
-async function tryExec(cmd: string, timeout: number): Promise<string | null> {
+async function tryExec(command: string, args: string[], timeout: number): Promise<string | null> {
   try {
-    const { stdout, stderr } = await execAsync(cmd, {
-      timeout,
-      encoding: 'utf8'
-    });
+    const { stdout, stderr } = await captureCommand(command, args, { timeout });
     return stdout || stderr || '';
-  } catch (error: any) {
-    // Some commands return help on stderr or with non-zero exit code
-    if (error.stdout != null && error.stdout !== '') return error.stdout;
-    if (error.stderr != null && error.stderr !== '') return error.stderr;
+  } catch {
     return null;
   }
+}
+
+function tokenizeCommand(command: string): string[] {
+  const tokens: string[] = [];
+  let token = '';
+  let quote: '"' | "'" | null = null;
+
+  for (let index = 0; index < command.length; index++) {
+    const character = command[index];
+
+    if (quote) {
+      if (character === quote) {
+        quote = null;
+      } else if (character === '\\' && (command[index + 1] === quote || command[index + 1] === '\\')) {
+        token += command[++index];
+      } else {
+        token += character;
+      }
+      continue;
+    }
+
+    if (character === '"' || character === "'") {
+      quote = character;
+    } else if (/\s/.test(character)) {
+      if (token) {
+        tokens.push(token);
+        token = '';
+      }
+    } else {
+      token += character;
+    }
+  }
+
+  if (quote) throw new Error('The command contains an unmatched quote');
+  if (token) tokens.push(token);
+  return tokens;
 }
 
 /**

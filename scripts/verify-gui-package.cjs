@@ -6,7 +6,7 @@ const os = require('os');
 const cp = require('child_process');
 const assert = require('assert');
 const crypto = require('crypto');
-const expected = ['coding-standards/java', 'coding-standards/spring', 'workflows/decision-layer', 'workflows/agent-engineering'];
+const expected = ['coding-standards/java', 'coding-standards/spring', 'workflows/decision-layer', 'workflows/agent-engineering', 'workflows/cross-platform'];
 const env = { ...process.env, TYPESAFE_API_KEY: '' };
 const checks = [];
 function check(name, callback) { const value = callback(); checks.push(name); return value; }
@@ -28,14 +28,28 @@ async function verify(consumer, packageRoot) {
     assert.match(command(['--help']).stdout, /decision/);
     assert.strictEqual(require(path.join(packageRoot, 'package.json')).engines.node, '>=16.0.0');
   });
-  const listed = check('all four canonical identities packaged and discoverable', () => JSON.parse(command(['list', '--json']).stdout));
-  for (const id of expected) assert(listed.some(m => m.name === id));
-  for (const [query, id] of [['JAVA', expected[0]], ['java-standards', expected[0]], ['Spring Boot', expected[1]], ['Jev', expected[2]], ['TypeSafe', expected[2]], ['decision-layer', expected[2]], ['harness', expected[3]], ['loops', expected[3]], ['graphs', expected[3]]]) {
+  const listed = check('recent canonical additions packaged and discoverable', () => JSON.parse(command(['list', '--json']).stdout));
+  for (const id of expected) assert(listed.some(m => m.name === id), `Packaged discovery is missing ${id}`);
+  for (const [query, id] of [['JAVA', expected[0]], ['java-standards', expected[0]], ['Spring Boot', expected[1]], ['Jev', expected[2]], ['TypeSafe', expected[2]], ['decision-layer', expected[2]], ['harness', expected[3]], ['loops', expected[3]], ['graphs', expected[3]], ['cross-platform', expected[4]]]) {
     check(`search ${query}`, () => assert(command(['search', query]).stdout.includes(id)));
   }
   const { guiCommand } = require(path.join(packageRoot, 'cli/dist/commands/gui.js'));
   const { getGuiModuleAssets } = require(path.join(packageRoot, 'cli/dist/commands/gui-module-manager.js'));
   const { discoverModules } = require(path.join(packageRoot, 'cli/dist/utils/module-system.js'));
+  check('packaged optional guidance, contracts and runtime assets are available', () => {
+    const modules = discoverModules();
+    for (const [id, assets] of [
+      [expected[3], ['schemas/contracts.schema.json', 'templates/agent.json', 'examples/loop.cjs', 'examples/graphs.cjs', 'scripts/validate.cjs']],
+      [expected[2], ['schemas/config.schema.json', 'runtime/contracts.d.ts', 'examples/config.json']]
+    ]) {
+      const module = modules.find(m => m.fullName === id);
+      for (const asset of assets) assert(getGuiModuleAssets(module).includes(asset), `Missing packaged guidance ${id}/${asset}`);
+    }
+    for (const asset of ['runtime/cli.cjs', 'runtime/runner.cjs', 'installation/package-lock.json']) {
+      assert(fs.existsSync(path.join(packageRoot, 'augment-extensions', expected[2], asset)), `Missing optional runtime asset ${asset}`);
+    }
+    command(['validate', expected[4]]);
+  });
   const logs = [], errors = [];
   const originalLog = console.log, originalError = console.error;
   const session = async (answers, inspect) => {
@@ -82,6 +96,24 @@ async function verify(consumer, packageRoot) {
   const originalConfig = fs.readFileSync(config, 'utf8');
   await session([{ action: 'link-modules' }, { selectedModules: [] }, { confirm: false }, { action: 'exit' }]);
   check('cancellation leaves configuration byte-identical', () => assert.strictEqual(fs.readFileSync(config, 'utf8'), originalConfig));
+  check('packaged configuration diagnostics omit malformed source contents', () => {
+    fs.writeFileSync(config, 'private-config-sentinel');
+    try {
+      const { loadExtensionsConfig } = require(path.join(packageRoot, 'cli/dist/utils/extensions-config.js'));
+      const loaded = loadExtensionsConfig(consumer);
+      assert.strictEqual(loaded.valid, false);
+      assert.strictEqual(loaded.error, 'invalid JSON in .augment/extensions.json');
+      assert.strictEqual(fs.readFileSync(config, 'utf8'), 'private-config-sentinel');
+    } finally { fs.writeFileSync(config, originalConfig); }
+  });
+  check('packaged decision input validation omits malformed source contents', () => {
+    const input = path.join(consumer, 'invalid input.json');
+    fs.writeFileSync(input, 'private-input-sentinel');
+    const { validateGuiDecisionOptions } = require(path.join(packageRoot, 'cli/dist/commands/gui-decision.js'));
+    assert.throws(() => validateGuiDecisionOptions('run', { project: consumer, input, offline: true, id: 'invalid' }),
+      /^Error: Input file contains invalid JSON\. Fix its syntax before retrying\.$/);
+    assert(!fs.existsSync(path.join(consumer, '.augx-decision')));
+  });
   for (const id of expected.slice(1)) command(['link', id]);
   command(['export', '--target', 'all']);
   const targets = ['CLAUDE.md', '.cursor/rules/augx.mdc', '.windsurfrules', '.github/copilot-instructions.md'];

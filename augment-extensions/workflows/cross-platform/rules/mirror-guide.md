@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`augx link <module> --mirror <tool>[,<tool>...]` materializes one Augx module's `rules/` content into each target tool's **per-module** rules location, transparently and idempotently. The canonical source under `augment-extensions/modules/` is never modified.
+`augx link <module> --mirror <tool>[,<tool>...]` materializes one Augx module's `rules/` content into each target tool's **per-module** rules location, transparently and idempotently. The canonical source under `augment-extensions/` is never modified.
 
 ## Grammar
 
@@ -84,7 +84,7 @@ Result:
 ### Mirror to multiple tools at once
 
 ```bash
-augx link workflows/openspec --mirror claude-code,cursor,windsurf
+augx link workflows/cross-platform --mirror claude-code,cursor,windsurf
 ```
 
 ### Default-mirror setup

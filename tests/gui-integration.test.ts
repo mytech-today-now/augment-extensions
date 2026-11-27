@@ -4,7 +4,8 @@ import * as os from 'os';
 import * as path from 'path';
 import { execFileSync } from 'child_process';
 import { guiCommand } from '../cli/src/commands/gui';
-import { discoverModules, discoverCollections, moduleMatchesSearch, type Module } from '../cli/src/utils/module-system';
+import { discoverModules, discoverCollections, moduleMatchesSearch, validateModuleStructure, validateModuleCategory, calculateModuleCharacterCount, type Module } from '../cli/src/utils/module-system';
+import { validateModuleDocumentation } from '../cli/src/utils/documentation-validator';
 import { getGuiModuleAssets } from '../cli/src/commands/gui-module-manager';
 import * as decisionBridge from '../cli/src/utils/decision-runner';
 import { generateModulesCatalog } from '../cli/src/utils/modules-catalog';
@@ -53,6 +54,16 @@ afterEach(() => {
 });
 
 describe('real terminal manager integration', () => {
+  it('ships valid cross-platform guidance with accurate metadata and accessible usage', () => {
+    const module = discoverModules().find(m => m.fullName === 'workflows/cross-platform')!;
+    expect(validateModuleStructure(module.path).errors).toEqual([]);
+    expect(validateModuleCategory(module).errors).toEqual([]);
+    expect(validateModuleDocumentation(module).errors).toEqual([]);
+    expect(module.metadata.augment?.characterCount).toBe(calculateModuleCharacterCount(module.path));
+    expect(getGuiModuleAssets(module)).toEqual(expect.arrayContaining(['README.md', 'rules/export-guide.md', 'examples/end-to-end-session.md']));
+    expect(moduleMatchesSearch(module, 'CROSS-PLATFORM')).toBe(true);
+  });
+
   it('reports a simulated filesystem write denial through the real lifecycle without changing bytes or exiting', async () => {
     const original = fs.readFileSync(configPath(), 'utf8');
     vi.mocked(fs.writeFileSync).mockImplementation(((file: any, ...args: any[]) => {
@@ -227,6 +238,37 @@ describe('real terminal manager integration', () => {
     expect(fs.readFileSync(configPath(), 'utf8')).toBe('{bad-json');
     expect(prompt.prompt).not.toHaveBeenCalled();
     expect(process.exitCode).toBe(1);
+  });
+
+  it('diagnoses malformed configuration without quoting private file contents', async () => {
+    fs.writeFileSync(configPath(), 'private-config-sentinel');
+    const prompt = scripted([]);
+    await guiCommand({}, prompt);
+    const diagnostic = errors.mock.calls.flat().join('\n');
+    expect(diagnostic).toContain('invalid JSON in .augment/extensions.json');
+    expect(diagnostic).not.toContain('private-config');
+    expect(fs.readFileSync(configPath(), 'utf8')).toBe('private-config-sentinel');
+    expect(prompt.prompt).not.toHaveBeenCalled();
+    expect(process.exitCode).toBe(1);
+  });
+
+  it('returns from malformed decision input to the menu without displaying its contents or dispatching', async () => {
+    const original = fs.readFileSync(configPath(), 'utf8');
+    const input = path.join(root, 'private input.json');
+    fs.writeFileSync(input, 'private-input-sentinel');
+    const execute = vi.spyOn(decisionBridge, 'runDecisionOperation');
+    await guiCommand({}, scripted([
+      { action: 'decision' }, { operation: 'run' }, { input },
+      { mode: 'offline' }, { id: 'invalid-input' }, { action: 'exit' }
+    ]));
+    const diagnostic = errors.mock.calls.flat().join('\n');
+    expect(diagnostic).toContain('Input file contains invalid JSON');
+    expect(diagnostic).not.toContain('private-in');
+    expect(log.mock.calls.flat().join('\n')).toContain('Goodbye!');
+    expect(execute).not.toHaveBeenCalled();
+    expect(fs.readFileSync(configPath(), 'utf8')).toBe(original);
+    expect(fs.readFileSync(input, 'utf8')).toBe('private-input-sentinel');
+    expect(fs.existsSync(path.join(root, '.augx-decision'))).toBe(false);
   });
 
   it('allows static browsing without initialization and blocks linking with actionable diagnostics', async () => {

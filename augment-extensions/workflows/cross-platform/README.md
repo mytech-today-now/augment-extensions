@@ -34,7 +34,7 @@ The Augment Code surface (`.augment/` rules and root `AGENTS.md`) is **never mod
 | `windsurf` | `.windsurf/rules/augx-<module>.md` |
 | `copilot` | `.github/instructions/augx-<module>.instructions.md` |
 
-## Quick Reference
+## Usage and Quick Reference
 
 ```bash
 # One-shot export for one tool
@@ -69,7 +69,7 @@ When neither MCP config declares `beads`, the snippet is omitted entirely. See `
 
 If `augx export` finds the target file has been hand-edited (banner hash does not match recomputed body hash), it **refuses to overwrite** and exits with code 3. Resolve drift either by:
 
-- Editing module sources under `augment-extensions/modules/` and re-running `augx export` (preferred), or
+- Editing canonical module sources under `augment-extensions/` and re-running `augx export` (preferred), or
 - Re-running with `--force` (discards local edits).
 
 See `rules/drift-resolution.md` for the full playbook.
@@ -80,7 +80,7 @@ On Windows without Developer Mode, `fs.symlinkSync` raises `EPERM`. The mirror h
 
 See `rules/windows-fallback.md` for the detailed behavior contract.
 
-## Directory Structure
+## Contents and Directory Structure
 
 ```
 augment-extensions/workflows/cross-platform/
@@ -114,3 +114,7 @@ augx link workflows/cross-platform
 ```
 
 No additional setup is required: the workflow module is pure documentation.
+
+## Character Count
+
+The `augment.characterCount` value in `module.json` counts decoded text across all module files, including the manifest and this README. Validate with `augx validate workflows/cross-platform` after editing.

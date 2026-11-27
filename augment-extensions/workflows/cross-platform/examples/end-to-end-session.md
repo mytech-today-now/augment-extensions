@@ -1,6 +1,6 @@
 # End-To-End Session: Link, Mirror, Export, Unlink
 
-A worked example of using `augx link --mirror` and `augx export` together in a single project from a clean state through to cleanup.
+An illustrative transcript, with example output and byte counts, showing `augx link --mirror` and `augx export` together in a single project from a clean state through to cleanup.
 
 ## Scenario
 
@@ -13,7 +13,7 @@ A new TypeScript project wants both:
 Tools to be linked:
 
 - `coding-standards/typescript`
-- `workflows/openspec`
+- `workflows/cross-platform`
 
 ## Step 0: Initial State
 
@@ -56,9 +56,9 @@ $ augx link coding-standards/typescript --mirror cursor
 linked: coding-standards/typescript (v1.0.0)
   cursor wrote symlink .cursor/rules/augx-typescript-standards.mdc
 
-$ augx link workflows/openspec --mirror cursor
-linked: workflows/openspec (v1.0.0)
-  cursor wrote symlink .cursor/rules/augx-openspec.mdc
+$ augx link workflows/cross-platform --mirror cursor
+linked: workflows/cross-platform (v1.0.0)
+  cursor wrote symlink .cursor/rules/augx-cross-platform.mdc
 ```
 
 Both modules are now mirrored individually into `.cursor/rules/`. The coordination manifest records:
@@ -68,12 +68,12 @@ Both modules are now mirrored individually into `.cursor/rules/`. The coordinati
   "mirrors": {
     "coding-standards/typescript": [
       { "tool": "cursor",
-        "sourcePath": "augment-extensions/modules/typescript-standards/rules/...",
+        "sourcePath": "augment-extensions/coding-standards/typescript/rules/...",
         "targetPath": ".cursor/rules/augx-typescript-standards.mdc",
         "mode": "symlink" }
     ],
-    "workflows/openspec": [
-      { "tool": "cursor", "sourcePath": "...", "targetPath": ".cursor/rules/augx-openspec.mdc", "mode": "symlink" }
+    "workflows/cross-platform": [
+      { "tool": "cursor", "sourcePath": "...", "targetPath": ".cursor/rules/augx-cross-platform.mdc", "mode": "symlink" }
     ]
   }
 }
@@ -91,7 +91,7 @@ $ augx export
 - The banner (with `source-hash`).
 - The Beads MCP snippet (because `.vscode/mcp.json` declares `beads`).
 - A `## Module: coding-standards/typescript (v1.0.0)` section.
-- A `## Module: workflows/openspec (v1.0.0)` section.
+- A `## Module: workflows/cross-platform (v1.0.0)` section.
 - The footer.
 
 ## Step 4: Verify Both Surfaces
@@ -109,7 +109,7 @@ Both commands are now no-ops. The system has reached a stable fixed point.
 
 ## Step 5: Edit A Module And Re-Sync
 
-A new convention is added to `augment-extensions/modules/typescript-standards/rules/naming.md`.
+A new convention is added to `augment-extensions/coding-standards/typescript/rules/naming.md`.
 
 ```bash
 $ augx export
@@ -142,7 +142,7 @@ $ git diff CLAUDE.md
 # review the edit
 $ # decision: the edit belongs in the typescript module
 $ git checkout HEAD -- CLAUDE.md
-$ # move the edit into augment-extensions/modules/typescript-standards/rules/...
+$ # move the edit into augment-extensions/coding-standards/typescript/rules/...
 $ augx export
 [wrote] claude-code -> CLAUDE.md (14_780 bytes, 2 modules)
 $ echo $?
@@ -154,16 +154,16 @@ See `rules/drift-resolution.md` for the full decision tree.
 ## Step 7: Unlink One Module
 
 ```bash
-$ augx unlink workflows/openspec
-unlinked: workflows/openspec
-  removed symlink .cursor/rules/augx-openspec.mdc
-  cleared mirrors["workflows/openspec"]
+$ augx unlink workflows/cross-platform
+unlinked: workflows/cross-platform
+  removed symlink .cursor/rules/augx-cross-platform.mdc
+  cleared mirrors["workflows/cross-platform"]
 
 $ augx export
 [wrote] claude-code -> CLAUDE.md (8_120 bytes, 1 module)
 ```
 
-The Cursor per-module file is gone, the coordination manifest entry is gone, and `CLAUDE.md` is regenerated without the `openspec` section.
+The Cursor per-module file is gone, the coordination manifest entry is gone, and `CLAUDE.md` is regenerated without the `cross-platform` section.
 
 ## Step 8: Full Cleanup
 

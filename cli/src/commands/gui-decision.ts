@@ -14,7 +14,9 @@ export function validateGuiDecisionOptions(operation: DecisionOperation, options
   if (needsInput.has(operation)) {
     if (!options.input) throw new Error('A JSON input file is required');
     if (!fs.statSync(options.input).isFile() || fs.statSync(options.input).size > 1048576) throw new Error('Input must be a JSON file of at most 1 MiB');
-    JSON.parse(fs.readFileSync(options.input, 'utf8').replace(/^\uFEFF/, ''));
+    const input = fs.readFileSync(options.input, 'utf8').replace(/^\uFEFF/, '');
+    try { JSON.parse(input); }
+    catch { throw new Error('Input file contains invalid JSON. Fix its syntax before retrying.'); }
   }
   if (execution.has(operation)) {
     if (Boolean(options.offline) === Boolean(options.live)) throw new Error('Select exactly one offline or live mode');

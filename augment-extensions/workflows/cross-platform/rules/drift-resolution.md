@@ -19,7 +19,7 @@ $ echo $?
 |---|---|
 | Local edit | A human (or another tool) modified the exported file directly. |
 | Different `augx` version | A teammate ran `augx export` from a version with a different rendering pipeline; their banner hash will not match yours after upgrade. |
-| Module mutation outside augx | Files under `augment-extensions/modules/` were edited but `augx export` was not re-run on the original machine. |
+| Module mutation outside augx | Files under `augment-extensions/` were edited but `augx export` was not re-run on the original machine. |
 | Merge conflict | A `git merge` left mixed content from two branches inside the exported file. |
 
 ## Resolution Decision Tree
@@ -31,7 +31,7 @@ Did the exported file change for a real reason?
 │       Then re-run 'augx export'.
 │
 ├── Yes, the edits should be reflected in modules
-│   └── Move the edits into augment-extensions/modules/<module>/rules/<file>.md
+│   └── Move the edits into augment-extensions/<category>/<module>/rules/<file>.md
 │       Run 'augx export' again.
 │       The new banner hash will match the new body.
 │
@@ -49,7 +49,7 @@ Did the exported file change for a real reason?
 git diff CLAUDE.md
 ```
 
-Look at what changed. If git also shows changes under `augment-extensions/modules/`, those are the upstream source; the exported diff is downstream.
+Look at what changed. If git also shows changes under `augment-extensions/`, those are the upstream source; the exported diff is downstream.
 
 ### Step 2: Decide where the change belongs
 

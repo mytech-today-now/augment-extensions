@@ -640,6 +640,19 @@ augx link domain-rules/wordpress-plugin
 
 ## Workflows
 
+### Cross-Platform Distribution Workflow
+- **Module**: `workflows/cross-platform`
+- **Version**: 1.0.0
+- **Character Count**: ~40,880
+- **Description**: Static guidance for exports, mirrors, drift resolution, Windows symlink fallback, and MCP-first live task lookup across supported coding tools.
+- **Contents**: Canonical per-tool paths, five rules, and an illustrative session. Linking this guidance does not install software.
+
+**Usage**:
+```bash
+augx link workflows/cross-platform
+augx show workflows/cross-platform README.md
+```
+
 ### Decision Layer Workflow
 - **Module**: `workflows/decision-layer`
 - **Version**: 1.0.0
@@ -880,4 +893,4 @@ augx mcp wrap github-mcp search-repos github-search --category retrieval
 - **Workflows**: 6
 - **Examples**: 4
 - **Total Skills**: 4
-- **Total Character Count**: ~3,619,794
+- **Total Character Count**: ~3,660,674

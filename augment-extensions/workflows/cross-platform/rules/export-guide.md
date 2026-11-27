@@ -64,7 +64,7 @@ alwaysApply: true
 
 ```bash
 augx link coding-standards/typescript
-augx link workflows/openspec
+augx link workflows/cross-platform
 augx export --target cursor
 # writes .cursor/rules/augx.mdc with both modules
 ```
@@ -134,6 +134,6 @@ After this, plain `augx export` writes both files. `export.targets` is the canon
 ## What `augx export` Does NOT Do
 
 - Does not embed live task state (`bd-` IDs, statuses, dependency lists).
-- Does not modify `augment-extensions/modules/` content.
+- Does not modify `augment-extensions/` content.
 - Does not write per-module mirror files; that is `augx link --mirror`'s job.
 - Does not delete files; only overwrites the target path or refuses (exit 3).

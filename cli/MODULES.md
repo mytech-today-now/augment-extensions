@@ -658,6 +658,23 @@ augx link visual-design
 augx link workflows/agent-engineering
 ```
 
+### Cross-Platform Distribution Workflow
+- **Module**: `workflows/cross-platform`
+- **Version**: 1.0.0
+- **Character Count**: ~40,880
+- **Description**: Day-to-day guide for distributing Augx extension modules into Claude Code, Cursor, Windsurf, and GitHub Copilot via 'augx export' and 'augx link --mirror'. Covers per-tool target paths, drift resolution, Windows symlink fallback, and the MCP-first task-context contract.
+- **Contents**:
+  - Drift resolution
+  - Export guide
+  - Mcp snippet inlining
+  - Mirror guide
+  - Windows fallback
+
+**Usage**:
+```bash
+augx link workflows/cross-platform
+```
+
 ### Decision Layer Workflow
 - **Module**: `workflows/decision-layer`
 - **Version**: 1.0.0
@@ -741,23 +758,6 @@ augx link examples/woocommerce-extension
 augx link workflows/adr-support
 ```
 
-### Cross-Platform Distribution Workflow
-- **Module**: `workflows/cross-platform`
-- **Version**: 1.0.0
-- **Character Count**: ~0
-- **Description**: Day-to-day guide for distributing Augx extension modules into Claude Code, Cursor, Windsurf, and GitHub Copilot via 'augx export' and 'augx link --mirror'. Covers per-tool target paths, drift resolution, Windows symlink fallback, and the MCP-first task-context contract.
-- **Contents**:
-  - Drift resolution
-  - Export guide
-  - Mcp snippet inlining
-  - Mirror guide
-  - Windows fallback
-
-**Usage**:
-```bash
-augx link workflows/cross-platform
-```
-
 ### Database Design and Development Workflow
 - **Module**: `workflows/database`
 - **Version**: 1.0.0
@@ -798,7 +798,7 @@ augx link workflows/wordpress-plugin
 - **Total Modules**: 47
 - **Coding Standards**: 15
 - **Domain Rules**: 22
-- **Workflows**: 2
+- **Workflows**: 3
 - **Examples**: 4
-- **Workflow**: 4
-- **Total Character Count**: ~3,619,794
+- **Workflow**: 3
+- **Total Character Count**: ~3,660,674

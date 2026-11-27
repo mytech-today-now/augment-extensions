@@ -113,9 +113,10 @@ describe('decision operation prompt contract', () => {
   });
 
   it('rejects malformed JSON before dispatch without displaying input contents', async () => {
-    fs.writeFileSync(path.join(root, 'run.json'), '{invalid');
+    fs.writeFileSync(path.join(root, 'run.json'), 'private-input-sentinel');
     const execute = vi.fn(async () => 0);
-    await expect(decisionWorkflowInteractive(prompt(offline('run')), root, execute)).rejects.toThrow();
+    await expect(decisionWorkflowInteractive(prompt(offline('run')), root, execute))
+      .rejects.toThrow('Input file contains invalid JSON. Fix its syntax before retrying.');
     expect(execute).not.toHaveBeenCalled();
   });
 

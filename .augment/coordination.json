@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-27T06:45:44.660Z",
+  "lastUpdated": "2026-11-27T07:29:10.941Z",
   "specs": {
-    "terminal-manager": {"path":"openspec/specs/terminal-manager/spec.md","status":"active","relatedTasks":["bd-lluw","bd-zqy2"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":[".augment/coordination.json",".beads/issues.jsonl","README.md","cli/MODULES.md","cli/docs/GUI_ARCHITECTURE.md","cli/docs/GUI_CONFIGURATION.md","cli/src/cli.ts","cli/src/commands/__tests__/gui-repo-filtering.test.ts","cli/src/commands/__tests__/gui.test.ts","cli/src/commands/decision.ts","cli/src/commands/gui-decision.ts","cli/src/commands/gui-module-manager.ts","cli/src/commands/gui.ts","cli/src/commands/link.ts","cli/src/commands/search.ts","cli/src/commands/unlink.ts","cli/src/types/gui.ts","cli/src/utils/decision-runner.ts","cli/src/utils/gui-helpers.ts","cli/src/utils/module-system.ts","cli/src/utils/modules-catalog.ts","docs/reports/gui-integration-2026-11-26.md","docs/reports/gui-windows-test-reliability-follow-up.md","modules.md","openspec/archive/integrate-gui-modules/proposal.md","openspec/archive/integrate-gui-modules/specs/terminal-manager/spec.md","openspec/archive/integrate-gui-modules/tasks.md","openspec/specs/terminal-manager/spec.md","scripts/verify-gui-package.cjs","tests/decision-bridge.test.ts","tests/gui-decision.test.ts","tests/gui-integration.test.ts"],"dependencies":[]},
+    "terminal-manager": {"path":"openspec/specs/terminal-manager/spec.md","status":"active","relatedTasks":["bd-lluw","bd-zqy2","bd-m83j"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":[".augment/coordination.json",".beads/issues.jsonl","README.md","cli/MODULES.md","cli/docs/GUI_ARCHITECTURE.md","cli/docs/GUI_CONFIGURATION.md","cli/src/cli.ts","cli/src/commands/__tests__/gui-repo-filtering.test.ts","cli/src/commands/__tests__/gui.test.ts","cli/src/commands/decision.ts","cli/src/commands/gui-decision.ts","cli/src/commands/gui-module-manager.ts","cli/src/commands/gui.ts","cli/src/commands/link.ts","cli/src/commands/search.ts","cli/src/commands/unlink.ts","cli/src/types/gui.ts","cli/src/utils/decision-runner.ts","cli/src/utils/gui-helpers.ts","cli/src/utils/module-system.ts","cli/src/utils/modules-catalog.ts","docs/reports/gui-integration-2026-11-26.md","docs/reports/gui-windows-test-reliability-follow-up.md","modules.md","openspec/archive/integrate-gui-modules/proposal.md","openspec/archive/integrate-gui-modules/specs/terminal-manager/spec.md","openspec/archive/integrate-gui-modules/tasks.md","openspec/specs/terminal-manager/spec.md","scripts/verify-gui-package.cjs","tests/decision-bridge.test.ts","tests/gui-decision.test.ts","tests/gui-integration.test.ts","cli/src/utils/extensions-config.ts","docs/reports/gui-integration-2026-11-27.md","augment-extensions/workflows/cross-platform/module.json","augment-extensions/workflows/cross-platform/README.md","augment-extensions/workflows/cross-platform/rules/export-guide.md","augment-extensions/workflows/cross-platform/rules/mirror-guide.md","augment-extensions/workflows/cross-platform/rules/drift-resolution.md","augment-extensions/workflows/cross-platform/examples/end-to-end-session.md","package.json"],"dependencies":[]},
     "workflows/decision-layer": {"path":"openspec/specs/decision-layer/spec.md","status":"active","relatedTasks":["bd-9e92","bd-758d"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":["augment-extensions/workflows/decision-layer/**","cli/src/commands/decision.ts","cli/src/cli.ts","tests/decision-layer.test.ts","package.json"],"dependencies":[]},
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
@@ -352,6 +352,7 @@
     "workflows/agent-engineering": {"path":"openspec/specs/agent-engineering/spec.md","status":"active","relatedTasks":["bd-b51a"],"relatedRules":["module-development.md","no-em-dash.md","character-count-management.md"],"affectedFiles":["augment-extensions/workflows/agent-engineering/**","tests/agent-engineering.test.ts","openspec/specs/agent-engineering/**","openspec/archive/add-agent-engineering/**","docs/reports/agent-engineering-2026-11-26.md","package.json","README.md","modules.md","cli/MODULES.md",".augment/coordination.json",".beads/issues.jsonl",".gitattributes"],"dependencies":[]}
   },
   "tasks": {
+    "bd-m83j": {"title":"Verify and complete recent-module terminal workflows","status":"closed","relatedSpecs":["terminal-manager"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":[".augment/coordination.json",".beads/issues.jsonl","augment-extensions/workflows/cross-platform/module.json","augment-extensions/workflows/cross-platform/README.md","augment-extensions/workflows/cross-platform/rules/export-guide.md","augment-extensions/workflows/cross-platform/rules/mirror-guide.md","augment-extensions/workflows/cross-platform/rules/drift-resolution.md","augment-extensions/workflows/cross-platform/examples/end-to-end-session.md","cli/MODULES.md","cli/docs/GUI_CONFIGURATION.md","cli/src/commands/gui-decision.ts","cli/src/utils/extensions-config.ts","tests/gui-decision.test.ts","tests/gui-integration.test.ts","scripts/verify-gui-package.cjs","modules.md","package.json","docs/reports/gui-integration-2026-11-27.md"],"dependencies":[]},
     "bd-43aa": {"title":"Refresh GUI update implementation prompt for recent modules","status":"closed","relatedSpecs":[],"relatedRules":["no-em-dash.md"],"outputFiles":["ai-prompts/update-gui .md"],"dependencies":[]},
     "bd-1ybt": {"title":"Align version synchronization instructions with available release tooling","status":"open","relatedSpecs":["augment-extensions/spec"],"relatedRules":["no-em-dash.md"],"outputFiles":[],"dependencies":[]},
     "bd-gy62": {"title":"Finalize 3.3.0 release metadata and push reviewed session","status":"closed","relatedSpecs":["augment-extensions/spec"],"relatedRules":["no-em-dash.md"],"outputFiles":[".augment/coordination.json",".beads/issues.jsonl","README.md","CHANGELOG.md","VERSION","package.json","package-lock.json","tests/fixtures/cross-platform-e2e/goldens/CLAUDE.md","tests/fixtures/cross-platform-e2e/goldens/copilot-instructions.md","tests/fixtures/cross-platform-e2e/goldens/cursor.augx.mdc","tests/fixtures/cross-platform-e2e/goldens/windsurfrules","docs/reports/release-3.3.0-2026-11-26.md"],"dependencies":[]},
@@ -1526,6 +1527,14 @@
     }
   },
   "files": {
+    "augment-extensions/workflows/cross-platform/examples/end-to-end-session.md": {"createdBy":null,"modifiedBy":["bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/cross-platform/rules/drift-resolution.md": {"createdBy":null,"modifiedBy":["bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/cross-platform/rules/mirror-guide.md": {"createdBy":null,"modifiedBy":["bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/cross-platform/rules/export-guide.md": {"createdBy":null,"modifiedBy":["bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/cross-platform/README.md": {"createdBy":null,"modifiedBy":["bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "augment-extensions/workflows/cross-platform/module.json": {"createdBy":null,"modifiedBy":["bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "docs/reports/gui-integration-2026-11-27.md": {"createdBy":"bd-m83j","modifiedBy":["bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/utils/extensions-config.ts": {"createdBy":null,"modifiedBy":["bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     ".beads/config.yaml": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
     ".beads/README.md": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
     ".beads/WRITE-README.md": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
@@ -1551,9 +1560,9 @@
     "openspec/specs/terminal-manager/spec.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["no-em-dash.md"]},
     "cli/src/commands/__tests__/gui-repo-filtering.test.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["no-em-dash.md"]},
     "cli/docs/GUI_ARCHITECTURE.md": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
-    "cli/docs/GUI_CONFIGURATION.md": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/docs/GUI_CONFIGURATION.md": {"createdBy":null,"modifiedBy":["bd-lluw","bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "cli/src/commands/__tests__/gui.test.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
-    "cli/src/commands/gui-decision.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/commands/gui-decision.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw","bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "cli/src/commands/gui-module-manager.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "cli/src/commands/gui.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "cli/src/commands/search.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
@@ -1566,10 +1575,10 @@
     "openspec/archive/integrate-gui-modules/proposal.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "openspec/archive/integrate-gui-modules/specs/terminal-manager/spec.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "openspec/archive/integrate-gui-modules/tasks.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
-    "scripts/verify-gui-package.cjs": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "scripts/verify-gui-package.cjs": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw","bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "tests/decision-bridge.test.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
-    "tests/gui-decision.test.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
-    "tests/gui-integration.test.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "tests/gui-decision.test.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw","bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "tests/gui-integration.test.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw","bd-m83j"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "ai-prompts/update-gui .md": {"createdBy":"bd-ebbf4235","modifiedBy":["bd-ebbf4235","bd-43aa"],"governedBy":[],"rulesApplied":["no-em-dash.md"]},
     "openspec/specs/decision-layer/spec.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "openspec/archive/add-decision-layer/tasks.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
@@ -1887,7 +1896,7 @@
         "module-development.md"
       ]
     },
-    ".augment/coordination.json": {"createdBy":"bd-coord1","modifiedBy":["bd-wp10-1","bd-ps6.3","bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62"],"governedBy":["harmonize-workflows","wordpress-plugin-module/core","powershell-coding-standards","augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    ".augment/coordination.json": {"createdBy":"bd-coord1","modifiedBy":["bd-wp10-1","bd-ps6.3","bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62","bd-m83j"],"governedBy":["harmonize-workflows","wordpress-plugin-module/core","powershell-coding-standards","augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
     "augment-extensions/coding-standards/powershell/module.json": {
       "createdBy": "bd-4t4f",
       "modifiedBy": [
@@ -2160,7 +2169,7 @@
         "no-em-dash.md"
       ]
     },
-    "package.json": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-b51a","bd-9e92","bd-gy62"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
+    "package.json": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-b51a","bd-9e92","bd-gy62","bd-m83j"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
     "package-lock.json": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-gy62"],"governedBy":["augment-extensions/spec"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md"]},
     "cli/src/analysis/ast-parser.ts": {
       "createdBy": null,
@@ -2256,7 +2265,7 @@
         "no-em-dash.md"
       ]
     },
-    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62","bd-18f800ab"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62","bd-18f800ab","bd-m83j"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
     "README.md": {"createdBy":null,"modifiedBy":["bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/visual-design/metadata.json": {
       "createdBy": null,
@@ -2581,8 +2590,8 @@
         "no-em-dash.md"
       ]
     },
-    "modules.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
-    "cli/MODULES.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "modules.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-m83j"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "cli/MODULES.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-m83j"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/workflows/agent-engineering/examples/contracts.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/workflows/agent-engineering/examples/demo.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/workflows/agent-engineering/examples/evaluation-cases.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},

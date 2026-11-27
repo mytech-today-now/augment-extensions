@@ -87,7 +87,9 @@ export function loadExtensionsConfig(projectRoot: string = process.cwd()): Loade
       exists: true,
       valid: false,
       config: { modules: [] },
-      error: error instanceof Error ? error.message : String(error)
+      error: error instanceof SyntaxError
+        ? 'invalid JSON in .augment/extensions.json'
+        : error instanceof Error ? error.message : String(error)
     };
   }
 }

@@ -39,4 +39,6 @@ See the [canonical decision contracts and recovery guide](../../augment-extensio
 
 The active Inquirer manager does not read `.augment/gui-config.json`, VS Code spacing settings, browser localStorage, CSS layouts or configurable fuzzy-search settings. Earlier GUI design/configuration examples described a proposed renderer. `types/gui.ts`, `utils/gui-helpers.ts` and `gui/state/` remain compatibility helpers, not an active alternative renderer. This change does not introduce new settings or dependencies.
 
+Malformed project configuration stops the manager before any changes. Malformed decision input returns to the menu without dispatching an operation. JSON syntax diagnostics omit file contents; inspect and repair the local file, then retry. Read failures retain their filesystem diagnostics.
+
 Non-interactive terminals receive a TTY diagnostic and do not open prompts. Use `augx list`, `search`, `show`, `link`, `unlink` or `decision <operation> --help` for scripted work. Node >=16 ordinary CLI compatibility is separate from the optional decision execution runtime's Node 22+ requirement.

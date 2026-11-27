@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "Cross-Platform Distribution Workflow",
   "description": "Day-to-day guide for distributing Augx extension modules into Claude Code, Cursor, Windsurf, and GitHub Copilot via 'augx export' and 'augx link --mirror'. Covers per-tool target paths, drift resolution, Windows symlink fallback, and the MCP-first task-context contract.",
-  "type": "workflow",
+  "type": "workflows",
   "tags": [
     "augx",
     "cli",
@@ -18,11 +18,11 @@
     "symlink",
     "workflow"
   ],
-  "dependencies": {},
+  "dependencies": [],
   "augment": {
-    "characterCount": 0,
+    "characterCount": 40880,
     "priority": "medium",
-    "category": "workflow",
+    "category": "workflows",
     "appliesTo": {
       "filePatterns": [
         "CLAUDE.md",

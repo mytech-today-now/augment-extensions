@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { discoverModules } from '../utils/module-system';
+import { discoverModules, moduleMatchesSearch } from '../utils/module-system';
 
 interface SearchOptions {
   type?: string;
@@ -48,20 +48,9 @@ export async function searchCommand(keyword: string, options: SearchOptions): Pr
 }
 
 async function searchModules(keyword: string, typeFilter?: string): Promise<Module[]> {
-  const lowerKeyword = keyword.toLowerCase();
   return discoverModules()
     .filter(module => !typeFilter || module.metadata.type === typeFilter)
-    .filter(module => {
-      const searchableText = [
-        module.fullName,
-        module.metadata.name,
-        module.metadata.displayName || '',
-        module.metadata.description || '',
-        module.metadata.type
-      ].join(' ').toLowerCase();
-
-      return searchableText.includes(lowerKeyword);
-    })
+    .filter(module => moduleMatchesSearch(module, keyword))
     .map(module => ({
       name: module.fullName,
       version: module.metadata.version,

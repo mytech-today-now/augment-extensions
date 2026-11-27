@@ -640,20 +640,6 @@ augx link visual-design
 
 ## Workflows
 
-### Decision Layer Workflow
-- **Module**: `workflows/decision-layer`
-- **Version**: 1.0.0
-- **Character Count**: ~117,091
-- **Description**: Optional TypeSafe judgments with isolated setup, typed contracts, deterministic policy, durable local workers, independent verification and matched evaluation.
-- **Contents**: Indexed trust and operation rules, optional SDK/runtime installation, eleven capabilities, durable workers, independent verification, and matched evaluation.
-
-**Usage**:
-```bash
-augx link workflows/decision-layer
-augx decision setup --dry-run
-```
-
-
 ### Agent Engineering Workflow
 - **Module**: `workflows/agent-engineering`
 - **Version**: 1.0.0
@@ -670,6 +656,21 @@ augx decision setup --dry-run
 **Usage**:
 ```bash
 augx link workflows/agent-engineering
+```
+
+### Decision Layer Workflow
+- **Module**: `workflows/decision-layer`
+- **Version**: 1.0.0
+- **Character Count**: ~117,091
+- **Description**: Optional TypeSafe judgments with isolated setup, typed contracts, deterministic policy, durable local workers, independent verification and matched evaluation.
+- **Contents**:
+  - 00 index
+  - 01 responsibilities
+  - 02 operation
+
+**Usage**:
+```bash
+augx link workflows/decision-layer
 ```
 
 ## Examples
@@ -718,11 +719,86 @@ augx link examples/rest-api-plugin
 augx link examples/woocommerce-extension
 ```
 
+## Workflow
+
+### ADR Support Module
+- **Module**: `workflows/adr-support`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Automatic Architecture Decision Record (ADR) management with decision detection, lifecycle tracking, templates, and integration with OpenSpec and Beads workflows
+- **Contents**:
+  - Adr creation
+  - Beads integration
+  - Conflict detection
+  - Decision detection
+  - Lifecycle management
+  - Openspec integration
+  - Template selection
+  - Validation rules
+
+**Usage**:
+```bash
+augx link workflows/adr-support
+```
+
+### Cross-Platform Distribution Workflow
+- **Module**: `workflows/cross-platform`
+- **Version**: 1.0.0
+- **Character Count**: ~0
+- **Description**: Day-to-day guide for distributing Augx extension modules into Claude Code, Cursor, Windsurf, and GitHub Copilot via 'augx export' and 'augx link --mirror'. Covers per-tool target paths, drift resolution, Windows symlink fallback, and the MCP-first task-context contract.
+- **Contents**:
+  - Drift resolution
+  - Export guide
+  - Mcp snippet inlining
+  - Mirror guide
+  - Windows fallback
+
+**Usage**:
+```bash
+augx link workflows/cross-platform
+```
+
+### Database Design and Development Workflow
+- **Module**: `workflows/database`
+- **Version**: 1.0.0
+- **Character Count**: ~124,548
+- **Description**: Comprehensive workflow for database design, schema development, migration management, optimization, and testing. Covers relational, NoSQL, vector, and flat databases.
+- **Contents**:
+  - Data migration
+  - Documentation standards
+  - Migration workflow
+  - Optimization workflow
+  - Schema design workflow
+  - Testing patterns
+  - Workflow
+
+**Usage**:
+```bash
+augx link workflows/database
+```
+
+### WordPress Plugin Development Workflow
+- **Module**: `workflows/wordpress-plugin`
+- **Version**: 1.2.0
+- **Character Count**: ~81,564
+- **Description**: Complete workflows for WordPress plugin development including scaffolding, development, testing, and WordPress.org submission processes. Optimized for AI-assisted development with OpenSpec and Beads integration.
+- **Contents**:
+  - Best practices
+  - Development workflow
+  - Submission workflow
+  - Testing workflow
+
+**Usage**:
+```bash
+augx link workflows/wordpress-plugin
+```
+
 ## Statistics
 
 - **Total Modules**: 47
-- **Workflows**: 6
 - **Coding Standards**: 15
 - **Domain Rules**: 22
+- **Workflows**: 2
 - **Examples**: 4
+- **Workflow**: 4
 - **Total Character Count**: ~3,619,794

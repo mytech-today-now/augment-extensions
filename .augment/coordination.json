@@ -1,7 +1,8 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-27T02:12:10.125Z",
+  "lastUpdated": "2026-11-27T03:08:09.337Z",
   "specs": {
+    "terminal-manager": {"path":"openspec/specs/terminal-manager/spec.md","status":"active","relatedTasks":["bd-lluw","bd-zqy2"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":[".augment/coordination.json",".beads/issues.jsonl","README.md","cli/MODULES.md","cli/docs/GUI_ARCHITECTURE.md","cli/docs/GUI_CONFIGURATION.md","cli/src/cli.ts","cli/src/commands/__tests__/gui-repo-filtering.test.ts","cli/src/commands/__tests__/gui.test.ts","cli/src/commands/decision.ts","cli/src/commands/gui-decision.ts","cli/src/commands/gui-module-manager.ts","cli/src/commands/gui.ts","cli/src/commands/link.ts","cli/src/commands/search.ts","cli/src/commands/unlink.ts","cli/src/types/gui.ts","cli/src/utils/decision-runner.ts","cli/src/utils/gui-helpers.ts","cli/src/utils/module-system.ts","cli/src/utils/modules-catalog.ts","docs/reports/gui-integration-2026-11-26.md","docs/reports/gui-windows-test-reliability-follow-up.md","modules.md","openspec/archive/integrate-gui-modules/proposal.md","openspec/archive/integrate-gui-modules/specs/terminal-manager/spec.md","openspec/archive/integrate-gui-modules/tasks.md","openspec/specs/terminal-manager/spec.md","scripts/verify-gui-package.cjs","tests/decision-bridge.test.ts","tests/gui-decision.test.ts","tests/gui-integration.test.ts"],"dependencies":[]},
     "workflows/decision-layer": {"path":"openspec/specs/decision-layer/spec.md","status":"active","relatedTasks":["bd-9e92","bd-758d"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":["augment-extensions/workflows/decision-layer/**","cli/src/commands/decision.ts","cli/src/cli.ts","tests/decision-layer.test.ts","package.json"],"dependencies":[]},
     "bash-coding-standards": {
       "path": "openspec/changes/bash-coding-standards/proposal.md",
@@ -351,6 +352,8 @@
     "workflows/agent-engineering": {"path":"openspec/specs/agent-engineering/spec.md","status":"active","relatedTasks":["bd-b51a"],"relatedRules":["module-development.md","no-em-dash.md","character-count-management.md"],"affectedFiles":["augment-extensions/workflows/agent-engineering/**","tests/agent-engineering.test.ts","openspec/specs/agent-engineering/**","openspec/archive/add-agent-engineering/**","docs/reports/agent-engineering-2026-11-26.md","package.json","README.md","modules.md","cli/MODULES.md",".augment/coordination.json",".beads/issues.jsonl",".gitattributes"],"dependencies":[]}
   },
   "tasks": {
+    "bd-zqy2": {"title":"Stabilize Windows readiness and concurrent-delete test fixtures","status":"open","relatedSpecs":["terminal-manager"],"relatedRules":["no-em-dash.md"],"outputFiles":["docs/reports/gui-windows-test-reliability-follow-up.md"],"dependencies":[]},
+    "bd-lluw": {"title":"Integrate recent modules and decision workflow into terminal GUI","status":"closed","relatedSpecs":["terminal-manager"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":[".augment/coordination.json",".beads/issues.jsonl","README.md","cli/MODULES.md","cli/docs/GUI_ARCHITECTURE.md","cli/docs/GUI_CONFIGURATION.md","cli/src/cli.ts","cli/src/commands/__tests__/gui-repo-filtering.test.ts","cli/src/commands/__tests__/gui.test.ts","cli/src/commands/decision.ts","cli/src/commands/gui-decision.ts","cli/src/commands/gui-module-manager.ts","cli/src/commands/gui.ts","cli/src/commands/link.ts","cli/src/commands/search.ts","cli/src/commands/unlink.ts","cli/src/types/gui.ts","cli/src/utils/decision-runner.ts","cli/src/utils/gui-helpers.ts","cli/src/utils/module-system.ts","cli/src/utils/modules-catalog.ts","docs/reports/gui-integration-2026-11-26.md","docs/reports/gui-windows-test-reliability-follow-up.md","modules.md","openspec/archive/integrate-gui-modules/proposal.md","openspec/archive/integrate-gui-modules/specs/terminal-manager/spec.md","openspec/archive/integrate-gui-modules/tasks.md","openspec/specs/terminal-manager/spec.md","scripts/verify-gui-package.cjs","tests/decision-bridge.test.ts","tests/gui-decision.test.ts","tests/gui-integration.test.ts"],"dependencies":[]},
     "bd-ebbf4235": {"title":"Draft GUI update prompt for recent Augx modules","status":"closed","relatedSpecs":[],"relatedRules":["no-em-dash.md"],"outputFiles":["ai-prompts/update-gui .md"],"dependencies":[]},
     "bd-758d": {"title":"Verify decision-layer provider, external workers and additional platforms","status":"open","relatedSpecs":["workflows/decision-layer"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":["docs/followups/decision-layer-provider-and-platform-verification.prompt.md"],"dependencies":[]},
     "bd-9e92": {"title":"Implement operational decision-layer workflow","status":"closed","relatedSpecs":["workflows/decision-layer"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":["augment-extensions/workflows/decision-layer/README.md","augment-extensions/workflows/decision-layer/examples/call-inventory.json","augment-extensions/workflows/decision-layer/examples/config.json","augment-extensions/workflows/decision-layer/examples/decision.json","augment-extensions/workflows/decision-layer/examples/labeled-cases.json","augment-extensions/workflows/decision-layer/examples/source.txt","augment-extensions/workflows/decision-layer/examples/task.json","augment-extensions/workflows/decision-layer/installation/package-lock.json","augment-extensions/workflows/decision-layer/installation/package.json","augment-extensions/workflows/decision-layer/installation/sources.json","augment-extensions/workflows/decision-layer/module.json","augment-extensions/workflows/decision-layer/rules/00-index.md","augment-extensions/workflows/decision-layer/rules/01-responsibilities.md","augment-extensions/workflows/decision-layer/rules/02-operation.md","augment-extensions/workflows/decision-layer/runtime/cli.cjs","augment-extensions/workflows/decision-layer/runtime/common.cjs","augment-extensions/workflows/decision-layer/runtime/contracts.d.ts","augment-extensions/workflows/decision-layer/runtime/decisions.cjs","augment-extensions/workflows/decision-layer/runtime/evaluate.cjs","augment-extensions/workflows/decision-layer/runtime/install.cjs","augment-extensions/workflows/decision-layer/runtime/integrations.cjs","augment-extensions/workflows/decision-layer/runtime/runner.cjs","augment-extensions/workflows/decision-layer/runtime/worker-child.cjs","augment-extensions/workflows/decision-layer/runtime/workers.cjs","augment-extensions/workflows/decision-layer/schemas/config.schema.json","augment-extensions/workflows/decision-layer/scripts/validate.cjs","augment-extensions/workflows/decision-layer/sources.md","cli/src/commands/decision.ts","docs/followups/decision-layer-provider-and-platform-verification.prompt.md","docs/reports/decision-layer-2026-11-26.md","openspec/archive/add-decision-layer/proposal.md","openspec/archive/add-decision-layer/specs/decision-layer/spec.md","openspec/archive/add-decision-layer/tasks.md","openspec/specs/decision-layer/spec.md","scripts/test-decision-layer.cjs","scripts/verify-decision-package.cjs","tests/decision-layer.test.ts"],"dependencies":[]},
@@ -1527,6 +1530,29 @@
     }
   },
   "files": {
+    "docs/reports/gui-windows-test-reliability-follow-up.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["no-em-dash.md"]},
+    "openspec/specs/terminal-manager/spec.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["no-em-dash.md"]},
+    "cli/src/commands/__tests__/gui-repo-filtering.test.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["no-em-dash.md"]},
+    "cli/docs/GUI_ARCHITECTURE.md": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/docs/GUI_CONFIGURATION.md": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/commands/__tests__/gui.test.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/commands/gui-decision.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/commands/gui-module-manager.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/commands/gui.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/commands/search.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/types/gui.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/utils/decision-runner.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/utils/gui-helpers.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/utils/module-system.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/utils/modules-catalog.ts": {"createdBy":null,"modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "docs/reports/gui-integration-2026-11-26.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "openspec/archive/integrate-gui-modules/proposal.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "openspec/archive/integrate-gui-modules/specs/terminal-manager/spec.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "openspec/archive/integrate-gui-modules/tasks.md": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "scripts/verify-gui-package.cjs": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "tests/decision-bridge.test.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "tests/gui-decision.test.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "tests/gui-integration.test.ts": {"createdBy":"bd-lluw","modifiedBy":["bd-lluw"],"governedBy":["terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "ai-prompts/update-gui .md": {"createdBy":"bd-ebbf4235","modifiedBy":["bd-ebbf4235"],"governedBy":[],"rulesApplied":["no-em-dash.md"]},
     "openspec/specs/decision-layer/spec.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "openspec/archive/add-decision-layer/tasks.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
@@ -1540,7 +1566,7 @@
     "openspec/archive/add-decision-layer/specs/decision-layer/spec.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "openspec/archive/add-decision-layer/proposal.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "docs/followups/decision-layer-provider-and-platform-verification.prompt.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
-    "cli/src/commands/decision.ts": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/commands/decision.ts": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92","bd-lluw"],"governedBy":["workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "augment-extensions/workflows/decision-layer/sources.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "augment-extensions/workflows/decision-layer/scripts/validate.cjs": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "augment-extensions/workflows/decision-layer/schemas/config.schema.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
@@ -1568,7 +1594,7 @@
     "augment-extensions/workflows/decision-layer/examples/config.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "augment-extensions/workflows/decision-layer/examples/call-inventory.json": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "augment-extensions/workflows/decision-layer/README.md": {"createdBy":"bd-9e92","modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
-    "cli/src/cli.ts": {"createdBy":null,"modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/cli.ts": {"createdBy":null,"modifiedBy":["bd-9e92","bd-lluw"],"governedBy":["workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     ".gitignore": {"createdBy":null,"modifiedBy":["bd-9e92"],"governedBy":["workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "augment-extensions/domain-rules/wordpress-plugin/module.json": {
       "createdBy": "bd-wp1",
@@ -1844,7 +1870,7 @@
         "module-development.md"
       ]
     },
-    ".augment/coordination.json": {"createdBy":"bd-coord1","modifiedBy":["bd-wp10-1","bd-ps6.3","bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["harmonize-workflows","wordpress-plugin-module/core","powershell-coding-standards","augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    ".augment/coordination.json": {"createdBy":"bd-coord1","modifiedBy":["bd-wp10-1","bd-ps6.3","bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw"],"governedBy":["harmonize-workflows","wordpress-plugin-module/core","powershell-coding-standards","augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
     "augment-extensions/coding-standards/powershell/module.json": {
       "createdBy": "bd-4t4f",
       "modifiedBy": [
@@ -2034,33 +2060,8 @@
         "no-em-dash.md"
       ]
     },
-    "cli/src/commands/link.ts": {
-      "createdBy": "bd-augext.6",
-      "modifiedBy": [
-        "bd-xplat3-1",
-        "bd-xplat3-3"
-      ],
-      "governedBy": [
-        "cross-platform/mirror-hook"
-      ],
-      "rulesApplied": [
-        "module-development.md",
-        "no-em-dash.md"
-      ]
-    },
-    "cli/src/commands/unlink.ts": {
-      "createdBy": "bd-modgui.13",
-      "modifiedBy": [
-        "bd-xplat3-4"
-      ],
-      "governedBy": [
-        "cross-platform/mirror-hook"
-      ],
-      "rulesApplied": [
-        "module-development.md",
-        "no-em-dash.md"
-      ]
-    },
+    "cli/src/commands/link.ts": {"createdBy":"bd-augext.6","modifiedBy":["bd-xplat3-1","bd-xplat3-3","bd-lluw"],"governedBy":["cross-platform/mirror-hook","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
+    "cli/src/commands/unlink.ts": {"createdBy":"bd-modgui.13","modifiedBy":["bd-xplat3-4","bd-lluw"],"governedBy":["cross-platform/mirror-hook","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md"]},
     "cli/src/lib/source-hash.ts": {
       "createdBy": "bd-xplat1-4",
       "modifiedBy": [
@@ -2252,8 +2253,8 @@
         "no-em-dash.md"
       ]
     },
-    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
-    "README.md": {"createdBy":null,"modifiedBy":["bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
+    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    "README.md": {"createdBy":null,"modifiedBy":["bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/visual-design/metadata.json": {
       "createdBy": null,
       "modifiedBy": ["bd-6dd52bd3"],
@@ -2582,8 +2583,8 @@
         "no-em-dash.md"
       ]
     },
-    "modules.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
-    "cli/MODULES.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "modules.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
+    "cli/MODULES.md": {"createdBy":null,"modifiedBy":["bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/workflows/agent-engineering/examples/contracts.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/workflows/agent-engineering/examples/demo.cjs": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/workflows/agent-engineering/examples/evaluation-cases.json": {"createdBy":"bd-b51a","modifiedBy":["bd-b51a"],"governedBy":["workflows/agent-engineering"],"rulesApplied":["module-development.md","no-em-dash.md","character-count-management.md"]},

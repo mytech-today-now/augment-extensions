@@ -67,6 +67,10 @@ export interface ModuleChoice {
   checked?: boolean;
   description?: string;
   type?: string;
+  tags?: string[];
+  manifestName?: string;
+  version?: string;
+  category?: string;
   priority?: string;
   characterCount?: number;
   linked?: boolean;

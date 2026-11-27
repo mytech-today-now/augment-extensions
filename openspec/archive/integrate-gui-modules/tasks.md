@@ -1,0 +1,7 @@
+- [x] Inspect active entry points, manifests, rules, specs, tracking and package surfaces.
+- [x] Reproduce search and filtered lifecycle defects and record integration matrix.
+- [x] Implement shared metadata search, safe lifecycle services and refreshed terminal navigation.
+- [x] Implement canonical static details and isolated decision menu.
+- [x] Add deterministic prompt/filesystem/subprocess and packed-consumer checks.
+- [x] Reconcile guidance, validate catalogs and run affected/full checks.
+- [x] Record evidence limits, archive specification, close tracking and prepare the reviewed handoff for required Git synchronization.

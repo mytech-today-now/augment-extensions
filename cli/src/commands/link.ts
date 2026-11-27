@@ -91,14 +91,23 @@ function writeLinkedModulesConfig(
 
 export async function linkCommand(moduleName: string, options: LinkOptions): Promise<void> {
   try {
+    await linkModule(moduleName, options);
+  } catch (error) {
+    console.error(chalk.red('Error linking module:'), error instanceof Error ? error.message : error);
+    process.exit((error as { exitCode?: number }).exitCode || 1);
+  }
+}
+
+/** Shared lifecycle service. Errors return to interactive callers without exiting them. */
+export async function linkModule(
+  moduleName: string, options: LinkOptions = {}, projectRoot = resolveExtensionsProjectRoot()
+): Promise<void> {
     console.log(chalk.blue(`Linking module: ${moduleName}`));
 
-    const projectRoot = resolveExtensionsProjectRoot();
     const configPath = path.join(projectRoot, '.augment', 'extensions.json');
 
     if (!fs.existsSync(configPath)) {
-      console.error(chalk.red('Augment Extensions not initialized. Run: augx init'));
-      process.exit(1);
+      throw new Error('Augment Extensions not initialized. Run: augx init');
     }
 
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
@@ -110,8 +119,7 @@ export async function linkCommand(moduleName: string, options: LinkOptions): Pro
     const module = findModule(moduleName);
 
     if (!module) {
-      console.error(chalk.red(`Module not found: ${moduleName}`));
-      process.exit(1);
+      throw new Error(`Module not found: ${moduleName}`);
     }
 
     const requestedVersion = options.version ?? module.metadata.version;
@@ -159,9 +167,7 @@ export async function linkCommand(moduleName: string, options: LinkOptions): Pro
     const { manifest } = readMirrorManifest(projectRoot);
     const mirrorChoice = resolveMirrorTools(options.mirror, manifest.export as ExportBlock | undefined);
     if (!Array.isArray(mirrorChoice)) {
-      console.error(chalk.red(`Usage error: ${mirrorChoice.error}`));
-      process.exit(1);
-      return;
+      throw new Error(`Usage error: ${mirrorChoice.error}`);
     }
 
     if (mirrorChoice.length === 0) {
@@ -171,9 +177,7 @@ export async function linkCommand(moduleName: string, options: LinkOptions): Pro
 
     const resolved = resolveSingleModule(module.fullName, DEFAULT_EXPORT_IGNORE);
     if (!resolved) {
-      console.error(chalk.red(`Resolution error: could not load rules for ${module.fullName}`));
-      process.exit(2);
-      return;
+      throw Object.assign(new Error(`Resolution error: could not load rules for ${module.fullName}`), { exitCode: 2 });
     }
 
     const pkgPath = path.join(__dirname, '..', '..', '..', 'package.json');
@@ -203,12 +207,5 @@ export async function linkCommand(moduleName: string, options: LinkOptions): Pro
       )
     );
     console.log(chalk.gray(`\nUse "augx show ${module.fullName}" to view module details`));
-  } catch (error) {
-    console.error(
-      chalk.red('Error linking module:'),
-      error instanceof Error ? error.message : error
-    );
-    process.exit(1);
-  }
 }
 

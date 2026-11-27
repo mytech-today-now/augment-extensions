@@ -15,6 +15,8 @@ augx show <module-name>
 augx link <module-name>
 ```
 
+Use `augx gui` to search canonical module metadata, inspect guidance and templates, and manage links in the selected project. Jev/TypeSafe operations are available in the separate Decision Workflow menu. Setup previews before installation; offline fixtures and live actions are explicitly distinguished. See [terminal workflows](cli/docs/GUI_CONFIGURATION.md).
+
 ## Coding Standards
 
 ### HTML Standards

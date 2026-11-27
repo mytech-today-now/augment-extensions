@@ -61,6 +61,8 @@ describe('GUI Components', () => {
     processExitSpy = jest.spyOn(process, 'exit').mockImplementation() as any;
     jest.clearAllMocks();
     mockPrompt.mockReset();
+    mockPrompt.mockResolvedValue({ action: 'exit' });
+    mockModuleSystem.moduleMatchesSearch.mockImplementation(jest.requireActual('../../utils/module-system').moduleMatchesSearch);
     mockGetInteractivePrompt.mockReset();
     mockGetInteractivePrompt.mockResolvedValue(interactivePrompt);
   });
@@ -69,6 +71,7 @@ describe('GUI Components', () => {
     consoleLogSpy.mockRestore();
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
+    process.exitCode = 0;
   });
 
   describe('Multi-Selection', () => {
@@ -91,9 +94,10 @@ describe('GUI Components', () => {
       mockModuleSystem.discoverCollections.mockReturnValue([]);
 
       mockPrompt.mockResolvedValueOnce({ action: 'link-modules' })
-        .mockResolvedValueOnce({ selectedModules: ['coding-standards/html', 'coding-standards/css'] });
+        .mockResolvedValueOnce({ selectedModules: ['coding-standards/html', 'coding-standards/css'] })
+        .mockResolvedValueOnce({ confirm: true });
 
-      mockLinkCommand.linkCommand.mockResolvedValue(undefined);
+      mockLinkCommand.linkModule.mockResolvedValue(undefined);
 
       await guiCommand();
 
@@ -156,7 +160,7 @@ describe('GUI Components', () => {
 
       await guiCommand();
 
-      expect(mockLinkCommand.linkCommand).not.toHaveBeenCalled();
+      expect(mockLinkCommand.linkModule).not.toHaveBeenCalled();
       expect(mockPrompt).toHaveBeenCalledWith(
         expect.arrayContaining([
           expect.objectContaining({
@@ -306,10 +310,10 @@ describe('GUI Components', () => {
       await guiCommand();
 
       expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Keyboard Shortcuts'));
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Ctrl+A'));
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Ctrl+S'));
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Screen reader compatible'));
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Keyboard-only navigation'));
+      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Space to toggle'));
+      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('a toggles all'));
+      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Ctrl+C exits'));
+      expect(consoleLogSpy).not.toHaveBeenCalledWith(expect.stringContaining('Ctrl+S'));
     });
 
     it('should show keyboard shortcut hint on startup', async () => {
@@ -324,7 +328,7 @@ describe('GUI Components', () => {
 
       await guiCommand();
 
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Ctrl+H'));
+      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Choose Keyboard Help'));
     });
 
     it('should fall back cleanly when prompt support is unavailable', async () => {

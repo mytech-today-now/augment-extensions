@@ -62,24 +62,35 @@ function cleanupModuleMirrors(projectRoot: string, moduleId: string): void {
 
 export async function unlinkCommand(moduleName: string, options: UnlinkOptions = {}): Promise<void> {
   try {
+    await unlinkModule(moduleName, options);
+  } catch (error: any) {
+    console.error(chalk.red(`Error: ${error.message}`));
+    process.exit(1);
+  }
+}
+
+/** Shared lifecycle service preserving dependencies and mirror ownership checks. */
+export async function unlinkModule(
+  moduleName: string, options: UnlinkOptions = {}, projectRoot = resolveExtensionsProjectRoot()
+): Promise<void> {
     console.log(chalk.blue(`Unlinking module: ${moduleName}`));
 
     // Load extensions config
-    const configPath = getExtensionsConfigPath();
+    const configPath = getExtensionsConfigPath(projectRoot);
     
     if (!fs.existsSync(configPath)) {
-      console.error(chalk.red('Augment Extensions not initialized. Run: augx init'));
-      process.exit(1);
+      throw new Error('Augment Extensions not initialized. Run: augx init');
     }
 
     const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    if (!Array.isArray(config.modules)) throw new Error('Invalid extensions config: expected modules array');
 
     // Check if it's a collection
     const collections = discoverCollections();
     const collection = collections.find(c => c.fullName === moduleName || c.metadata.name === moduleName);
 
     if (collection) {
-      await unlinkCollection(collection, config, configPath, options);
+      await unlinkCollection(collection, config, configPath, options, projectRoot);
       return;
     }
 
@@ -104,14 +115,14 @@ export async function unlinkCommand(moduleName: string, options: UnlinkOptions =
         console.error(chalk.red(`  - ${m.name}`));
       });
       console.error(chalk.yellow('\nUse --force to unlink anyway (may break dependent modules)'));
-      process.exit(1);
+      throw new Error(`Cannot unlink ${resolvedModuleName}: dependent modules are still linked`);
     }
 
     // Remove from config
     config.modules.splice(moduleIndex, 1);
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
-    cleanupModuleMirrors(resolveExtensionsProjectRoot(), resolvedModuleName);
+    cleanupModuleMirrors(projectRoot, resolvedModuleName);
 
     console.log(chalk.green(`✓ Successfully unlinked: ${resolvedModuleName}`));
 
@@ -122,17 +133,14 @@ export async function unlinkCommand(moduleName: string, options: UnlinkOptions =
       });
     }
 
-  } catch (error: any) {
-    console.error(chalk.red(`Error: ${error.message}`));
-    process.exit(1);
-  }
 }
 
 async function unlinkCollection(
   collection: any,
   config: any,
   configPath: string,
-  options: UnlinkOptions
+  options: UnlinkOptions,
+  projectRoot: string
 ): Promise<void> {
   console.log(chalk.blue(`\nUnlinking collection: ${collection.metadata.displayName}\n`));
   console.log(chalk.gray(`This will unlink ${collection.metadata.modules.length} module(s):\n`));
@@ -149,7 +157,7 @@ async function unlinkCollection(
     if (moduleIndex >= 0) {
       config.modules.splice(moduleIndex, 1);
       unlinkedCount++;
-      cleanupModuleMirrors(resolveExtensionsProjectRoot(), module.id);
+      cleanupModuleMirrors(projectRoot, module.id);
       console.log(chalk.green(`  ✓ Unlinked: ${module.id}`));
     } else {
       console.log(chalk.gray(`  - Skipped (not linked): ${module.id}`));

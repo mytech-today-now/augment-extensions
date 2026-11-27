@@ -1,166 +1,27 @@
-# GUI Enhancement Architecture
+# Terminal manager architecture
 
-## Overview
+The active entry point is `cli/src/cli.ts` -> `commands/gui.ts` -> `commands/gui-module-manager.ts`. Rendering uses the injectable `InteractivePrompt` interface and a lazily imported Inquirer. React/Ink dependencies, helper configuration types, localStorage state helpers and earlier CSS/component sketches do not activate another renderer.
 
-This document outlines the architecture for enhancing the Augment Extensions GUI with improved spacing, search/filter functionality, and configuration options.
+## Discovery and state
 
-## CSS Structure for Spacing/Padding
+Each main-menu iteration calls canonical `discoverModules` and `discoverCollections` and reads the selected project configuration. There is no fixed module registry or GUI copy of module content. Full canonical IDs identify actions, selections and persisted links. Writing standards remain excluded; collections with empty, invalid or unavailable module sets stay hidden. Unavailable configured entries remain in the file.
 
-### Class Naming Convention
+`moduleMatchesSearch` provides CLI and GUI substring matching for IDs, manifest/display names, descriptions, types and actual tags. The GUI treats blank search as cancellation. CLI blank search retains list-like matching. GUI helper transformations also preserve actual tags independently of type and category.
 
-We'll use BEM (Block Element Modifier) naming convention:
+The manager uses the existing ancestor project resolver. `--project` or Change Project Scope chooses an explicit scope. No separate GUI settings or persisted navigation state controls this flow. Terminal height bounds module pagination; Inquirer wraps long choices at the terminal width. Canonical identity remains visible.
 
-```
-.module-list                    # Block
-.module-list__item              # Element
-.module-list__item--compact     # Modifier
-.module-list__item--spacious    # Modifier
-```
+## Static details and mutations
 
-### Spacing Modes
+Details show manifest metadata and the linked version separately. Existing file enumeration and realpath containment provide read-only access to README, rules, examples, templates, schemas, validator source and typed runtime contracts. Choosing a file only reads it. No module-supplied command is executed. Files above 1 MiB direct users to open the canonical file in a text viewer.
 
-1. **Compact** - Minimal padding for dense lists
-   - Item padding: 8px 12px
-   - Gap between items: 4px
-   - Font size: 13px
+Checkbox changes are restricted to the displayed canonical IDs. A summary and default-no confirmation precede writes. Link/unlink services share the existing CLI implementation and mirror protections but throw errors to interactive callers. Existing CLI wrappers retain exit behavior. Independent operations can succeed after another fails; the summary reports both counts and the next menu iteration reloads actual state. Dependency blocks are retained without implicit force. Existing linked collection versions are preserved.
 
-2. **Medium** (default) - Balanced spacing
-   - Item padding: 12px 16px
-   - Gap between items: 8px
-   - Font size: 14px
+## Optional decision workflow
 
-3. **Spacious** - Maximum padding for readability
-   - Item padding: 16px 20px
-   - Gap between items: 12px
-   - Font size: 15px
+`commands/gui-decision.ts` collects operation-relevant choices and validates combinations and JSON syntax before calling `utils/decision-runner.ts`. The CLI decision commands use the same bridge. It starts the authoritative runtime using structured arguments and `shell: false`, forwards cancellation over IPC, bounds process cleanup, redacts output lines, returns the child exit code and removes signal listeners on close or spawn error.
 
-### CSS Variables
+The bridge imports no TypeSafe SDK. The existing runtime owns installation, schemas, policy, provider access, request reservation, review digest checks, original deadlines, worker execution, independent verification and receipt-based removal. The menu does not implement those mechanisms. Setup previews before installation; doctor makes no provider probe; offline/live provenance is explicit. A cancelled child reports cancellation rather than completion. Diagnostic unknowns are printed unchanged.
 
-```css
-:root {
-  --module-list-padding-compact: 8px 12px;
-  --module-list-padding-medium: 12px 16px;
-  --module-list-padding-spacious: 16px 20px;
-  
-  --module-list-gap-compact: 4px;
-  --module-list-gap-medium: 8px;
-  --module-list-gap-spacious: 12px;
-  
-  --module-list-font-compact: 13px;
-  --module-list-font-medium: 14px;
-  --module-list-font-spacious: 15px;
-}
-```
+## Validation boundaries
 
-## TypeScript Interfaces for GUI Config
-
-### Configuration Interface
-
-```typescript
-// cli/src/types/gui.ts
-
-export interface GuiConfig {
-  spacing: 'compact' | 'medium' | 'spacious';
-  showDescriptions: boolean;
-  showCharacterCounts: boolean;
-  groupByCategory: boolean;
-  sortBy: 'name' | 'type' | 'priority' | 'characterCount';
-  sortOrder: 'asc' | 'desc';
-  searchOptions: SearchOptions;
-}
-
-export interface SearchOptions {
-  fuzzyMatch: boolean;
-  searchFields: ('name' | 'description' | 'tags')[];
-  caseSensitive: boolean;
-  minMatchScore: number; // 0-1 for fuzzy matching
-}
-
-export interface ModuleDisplayOptions {
-  showLinkedBadge: boolean;
-  showPriorityBadge: boolean;
-  showCategoryIcon: boolean;
-  highlightMatches: boolean;
-}
-```
-
-## Search/Filter Component Architecture
-
-### Component Hierarchy
-
-```
-SearchFilterComponent
-├── SearchInput
-│   ├── TextInput
-│   ├── ClearButton
-│   └── SearchIcon
-├── FilterPanel
-│   ├── CategoryFilter (checkboxes)
-│   ├── TypeFilter (checkboxes)
-│   ├── PriorityFilter (checkboxes)
-│   └── LinkedStatusFilter (toggle)
-└── ResultsList
-    ├── ModuleItem (repeated)
-    │   ├── ModuleIcon
-    │   ├── ModuleTitle
-    │   ├── ModuleDescription
-    │   ├── ModuleBadges
-    │   └── ModuleActions
-    └── EmptyState
-```
-
-### Search Algorithm
-
-1. **Fuzzy Matching**: Use Fuse.js or similar library
-2. **Field Weighting**:
-   - Name: 0.5
-   - Description: 0.3
-   - Tags: 0.2
-3. **Debouncing**: 300ms delay for search input
-4. **Caching**: Cache search results for performance
-
-## VS Code Settings Integration
-
-### Settings Schema
-
-```json
-{
-  "augment.gui.spacing": {
-    "type": "string",
-    "enum": ["compact", "medium", "spacious"],
-    "default": "medium",
-    "description": "Spacing mode for module list"
-  },
-  "augment.gui.showDescriptions": {
-    "type": "boolean",
-    "default": true,
-    "description": "Show module descriptions in list"
-  },
-  "augment.gui.groupByCategory": {
-    "type": "boolean",
-    "default": true,
-    "description": "Group modules by category"
-  },
-  "augment.gui.search.fuzzyMatch": {
-    "type": "boolean",
-    "default": true,
-    "description": "Enable fuzzy matching in search"
-  }
-}
-```
-
-## Wireframes
-
-### Before State (Current)
-- Cramped module list
-- No search functionality
-- No visual spacing options
-- Limited filtering
-
-### After State (Enhanced)
-- Configurable spacing (compact/medium/spacious)
-- Real-time search with fuzzy matching
-- Advanced filtering by category, type, priority
-- Visual indicators (badges, icons)
-- Keyboard navigation support
-
+Vitest prompt tests exercise real temporary project files and the isolated child boundary. Controlled process tests cover spawn errors, split-secret redaction and cancellation/listener cleanup. Jest retains GUI/filter/helper regression coverage. The packed consumer verifier checks actual installed assets, future manifest discovery, prompt navigation, lifecycle, static exports/mirrors and Node compatibility. Real TTY evidence and platform/provider limits are recorded separately in [the implementation report](../../docs/reports/gui-integration-2026-11-26.md).

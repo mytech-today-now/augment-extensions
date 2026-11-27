@@ -51,4 +51,11 @@ describe('GUI repository filtering', () => {
       collections[0]
     ]);
   });
+
+  it('ignores malformed, empty and null collection records', () => {
+    const collections = [null, { metadata: null }, { metadata: {} },
+      { metadata: { modules: 'invalid' } }, { metadata: { modules: [] } },
+      { metadata: { modules: [null] } }];
+    expect(filterCollectionsToRepoModules(collections as any, repoModules as any)).toEqual([]);
+  });
 });

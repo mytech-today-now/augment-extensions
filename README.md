@@ -199,7 +199,7 @@ augx show completed --since 2026-01-01 --priority 1
 
 #### `augx search <keyword>`
 
-Search modules by keyword. `--type` restricts to a single category.
+Search canonical IDs, manifest names, display names, descriptions, types and actual tags case-insensitively. `--type` restricts to a single category. For example, `augx search Jev` finds `workflows/decision-layer`.
 
 ```bash
 augx search typescript
@@ -439,7 +439,14 @@ augx analyze --dir src --type dependencies --fix
 
 ```bash
 augx gui          # launch the interactive TUI module browser
+augx gui --project "path/to/project"  # choose project scope explicitly
 ```
+
+The terminal manager uses keyboard-operated Inquirer menus. Search module metadata, manage links, link valid collections, browse canonical READMEs/rules/examples/templates, or browse existing skills. Java and Spring are independently selectable: Java covers language/platform practices and Spring covers framework behavior. Agent Engineering details expose its contracts, bounded-loop/graph examples and local validator guidance as static content. Linking guidance never executes these files.
+
+Selections affect only the displayed modules. Review the project scope and proposed changes, then apply or cancel. The menu refreshes discovery and linked state after actions, preserves pinned and unavailable entries outside the selection, and reports partial failures. Up/Down navigates, Space toggles checkboxes, Enter confirms, `a` toggles all checkboxes and `i` inverts them. Use Back/Cancel choices to return. Ctrl+C exits the menu; during a decision child it requests cancellation and retains durable accounting.
+
+Open **Jev / TypeSafe Decision Workflow** for setup planning, explicit installation, doctor, decide, run, resume, evaluate, examples, inventory and ownership-protected removal. Installation always previews the plan first. Offline fixtures are labeled and need no provider credentials; existing valid decision configuration and a compatible optional execution runtime are still required. Live work requires explicit selection, a request budget within policy and confirmation. Credentials come from the environment. Resume accepts the exact digest from the persisted review file and keeps original budgets/deadlines. Unlinking guidance and removing software are separate actions. See [terminal workflows](cli/docs/GUI_CONFIGURATION.md) and the [Decision Layer guide](augment-extensions/workflows/decision-layer/README.md).
 
 ### Help reference
 

@@ -111,12 +111,16 @@ export function generateModulesCatalog(): string {
 
   // Category order
   const categoryOrder = ['coding-standards', 'domain-rules', 'workflows', 'examples'];
-  const categoryTitles = {
+  categoryOrder.push(...Array.from(grouped.keys()).filter(category => !categoryOrder.includes(category)).sort());
+  const categoryTitles: Record<string, string> = {
     'coding-standards': 'Coding Standards',
     'domain-rules': 'Domain Rules',
     'workflows': 'Workflows',
     'examples': 'Examples'
   };
+  for (const category of categoryOrder) {
+    if (!categoryTitles[category]) categoryTitles[category] = category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
 
   for (const category of categoryOrder) {
     const categoryModules = grouped.get(category);

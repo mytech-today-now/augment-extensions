@@ -149,8 +149,9 @@ initCmd
 
 program
   .command('gui')
-  .description('Launch interactive GUI for module management')
-  .action(guiCommand);
+  .description('Manage modules, browse canonical guidance and open Jev / TypeSafe workflows')
+  .option('--project <path>', 'Project scope, using nearest ancestor extensions configuration')
+  .action(options => guiCommand(options));
 
 program
   .command('list')

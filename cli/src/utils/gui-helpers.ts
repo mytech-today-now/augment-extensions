@@ -25,6 +25,10 @@ export function formatModuleChoice(module: Module, linkedModules: string[] = [])
     value: module.fullName,
     description: module.metadata.description,
     type: module.metadata.type,
+    tags: module.metadata.tags,
+    manifestName: module.metadata.name,
+    version: module.metadata.version,
+    category: module.metadata.augment?.category,
     priority: module.metadata.augment?.priority,
     characterCount: module.metadata.augment?.characterCount,
     linked: linkedModules.includes(module.fullName),
@@ -84,9 +88,9 @@ export function fuzzySearch(
       }
     }
 
-    // Search in type (treated as tags)
-    if (options.searchFields.includes('tags') && module.type) {
-      const typeValue = module.type;
+    // Tags retain their manifest meaning independently of module type.
+    if (options.searchFields.includes('tags') && module.tags?.length) {
+      const typeValue = module.tags.join(' ');
       const normalizedType = options.caseSensitive ? typeValue : typeValue.toLowerCase();
       const typeScore = calculateMatchScore(normalizedQuery, normalizedType);
       

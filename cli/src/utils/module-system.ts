@@ -40,6 +40,16 @@ export interface Module {
   subModules?: string[];
 }
 
+/** Search canonical metadata without inventing aliases or a second module registry. */
+export function moduleMatchesSearch(module: Module, query: string): boolean {
+  const term = query.trim().toLowerCase();
+  const metadata = module.metadata;
+  return [module.fullName, metadata.name, metadata.displayName, metadata.description,
+    metadata.type, ...(metadata.tags || [])]
+    .filter((value): value is string => typeof value === 'string')
+    .join(' ').toLowerCase().includes(term);
+}
+
 /**
  * Validation result interface
  */
@@ -744,19 +754,7 @@ function findModuleJsonFiles(dir: string): string[] {
  */
 export function discoverModules(): Module[] {
   const modules: Module[] = [];
-  const modulesDir = getModulesDir();
-
-  if (!fs.existsSync(modulesDir)) {
-    return modules;
-  }
-
-  // Recursively find all directories containing module.json files
-  const modulePaths = findModuleJsonFiles(modulesDir);
-
-  // Filter out collections directory
-  const filteredPaths = modulePaths.filter(p => !p.includes(path.join(modulesDir, 'collections')));
-
-  for (const modulePath of filteredPaths) {
+  for (const modulePath of discoverModulePaths()) {
     const module = loadModule(modulePath);
 
     if (module) {
@@ -765,6 +763,12 @@ export function discoverModules(): Module[] {
   }
 
   return modules;
+}
+
+function discoverModulePaths(): string[] {
+  const modulesDir = getModulesDir();
+  return findModuleJsonFiles(modulesDir)
+    .filter(p => !p.includes(path.join(modulesDir, 'collections')));
 }
 
 /**
@@ -858,12 +862,13 @@ export function findModule(moduleName: string): Module | null {
   }
 
   // Search discovered modules for exact top-level, short-name, or category/module matches
-  const modules = discoverModules();
-  return modules.find(m =>
-    m.fullName === normalizedName ||
-    m.metadata.name === normalizedName ||
-    m.fullName.endsWith(`/${normalizedName}`)
-  ) || null;
+  for (const modulePath of discoverModulePaths()) {
+    const module = loadModule(modulePath);
+    if (module && (module.fullName === normalizedName ||
+        module.metadata.name === normalizedName ||
+        module.fullName.endsWith(`/${normalizedName}`))) return module;
+  }
+  return null;
 }
 
 /**

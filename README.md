@@ -10,12 +10,13 @@ Augment Extensions is the structural layer between your rule modules and the AI 
 
 The repository exists because rule content for AI agents has outgrown the surfaces individual tools provide. Each tool reserves a small budget for instructions the agent sees before it reasons about your code. Augment Code allocates roughly 49,400 characters to `.augment/`. Cursor, Windsurf, Copilot, and Claude Code each have their own constraints. The modules here live outside those budgets, are loaded on demand, and are emitted into the tool-native shapes those budgets expect, so the same module set can drive every tool without manual duplication.
 
-Current release: 3.3.0 adds Java and Spring standards, Agent Engineering and Jev / TypeSafe Decision Layer workflows, and a refreshed terminal manager with scoped module selection, content browsing, and decision actions. See [the changelog](CHANGELOG.md#330---2026-11-26) for the release notes.
+Current release: 3.3.0 adds Java and Spring standards, Agent Engineering and Jev / TypeSafe Decision Layer workflows, and a refreshed terminal manager with scoped module selection, content browsing, and decision actions. The Augx CLI runs on Linux and Windows. See [the changelog](CHANGELOG.md#330---2026-11-26) for the release notes.
 
 ## Table of Contents
 
 - [Why This Exists](#why-this-exists)
 - [Quickstart](#quickstart)
+- [What's New in 3.3.0](#whats-new-in-330)
 - [Concepts](#concepts)
 - [CLI Reference](#cli-reference)
 - [Cross-Platform Distribution](#cross-platform-distribution)
@@ -74,9 +75,63 @@ augx export --target all --dry-run     # preview without writing
 
 From a clean clone to a working `CLAUDE.md`, `.cursor/rules/augx-coding-standards-typescript.mdc`, and `.windsurf/rules/augx-coding-standards-typescript.md` is four commands.
 
+### Linux install and first run
+
+Augx requires Node.js 16 or newer and npm. Check that both are available, install the CLI, and verify it starts:
+
+```bash
+node --version
+npm --version
+npm install --global @mytechtoday/augment-extensions
+augx --version
+augx --help
+```
+
+If npm reports a permissions error for its global package directory, use a user-owned prefix instead of running npm with `sudo`:
+
+```bash
+npm config set prefix "$HOME/.local"
+export PATH="$HOME/.local/bin:$PATH"
+npm install --global @mytechtoday/augment-extensions
+```
+
+Add the `PATH` export to your shell startup file so `augx` remains available in new terminals. If you use a Node version manager that already provides a user-writable global package directory, keep that configuration.
+
+From the project where you want to use the extensions, initialize Augx and link the guidance that fits the project:
+
+```bash
+cd /path/to/your/project
+augx init --no-optional-rules
+augx link coding-standards/java
+augx link coding-standards/spring
+augx link workflows/agent-engineering
+augx list --linked
+```
+
+Link only the modules you need. Run `augx gui` to browse modules, inspect their content, and manage links interactively. See [CLI Reference](#cli-reference) for initialization, linking, exporting, and other commands.
+
+### What's New in 3.3.0
+
+- **Java standards** (`coding-standards/java`) cover version-aware language and API design, reliability and concurrency, testing, tooling, and security. Link with `augx link coding-standards/java`; see the [Java guide](augment-extensions/coding-standards/java/README.md).
+- **Spring Framework and Spring Boot standards** (`coding-standards/spring`) cover dependency injection, configuration, web APIs, security, transactions, testing, and production operations. Link with `augx link coding-standards/spring`; see the [Spring guide](augment-extensions/coding-standards/spring/README.md).
+- **Agent Engineering** (`workflows/agent-engineering`) provides scoped-agent guidance, contracts and evidence, bounded loops, recovery, dependency graphs, deterministic examples, and a validator. Link with `augx link workflows/agent-engineering`; it supplies guidance and examples rather than an orchestration service. See the [Agent Engineering guide](augment-extensions/workflows/agent-engineering/README.md).
+- **Jev / TypeSafe Decision Layer** (`workflows/decision-layer`) adds optional typed judgments, local policy and request budgets, offline examples, recovery, and evaluation. Link it and explicitly run setup before using the runtime. The [Decision Layer guide](augment-extensions/workflows/decision-layer/README.md) covers provider setup, safety limits, and removal.
+- **Terminal manager** (`augx gui`) now searches canonical module metadata, scopes and previews link changes, browses module content, and exposes the Decision Workflow actions. Java and Spring can be selected independently.
+
+For optional automatic Jev judgments in normal chat, configure the native MCP integration once for Codex or Claude Code:
+
+```bash
+augx link workflows/decision-layer
+augx decision setup --host codex --automatic --requests 6 --dry-run
+augx decision setup --host codex --automatic --requests 6
+augx decision doctor
+```
+
+Use `--host claude-code` for Claude Code. Review the plan and public-data consent before setup, then restart the host and trust or approve the project. Setup makes no provider calls; live requests need `TYPESAFE_API_KEY` in the host's environment. Once configured, the host may select Jev for an eligible ambiguous classification or evidence-ranking decision without a per-turn terminal command. Selection is controlled by the host model and is not guaranteed; real ordinary-chat selection and a live Jev response remain unverified. See the [chat integration evidence report](docs/reports/decision-chat-2026-11-27.md).
+
 ## Runtime Compatibility
 
-The package declares Node.js `>=16` and builds the CLI as CommonJS. The CLI loads Chalk synchronously for command output, so it uses Chalk 4, which supports the fluent color and bold methods used by the CLI and can be required from CommonJS on Node 16. Chalk 5 is ESM-only and fails when loaded by this CommonJS entry point on Node 16. Inquirer remains on version 9 and is loaded with native dynamic import only when an interactive prompt is needed. UUID remains unchanged because the CLI startup path does not import it.
+The package declares Node.js `>=16` and builds the CLI as CommonJS. The CLI supports Linux and Windows, including Linux executables and Windows command wrappers for external tools. It loads Chalk synchronously for command output, so it uses Chalk 4, which supports the fluent color and bold methods used by the CLI and can be required from CommonJS on Node 16. Chalk 5 is ESM-only and fails when loaded by this CommonJS entry point on Node 16. Inquirer remains on version 9 and is loaded with native dynamic import only when an interactive prompt is needed. UUID remains unchanged because the CLI startup path does not import it.
 
 ## Concepts
 

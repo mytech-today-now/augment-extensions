@@ -1,3 +1,4 @@
+```prompt
 You are a senior TypeScript CLI engineer, terminal-interface designer, and test-automation engineer working in C:\GitHub\augx\augment-extensions.
 
 Update the Augx GUI and supporting application so recent additions, including Java, Spring, Jev, and agent-engineering, are discoverable, understandable, manageable, and usable through the existing product. Inspect, diagnose, implement, test, and verify the changes directly. Deliver working integration rather than a plan or disconnected demonstrations.
@@ -23,14 +24,16 @@ The following are inspection anchors from the current checkout. Revalidate them 
 
 Do not create a duplicate module named jev or confuse linking guidance with installing or activating operational software.
 
+The checkout already contains terminal-manager integration for these additions. Read docs/reports/gui-integration-2026-11-26.md and openspec/specs/terminal-manager/spec.md, then verify the current source and behavior. Prior reports describe historical evidence, not checks executed in this session. Complete demonstrated remaining gaps and preserve working integration. If an acceptance criterion already passes, retain and verify it rather than manufacturing a replacement.
+
 ## 2. Inspect instructions, architecture, and actual behavior
 
 1. Read applicable AGENTS.md files, README.md, module-development.md, package manifests, lockfiles, VERSIONING.md, ignore rules, and relevant specifications. Inspect Git status and diffs first; preserve all unrelated staged, unstaged, untracked, and ignored work.
 2. Consult .augment/COMMAND_HELP.md, then verify relevant syntax with current checkout-local help. Check linked modules, inspect applicable rules, and inspect .augment/coordination.json and related Beads records. Follow repository tracking and OpenSpec requirements. Architectural changes require the prescribed proposal, deltas, and tasks.
-3. Establish the active entry point and runtime dependencies. cli/src/commands/gui.ts currently uses the InteractivePrompt abstraction. React, Ink dependencies, GUI helpers, types, state files, and design documents do not establish that a separate renderer is active.
-4. Trace discovery through rendering, selection, search, link/unlink, persistence, command execution, and refresh. Inspect cli/src/cli.ts; commands/gui.ts, decision.ts, list.ts, search.ts, show.ts, link.ts, unlink.ts; utils/module-system.ts, gui-helpers.ts, interactive-prompt.ts, extensions-config.ts, modules-catalog.ts; types/gui.ts; and gui/state/ under cli/src/.
+3. Establish the active entry point and runtime dependencies. cli/src/commands/gui.ts delegates to gui-module-manager.ts using InteractivePrompt/Inquirer. React, Ink dependencies, GUI helpers, types, state files, and design documents do not establish that a separate renderer is active.
+4. Trace discovery through rendering, selection, search, link/unlink, persistence, command execution, and refresh. Inspect cli/src/cli.ts; commands/gui.ts, gui-module-manager.ts, gui-decision.ts, decision.ts, list.ts, search.ts, show.ts, link.ts, unlink.ts; utils/module-system.ts, gui-helpers.ts, interactive-prompt.ts, extensions-config.ts, modules-catalog.ts, decision-runner.ts; types/gui.ts; and gui/state/ under cli/src/.
 5. Read the four module manifests, READMEs, relevant rules, examples, validators, and decision-layer runtime contracts. Inspect cli/docs/GUI_ARCHITECTURE.md and GUI_CONFIGURATION.md critically, distinguishing proposals and placeholders from implemented behavior.
-6. Reuse existing tests, including cli/src/commands/__tests__/gui.test.ts, gui-repo-filtering.test.ts, __tests__/gui/gui-components.test.ts, tests/agent-engineering.test.ts, and tests/decision-layer.test.ts, with their actual runner configurations.
+6. Reuse existing tests, including cli/src/commands/__tests__/gui.test.ts, gui-repo-filtering.test.ts, __tests__/gui/gui-components.test.ts, tests/gui-integration.test.ts, tests/gui-decision.test.ts, tests/decision-bridge.test.ts, tests/agent-engineering.test.ts, and tests/decision-layer.test.ts, with their actual runner configurations.
 
 Use the checkout-local compiled CLI, node cli/dist/cli.js, after establishing its build is current. An installed global augx may refer to another package version.
 
@@ -69,7 +72,7 @@ Make the existing decision command operations reachable from an understandable w
 6. Keep review/resume bound to the persisted action digest and original state. Preserve consumed budgets, deadlines, independent verification, ownership checks, and cancellation behavior. Display meaningful statuses and failures without weakening policy.
 7. Removal must retain the runtime's existing ownership and edited-file protections. Unlinking guidance and removing operational software must remain distinct actions.
 
-Preserve optional SDK/runtime isolation. Ordinary Augx startup and module discovery must not eagerly load TypeSafe or inherit the optional runtime's higher Node requirement. Provider judgments cannot grant permissions or prove task completion.
+Preserve optional SDK/runtime isolation. Ordinary Augx startup and module discovery must not eagerly load TypeSafe or inherit the optional runtime's higher Node requirement. Revalidate ordinary Node >=16 compatibility separately from optional decision execution on Node 22+. Provider judgments cannot grant permissions or prove task completion.
 
 ## 7. Preserve terminal usability and safe execution
 
@@ -106,6 +109,8 @@ Run targeted GUI/search/lifecycle tests first, then affected decision and agent-
 
 Smoke-test discovery and the GUI from a disposable packed consumer, including all four modules and optional assets. Verify ordinary startup on declared supported Node versions when runtimes are available, separately from decision-layer's optional execution runtime.
 
+Consult docs/reports/gui-windows-test-reliability-follow-up.md if readiness timeouts or concurrent-delete failures recur. Reproduce and distinguish baseline fixture problems from changed behavior; retain failed attempts and never weaken assertions or hide failures behind retries.
+
 Exercise a real interactive TTY for navigation, filtering, mutation refresh, cancellation, and offline workflows when available. This is terminal software; browser screenshots do not prove its interaction behavior. Report automated prompt tests, actual TTY checks, and any genuinely discovered additional frontend checks separately. Test any active frontend you change using its existing harness.
 
 Do not install global software, run live paid inference, use production credentials, or publish a package merely to validate this change. Mark unavailable checks NOT RUN and unsupported conclusions NOT VERIFIED, with precise reasons. Never claim unexecuted checks passed.
@@ -132,8 +137,9 @@ Include this test matrix, covering every acceptance criterion and material risk:
 
 Complete required issue/coordination updates and the repository's commit, synchronization, push, and remote-verification workflow within current authorization. Preserve unrelated work and stashes; never force-push. If legacy Beads/Dolt tooling blocks synchronization, disclose the exact failure and preserve its database rather than performing an implicit migration.
 
-Express genuinely separate unresolved work as specific follow-up prompts with scope, inputs, acceptance checks, and evidence limits. Refine each once using https://raw.githubusercontent.com/mytech-today-now/prompt-refined/refs/heads/main/highest-quality-most-effective-prompt-possible.md by replacing its request placeholder. Disclose retrieval failures, avoid recursive refinement, and do not execute separate follow-ups without authorization. Do not invent follow-ups when none remain.
+Express genuinely separate unresolved work as specific follow-up prompts with scope, inputs, acceptance checks, and evidence limits. Refine each once using [the prompt-refinement template](https://raw.githubusercontent.com/mytech-today-now/prompt-refined/refs/heads/main/highest-quality-most-effective-prompt-possible.md), inserting that follow-up between its software development request markers. Disclose retrieval failures, avoid recursive refinement, and do not execute separate follow-ups without authorization. Do not invent follow-ups when none remain.
 
 Do not invent repository contents, APIs, commands, execution results, or compatibility evidence. Do not leave placeholders, conceal failures, disable validation, silently change requirements, or report completion while relevant checks fail.
 
 Do not use em-dashes in any generated content, documentation, comments, test descriptions, summaries, or other written output.
+```

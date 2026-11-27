@@ -1,0 +1,12 @@
+
+# BEGIN AUGX DECISION MCP
+[mcp_servers.augx_decision]
+command = "C:\\Program Files\\nodejs\\node.exe"
+args = ["C:\\GitHub\\augx\\augment-extensions\\augment-extensions\\workflows\\decision-layer\\runtime\\chat-server.cjs","C:\\GitHub\\augx\\augment-extensions","codex"]
+env_vars = ["TYPESAFE_API_KEY"]
+startup_timeout_sec = 20
+tool_timeout_sec = 65
+enabled_tools = ["judge"]
+[mcp_servers.augx_decision.tools.judge]
+approval_mode = "approve"
+# END AUGX DECISION MCP

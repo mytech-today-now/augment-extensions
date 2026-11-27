@@ -33,6 +33,7 @@ param(
     [switch]$Claim                      # set status=in-progress and claimed_by=$env:USERNAME
 )
 
+$ErrorActionPreference = 'Stop'
 $beadsFile = ".beads/issues.jsonl"
 $beadsDir  = ".beads"
 
@@ -57,6 +58,13 @@ function Get-Issues {
 }
 
 function Add-IssueRecord([object]$record) {
+    $metadataFile = Join-Path $beadsDir 'metadata.json'
+    if (Test-Path -LiteralPath $metadataFile) {
+        $storageMetadata = Get-Content -LiteralPath $metadataFile -Raw -ErrorAction Stop | ConvertFrom-Json -ErrorAction Stop
+        if ($storageMetadata.backend -eq 'dolt') {
+            throw 'Legacy JSONL writes are disabled for this Dolt database. Use native bd commands. See .beads/README.md.'
+        }
+    }
     if (-not (Test-Path $beadsDir)) { New-Item -ItemType Directory -Path $beadsDir | Out-Null }
     $line = $record | ConvertTo-Json -Compress -Depth 10
     Add-Content -Path $beadsFile -Value $line -Encoding UTF8

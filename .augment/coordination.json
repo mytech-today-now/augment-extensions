@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-27T06:21:58.4134643Z",
+  "lastUpdated": "2026-11-27T06:45:44.660Z",
   "specs": {
     "terminal-manager": {"path":"openspec/specs/terminal-manager/spec.md","status":"active","relatedTasks":["bd-lluw","bd-zqy2"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":[".augment/coordination.json",".beads/issues.jsonl","README.md","cli/MODULES.md","cli/docs/GUI_ARCHITECTURE.md","cli/docs/GUI_CONFIGURATION.md","cli/src/cli.ts","cli/src/commands/__tests__/gui-repo-filtering.test.ts","cli/src/commands/__tests__/gui.test.ts","cli/src/commands/decision.ts","cli/src/commands/gui-decision.ts","cli/src/commands/gui-module-manager.ts","cli/src/commands/gui.ts","cli/src/commands/link.ts","cli/src/commands/search.ts","cli/src/commands/unlink.ts","cli/src/types/gui.ts","cli/src/utils/decision-runner.ts","cli/src/utils/gui-helpers.ts","cli/src/utils/module-system.ts","cli/src/utils/modules-catalog.ts","docs/reports/gui-integration-2026-11-26.md","docs/reports/gui-windows-test-reliability-follow-up.md","modules.md","openspec/archive/integrate-gui-modules/proposal.md","openspec/archive/integrate-gui-modules/specs/terminal-manager/spec.md","openspec/archive/integrate-gui-modules/tasks.md","openspec/specs/terminal-manager/spec.md","scripts/verify-gui-package.cjs","tests/decision-bridge.test.ts","tests/gui-decision.test.ts","tests/gui-integration.test.ts"],"dependencies":[]},
     "workflows/decision-layer": {"path":"openspec/specs/decision-layer/spec.md","status":"active","relatedTasks":["bd-9e92","bd-758d"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":["augment-extensions/workflows/decision-layer/**","cli/src/commands/decision.ts","cli/src/cli.ts","tests/decision-layer.test.ts","package.json"],"dependencies":[]},
@@ -1430,14 +1430,7 @@
       ],
       "dependencies": []
     },
-    "bd-18f800ab": {
-      "title": "Restore Beads CLI compatibility before task synchronization",
-      "status": "open",
-      "relatedSpecs": [],
-      "relatedRules": [],
-      "outputFiles": [],
-      "dependencies": []
-    },
+    "bd-18f800ab": {"title":"Restore Beads CLI compatibility before task synchronization","status":"closed","relatedSpecs":[],"relatedRules":["coordination-system.md","no-em-dash.md"],"outputFiles":[".beads/config.yaml",".beads/issues.jsonl",".beads/README.md",".beads/WRITE-README.md",".beads/QUICK-REFERENCE.md",".beads/bd-write.ps1",".beads/bd-sync.ps1","scripts/beads-query.ps1",".beads/.gitignore",".gitignore",".beads/hooks/pre-commit",".beads/hooks/pre-push",".beads/hooks/post-merge",".beads/hooks/post-checkout",".beads/hooks/prepare-commit-msg","AGENTS.md","docs/reports/beads-migration-2026-11-27.md",".augment/coordination.json"],"dependencies":[]},
     "bd-b51a": {"title":"Implement reusable agent engineering workflow","status":"closed","relatedSpecs":["workflows/agent-engineering"],"relatedRules":["module-development.md","no-em-dash.md","character-count-management.md"],"outputFiles":["augment-extensions/workflows/agent-engineering/examples/contracts.cjs","augment-extensions/workflows/agent-engineering/examples/demo.cjs","augment-extensions/workflows/agent-engineering/examples/evaluation-cases.json","augment-extensions/workflows/agent-engineering/examples/graphs.cjs","augment-extensions/workflows/agent-engineering/examples/loop.cjs","augment-extensions/workflows/agent-engineering/examples/recovery.cjs","augment-extensions/workflows/agent-engineering/examples/stub.cjs","augment-extensions/workflows/agent-engineering/examples/verify.cjs","augment-extensions/workflows/agent-engineering/module.json","augment-extensions/workflows/agent-engineering/README.md","augment-extensions/workflows/agent-engineering/rules/01-adoption.md","augment-extensions/workflows/agent-engineering/rules/02-agents.md","augment-extensions/workflows/agent-engineering/rules/03-contracts.md","augment-extensions/workflows/agent-engineering/rules/04-loops.md","augment-extensions/workflows/agent-engineering/rules/05-graphs.md","augment-extensions/workflows/agent-engineering/rules/06-improvement.md","augment-extensions/workflows/agent-engineering/schemas/contracts.schema.json","augment-extensions/workflows/agent-engineering/scripts/validate.cjs","augment-extensions/workflows/agent-engineering/sources.md","augment-extensions/workflows/agent-engineering/templates/agent.json","augment-extensions/workflows/agent-engineering/templates/check-tool.json","augment-extensions/workflows/agent-engineering/templates/evidence.json","augment-extensions/workflows/agent-engineering/templates/invocation.json","augment-extensions/workflows/agent-engineering/templates/node.json","augment-extensions/workflows/agent-engineering/templates/state.json","augment-extensions/workflows/agent-engineering/templates/task.json","augment-extensions/workflows/agent-engineering/templates/tool.json","openspec/archive/add-agent-engineering/proposal.md","openspec/archive/add-agent-engineering/specs/agent-engineering/spec.md","openspec/archive/add-agent-engineering/tasks.md","tests/agent-engineering.test.ts","package.json","README.md","modules.md","cli/MODULES.md","docs/reports/agent-engineering-2026-11-26.md",".beads/issues.jsonl",".augment/coordination.json","openspec/specs/agent-engineering/spec.md",".gitattributes"],"dependencies":[]}
   },
   "rules": {
@@ -1533,6 +1526,20 @@
     }
   },
   "files": {
+    ".beads/config.yaml": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/README.md": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/WRITE-README.md": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/QUICK-REFERENCE.md": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/bd-write.ps1": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/bd-sync.ps1": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    "scripts/beads-query.ps1": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/.gitignore": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/hooks/pre-commit": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/hooks/pre-push": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/hooks/post-merge": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/hooks/post-checkout": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    ".beads/hooks/prepare-commit-msg": {"createdBy":null,"modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
+    "docs/reports/beads-migration-2026-11-27.md": {"createdBy":"bd-18f800ab","modifiedBy":["bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
     "docs/reports/release-3.3.0-2026-11-26.md": {"createdBy":"bd-gy62","modifiedBy":["bd-gy62"],"governedBy":["augment-extensions/spec"],"rulesApplied":["no-em-dash.md"]},
     "tests/fixtures/cross-platform-e2e/goldens/windsurfrules": {"createdBy":null,"modifiedBy":["bd-gy62"],"governedBy":["augment-extensions/spec"],"rulesApplied":["no-em-dash.md"]},
     "tests/fixtures/cross-platform-e2e/goldens/cursor.augx.mdc": {"createdBy":null,"modifiedBy":["bd-gy62"],"governedBy":["augment-extensions/spec"],"rulesApplied":["no-em-dash.md"]},
@@ -2249,7 +2256,7 @@
         "no-em-dash.md"
       ]
     },
-    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62","bd-18f800ab"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
     "README.md": {"createdBy":null,"modifiedBy":["bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/visual-design/metadata.json": {
       "createdBy": null,
@@ -2335,12 +2342,7 @@
       "governedBy": ["testing/functional-tests", "augment-extensions/spec"],
       "rulesApplied": ["module-development.md", "augment-extensions-workflow.md", "no-em-dash.md"]
     },
-    "AGENTS.md": {
-      "createdBy": null,
-      "modifiedBy": ["bd-03ab60a1"],
-      "governedBy": [],
-      "rulesApplied": ["coordination-system.md", "no-em-dash.md"]
-    },
+    "AGENTS.md": {"createdBy":null,"modifiedBy":["bd-03ab60a1","bd-18f800ab"],"governedBy":[],"rulesApplied":["coordination-system.md","no-em-dash.md"]},
     "docs/company-profile.md": {
       "createdBy": "bd-03ab60a1",
       "modifiedBy": [],

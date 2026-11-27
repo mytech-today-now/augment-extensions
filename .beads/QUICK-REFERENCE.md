@@ -1,5 +1,9 @@
 # Beads Query - Quick Reference Card
 
+This card describes the legacy snapshot-query alias. Current task changes use
+the installed native `bd` CLI and embedded Dolt. Follow [README.md](README.md)
+instead of installing the old alias or using JSONL mutation commands.
+
 ## 🚀 Setup Complete!
 
 The `bd` alias has been added to your PowerShell profile. You can now use it from **any directory**!

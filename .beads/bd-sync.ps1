@@ -23,6 +23,14 @@ $ErrorActionPreference = 'Stop'
 $issuesFile = Join-Path $PSScriptRoot "issues.jsonl"
 $completedFile = Join-Path $PSScriptRoot "..\completed.jsonl"
 
+$metadataFile = Join-Path $PSScriptRoot 'metadata.json'
+if (-not $DryRun -and (Test-Path -LiteralPath $metadataFile)) {
+    $storageMetadata = Get-Content -LiteralPath $metadataFile -Raw | ConvertFrom-Json
+    if ($storageMetadata.backend -eq 'dolt') {
+        throw 'Legacy JSONL synchronization is disabled for this Dolt database. Close tasks with native bd close, then run bd sync. See .beads/README.md.'
+    }
+}
+
 # Helper function to get latest state of each issue
 function Get-LatestIssues {
     param([string]$filePath)

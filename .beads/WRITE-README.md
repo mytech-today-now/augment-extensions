@@ -1,5 +1,10 @@
 # Beads JSONL Write Operations
 
+This is the legacy JSONL workflow. This checkout now uses native embedded Dolt;
+the writer below rejects mutations when Dolt metadata is present. Use native
+`bd` commands from [the current guide](README.md). Do not append task records
+to the generated `issues.jsonl` export.
+
 The `bd-write.ps1` script provides write operations for Beads issues directly to the JSONL file without requiring a Dolt server.
 
 ## 🚀 Quick Start

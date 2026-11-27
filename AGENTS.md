@@ -186,28 +186,32 @@ Use 'bd' for task tracking
 
 ### Beads Workflow
 
-1. **Create Task**: Append to `.beads/issues.jsonl` with unique hash-based ID
-2. **Add Dependencies**: Use `blocks` and `blocked_by` fields
-3. **Find Ready Tasks**: Tasks with no open blockers
-4. **Work on Task**: Update status to `in_progress`, add comments
-5. **Close Task**: Update status to `closed`
+1. **Create Task**: Run `bd create "Task title" --type task`
+2. **Add Dependencies**: Run `bd dep add <task-id> <blocker-id> --type blocks`
+3. **Find Ready Tasks**: Run `bd ready` for tasks with no open blockers
+4. **Work on Task**: Run `bd update <id> --status in_progress` and `bd comments add <id> "Progress"`
+5. **Close Task**: Run `bd close <id> --reason "Completed work"`, then `bd sync`
 
 ### Beads Files
 
-- `.beads/issues.jsonl` - All issues (append-only JSONL log)
-- `.beads/config.json` - Beads configuration
-- `.beads/cache.db` - SQLite cache (gitignored, CLI only)
+- `.beads/embeddeddolt/` - Authoritative native Dolt database (gitignored)
+- `.beads/issues.jsonl` - Generated compatibility export for existing readers; never hand-edit or append task updates
+- `.beads/config.yaml` - Shared native Beads settings and Dolt synchronization remote
+- `.beads/config.json` - Existing Augx project metadata
+- `.beads/metadata.json` - Local native storage identity (gitignored)
 
 ### For AI Agents
 
 When tracking work:
-1. Create tasks by appending JSON to `.beads/issues.jsonl`
+1. Use the installed native `bd` CLI for every task mutation. On a fresh clone, run `bd bootstrap` first.
 2. Use hash-based IDs with **"bd-" prefix**: `bd-<hash>` (e.g., `bd-a1b2`)
    - All issue IDs MUST use "bd-" prefix (see `openspec/specs/beads/naming-convention.md`)
    - Valid formats: `bd-<hash>`, `bd-<name>`, `bd-<hash>.<number>`
-3. Track dependencies with `blocks`/`blocked_by` fields
-4. Find ready tasks (status: "open", no blockers)
-5. Update status and add comments as work progresses
+3. Track dependencies with `bd dep`; do not mutate exported JSONL relationship fields.
+4. Find ready tasks with `bd ready` and inspect current state with `bd show` or `bd list`.
+5. Update status and add comments through `bd` as work progresses. Native writes refresh the JSONL export; `bd sync` exchanges Dolt history through the configured remote.
+
+The November 27, 2026 cutover recovered the legacy task log into Beads 1.3.1 embedded Dolt. Legacy JSONL-only writers now reject mutations for Dolt projects. See `.beads/README.md` for commands and recovery guidance. Do not restore an old alias that shadows the installed native `bd` command.
 
 **Task States**: `open`, `in_progress`, `blocked`, `closed`
 

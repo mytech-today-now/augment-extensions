@@ -49,6 +49,14 @@ param(
 $ErrorActionPreference = 'Stop'
 $issuesFile = Join-Path $PSScriptRoot "issues.jsonl"
 
+$metadataFile = Join-Path $PSScriptRoot 'metadata.json'
+if ($Command -ne 'help' -and (Test-Path -LiteralPath $metadataFile)) {
+    $storageMetadata = Get-Content -LiteralPath $metadataFile -Raw | ConvertFrom-Json
+    if ($storageMetadata.backend -eq 'dolt') {
+        throw 'Legacy JSONL writes are disabled for this Dolt database. Use native bd create/update/close/comment/dep commands. See .beads/README.md.'
+    }
+}
+
 # Helper function to generate short hash-based ID
 function New-IssueId {
     $timestamp = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds()

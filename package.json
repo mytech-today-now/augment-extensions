@@ -1,6 +1,6 @@
 {
     "name":  "@mytechtoday/augment-extensions",
-    "version":  "3.3.0",
+    "version":  "3.4.0",
     "description":  "CLI tool for managing Augment Code AI extension modules",
     "main":  "cli/dist/index.js",
     "bin":  {
@@ -26,6 +26,9 @@
                   "modules.md"
               ],
     "scripts":  {
+                    "version:sync": "node scripts/version-sync.cjs",
+                    "version:sync:dry-run": "node scripts/version-sync.cjs --dry-run",
+                    "version:sync:force": "node scripts/version-sync.cjs --force",
                     "build":  "cd cli \u0026\u0026 tsc",
                     "dev":  "cd cli \u0026\u0026 tsc --watch",
                     "test":  "jest",

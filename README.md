@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI, with cross-platform distribution to Claude Code, Cursor, Windsurf, and GitHub Copilot.**
 
-[![Version](https://img.shields.io/badge/version-3.3.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-3.4.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 
@@ -10,13 +10,13 @@ Augment Extensions is the structural layer between your rule modules and the AI 
 
 The repository exists because rule content for AI agents has outgrown the surfaces individual tools provide. Each tool reserves a small budget for instructions the agent sees before it reasons about your code. Augment Code allocates roughly 49,400 characters to `.augment/`. Cursor, Windsurf, Copilot, and Claude Code each have their own constraints. The modules here live outside those budgets, are loaded on demand, and are emitted into the tool-native shapes those budgets expect, so the same module set can drive every tool without manual duplication.
 
-Current release: 3.3.0 adds Java and Spring standards, Agent Engineering and Jev / TypeSafe Decision Layer workflows, and a refreshed terminal manager with scoped module selection, content browsing, and decision actions. The Augx CLI runs on Linux and Windows. See [the changelog](CHANGELOG.md#330---2026-11-26) for the release notes.
+Current release: 3.4.0 adds automatic linked-rule refresh in Codex and Claude Code chats, opt-in automatic Jev judgments, installed-version discovery in the CLI and terminal manager, and version/help aliases. It also improves Linux, WSL, and Windows CLI handling. See [the changelog](CHANGELOG.md#340---2026-11-27) for the release notes.
 
 ## Table of Contents
 
 - [Why This Exists](#why-this-exists)
 - [Quickstart](#quickstart)
-- [What's New in 3.3.0](#whats-new-in-330)
+- [What's New in 3.4.0](#whats-new-in-340)
 - [Concepts](#concepts)
 - [CLI Reference](#cli-reference)
 - [Cross-Platform Distribution](#cross-platform-distribution)
@@ -147,13 +147,13 @@ bash "$(dirname "$AUGX_BIN")/node_modules/@mytechtoday/augment-extensions/script
 
 Link only the modules you need. Run `augx gui` to browse modules, inspect their content, and manage links interactively. See [CLI Reference](#cli-reference) for initialization, linking, exporting, and other commands.
 
-### What's New in 3.3.0
+### What's New in 3.4.0
 
-- **Java standards** (`coding-standards/java`) cover version-aware language and API design, reliability and concurrency, testing, tooling, and security. Link with `augx link coding-standards/java`; see the [Java guide](augment-extensions/coding-standards/java/README.md).
-- **Spring Framework and Spring Boot standards** (`coding-standards/spring`) cover dependency injection, configuration, web APIs, security, transactions, testing, and production operations. Link with `augx link coding-standards/spring`; see the [Spring guide](augment-extensions/coding-standards/spring/README.md).
-- **Agent Engineering** (`workflows/agent-engineering`) provides scoped-agent guidance, contracts and evidence, bounded loops, recovery, dependency graphs, deterministic examples, and a validator. Link with `augx link workflows/agent-engineering`; it supplies guidance and examples rather than an orchestration service. See the [Agent Engineering guide](augment-extensions/workflows/agent-engineering/README.md).
-- **Jev / TypeSafe Decision Layer** (`workflows/decision-layer`) adds optional typed judgments, local policy and request budgets, offline examples, recovery, and evaluation. Link it and explicitly run setup before using the runtime. The [Decision Layer guide](augment-extensions/workflows/decision-layer/README.md) covers provider setup, safety limits, and removal.
-- **Terminal manager** (`augx gui`) now searches canonical module metadata, scopes and previews link changes, browses module content, and exposes the Decision Workflow actions. Java and Spring can be selected independently.
+- **Automatic linked-rule refresh** adds `augx context setup`, `disable`, and `status` for Codex and Claude Code. Configured hooks select current linked guidance for each prompt and refresh it after compaction without storing chat text or rule contents. See [Automatic Rule Refresh in Chat](#automatic-rule-refresh-in-chat).
+- **Automatic Jev judgments** can be enabled for eligible Codex and Claude Code chats with saved consent and a bounded request budget. Setup makes no provider call; the host controls selection. See the [Decision Layer guide](augment-extensions/workflows/decision-layer/README.md) and [chat integration evidence report](docs/reports/decision-chat-2026-11-27.md).
+- **Installed-version discovery** adds `augx version` and `augx --v`; `augx --version` and `augx -V` remain supported. The terminal manager displays the same installed version when it opens.
+- **Help aliases** include `augx -h`, `augx --h`, and `augx --help` on Linux and Windows.
+- **Cross-platform CLI handling** improves Windows process execution and adds checks and guidance for selecting Linux Node.js/npm when installing from WSL.
 
 For optional automatic Jev judgments in normal chat, configure the native MCP integration once for Codex or Claude Code:
 
@@ -603,7 +603,7 @@ Every exported file starts with a five-line HTML-comment banner. For Cursor, the
 
 ```text
 <!-- GENERATED BY augx export - DO NOT EDIT -->
-<!-- augx-version: 3.3.0 -->
+<!-- augx-version: 3.4.0 -->
 <!-- generated-at: 2026-05-25T21:13:00Z -->
 <!-- source-hash: a1b2c3d4e5f60718 -->
 <!-- modules: coding-standards/typescript@2.0.0, workflows/cross-platform@1.0.0 -->

@@ -11,7 +11,7 @@ Guide for publishing the `augx` CLI to npm.
 ## Package Information
 
 - **Package name**: `@mytechtoday/augment-extensions`
-- **Current version**: 0.1.0
+- **Current version**: See the root `VERSION` file (3.4.0 for this release)
 - **Scope**: `@mytechtoday` (scoped package)
 - **Access**: Public
 - **Binary**: `augx` command
@@ -48,25 +48,19 @@ npm unlink -g @mytechtoday/augment-extensions
 
 ```bash
 # See what will be published
-npm pack --dry-run
-
-# Check files included
-npm pack
-tar -tzf mytechtoday-augment-extensions-0.1.0.tgz
-rm mytechtoday-augment-extensions-0.1.0.tgz
+npm pack --dry-run --json
 ```
+
+Review the JSON file list before publishing. `npm pack` writes an archive named for the package and synchronized version when you need to inspect the actual tarball.
 
 ### 4. Update Version
 
 ```bash
-# Patch version (0.1.0 -> 0.1.1)
-npm version patch
+# Edit VERSION using the rules in VERSIONING.md, then preview the package metadata sync
+pnpm run version:sync:dry-run
 
-# Minor version (0.1.0 -> 0.2.0)
-npm version minor
-
-# Major version (0.1.0 -> 1.0.0)
-npm version major
+# Synchronize package.json and package-lock.json without installing or resolving dependencies
+pnpm run version:sync:force
 ```
 
 ## Publishing Steps
@@ -87,8 +81,9 @@ npm publish --access public
 ### Subsequent Releases
 
 ```bash
-# 1. Update version
-npm version patch  # or minor/major
+# 1. Set VERSION and synchronize package metadata
+pnpm run version:sync:dry-run
+pnpm run version:sync:force
 
 # 2. Build
 npm run build
@@ -110,6 +105,9 @@ npm install -g @mytechtoday/augment-extensions
 
 # Test
 augx --version
+augx version
+augx --v
+augx --help
 augx list
 ```
 
@@ -138,8 +136,9 @@ augx link <module>
 
 ```bash
 # Tag the release
-git tag v0.1.0
-git push origin v0.1.0
+release_version=$(cat VERSION)
+git tag "v${release_version}"
+git push origin "v${release_version}"
 
 # Create release on GitHub
 # Go to: https://github.com/mytech-today-now/augment/releases/new

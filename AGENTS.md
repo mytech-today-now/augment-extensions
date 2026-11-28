@@ -483,9 +483,9 @@ The canonical company services, service area, business claims, and contact detai
 
 The root `VERSION` file is the single source of truth for the workspace version.
 
-- After editing `VERSION`, run `pnpm version:sync`.
-- Use `pnpm version:sync:dry-run` to preview changes.
-- Use `pnpm version:sync:force` in non-interactive contexts.
+- After editing `VERSION`, run `pnpm run version:sync`.
+- Use `pnpm run version:sync:dry-run` to preview changes.
+- Use `pnpm run version:sync:force` in non-interactive contexts.
 - `VERSIONING.md` defines the SemVer rules and supported rewrite targets.
 
 ## YAGNI

@@ -8,6 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.4.0] - 2026-11-27
+
+### Added
+
+- Automatic linked-rule refresh hooks for Codex and Claude Code through `augx context setup`, `disable`, and `status`
+- Optional automatic Jev judgments in supported chats with saved policy, consent, and bounded request budgets
+- `augx version`, the `--v` version alias, and installed-version display in the terminal manager
+- The `--h` help alias alongside the existing `-h` and `--help` options
+
+### Improved
+
+- CLI process execution across Linux and Windows
+- WSL installation checks and guidance for selecting Linux Node.js and npm
+- Terminal manager discovery, content browsing, and decision workflow integration
+
 ## [3.3.0] - 2026-11-26
 
 ### Added

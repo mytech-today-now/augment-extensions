@@ -20,6 +20,7 @@ Current release: 3.3.0 adds Java and Spring standards, Agent Engineering and Jev
 - [Concepts](#concepts)
 - [CLI Reference](#cli-reference)
 - [Cross-Platform Distribution](#cross-platform-distribution)
+- [Automatic Rule Refresh in Chat](#automatic-rule-refresh-in-chat)
 - [Coordination Manifest Schema](#coordination-manifest-schema)
 - [MCP Integration](#mcp-integration)
 - [OpenSpec Integration](#openspec-integration)
@@ -149,6 +150,21 @@ Four module categories exist:
 The [Agent Engineering workflow](augment-extensions/workflows/agent-engineering/README.md) covers scoped agents, harnesses, bounded loops, and dependency graphs with validated contracts and runnable deterministic local examples. Link it with `augx link workflows/agent-engineering` from a checkout or package that contains the module.
 
 The [Decision Layer workflow](augment-extensions/workflows/decision-layer/README.md) adds an optional TypeSafe integration with project-local software setup, eleven typed decision capabilities, bounded local workers, independent artifact verification, recovery, and labeled evaluation. Link it with `augx link workflows/decision-layer` and explicitly run setup. To enable selective native chat judgments once, use `augx decision setup --host codex --automatic --requests 6` (or `--host claude-code`) after reviewing the dry-run and public-data consent. Restart and trust/approve the project in the host. Saved runtime policy controls requests; ordinary discovery and static exports do not activate it. See the module guide for exact host support, fixtures, verification gaps, limits and removal.
+
+### Automatic Rule Refresh in Chat
+
+Augx can refresh relevant linked rule files automatically in Codex and Claude Code chats. Run setup once in the project:
+
+```bash
+augx context setup --host all
+augx context status
+```
+
+This adds project lifecycle hooks to `.codex/hooks.json` and `.claude/settings.json`. Trust the Codex project configuration and review its hook, or approve the Claude Code project settings when prompted. Each user prompt is evaluated against linked module metadata, rule headings, and referenced rule paths. The matching current rule files are reread and injected with their canonical module ID, version, source path, and SHA-256 hash. A compact or resumed session refreshes the saved module IDs before the next model request.
+
+Augx stores only a schema version, host, project root, hashed session key, update time, canonical module IDs, selection modes, and relative rule paths for each session under the local user state directory. It does not store prompt text, transcripts, or rule contents. The next refresh checks current links and versions again. It does not fetch remote module updates or change pinned versions. Diagnostics identify missing links, unavailable versions, unsafe paths, unreadable files, and files omitted to stay within the host context budget.
+
+Cursor, Windsurf, and GitHub Copilot remain supported through static export or mirrors and do not have automatic rule refresh from this integration. Remove Augx-owned hooks with `augx context disable --host all`; edited hooks and unrelated settings are preserved.
 
 ### Linked vs. mirrored vs. exported
 

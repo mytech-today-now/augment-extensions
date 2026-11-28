@@ -54,6 +54,12 @@ import {
 import { codeAnalysisCommand } from './commands/code-analysis';
 import { exportCommand } from './commands/export';
 import { registerDecisionCommands } from './commands/decision';
+import {
+  contextDisableCommand,
+  contextRefreshCommand,
+  contextSetupCommand,
+  contextStatusCommand,
+} from './commands/context';
 
 // Read version from package.json
 const packageJson = JSON.parse(
@@ -67,6 +73,34 @@ program
   .name('augx')
   .description('CLI tool for managing Augment Code AI extension modules')
   .version(packageJson.version);
+
+const contextCommand = program
+  .command('context')
+  .description('Manage automatic linked-module rule refresh in supported chats');
+
+contextCommand
+  .command('setup')
+  .description('Install project lifecycle hooks for Codex and Claude Code')
+  .option('--host <host>', 'Host: codex, claude-code, or all', 'all')
+  .action(contextSetupCommand);
+
+contextCommand
+  .command('disable')
+  .description('Remove unchanged Augx context hooks and preserve other host settings')
+  .option('--host <host>', 'Host: codex, claude-code, or all', 'all')
+  .action(contextDisableCommand);
+
+contextCommand
+  .command('status')
+  .description('Inspect Augx context hook configuration for supported or static-only hosts')
+  .option('--host <host>', 'Host: codex, claude-code, or a static-only host', 'all')
+  .action(contextStatusCommand);
+
+contextCommand
+  .command('refresh')
+  .description('Internal lifecycle hook entrypoint that refreshes current linked rule content')
+  .requiredOption('--host <host>', 'Host: codex or claude-code')
+  .action(contextRefreshCommand);
 
 // Init command with subcommands
 const initCmd = program

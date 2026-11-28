@@ -9,7 +9,7 @@ import {
   getModuleSuggestions,
   discoverModules,
   extractModuleMetadata,
-  resolveContainedPath,
+  resolveModuleFilePath,
   Module
 } from '../utils/module-system';
 import { moduleInspectionCache } from '../utils/inspection-cache';
@@ -685,39 +685,21 @@ async function showModuleContent(module: Module, options: ShowModuleOptions): Pr
 /**
  * Display individual file content with line numbers and optional syntax highlighting
  */
-function normalizeModuleRelativePath(filePath: string): string {
-  // Accept either separator style so module-relative lookups stay portable.
-  return filePath.replace(/[\\/]+/g, path.sep);
-}
-
-function isUnsafeModuleRelativePath(filePath: string): boolean {
-  if (path.isAbsolute(filePath)) {
-    return true;
-  }
-
-  return filePath.split(path.sep).some((segment) => segment === '..');
-}
-
 async function showModuleFile(module: Module, filePath: string, options: ShowModuleOptions): Promise<void> {
-  const normalizedFilePath = normalizeModuleRelativePath(filePath);
-
-  if (isUnsafeModuleRelativePath(normalizedFilePath)) {
+  const resolution = resolveModuleFilePath(module.path, filePath);
+  if (resolution.path === null && !resolution.attemptedPath) {
     console.error(chalk.red('File not found: path is outside the selected module'));
     console.log(chalk.gray('\nOnly module-relative paths are supported.'));
     process.exit(1);
   }
 
-  // Resolve the requested file only after the path has been validated as module-relative.
-  const attemptedPath = path.resolve(module.path, normalizedFilePath);
-  const fullPath = resolveContainedPath(module.path, normalizedFilePath);
-
-  // Check if file exists
-  if (!fullPath || !fs.existsSync(fullPath)) {
+  if (resolution.path === null) {
     console.error(chalk.red(`File not found: ${filePath}`));
-    console.log(chalk.gray(`\nSearched in: ${attemptedPath}`));
+    console.log(chalk.gray(`\nSearched in: ${resolution.attemptedPath}`));
     console.log(chalk.gray(`Module path: ${module.path}`));
     process.exit(1);
   }
+  const fullPath = resolution.path;
 
   // Handle --open flag: Open file in VS Code editor
   if (options.open) {

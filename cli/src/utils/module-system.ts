@@ -11,6 +11,8 @@ export interface ModuleMetadata {
   displayName: string;
   description: string;
   type: 'coding-standards' | 'domain-rules' | 'workflows' | 'examples' | 'marketing-standards' | 'writing-standards' | 'themes';
+  language?: string;
+  keywords?: string[];
   tags?: string[];
   augment?: {
     characterCount?: number;
@@ -101,6 +103,28 @@ export function resolveContainedPath(rootPath: string, targetPath: string): stri
   }
 
   return isPathWithinRoot(rootRealPath, candidateRealPath) ? candidateRealPath : null;
+}
+
+export type ModuleFileResolution =
+  | { path: string; attemptedPath: string }
+  | { path: null; error: string; attemptedPath?: string };
+
+/** Resolve a module-relative file using the same containment gate as `show`. */
+export function resolveModuleFilePath(moduleRoot: string, filePath: string): ModuleFileResolution {
+  const normalizedPath = filePath.replace(/[\\/]+/g, path.sep);
+  const hasParentSegment = normalizedPath.split(path.sep).some((segment) => segment === '..');
+
+  if (path.isAbsolute(filePath) || path.win32.isAbsolute(filePath) || hasParentSegment) {
+    return { path: null, error: 'File not found: path is outside the selected module' };
+  }
+
+  const attemptedPath = path.resolve(moduleRoot, normalizedPath);
+  const resolvedPath = resolveContainedPath(moduleRoot, normalizedPath);
+  if (!resolvedPath || !fs.existsSync(resolvedPath)) {
+    return { path: null, error: `File not found: ${filePath}`, attemptedPath };
+  }
+
+  return { path: resolvedPath, attemptedPath };
 }
 
 function isSafeModuleName(moduleName: string): boolean {

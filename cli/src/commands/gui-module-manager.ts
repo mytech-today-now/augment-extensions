@@ -8,6 +8,7 @@ import { redactDecisionText } from '../utils/decision-runner';
 import { linkModule } from './link';
 import { unlinkModule } from './unlink';
 import { decisionWorkflowInteractive } from './gui-decision';
+import { augxVersion } from '../utils/version';
 
 export interface GuiOptions { project?: string; json?: boolean }
 const pageSize = () => Math.max(3, Math.min(15, (process.stdout.rows || 24) - 8));
@@ -41,6 +42,7 @@ export async function runModuleManager(
   const requestedProject = path.resolve(options.project || process.cwd());
   let project = resolveExtensionsProjectRoot(requestedProject);
   console.log(chalk.blue('\nAugment Extensions Module Manager'));
+  console.log(`Augx CLI version: ${augxVersion}`);
   console.log('Choose Keyboard Help for the supported controls.');
   const prompt = promptApi || await getInteractivePrompt();
   if (!prompt) {

@@ -87,6 +87,10 @@ node --version
 npm --version
 npm install --global @mytechtoday/augment-extensions
 augx --version
+augx --v
+augx version
+augx -h
+augx --h
 augx --help
 ```
 
@@ -263,6 +267,28 @@ augx lifecycle uninstall --force
 ```
 
 See [docs/LIFECYCLE.md](./docs/LIFECYCLE.md) for the state model, artifact schema, repair flow, and recovery notes.
+
+### CLI information
+
+#### `augx version`
+
+Print the installed Augx CLI version. The `augx --version`, `augx -V`, and `augx --v` options report the same value.
+
+```bash
+augx version
+augx --version
+augx --v
+```
+
+#### `augx --help`
+
+Print application help. The `-h` and `--h` options are aliases, and all three work on Linux and Windows.
+
+```bash
+augx -h
+augx --h
+augx --help
+```
 
 ### Module discovery
 

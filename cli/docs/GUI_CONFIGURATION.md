@@ -2,6 +2,8 @@
 
 Run `augx gui` in an interactive terminal, or `augx gui --project "path with spaces"`. Without an explicit path the existing resolver uses the nearest ancestor `.augment/extensions.json` without crossing a Git boundary. The current scope is printed before actions. Change Project Scope accepts an existing directory. A project without Augx initialization can browse metadata and decision diagnostics; run `augx init` in that project before linking. Malformed configuration stops the manager without overwriting it.
 
+The manager heading is followed by the installed Augx CLI version, read from the package metadata used by `augx version` and `augx --version`.
+
 ## Module workflows
 
 - **Link / Unlink Modules** shows canonical IDs, available versions and linked badges. Space toggles, `a` toggles all, `i` inverts, Up/Down navigates and Enter opens a change summary. Apply or cancel there. Only the displayed IDs can change.

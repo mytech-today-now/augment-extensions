@@ -2,8 +2,7 @@
 
 import { Command } from 'commander';
 import chalk from 'chalk';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { augxVersion } from './utils/version';
 import { initCommand } from './commands/init';
 import { listCommand } from './commands/list';
 import { showCommand, showModuleCommand, showLinkedCommand, showAllCommand } from './commands/show';
@@ -61,18 +60,20 @@ import {
   contextStatusCommand,
 } from './commands/context';
 
-// Read version from package.json
-const packageJson = JSON.parse(
-  readFileSync(join(__dirname, '../../package.json'), 'utf-8').replace(/^\uFEFF/, '')
-);
-
 const program = new Command();
 registerDecisionCommands(program);
 
 program
   .name('augx')
   .description('CLI tool for managing Augment Code AI extension modules')
-  .version(packageJson.version);
+  .version(augxVersion, '-V, --version', 'output the version number (alias: --v)');
+
+program.helpOption('-h, --help', 'display help for command (alias: --h)');
+
+program
+  .command('version')
+  .description('Show the installed Augx CLI version')
+  .action(() => console.log(augxVersion));
 
 const contextCommand = program
   .command('context')
@@ -620,10 +621,15 @@ program
   });
 
 
-program.parse(process.argv);
+const optionAliases: Record<string, string> = {
+  '--v': '--version',
+  '--h': '--help'
+};
+const argv = process.argv.map(argument => optionAliases[argument] || argument);
+program.parse(argv);
 
 // Show help if no command provided
-if (!process.argv.slice(2).length) {
+if (!argv.slice(2).length) {
   program.outputHelp();
 }
 

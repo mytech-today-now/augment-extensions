@@ -51,7 +51,8 @@ Each module contains:
 - `augx show all` - Show all available modules
 - `augx search <term>` - Search for modules
 - `augx update` - Update all linked modules
-- `augx version` - Show CLI version
+- `augx version` - Show CLI version (`augx --version`, `augx -V`, and `augx --v` also work)
+- `augx --help` - Show CLI help (`augx -h` and `augx --h` also work on Linux and Windows)
 
 ### Command Help Reference
 

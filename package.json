@@ -8,6 +8,7 @@
             },
     "files":  [
                   "cli/dist/",
+                  "scripts/check-wsl-augx.sh",
                   "augment-extensions/coding-standards/",
                   "augment-extensions/domain-rules/",
                   "augment-extensions/visual-design/",

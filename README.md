@@ -50,6 +50,8 @@ The result: rules are authored once in plain Markdown and JSON, versioned per mo
 
 ## Quickstart
 
+For WSL, first verify that Linux Node.js and npm are selected as described in [WSL install and first run](#wsl-install-and-first-run). Installing with Windows npm can create an `augx` shim that cannot find Linux `node`.
+
 Install the CLI globally and link a module:
 
 ```bash
@@ -107,6 +109,36 @@ augx link coding-standards/java
 augx link coding-standards/spring
 augx link workflows/agent-engineering
 augx list --linked
+```
+
+### WSL install and first run
+
+Run the install from a WSL Linux terminal with Linux Node.js and npm. Windows npm can add a shell wrapper under `/mnt/c/Users/.../AppData/Roaming/npm`; that wrapper runs `node`, so it fails with `node: not found` when Linux Node is missing from the WSL `PATH`.
+
+Check that the selected tools and npm prefix belong to Linux before installing:
+
+```bash
+node --version
+node -p 'process.platform'  # must print linux
+command -v npm              # must be a Linux path, not /mnt/c/...
+npm config get prefix       # must be a Linux path, not /mnt/c/...
+```
+
+If `node` is missing or `process.platform` prints `win32`, install a Linux build of Node.js and npm inside WSL using your preferred Linux Node version manager. Ensure its `bin` directory is on `PATH` before the imported Windows npm directories. Then install and verify Augx from WSL:
+
+```bash
+npm install -g @mytechtoday/augment-extensions
+command -v augx             # should resolve to a Linux path
+augx --version
+```
+
+From a checkout of this repository, `bash scripts/check-wsl-augx.sh` checks the selected Node, npm, global prefix, and Augx command without requiring Augx itself to start. If it reports a Windows path, correct the Linux Node/npm `PATH` order, reinstall Augx from WSL, and open a new terminal.
+
+The check is also included in the npm package. If `command -v augx` points into the Windows npm directory, run it directly from that installation:
+
+```bash
+AUGX_BIN=$(command -v augx)
+bash "$(dirname "$AUGX_BIN")/node_modules/@mytechtoday/augment-extensions/scripts/check-wsl-augx.sh"
 ```
 
 Link only the modules you need. Run `augx gui` to browse modules, inspect their content, and manage links interactively. See [CLI Reference](#cli-reference) for initialization, linking, exporting, and other commands.

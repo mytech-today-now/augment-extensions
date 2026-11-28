@@ -11,7 +11,7 @@ Guide for publishing the `augx` CLI to npm.
 ## Package Information
 
 - **Package name**: `@mytechtoday/augment-extensions`
-- **Current version**: See the root `VERSION` file (3.4.0 for this release)
+- **Current version**: See the root `VERSION` file (3.5.0 for this release)
 - **Scope**: `@mytechtoday` (scoped package)
 - **Access**: Public
 - **Binary**: `augx` command

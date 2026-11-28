@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import { initCommand } from '../init';
 import { getInteractivePrompt, type InteractivePrompt } from '../../utils/interactive-prompt';
 import { runJevInitOnboarding } from '../../utils/init-jev';
@@ -103,7 +104,7 @@ describe('Init Command', () => {
 
     await initCommand({ yes: true });
 
-    expect(mockFs.writeFileSync).toHaveBeenCalledWith(expect.stringContaining('.augment/extensions.json'), expect.any(String));
+    expect(mockFs.writeFileSync).toHaveBeenCalledWith(path.join(process.cwd(), '.augment', 'extensions.json'), expect.any(String));
     expect(mockGetInteractivePrompt).not.toHaveBeenCalled();
     expect(mockRunJevInitOnboarding).toHaveBeenCalledWith(null, process.cwd());
     expect(mockPrompt).not.toHaveBeenCalled();
@@ -124,7 +125,7 @@ describe('Init Command', () => {
 
     await initCommand({ optionalRules: false });
 
-    expect(mockFs.writeFileSync).toHaveBeenCalledWith(expect.stringContaining('.augment/extensions.json'), expect.any(String));
+    expect(mockFs.writeFileSync).toHaveBeenCalledWith(path.join(process.cwd(), '.augment', 'extensions.json'), expect.any(String));
     expect(mockRunJevInitOnboarding).toHaveBeenCalledWith(null, process.cwd());
   });
 });

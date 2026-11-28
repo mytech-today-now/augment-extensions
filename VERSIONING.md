@@ -5,9 +5,9 @@ The root `VERSION` file is the authoritative workspace version. Use semantic ver
 - **Major**: incompatible changes to the public CLI or package behavior.
 - **Minor**: backward-compatible commands, options, capabilities, or other features.
 - **Patch**: backward-compatible fixes and documentation-only corrections.
-- **Prerelease**: a release candidate or other explicitly unstable build, such as `3.4.0-rc.1`.
+- **Prerelease**: a release candidate or other explicitly unstable build, such as `3.5.0-rc.1`.
 
-The CLI feature additions after 3.3.0 are backward-compatible, so the release version is 3.4.0.
+The optional Jev onboarding added after 3.4.0 is backward-compatible, so the release version is 3.5.0.
 
 ## Synchronized files
 

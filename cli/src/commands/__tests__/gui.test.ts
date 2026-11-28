@@ -15,6 +15,9 @@ jest.mock('fs');
 jest.mock('../../utils/module-system');
 jest.mock('../link');
 jest.mock('../../utils/interactive-prompt');
+jest.mock('../../utils/version', () => ({
+  augxVersion: jest.requireActual('../../../../package.json').version
+}));
 jest.mock('chalk', () => ({
   default: {
     blue: (str: string) => str,

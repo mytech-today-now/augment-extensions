@@ -152,7 +152,7 @@ describe('Skill execution integration', () => {
       )
     );
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      expect.stringContaining('executed directly without a shell')
+      expect.stringContaining('shell syntax is not interpreted')
     );
     expect(processExitSpy).toHaveBeenCalledWith(1);
   });

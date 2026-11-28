@@ -2,7 +2,7 @@
 
 **Reusable augmentation modules for Augment Code AI, with cross-platform distribution to Claude Code, Cursor, Windsurf, and GitHub Copilot.**
 
-[![Version](https://img.shields.io/badge/version-3.4.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
+[![Version](https://img.shields.io/badge/version-3.5.0-blue.svg)](https://github.com/mytech-today-now/augment-extensions)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![npm](https://img.shields.io/badge/npm-%40mytechtoday%2Faugment--extensions-red.svg)](https://www.npmjs.com/package/@mytechtoday/augment-extensions)
 
@@ -10,13 +10,13 @@ Augment Extensions is the structural layer between your rule modules and the AI 
 
 The repository exists because rule content for AI agents has outgrown the surfaces individual tools provide. Each tool reserves a small budget for instructions the agent sees before it reasons about your code. Augment Code allocates roughly 49,400 characters to `.augment/`. Cursor, Windsurf, Copilot, and Claude Code each have their own constraints. The modules here live outside those budgets, are loaded on demand, and are emitted into the tool-native shapes those budgets expect, so the same module set can drive every tool without manual duplication.
 
-Current release: 3.4.0 adds automatic linked-rule refresh in Codex and Claude Code chats, opt-in automatic Jev judgments, installed-version discovery in the CLI and terminal manager, and version/help aliases. It also improves Linux, WSL, and Windows CLI handling. See [the changelog](CHANGELOG.md#340---2026-11-27) for the release notes.
+Current release: 3.5.0 adds optional, guided Jev / TypeSafe onboarding to interactive `augx init`, with host readiness checks, explicit consent, separate automatic-chat and live-probe request ceilings, and distinct verification results. See [the changelog](CHANGELOG.md#350---2026-11-28) for the release notes.
 
 ## Table of Contents
 
 - [Why This Exists](#why-this-exists)
 - [Quickstart](#quickstart)
-- [What's New in 3.4.0](#whats-new-in-340)
+- [What's New in 3.5.0](#whats-new-in-350)
 - [Concepts](#concepts)
 - [CLI Reference](#cli-reference)
 - [Cross-Platform Distribution](#cross-platform-distribution)
@@ -147,13 +147,13 @@ bash "$(dirname "$AUGX_BIN")/node_modules/@mytechtoday/augment-extensions/script
 
 Link only the modules you need. Run `augx gui` to browse modules, inspect their content, and manage links interactively. See [CLI Reference](#cli-reference) for initialization, linking, exporting, and other commands.
 
-### What's New in 3.4.0
+### What's New in 3.5.0
 
-- **Automatic linked-rule refresh** adds `augx context setup`, `disable`, and `status` for Codex and Claude Code. Configured hooks select current linked guidance for each prompt and refresh it after compaction without storing chat text or rule contents. See [Automatic Rule Refresh in Chat](#automatic-rule-refresh-in-chat).
-- **Automatic Jev judgments** can be enabled for eligible Codex and Claude Code chats with saved consent and a bounded request budget. Setup makes no provider call; the host controls selection. See the [Decision Layer guide](augment-extensions/workflows/decision-layer/README.md) and [chat integration evidence report](docs/reports/decision-chat-2026-11-27.md).
-- **Installed-version discovery** adds `augx version` and `augx --v`; `augx --version` and `augx -V` remain supported. The terminal manager displays the same installed version when it opens.
-- **Help aliases** include `augx -h`, `augx --h`, and `augx --help` on Linux and Windows.
-- **Cross-platform CLI handling** improves Windows process execution and adds checks and guidance for selecting Linux Node.js/npm when installing from WSL.
+- **Guided Jev onboarding** in interactive `augx init` offers skip, offline capability, automatic chat, a one-time live probe, or automatic chat plus a live probe. See the [Decision Layer guide](augment-extensions/workflows/decision-layer/README.md).
+- **Host readiness checks** report Codex and Claude Code executable availability before host selection, then report project registration integrity and local MCP health independently.
+- **Explicit consent and request ceilings** keep the automatic-chat cumulative ceiling separate from the one-time live-probe ceiling. Automatic chat requires `TYPESAFE_API_KEY` and data-class consent; including internal data requires a separate explicit choice. Secrets and restricted data are prohibited.
+- **Live-probe confirmation** shows the synthetic public sample, selected model, and request ceiling before a final default-no confirmation. Offline setup makes no provider call.
+- **Safe initialization defaults** keep Jev optional: `augx init --yes` and non-interactive initialization do not enable Jev or provider access. Cancellation, unavailable hosts, and missing credentials preserve base initialization.
 
 For optional automatic Jev judgments in normal chat, configure the native MCP integration once for Codex or Claude Code:
 
@@ -166,7 +166,7 @@ augx decision doctor
 
 Use `--host claude-code` for Claude Code. Review the plan and public-data consent before setup, then restart the host and trust or approve the project. Setup makes no provider calls; live requests need `TYPESAFE_API_KEY` in the host's environment. Once configured, the host may select Jev for an eligible ambiguous classification or evidence-ranking decision without a per-turn terminal command. Selection is controlled by the host model and is not guaranteed; real ordinary-chat selection and a live Jev response remain unverified. See the [chat integration evidence report](docs/reports/decision-chat-2026-11-27.md).
 
-Interactive `augx init` also offers optional offline capability, automatic chat, a one-time live probe, or automatic chat plus one live probe. It reports Codex and Claude Code startup status before host selection, then checks project registration and local MCP health after setup. Automatic chat requires an available `TYPESAFE_API_KEY`, explicit data-class consent, and a caller-entered cumulative request ceiling. Public context is the default; `public,internal` requires separate explicit consent. Secrets and restricted data remain prohibited. A one-time probe shows a synthetic sample, selected model, and separate request ceiling, then requires a final default-no confirmation. `augx init --yes` does not enable Jev or provider access. Non-interactive init prints instructions for a later interactive run. Host registration and local MCP checks do not verify ordinary-chat model selection.
+Run `augx init` in an interactive terminal to use the guided onboarding flow. Setup reports offline runtime, credential availability, host CLI, project registration, local MCP health, live provider response, and ordinary-chat model selection as separate results. Registration and local health checks do not verify a live provider response or ordinary-chat selection. Those external checks remain unverified; see the [verification follow-up](docs/followups/jev-init-host-and-provider-verification.prompt.md).
 
 ## Runtime Compatibility
 
@@ -605,7 +605,7 @@ Every exported file starts with a five-line HTML-comment banner. For Cursor, the
 
 ```text
 <!-- GENERATED BY augx export - DO NOT EDIT -->
-<!-- augx-version: 3.4.0 -->
+<!-- augx-version: 3.5.0 -->
 <!-- generated-at: 2026-05-25T21:13:00Z -->
 <!-- source-hash: a1b2c3d4e5f60718 -->
 <!-- modules: coding-standards/typescript@2.0.0, workflows/cross-platform@1.0.0 -->

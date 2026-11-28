@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.5.0] - 2026-11-28
+
+### Added
+
+- Optional, staged Jev / TypeSafe onboarding during interactive `augx init`, with skip, offline, automatic chat, one-time live probe, and combined paths
+- Host executable readiness checks before selecting Codex or Claude Code, plus separate project registration and local MCP health results
+- Explicit automatic-chat data-class consent and cumulative request ceilings, with separate consent for internal data
+- A synthetic public live-probe preview with its own request ceiling and final default-no confirmation
+
+### Improved
+
+- Jev setup preserves base initialization when cancelled or when credentials or supported hosts are unavailable
+- `augx init --yes` and non-interactive initialization skip Jev activation and provider access
+- Diagnostics distinguish runtime setup, credentials, host availability, registration, local MCP health, live provider response, and ordinary-chat selection
+- Verification follow-up guidance records the remaining real-host and live-provider evidence requirements
+
 ## [3.4.0] - 2026-11-27
 
 ### Added

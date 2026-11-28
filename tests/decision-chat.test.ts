@@ -166,14 +166,14 @@ describe('one-time native chat configuration', () => {
     const originalSpawnSync = childProcess.spawnSync;
     chat.install(root, 'codex', process.execPath, 3);
     const spawnCheck = vi.spyOn(childProcess, 'spawnSync').mockImplementation((command: any, args: any[], options: any) => {
-      if (args?.some(value => String(value).endsWith('runtime/chat-server.cjs'))) {
+      if (args?.some(value => value === path.join(moduleRoot, 'runtime', 'chat-server.cjs'))) {
         return { error: Object.assign(new Error('private local diagnostic'), { code: 'EACCES' }), status: null, stdout: '', stderr: '', signal: null, pid: undefined, output: [] };
       }
       return originalSpawnSync(command, args, options);
     });
 
     const result = installer.doctor(root);
-    const mcpCall = spawnCheck.mock.calls.find(([, args]) => args?.some((value: unknown) => String(value).endsWith('runtime/chat-server.cjs')));
+    const mcpCall = spawnCheck.mock.calls.find(([, args]) => args?.some((value: unknown) => value === path.join(moduleRoot, 'runtime', 'chat-server.cjs')));
 
     expect(result.mcpHealth).toMatchObject({ state: 'NOT VERIFIED' });
     expect(result.mcpHealth.diagnostic).not.toContain('private local diagnostic');

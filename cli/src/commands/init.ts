@@ -11,6 +11,7 @@ import {
 } from '../utils/install-rules';
 import { extractCommandHelp } from '../utils/extractCommandHelp';
 import { getInteractivePrompt, type InteractivePrompt } from '../utils/interactive-prompt';
+import { runJevInitOnboarding } from '../utils/init-jev';
 
 interface InitOptions {
   fromSubmodule?: boolean;
@@ -120,10 +121,11 @@ export async function initCommand(options: InitOptions): Promise<void> {
     const extensionsConfig = path.join(augmentDir, 'extensions.json');
     const hasExistingConfig = fs.existsSync(extensionsConfig);
     const needsPromptSupport = hasExistingConfig || (!options.yes && options.optionalRules !== false);
-    const promptApi = needsPromptSupport ? await getInteractivePrompt() : null;
+    const promptApi = needsPromptSupport || !options.yes ? await getInteractivePrompt() : null;
 
     if (needsPromptSupport && !promptApi) {
       console.log(chalk.yellow(INIT_PROMPT_UNAVAILABLE_MESSAGE));
+      await runJevInitOnboarding(null, process.cwd());
       return;
     }
 
@@ -299,6 +301,12 @@ Check \`.augment/extensions.json\` for currently linked modules.
         console.log(chalk.green('✓ Created scripts/completed.jsonl'));
       }
     }
+
+    // Optional Jev gates run after base initialization and cannot block it.
+    if (options.yes) {
+      console.log(chalk.gray('\nSkipping Jev setup because --yes does not grant provider consent or choose a request budget.'));
+    }
+    await runJevInitOnboarding(options.yes ? null : promptApi, process.cwd());
 
     console.log(chalk.bold.green('\n✨ Augment Extensions initialized successfully!\n'));
     console.log(chalk.gray('Next steps:'));

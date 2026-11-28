@@ -1,9 +1,19 @@
 import * as fs from 'fs';
 import { initCommand } from '../init';
 import { getInteractivePrompt, type InteractivePrompt } from '../../utils/interactive-prompt';
+import { runJevInitOnboarding } from '../../utils/init-jev';
 
 jest.mock('fs');
 jest.mock('../../utils/interactive-prompt');
+jest.mock('../../utils/install-rules', () => ({
+  installCharacterCountRule: jest.fn().mockResolvedValue({ success: true }),
+  installEmDashRule: jest.fn().mockResolvedValue({ success: true }),
+  installAsciiOnlyCodeRule: jest.fn().mockResolvedValue({ success: true }),
+  installUtf8NonCodeRule: jest.fn().mockResolvedValue({ success: true }),
+  installNoEmojiRule: jest.fn().mockResolvedValue({ success: true })
+}));
+jest.mock('../../utils/extractCommandHelp', () => ({ extractCommandHelp: jest.fn().mockResolvedValue(undefined) }));
+jest.mock('../../utils/init-jev', () => ({ runJevInitOnboarding: jest.fn().mockResolvedValue(undefined) }));
 jest.mock('chalk', () => ({
   default: {
     blue: (str: string) => str,
@@ -13,11 +23,13 @@ jest.mock('chalk', () => ({
     yellow: (str: string) => str,
     cyan: (str: string) => str,
     bold: {
-      blue: (str: string) => str
+      blue: (str: string) => str,
+      green: (str: string) => str
     }
   },
   bold: {
-    blue: (str: string) => str
+    blue: (str: string) => str,
+    green: (str: string) => str
   },
   blue: (str: string) => str,
   green: (str: string) => str,
@@ -29,6 +41,7 @@ jest.mock('chalk', () => ({
 
 const mockFs = fs as jest.Mocked<typeof fs>;
 const mockGetInteractivePrompt = getInteractivePrompt as jest.MockedFunction<typeof getInteractivePrompt>;
+const mockRunJevInitOnboarding = runJevInitOnboarding as jest.MockedFunction<typeof runJevInitOnboarding>;
 const mockPrompt = jest.fn();
 const interactivePrompt: InteractivePrompt = {
   prompt: mockPrompt as InteractivePrompt['prompt']
@@ -80,7 +93,38 @@ describe('Init Command', () => {
     expect(consoleLogSpy).toHaveBeenCalledWith(
       expect.stringContaining('Interactive prompts are unavailable in this terminal')
     );
+    expect(mockRunJevInitOnboarding).toHaveBeenCalledWith(null, process.cwd());
     expect(mockPrompt).not.toHaveBeenCalled();
     expect(mockFs.writeFileSync).not.toHaveBeenCalled();
+  });
+
+  it('--yes completes base initialization and never turns on Jev provider behavior', async () => {
+    mockFs.existsSync.mockReturnValue(false);
+
+    await initCommand({ yes: true });
+
+    expect(mockFs.writeFileSync).toHaveBeenCalledWith(expect.stringContaining('.augment/extensions.json'), expect.any(String));
+    expect(mockGetInteractivePrompt).not.toHaveBeenCalled();
+    expect(mockRunJevInitOnboarding).toHaveBeenCalledWith(null, process.cwd());
+    expect(mockPrompt).not.toHaveBeenCalled();
+  });
+
+  it('still runs the optional Jev stage when optional rule prompts are disabled', async () => {
+    mockFs.existsSync.mockReturnValue(false);
+
+    await initCommand({ optionalRules: false });
+
+    expect(mockGetInteractivePrompt).toHaveBeenCalledTimes(1);
+    expect(mockRunJevInitOnboarding).toHaveBeenCalledWith(interactivePrompt, process.cwd());
+  });
+
+  it('completes base initialization without a TTY when optional rule prompts are disabled', async () => {
+    mockFs.existsSync.mockReturnValue(false);
+    mockGetInteractivePrompt.mockResolvedValueOnce(null);
+
+    await initCommand({ optionalRules: false });
+
+    expect(mockFs.writeFileSync).toHaveBeenCalledWith(expect.stringContaining('.augment/extensions.json'), expect.any(String));
+    expect(mockRunJevInitOnboarding).toHaveBeenCalledWith(null, process.cwd());
   });
 });

@@ -166,6 +166,8 @@ augx decision doctor
 
 Use `--host claude-code` for Claude Code. Review the plan and public-data consent before setup, then restart the host and trust or approve the project. Setup makes no provider calls; live requests need `TYPESAFE_API_KEY` in the host's environment. Once configured, the host may select Jev for an eligible ambiguous classification or evidence-ranking decision without a per-turn terminal command. Selection is controlled by the host model and is not guaranteed; real ordinary-chat selection and a live Jev response remain unverified. See the [chat integration evidence report](docs/reports/decision-chat-2026-11-27.md).
 
+Interactive `augx init` also offers optional offline capability, automatic chat, a one-time live probe, or automatic chat plus one live probe. It reports Codex and Claude Code startup status before host selection, then checks project registration and local MCP health after setup. Automatic chat requires an available `TYPESAFE_API_KEY`, explicit data-class consent, and a caller-entered cumulative request ceiling. Public context is the default; `public,internal` requires separate explicit consent. Secrets and restricted data remain prohibited. A one-time probe shows a synthetic sample, selected model, and separate request ceiling, then requires a final default-no confirmation. `augx init --yes` does not enable Jev or provider access. Non-interactive init prints instructions for a later interactive run. Host registration and local MCP checks do not verify ordinary-chat model selection.
+
 ## Runtime Compatibility
 
 The package declares Node.js `>=16` and builds the CLI as CommonJS. The CLI supports Linux and Windows, including Linux executables and Windows command wrappers for external tools. It loads Chalk synchronously for command output, so it uses Chalk 4, which supports the fluent color and bold methods used by the CLI and can be required from CommonJS on Node 16. Chalk 5 is ESM-only and fails when loaded by this CommonJS entry point on Node 16. Inquirer remains on version 9 and is loaded with native dynamic import only when an interactive prompt is needed. UUID remains unchanged because the CLI startup path does not import it.
@@ -235,12 +237,12 @@ Every command below is implemented by the `augx` binary shipped from `cli/`. Fla
 
 #### `augx init`
 
-Initialize Augment Extensions in the current project. Creates `.augment/extensions.json`, installs the `.augment/rules/character-count-management.md` and `.augment/rules/no-em-dash.md` rules, generates `.augment/COMMAND_HELP.md` with help text for the detected workflow tools, and (when `.beads/` is present) wires Beads integration. Prompts interactively for optional rules unless overridden.
+Initialize Augment Extensions in the current project. Creates `.augment/extensions.json`, installs the `.augment/rules/character-count-management.md` and `.augment/rules/no-em-dash.md` rules, generates `.augment/COMMAND_HELP.md` with help text for the detected workflow tools, and (when `.beads/` is present) wires Beads integration. Interactive init also offers optional Jev setup after base initialization.
 
 ```bash
 augx init                          # interactive
-augx init -y                       # accept defaults for optional-rule prompts
-augx init --no-optional-rules      # skip optional-rule prompts entirely
+augx init -y                       # accept optional-rule defaults, skip Jev without consent
+augx init --no-optional-rules      # skip optional-rule prompts; Jev remains separate
 augx init --from-submodule         # initialize when augment-extensions/ is a git submodule
 augx init beads                    # nested subcommand: stand up Beads task tracking
 ```

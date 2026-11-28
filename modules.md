@@ -655,10 +655,10 @@ augx show workflows/cross-platform README.md
 
 ### Decision Layer Workflow
 - **Module**: `workflows/decision-layer`
-- **Version**: 1.1.0
-- **Character Count**: ~154,422
-- **Description**: Optional TypeSafe judgments with isolated setup, typed contracts, deterministic policy, durable local workers, independent verification and matched evaluation.
-- **Contents**: Indexed trust and operation rules, optional SDK/runtime installation, native Codex/Claude Code chat judgments under saved policy, eleven capabilities, durable workers, independent verification, and matched evaluation.
+- **Version**: 1.2.0
+- **Character Count**: ~159,732
+- **Description**: Optional TypeSafe judgments with staged init onboarding, separate provider consent and budgets, isolated setup, typed contracts, deterministic policy, and bounded host diagnostics.
+- **Contents**: Indexed trust and operation rules, runtime-only offline setup, synthetic live-probe consent, automatic Codex/Claude Code chat judgments, eleven capabilities, durable workers, independent verification, and matched evaluation.
 
 **Usage**:
 ```bash

@@ -89,16 +89,21 @@ function unchanged(root, files) {
 }
 async function setup(root, options = {}) {
   const environment = detect(root, options.portable), host = options.host || 'codex';
-  check(['codex', 'claude-code'].includes(host), 'Supported skill hosts: codex, claude-code');
+  check(['codex', 'claude-code', 'none'].includes(host), 'Supported setup targets: codex, claude-code, none');
   check(!(options.automatic && options.disableAutomatic), 'Choose automatic activation or disabling');
+  check(!options.automatic || host !== 'none', 'Automatic chat setup requires Codex or Claude Code');
+  check(options.dataClasses === undefined || options.automatic, 'Automatic data classes require automatic setup');
+  const configFile = inside(root, '.augx-decision/config.json');
+  const existingPolicy = fs.existsSync(configFile) ? config(root) : require('../examples/config.json');
+  const dataClasses = options.dataClasses === undefined ? (existingPolicy.automatic?.dataClasses || ['public']) : String(options.dataClasses).split(',').map(value => value.trim());
+  check(Array.isArray(dataClasses) && dataClasses.length > 0 && new Set(dataClasses).size === dataClasses.length && dataClasses.every(value => ['public', 'internal'].includes(value)), 'Automatic data classes must be public, internal, or public,internal');
   if (options.automatic) {
-    const policyFile = inside(root, '.augx-decision/config.json');
-    const policy = fs.existsSync(policyFile) ? config(root) : require('../examples/config.json');
+    const policy = existingPolicy;
     check(Number.isSafeInteger(Number(options.requests)) && Number(options.requests) > 0 && Number(options.requests) <= policy.limits.requests, 'Automatic setup requires --requests within configured limit');
     require('./chat-install.cjs').preflight(root, host, environment.runtime);
   }
-  const plan = { scope: root, ...environment, selectedHost: host, operations: [environment.version ? 'Reuse compatible Node runtime and npm' : 'Download checksum-pinned portable Node with npm', 'npm ci: pinned isolated SDK, scripts disabled', 'Copy checksum-pinned official TypeSafe skill', 'Preserve or create validated config', 'Verify loading and write redacted ownership receipt'], credentialsRequired: false };
-  plan.automatic = options.automatic ? { enabled: true, host, publicProviderDataConsent: true, cumulativeRequests: Number(options.requests), activation: 'Native MCP registration and implicit skill; restart/trust required; host session NOT VERIFIED' } : options.disableAutomatic ? { enabled: false } : { unchanged: true };
+  const plan = { scope: root, ...environment, selectedHost: host, operations: [environment.version ? 'Reuse compatible Node runtime and npm' : 'Download checksum-pinned portable Node with npm', 'npm ci: pinned isolated SDK, scripts disabled', ...(host === 'none' ? [] : ['Copy checksum-pinned official TypeSafe skill']), 'Preserve or create validated config', 'Verify loading and write redacted ownership receipt'], credentialsRequired: false };
+  plan.automatic = options.automatic ? { enabled: true, host, dataClasses, publicProviderDataConsent: dataClasses.includes('public'), internalProviderDataConsent: dataClasses.includes('internal'), cumulativeRequests: Number(options.requests), activation: 'Native MCP registration and implicit skill; restart/trust required; host session NOT VERIFIED' } : options.disableAutomatic ? { enabled: false } : { unchanged: true };
   if (options.dryRun) return { dryRun: true, plan };
   const unlock = lock(root, '.augx-decision/install.lock');
   const receiptPath = inside(root, '.augx-decision/receipt.json');
@@ -137,18 +142,19 @@ async function setup(root, options = {}) {
     let sdkReady = false;
     try { sdkReady = execute(environment.runtime, ['-e', 'const s=require(process.argv[1]);if(typeof s.TypeSafeClient!=="function"||require(process.argv[1]+"/package.json").version!=="0.7.0")process.exit(2)', path.join(sdkDir, 'node_modules/@typesafe-ai/sdk')], 10000) === ''; } catch { /* A partial install is repaired by npm ci. */ }
     if (!sdkReady) execute(environment.runtime, [npm, 'ci', '--prefix', sdkDir, '--ignore-scripts', '--no-audit', '--no-fund', '--offline=false', '--registry=https://registry.npmjs.org'], 120000);
-    const skillPrefix = `${host === 'codex' ? '.agents' : '.claude'}/skills/typesafe-ai`;
+    const skillPrefix = host === 'none' ? null : `${host === 'codex' ? '.agents' : '.claude'}/skills/typesafe-ai`;
     const ownedSkill = {};
-    for (const [name, digest] of Object.entries(pins.skillFiles)) {
-      const relative = `${skillPrefix}/${name}`, file = inside(root, relative);
-      if (fs.existsSync(file)) { check(hash(fs.readFileSync(file)) === digest, 'Existing TypeSafe skill differs; preserving it. Resolve before setup.'); if (previous?.files[relative] || journal.files[relative]) ownedSkill[relative] = digest; }
-      else {
-        const bytes = await download(`https://raw.githubusercontent.com/typesafe-ai/skills/${pins.skillCommit}/skills/typesafe-ai/${name}`, digest, 65536);
-        journal.files[relative] = digest; atomic(journalPath, journal);
-        fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, bytes, { flag: 'wx', mode: 0o600 }); ownedSkill[relative] = digest;
+    if (skillPrefix) {
+      for (const [name, digest] of Object.entries(pins.skillFiles)) {
+        const relative = `${skillPrefix}/${name}`, file = inside(root, relative);
+        if (fs.existsSync(file)) { check(hash(fs.readFileSync(file)) === digest, 'Existing TypeSafe skill differs; preserving it. Resolve before setup.'); if (previous?.files[relative] || journal.files[relative]) ownedSkill[relative] = digest; }
+        else {
+          const bytes = await download(`https://raw.githubusercontent.com/typesafe-ai/skills/${pins.skillCommit}/skills/typesafe-ai/${name}`, digest, 65536);
+          journal.files[relative] = digest; atomic(journalPath, journal);
+          fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, bytes, { flag: 'wx', mode: 0o600 }); ownedSkill[relative] = digest;
+        }
       }
     }
-    const configFile = inside(root, '.augx-decision/config.json');
     const createdConfig = !fs.existsSync(configFile);
     if (createdConfig) { journal.files['.augx-decision/config.json'] = hash(fs.readFileSync(path.join(ROOT, 'examples/config.json'))); atomic(journalPath, journal); fs.copyFileSync(path.join(ROOT, 'examples/config.json'), configFile, fs.constants.COPYFILE_EXCL); }
     config(root);
@@ -158,13 +164,13 @@ async function setup(root, options = {}) {
     if (createdConfig || previous?.files['.augx-decision/config.json'] || journal.files['.augx-decision/config.json']) files['.augx-decision/config.json'] = previous?.files['.augx-decision/config.json'] || journal.files['.augx-decision/config.json'] || hash(fs.readFileSync(configFile));
     const receipt = { schemaVersion: 1, status: 'installed', sdk: pins.sdkVersion, runtime: environment.runtime, runtimeVersion: execute(environment.runtime, ['--version'], 10000), host, skillCommit: pins.skillCommit, files };
     atomic(receiptPath, receipt); fs.unlinkSync(journalPath);
-    const automatic = options.automatic ? require('./chat-install.cjs').install(root, host, environment.runtime, Number(options.requests)) : require('./chat-install.cjs').status(root);
+    const automatic = options.automatic ? require('./chat-install.cjs').install(root, host, environment.runtime, Number(options.requests), options.dataClasses === undefined ? undefined : dataClasses) : require('./chat-install.cjs').status(root);
     return { softwareInstalled: true, configurationValid: true, credentialsAvailable: !!process.env.TYPESAFE_API_KEY, connectivity: 'NOT VERIFIED', liveEnabled: false, automatic, receipt: '.augx-decision/receipt.json' };
   } finally { unlock(); }
 }
 function doctor(root) {
-  let configurationValid = false, softwareInstalled = false;
-  try { config(root); configurationValid = true; } catch { /* Expose validity separately. */ }
+  let configurationValid = false, softwareInstalled = false, policy = require('../examples/config.json');
+  try { policy = config(root); configurationValid = true; } catch { /* Expose validity separately. */ }
   const environment = detect(root);
   try {
     check(!fs.existsSync(inside(root, '.augx-decision/install-journal.json')), 'Installation is partial');
@@ -174,7 +180,34 @@ function doctor(root) {
     execute(environment.runtime, ['-e', 'const s=require(process.argv[1]);if(typeof s.TypeSafeClient!=="function")process.exit(2)', inside(root, '.augx-decision/software/sdk/node_modules/@typesafe-ai/sdk')], 10000);
     softwareInstalled = true;
   } catch { /* A partial installation never reports ready. */ }
-  return { ...environment, softwareInstalled, configurationValid, credentialsAvailable: !!process.env.TYPESAFE_API_KEY, connectivity: 'NOT VERIFIED', liveEnabled: false, automatic: require('./chat-install.cjs').status(root), next: softwareInstalled ? 'Inspect automatic readiness, or use --live with an explicit --requests budget for a manual provider probe' : 'Run augx decision setup; partial installs can be retried' };
+  const automatic = require('./chat-install.cjs').status(root);
+  let mcpHealth = { state: 'NOT CONFIGURED', diagnostic: 'No enabled project automatic registration is configured.' };
+  if (automatic.enabled) {
+    if (!automatic.registrationIntact) mcpHealth = { state: 'NOT VERIFIED', diagnostic: 'Project registration integrity must pass before the local MCP check.' };
+    else if (!environment.version) mcpHealth = { state: 'NOT VERIFIED', diagnostic: 'A compatible project decision runtime is unavailable.' };
+    else mcpHealth = checkMcpHealth(root, automatic.host, environment.runtime);
+  }
+  return { ...environment, softwareInstalled, configurationValid, model: policy.model, requestLimit: policy.limits.requests, credentialsAvailable: !!process.env.TYPESAFE_API_KEY, connectivity: 'NOT VERIFIED', liveEnabled: false, automatic, mcpHealth, next: softwareInstalled ? 'Inspect automatic readiness; the local MCP check does not verify ordinary-chat selection or provider connectivity.' : 'Run augx decision setup; partial installs can be retried' };
+}
+
+function checkMcpHealth(root, host, runtime) {
+  const script = path.join(ROOT, 'runtime/chat-server.cjs');
+  const packets = [
+    { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2024-11-05', capabilities: {}, clientInfo: { name: 'augx-init-health-check', version: '1.0.0' } } },
+    { jsonrpc: '2.0', method: 'notifications/initialized' },
+    { jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} }
+  ];
+  try {
+    const response = cp.spawnSync(runtime, [script, root, host], { input: packets.map(packet => JSON.stringify(packet)).join('\n') + '\n', encoding: 'utf8', timeout: 5000, windowsHide: true, shell: false, env: processEnv(), maxBuffer: 65536 });
+    if (response.error || response.status !== 0) return { state: 'NOT VERIFIED', diagnostic: 'The project MCP server did not complete its bounded local startup check.' };
+    const messages = String(response.stdout).split(/\r?\n/).filter(Boolean).map(line => JSON.parse(line));
+    const initialized = messages.find(message => message.id === 1)?.result;
+    const listed = messages.find(message => message.id === 2)?.result;
+    const healthy = initialized?.serverInfo?.name === 'augx-decision' && Array.isArray(listed?.tools) && listed.tools.some(tool => tool.name === 'judge');
+    return healthy ? { state: 'HEALTHY', diagnostic: 'The project MCP server completed initialize and tools/list without contacting TypeSafe.' } : { state: 'NOT VERIFIED', diagnostic: 'The project MCP server did not return the expected bounded protocol response.' };
+  } catch {
+    return { state: 'NOT VERIFIED', diagnostic: 'The project MCP server did not complete its bounded local startup check.' };
+  }
 }
 function remove(root) {
   const unlock = lock(root, '.augx-decision/install.lock');

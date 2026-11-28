@@ -106,10 +106,10 @@ contextCommand
 // Init command with subcommands
 const initCmd = program
   .command('init')
-  .description('Initialize Augment Extensions in current project (includes Beads integration if .beads/ exists)')
+  .description('Initialize Augment Extensions and offer optional Jev setup (includes Beads integration if .beads/ exists)')
   .option('--from-submodule', 'Initialize from existing submodule')
-  .option('-y, --yes', 'Accept defaults for all optional-rule prompts (non-interactive)')
-  .option('--no-optional-rules', 'Skip the optional-rule prompts entirely (install nothing optional)')
+  .option('-y, --yes', 'Accept optional-rule defaults; does not enable Jev or provider access (non-interactive)')
+  .option('--no-optional-rules', 'Skip optional-rule prompts; Jev onboarding remains separate')
   .action(initCommand);
 
 // Init beads subcommand

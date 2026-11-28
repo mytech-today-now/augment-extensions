@@ -1,6 +1,6 @@
 {
   "name": "decision-layer",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "displayName": "Decision Layer Workflow",
   "description": "Optional TypeSafe judgments with isolated setup, typed contracts, deterministic policy, durable local workers, independent verification and matched evaluation.",
   "type": "workflows",
@@ -16,7 +16,7 @@
   ],
   "dependencies": [],
   "augment": {
-    "characterCount": 154422,
+    "characterCount": 159732,
     "priority": "medium",
     "category": "workflows"
   },

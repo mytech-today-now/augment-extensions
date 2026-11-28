@@ -135,6 +135,58 @@ describe('one-time native chat configuration', () => {
     expect(result.plan.automatic).toMatchObject({ publicProviderDataConsent: true, cumulativeRequests: 3 });
     expect(fs.existsSync(path.join(root, '.codex'))).toBe(false);
   }, 30000);
+  it('stores explicitly selected automatic data classes without resetting consumed accounting', () => {
+    common.atomic(path.join(root, '.augx-decision/automatic-ledger.json'), { schemaVersion: 1, requests: 2, entries: { first: { status: 'failed' }, second: { status: 'answered' } } });
+    chat.install(root, 'codex', process.execPath, 4, ['public', 'internal']);
+    expect(common.config(root).automatic.dataClasses).toEqual(['public', 'internal']);
+    const before = fs.readFileSync(path.join(root, '.augx-decision/automatic-ledger.json'), 'utf8');
+    chat.install(root, 'codex', process.execPath, 4, ['public']);
+    expect(common.config(root).automatic.dataClasses).toEqual(['public']);
+    expect(fs.readFileSync(path.join(root, '.augx-decision/automatic-ledger.json'), 'utf8')).toBe(before);
+  });
+  it('reports a bounded local MCP health check separately from provider and chat evidence', () => {
+    const fetch = vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('Provider must not be called during health checks'));
+    chat.install(root, 'codex', process.execPath, 3);
+    const result = installer.doctor(root);
+    expect(result.automatic.registrationIntact).toBe(true);
+    expect(result.mcpHealth).toMatchObject({ state: 'HEALTHY' });
+    expect(result.automatic.hostSession).toBe('NOT VERIFIED');
+    expect(result.connectivity).toBe('NOT VERIFIED');
+    expect(fetch).not.toHaveBeenCalled();
+  });
+  it('does not report local MCP health when project registration integrity is broken', () => {
+    chat.install(root, 'claude-code', process.execPath, 3);
+    fs.unlinkSync(path.join(root, '.mcp.json'));
+    const result = installer.doctor(root);
+    expect(result.automatic.registrationIntact).toBe(false);
+    expect(result.mcpHealth).toMatchObject({ state: 'NOT VERIFIED' });
+  });
+  it('reports an unavailable local MCP process as NOT VERIFIED without provider credentials', () => {
+    const childProcess = require('child_process');
+    const originalSpawnSync = childProcess.spawnSync;
+    chat.install(root, 'codex', process.execPath, 3);
+    const spawnCheck = vi.spyOn(childProcess, 'spawnSync').mockImplementation((command: any, args: any[], options: any) => {
+      if (args?.some(value => String(value).endsWith('runtime/chat-server.cjs'))) {
+        return { error: Object.assign(new Error('private local diagnostic'), { code: 'EACCES' }), status: null, stdout: '', stderr: '', signal: null, pid: undefined, output: [] };
+      }
+      return originalSpawnSync(command, args, options);
+    });
+
+    const result = installer.doctor(root);
+    const mcpCall = spawnCheck.mock.calls.find(([, args]) => args?.some((value: unknown) => String(value).endsWith('runtime/chat-server.cjs')));
+
+    expect(result.mcpHealth).toMatchObject({ state: 'NOT VERIFIED' });
+    expect(result.mcpHealth.diagnostic).not.toContain('private local diagnostic');
+    expect(mcpCall?.[2]).toMatchObject({ timeout: 5000, shell: false });
+    expect(mcpCall?.[2].env.TYPESAFE_API_KEY).toBeUndefined();
+  });
+  it('supports runtime-only setup plans without host skill or registration writes', async () => {
+    const result = await installer.setup(root, { host: 'none', dryRun: true });
+    expect(result.plan.selectedHost).toBe('none');
+    expect(result.plan.operations).not.toContain('Copy checksum-pinned official TypeSafe skill');
+    expect(fs.existsSync(path.join(root, '.codex'))).toBe(false);
+    expect(fs.existsSync(path.join(root, '.agents'))).toBe(false);
+  });
   it.skipIf(!hasSdk)('runs the actual setup activation and disable paths without changing existing administration contracts', async () => {
     seedSdk();
     fs.cpSync(path.join(source, '.agents'), path.join(root, '.agents'), { recursive: true });

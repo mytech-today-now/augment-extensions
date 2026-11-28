@@ -33,8 +33,9 @@ async function main() {
   process.on('message', message);
   process.once('SIGINT', cancel); process.once('SIGTERM', cancel);
   const mode = options.live && !options.offline ? 'live' : options.offline && !options.live ? 'offline' : null;
+  check(options.providerDataConsent === undefined || operation === 'decide' && mode === 'live' && options.providerDataConsent === true, 'One-time provider consent applies only to an explicit live decide operation');
   const requestBudget = options.requests === undefined ? undefined : Number(options.requests);
-  const shared = { mode, requestBudget, runId: options.id, approve: options.approve, signal: controller.signal };
+  const shared = { mode, requestBudget, runId: options.id, approve: options.approve, signal: controller.signal, providerDataConsent: options.providerDataConsent === true };
   try {
     if (operation === 'inventory') { check(options.input, 'Supply --input inventory.json'); return require('./evaluate.cjs').inventory(read(path.resolve(options.input))); }
     check(mode, 'Select exactly one of --offline or --live');

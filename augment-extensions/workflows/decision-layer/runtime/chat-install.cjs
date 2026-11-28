@@ -78,10 +78,12 @@ function preflight(root, host, runtime) {
   }
   return { previous, assets };
 }
-function install(root, host, runtime, requests) {
+function install(root, host, runtime, requests, selectedDataClasses) {
   const { previous, assets } = preflight(root, host, runtime);
   const policy = config(root);
   check(Number.isSafeInteger(requests) && requests > 0 && requests <= policy.limits.requests, 'Automatic setup requires --requests within configured limit');
+  const dataClasses = selectedDataClasses === undefined ? (policy.automatic?.dataClasses || ['public']) : selectedDataClasses;
+  check(Array.isArray(dataClasses) && dataClasses.length > 0 && new Set(dataClasses).size === dataClasses.length && dataClasses.every(value => ['public', 'internal'].includes(value)), 'Automatic data classes must explicitly select public and/or internal');
   // Disable before any registration mutation so interrupted activation cannot send data.
   if (policy.automatic) { policy.automatic.enabled = false; atomic(inside(root, '.augx-decision/config.json'), policy); }
   for (const item of assets) {
@@ -104,7 +106,7 @@ function install(root, host, runtime, requests) {
     }
     delete entry.previousSha256; atomic(inside(root, receiptName), previous);
   }
-  policy.automatic = { capabilities: ['classify', 'rank-retrieval'], dataClasses: ['public'], timeoutMs: Math.min(10000, policy.limits.requestMs), ...policy.automatic, enabled: true, host, requests };
+  policy.automatic = { capabilities: ['classify', 'rank-retrieval'], timeoutMs: Math.min(10000, policy.limits.requestMs), ...policy.automatic, enabled: true, host, requests, dataClasses: [...dataClasses] };
   policy.allowProviderData = true;
   atomic(inside(root, '.augx-decision/config.json'), policy);
   return status(root);
@@ -141,6 +143,7 @@ function status(root) {
     return { enabled: saved?.enabled === true, host: saved?.host || null,
       registrationIntact: required.length > 0 && required.every(item => { const value = current(root, item); return value !== null && hash(value) === hash(item.value); }),
       providerDataAllowed: policy.allowProviderData, requestLimit: saved?.requests ?? 0,
+      dataClasses: saved?.dataClasses ?? [],
       requestsUsed: fs.existsSync(inside(root, '.augx-decision/automatic-ledger.json')) ? read(inside(root, '.augx-decision/automatic-ledger.json')).requests : 0,
       hostSession: 'NOT VERIFIED', connectivity: 'NOT VERIFIED',
       next: 'Restart the host in this trusted project; approve its project MCP server once if requested. Managed deny/ask rules remain authoritative.' };

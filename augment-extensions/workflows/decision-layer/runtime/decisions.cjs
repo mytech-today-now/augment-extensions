@@ -70,7 +70,7 @@ async function judge(root, policy, request, options = {}) {
   check(Buffer.byteLength(JSON.stringify(request)) <= policy.limits.bytes, 'Decision input exceeds conservative byte bound');
   check(options.mode === 'offline' || options.mode === 'live', 'Select explicit offline or live mode');
   if (options.mode === 'offline') return { ...validateResult(request.questions, fixture(request.questions, options.hints)), provenance: 'deterministic-offline-fixture', providerMs: null, cost: null };
-  check(policy.allowProviderData === true, 'Provider data policy disabled; inspect and enable allowProviderData in project configuration');
+  check(policy.allowProviderData === true || options.providerDataConsent === true, 'Provider data policy disabled; inspect and enable allowProviderData in project configuration');
   check(process.env.TYPESAFE_API_KEY?.trim(), 'Missing TYPESAFE_API_KEY; configure it in the local environment');
   check(Number.isInteger(options.requestBudget) && options.requestBudget > 0 && options.requestBudget <= policy.limits.requests, 'Live mode requires explicit bounded request budget');
   check(request.dataClass !== 'secret' && request.dataClass !== 'restricted', 'Provider data policy prohibits this classification');

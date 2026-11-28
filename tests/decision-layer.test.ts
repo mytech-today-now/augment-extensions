@@ -108,7 +108,7 @@ describe('decision setup ownership and isolation', () => {
     expect(fs.existsSync(path.join(root, '.agents/skills/typesafe-ai/LICENSE'))).toBe(false);
   });
   it('rejects unsupported skill hosts and non-official downloads', async () => {
-    await expect(installer.setup(root, { host: 'unknown', dryRun: true })).rejects.toThrow('Supported skill hosts');
+    await expect(installer.setup(root, { host: 'unknown', dryRun: true })).rejects.toThrow('Supported setup targets');
     expect(() => installer.download('https://example.com/runtime.zip', 'bad')).toThrow('allowlisted');
   });
   it('rejects traversal in a removal receipt before deleting user data', () => {
@@ -266,6 +266,18 @@ describe.skipIf(!hasInstalledSdk)('real SDK HTTP contract with no provider calls
       expect(result.usage.input_tokens).toBe(12); expect(result.provenance).toBe('typesafe-sdk-0.7.0'); expect(result.cost).toBeNull();
     });
     expect(calls).toBe(1); expect(reserved).toBe(1);
+  });
+  it('allows explicit one-time consent without changing the saved provider policy', async () => {
+    seedSdk(); policy.allowProviderData = false; process.env.TYPESAFE_API_KEY = 'local-contract-test-only';
+    const request = { state: state(), questions: { flag: { type: 'noul', instructions: 'Is the synthetic sample ambiguous?' } } };
+    await contract((_request, response) => {
+      response.setHeader('content-type', 'application/json');
+      response.end(JSON.stringify(sdkResponse(request.questions)));
+    }, async baseURL => {
+      const result = await decisions.judge(root, policy, request, { mode: 'live', requestBudget: 1, reserve: () => {}, providerDataConsent: true, contractTest: true, baseURL });
+      expect(result.provenance).toBe('typesafe-sdk-0.7.0');
+    });
+    expect(policy.allowProviderData).toBe(false);
   });
   it.each([401, 429, 529, 500])('does not hide HTTP %s failures or retry beyond reservations', async status => {
     seedSdk(); policy.allowProviderData = true; process.env.TYPESAFE_API_KEY = 'local-contract-test-only'; let calls = 0;

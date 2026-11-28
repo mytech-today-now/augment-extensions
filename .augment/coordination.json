@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-11-28T06:43:46Z",
+  "lastUpdated": "2026-11-28T07:19:56.904Z",
   "specs": {
     "jev-init-onboarding": {"path":"openspec/archive/jev-init-onboarding/proposal.md","status":"archived","relatedTasks":["bd-b9h2"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":[".augment/coordination.json",".beads/issues.jsonl","README.md","modules.md","cli/MODULES.md","augment-extensions/workflows/decision-layer/README.md","augment-extensions/workflows/decision-layer/module.json","augment-extensions/workflows/decision-layer/runtime/chat-install.cjs","augment-extensions/workflows/decision-layer/runtime/cli.cjs","augment-extensions/workflows/decision-layer/runtime/decisions.cjs","augment-extensions/workflows/decision-layer/runtime/install.cjs","cli/src/cli.ts","cli/src/commands/__tests__/init.test.ts","cli/src/commands/decision.ts","cli/src/commands/init.ts","cli/src/utils/__tests__/decision-runner-hosts.test.ts","cli/src/utils/__tests__/init-jev.test.ts","cli/src/utils/decision-runner.ts","cli/src/utils/init-jev.ts","tests/decision-chat.test.ts","tests/decision-layer.test.ts","openspec/specs/decision-layer/spec.md","openspec/archive/jev-init-onboarding/proposal.md","openspec/archive/jev-init-onboarding/specs/decision-layer/spec.md","openspec/archive/jev-init-onboarding/tasks.md","docs/followups/jev-init-host-and-provider-verification.prompt.md"],"dependencies":[]},
     "cli-version": {"path":"openspec/specs/cli-version/spec.md","status":"active","relatedTasks":["bd-ilua","bd-1ybt","bd-8crj","bd-x55u"],"relatedRules":["module-development.md","no-em-dash.md"],"affectedFiles":[".augment/coordination.json",".beads/issues.jsonl","AGENTS.md","README.md","cli/docs/GUI_CONFIGURATION.md","cli/src/cli.ts","cli/src/commands/gui-module-manager.ts","cli/src/utils/version.ts","openspec/specs/cli-version/spec.md","openspec/archive/add-cli-version-command/proposal.md","openspec/archive/add-cli-version-command/specs/cli-version/spec.md","openspec/archive/add-cli-version-command/tasks.md","CHANGELOG.md","VERSION","package.json","package-lock.json","docs/NPM_PUBLISHING.md","VERSIONING.md","scripts/version-sync.cjs"],"dependencies":[]},
@@ -359,7 +359,10 @@
       "path": "openspec/specs/automatic-module-context/spec.md",
       "status": "active",
       "relatedTasks": [
-        "bd-fa9h"
+        "bd-fa9h",
+        "bd-7u43",
+        "bd-c932",
+        "bd-lprz"
       ],
       "relatedRules": [
         "module-development.md",
@@ -1478,6 +1481,9 @@
     "bd-ebku": {"title":"Document Linux Augx installation and recent modules in README","status":"closed","relatedSpecs":["terminal-manager","workflows/decision-layer","workflows/agent-engineering","augment-extensions/spec"],"relatedRules":["module-development.md","no-em-dash.md","character-count-management.md"],"outputFiles":["README.md",".beads/issues.jsonl",".augment/coordination.json"],"dependencies":[]},
     "bd-wz54": {"title":"Diagnose and document WSL Augx installs that select Windows npm shims","status":"closed","relatedSpecs":["wsl-augx-install","wsl-install"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":[".augment/coordination.json",".beads/issues.jsonl","README.md","package.json","scripts/check-wsl-augx.sh","openspec/specs/wsl-install/spec.md","openspec/changes/archive/2026-11-27-wsl-augx-install/proposal.md","openspec/changes/archive/2026-11-27-wsl-augx-install/specs/wsl-install/spec.md","openspec/changes/archive/2026-11-27-wsl-augx-install/tasks.md"],"dependencies":[]},
     "bd-9sta": {"title":"Refactor Augx command execution for Linux and Windows","status":"closed","relatedSpecs":["portable-cli-process-execution"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":[".augment/coordination.json",".beads/issues.jsonl","cli/src/commands/skill.ts","cli/src/commands/update.ts","cli/src/core/compatibility-checker.ts","cli/src/utils/extractCommandHelp.ts","cli/src/utils/mcp-integration.ts","cli/src/utils/process.ts","cli/src/utils/vscode-editor.ts","package.json","package-lock.json","openspec/specs/cli-runtime/spec.md","openspec/archive/portable-cli-process-execution/proposal.md","openspec/archive/portable-cli-process-execution/specs/cli-runtime/spec.md","openspec/archive/portable-cli-process-execution/tasks.md","openspec/config.yaml"],"dependencies":[]},
+    "bd-7u43": {"title":"Repair stale global Augx and Windows context recovery","status":"closed","relatedSpecs":["automatic-module-context"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":[".augment/coordination.json",".beads/issues.jsonl","cli/src/lib/context-refresh.ts","tests/automatic-module-context.test.ts"],"dependencies":[]},
+    "bd-c932": {"title":"Make context symlink escape coverage runnable on restricted Windows","status":"open","relatedSpecs":["automatic-module-context"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":["tests/automatic-module-context.test.ts"],"dependencies":[]},
+    "bd-lprz": {"title":"Review stale decision-layer link in this checkout","status":"open","relatedSpecs":["automatic-module-context"],"relatedRules":["module-development.md","no-em-dash.md"],"outputFiles":[],"dependencies":[]},
     "bd-fa9h": {
       "title": "Automatically refresh linked module rules in chat",
       "status": "closed",
@@ -2000,7 +2006,7 @@
         "module-development.md"
       ]
     },
-    ".augment/coordination.json": {"createdBy":"bd-coord1","modifiedBy":["bd-wp10-1","bd-ps6.3","bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62","bd-m83j","bd-8e46","bd-9sta","bd-ebku","bd-fa9h","bd-wz54","bd-ilua","bd-8crj","bd-1ybt","bd-b9h2","bd-x55u"],"governedBy":["harmonize-workflows","wordpress-plugin-module/core","powershell-coding-standards","augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager","portable-cli-process-execution","automatic-module-context","wsl-augx-install","cli-version","jev-init-onboarding"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    ".augment/coordination.json": {"createdBy":"bd-coord1","modifiedBy":["bd-wp10-1","bd-ps6.3","bd-ea81c7d0","bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62","bd-m83j","bd-8e46","bd-9sta","bd-ebku","bd-fa9h","bd-wz54","bd-ilua","bd-8crj","bd-1ybt","bd-b9h2","bd-x55u","bd-7u43"],"governedBy":["harmonize-workflows","wordpress-plugin-module/core","powershell-coding-standards","augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager","portable-cli-process-execution","automatic-module-context","wsl-augx-install","cli-version","jev-init-onboarding"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
     "augment-extensions/coding-standards/powershell/module.json": {
       "createdBy": "bd-4t4f",
       "modifiedBy": [
@@ -2369,7 +2375,7 @@
         "no-em-dash.md"
       ]
     },
-    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62","bd-18f800ab","bd-m83j","bd-8e46","bd-9sta","bd-ebku","bd-fa9h","bd-wz54","bd-ilua","bd-8crj","bd-1ybt","bd-b9h2","bd-x55u"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager","portable-cli-process-execution","automatic-module-context","wsl-augx-install","cli-version","jev-init-onboarding"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
+    ".beads/issues.jsonl": {"createdBy":null,"modifiedBy":["bd-ea81c7d0","bd-6dd52bd3","bd-5183","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62","bd-18f800ab","bd-m83j","bd-8e46","bd-9sta","bd-ebku","bd-fa9h","bd-wz54","bd-ilua","bd-8crj","bd-1ybt","bd-b9h2","bd-x55u","bd-7u43"],"governedBy":["augment-extensions/spec","testing/functional-tests","workflows/agent-engineering","workflows/decision-layer","terminal-manager","portable-cli-process-execution","automatic-module-context","wsl-augx-install","cli-version","jev-init-onboarding"],"rulesApplied":["coordination-system.md","no-em-dash.md","module-development.md","character-count-management.md"]},
     "README.md": {"createdBy":null,"modifiedBy":["bd-6dd52bd3","bd-03ab60a1","bd-a51d89bc","bd-b51a","bd-9e92","bd-lluw","bd-gy62","bd-8e46","bd-ebku","bd-fa9h","bd-wz54","bd-ilua","bd-8crj","bd-b9h2","bd-x55u"],"governedBy":["augment-extensions/spec","workflows/agent-engineering","workflows/decision-layer","terminal-manager","automatic-module-context","wsl-augx-install","cli-version","jev-init-onboarding"],"rulesApplied":["module-development.md","augment-extensions-workflow.md","no-em-dash.md","character-count-management.md"]},
     "augment-extensions/visual-design/metadata.json": {
       "createdBy": null,
@@ -2773,7 +2779,8 @@
     "cli/src/lib/context-refresh.ts": {
       "createdBy": "bd-fa9h",
       "modifiedBy": [
-        "bd-fa9h"
+        "bd-fa9h",
+        "bd-7u43"
       ],
       "governedBy": [
         "automatic-module-context"
@@ -2864,7 +2871,8 @@
     "tests/automatic-module-context.test.ts": {
       "createdBy": "bd-fa9h",
       "modifiedBy": [
-        "bd-fa9h"
+        "bd-fa9h",
+        "bd-7u43"
       ],
       "governedBy": [
         "automatic-module-context"

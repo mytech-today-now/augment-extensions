@@ -239,6 +239,48 @@ describe('automatic linked module rule refresh', () => {
     expect(compacted.modules.map((item) => item.id)).toEqual([fixture.module.fullName]);
   });
 
+  it.each(['codex', 'claude-code'] as const)('restores exact rule paths after compaction with either separator for %s', (host) => {
+    const root = temporaryRoot('compact-exact-path');
+    const fixture = makeModule(root, 'workflows/example', '1.0.0', {
+      'rules/current.md': '# Current\nORIGINAL_RULE_CONTENT',
+      'rules/other.md': '# Other\nUNSELECTED_RULE_CONTENT',
+      'README.md': 'OUTSIDE_RULE_SECRET',
+    });
+    manifest(root, [{ name: fixture.module.fullName, version: '1.0.0' }]);
+    const options = optionsFor(root, [fixture.module]);
+    const initial = refreshContextForHost(host, hookInput(
+      root, 'exact-path-session', 'UserPromptSubmit', 'Use workflows/example rules/current.md.',
+    ), options);
+    expect(initial.additionalContext).toContain('ORIGINAL_RULE_CONTENT');
+
+    const projectStateDirectory = path.join(options.stateDirectory, fs.readdirSync(options.stateDirectory)[0]);
+    const stateFile = path.join(projectStateDirectory, fs.readdirSync(projectStateDirectory)[0]);
+    const state = JSON.parse(fs.readFileSync(stateFile, 'utf8'));
+    expect(state.modules).toEqual([{ id: fixture.module.fullName, mode: 'files', files: ['rules/current.md'] }]);
+    fs.writeFileSync(path.join(fixture.sourceRoot, 'rules/current.md'), '# Current\nUPDATED_RULE_CONTENT', 'utf8');
+
+    for (const savedPath of ['rules/current.md', 'rules\\current.md']) {
+      state.modules[0].files = [savedPath];
+      fs.writeFileSync(stateFile, JSON.stringify(state), 'utf8');
+      const compacted = refreshContextForHost(host, hookInput(
+        root, 'exact-path-session', 'SessionStart', undefined, 'compact',
+      ), options);
+      expect(compacted.diagnostics).toEqual([]);
+      expect(compacted.additionalContext).toContain('UPDATED_RULE_CONTENT');
+      expect(compacted.additionalContext).not.toContain('ORIGINAL_RULE_CONTENT');
+      expect(compacted.additionalContext).not.toContain('UNSELECTED_RULE_CONTENT');
+    }
+
+    state.modules[0].files = ['rules\\..\\README.md'];
+    fs.writeFileSync(stateFile, JSON.stringify(state), 'utf8');
+    const invalid = refreshContextForHost(host, hookInput(
+      root, 'exact-path-session', 'SessionStart', undefined, 'compact',
+    ), options);
+    expect(invalid.diagnostics.some((item) => item.code === 'INVALID_SESSION_STATE')).toBe(true);
+    expect(invalid.modules).toEqual([]);
+    expect(invalid.additionalContext).not.toContain('OUTSIDE_RULE_SECRET');
+  });
+
   it('rereads changed rules and applies a changed linked version after an earlier injection', () => {
     const root = temporaryRoot('freshness');
     const fixture = makeModule(root, 'coding-standards/typescript', '1.0.0', {

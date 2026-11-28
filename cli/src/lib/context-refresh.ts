@@ -267,7 +267,7 @@ function readSessionState(
         item && typeof item.id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._/-]*$/.test(item.id) &&
         !item.id.split('/').includes('..') &&
         (item.mode === 'all' || item.mode === 'files') && Array.isArray(item.files) && item.files.every((file) =>
-          typeof file === 'string' && file.startsWith('rules/') && file.toLowerCase().endsWith('.md') &&
+          typeof file === 'string' && /^rules[/\\]/.test(file) && file.toLowerCase().endsWith('.md') &&
           !path.isAbsolute(file) && !path.win32.isAbsolute(file) && !file.split(/[\\/]/).includes('..')));
     if (!valid) throw new Error('session selection schema or scope mismatch');
     return parsed;
@@ -671,7 +671,7 @@ export function refreshContextForHost(
       projectRoot,
       sessionKey: stateFilePath(host, projectRoot, sessionId, stateDirectory).sessionKey,
       updatedAt: (options.now ?? (() => new Date()))().toISOString(),
-      modules: selection.map(({ id, mode, files }) => ({ id, mode, files })),
+      modules: selection.map(({ id, mode, files }) => ({ id, mode, files: files.map((file) => file.replace(/\\/g, '/')) })),
     };
     try {
       writeSessionState(state, sessionId, stateDirectory);
